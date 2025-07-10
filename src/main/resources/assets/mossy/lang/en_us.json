@@ -1,0 +1,24 @@
+{
+	"modmenu.descriptionTranslation.mossy": "Template Fabric mod with some additional tweaks for my projects.",
+	"mossy.modmenu.title": "§l${mod_name} Configuration",
+	"mossy.modmenu.no_config_library_screen.message": "You need to install §6§lYet Another Config Lib [YACL]§f to open ${mod_name} Configuration Screen\n\n§a§lOpen §6§lYACL §a§lModrinth page?",
+
+	"mossy.modmenu.category.secret_category.name": "§lSecret",
+
+	"mossy.modmenu.group.secret_group.name": "§lSecret Group",
+	"mossy.modmenu.group.secret_group.description": "Example Secret Group Description.",
+
+	"mossy.modmenu.option.secret_option.name": "Secret Option",
+	"mossy.modmenu.option.secret_option.description": "Example Secret Option Description.",
+
+	"mossy.modmenu.category.general.name": "§lGeneral",
+
+	"mossy.modmenu.group.mossy_group.name": "§lMossy Group",
+	"mossy.modmenu.group.mossy_group.description": "Example Mossy Group Description.",
+
+	"mossy.modmenu.option.mossy_option.name": "Mossy Option",
+	"mossy.modmenu.option.mossy_option.description": "Example Mossy Option Description.",
+
+	"mossy.modmenu.formatter.enabled_or_disabled.true": "Enabled",
+	"mossy.modmenu.formatter.enabled_or_disabled.false": "Disabled"
+}

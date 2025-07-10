@@ -1,0 +1,24 @@
+{
+	"modmenu.descriptionTranslation.mossy": "Шаблонный Fabric мод с несколькими дополнительными фишками для моих проектов.",
+	"mossy.modmenu.title": "§l Конфигурация ${mod_name}",
+	"mossy.modmenu.no_config_library_screen.message": "Вам необходимо установить §6§lYet Another Config Lib [YACL]§f, чтобы открыть экран конфигурации ${mod_name} \n\n§a§lОткрыть страницу §6§lYACL §a§lна Modrinth?",
+
+	"mossy.modmenu.category.secret_category.name": "§lСекрет",
+
+	"mossy.modmenu.group.secret_group.name": "§lСекретная группа",
+	"mossy.modmenu.group.secret_group.description": "Пример описание секретной группы.",
+
+	"mossy.modmenu.option.secret_option.name": "Секретная опция",
+	"mossy.modmenu.option.secret_option.description": "Пример описания секретной опции.",
+
+	"mossy.modmenu.category.general.name": "§lОсновное",
+
+	"mossy.modmenu.group.mossy_group.name": "§lМшистая группа",
+	"mossy.modmenu.group.mossy_group.description": "Пример мшистого описания группы.",
+
+	"mossy.modmenu.option.mossy_option.name": "Пушистая опция",
+	"mossy.modmenu.option.mossy_option.description": "Пример пушистого описания опции.",
+
+	"mossy.modmenu.formatter.enabled_or_disabled.true": "Включено",
+	"mossy.modmenu.formatter.enabled_or_disabled.false": "Отключено"
+}
