@@ -117,21 +117,26 @@ public class InvParticlePhysics {
 	@Getter
 	@AllArgsConstructor
 	public static class RotationPhysics {
+
 		public static final Codec<RotationPhysics> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+				option("spawn_angle", new TwoFloatRange(), TwoFloatRange.CODEC, RotationPhysics::getSpawnAngle),
 				option("rotation_impulse", new TwoFloatRange(), TwoFloatRange.CODEC, RotationPhysics::getRotationImpulse),
 				option("rotation_impulse_bidirectional", false, Codec.BOOL, RotationPhysics::isRotationImpulseBidirectional),
 				option("rotation_acceleration", 0.0F, Codec.FLOAT, RotationPhysics::getRotationAcceleration),
 				option("rotation_acceleration_bidirectional", false, Codec.BOOL, RotationPhysics::isRotationAccelerationBidirectional),
 				option("rotation_braking", 0.0F, Codec.FLOAT, RotationPhysics::getRotationBraking),
-				option("terminal_rotation_velocity", Float.MAX_VALUE, Codec.FLOAT, RotationPhysics::getTerminalRotationVelocity)
-		).apply(instance, RotationPhysics::new));
+				option("terminal_rotation_velocity", Float.MAX_VALUE, Codec.FLOAT, RotationPhysics::getTerminalRotationVelocity),
+				option("rotation_by_movement", false, Codec.BOOL, RotationPhysics::isRotationByMovement)
+				).apply(instance, RotationPhysics::new));
 
+		private TwoFloatRange spawnAngle;
 		private TwoFloatRange rotationImpulse;
 		private boolean rotationImpulseBidirectional;
 		private float rotationAcceleration;
 		private boolean rotationAccelerationBidirectional;
 		private float rotationBraking;
 		private float terminalRotationVelocity;
+		private boolean rotationByMovement;
 
 		public static RotationPhysics getNewInstance() {
 			return CodecUtils.parseNewInstanceHacky(CODEC);

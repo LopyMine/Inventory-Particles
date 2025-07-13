@@ -32,11 +32,16 @@ public class InvParticle extends TickElement {
 	private Identifier texture;
 	private float lastX;
 	private float lastY;
+	private float lastRotation;
+
 	private float x;
 	private float y;
+	private float rotation;
+
 	private float speedX;
 	private float speedY;
 	private float speedRotation;
+
 	private boolean dead;
 
 	public InvParticle(InvParticleConfig config, Cursor cursor) {
@@ -46,6 +51,7 @@ public class InvParticle extends TickElement {
 
 		this.x = cursor.getX() - 4F;
 		this.y = cursor.getY() - 4F;
+		this.rotation = config.getPhysics().getRotation().getSpawnAngle().getRandom(this.random);
 
 		InvParticlePhysics physics = config.getPhysics();
 		BasePhysics base = physics.getBase();
@@ -54,7 +60,7 @@ public class InvParticle extends TickElement {
 		float cursorSpeedY;
 
 		if (base.isCursorImpulseX()) {
-			float rawCursorSpeedX = cursor.getLastX() - cursor.getX();
+			float rawCursorSpeedX = cursor.getX() - cursor.getLastX();
 			int directionalX = rawCursorSpeedX < 0 ? -1 : 1;
 			cursorSpeedX = (float) (Math.sqrt(Math.abs(rawCursorSpeedX)) * directionalX);
 		} else {
@@ -62,7 +68,7 @@ public class InvParticle extends TickElement {
 		}
 
 		if (base.isCursorImpulseY()) {
-			float rawCursorSpeedY = cursor.getLastY() - cursor.getY();
+			float rawCursorSpeedY = cursor.getY() - cursor.getLastY();
 			int directionalY = rawCursorSpeedY < 0 ? -1 : 1;
 			cursorSpeedY = (float) (Math.sqrt(Math.abs(rawCursorSpeedY)) * directionalY);
 		} else {
@@ -118,8 +124,21 @@ public class InvParticle extends TickElement {
 
 		this.lastX = this.x;
 		this.lastY = this.y;
-		this.x = (this.x - this.speedX);
-		this.y = (this.y - this.speedY);
+		this.lastRotation = this.rotation;
+
+		this.x = this.x + this.speedX;
+		this.y = this.y + this.speedY;
+		this.rotation = this.rotation + this.speedRotation;
+
+		if (rotation.isRotationByMovement()) {
+			float deltaX = this.x - this.lastX;
+			float deltaY = this.y - this.lastY;
+
+			//float movementRotationRad = (float) Math.atan2(deltaX, deltaY == 0.0F ? 0.0F : -deltaY);
+			float movementRotationRad = (float) Math.atan2(-deltaY, -deltaX);
+			float rotationDegrees = (float) Math.toDegrees(movementRotationRad) - 90F;
+			this.rotation = rotationDegrees % 360F;
+		}
 
 		Screen currentScreen = MinecraftClient.getInstance().currentScreen;
 		if (currentScreen != null && (this.x > currentScreen.width + 20 || this.y > currentScreen.height + 20)) {
@@ -149,7 +168,7 @@ public class InvParticle extends TickElement {
 		float halfSize = size / 2F;
 		matrices.translate(x, y, 500F);
 		matrices.translate(halfSize, halfSize, 0F);
-		matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(this.speedRotation));
+		matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(this.rotation));
 		matrices.translate(-halfSize, -halfSize, 0F);
 		DrawUtils.drawTexture(context, this.texture, 0, 0, 0, 0, size, size, size, size);
 		matrices.pop();

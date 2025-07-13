@@ -26,8 +26,10 @@ public class InvParticleDebugInfoRenderer {
 		renderLabel(context, "Particle Acceleration Rotation", hoveredParticle.getAccelerationRotation());
 		renderLabel(context, "Particle Last X", hoveredParticle.getLastX());
 		renderLabel(context, "Particle Last Y", hoveredParticle.getLastY());
+		renderLabel(context, "Particle Last Rotation", hoveredParticle.getLastRotation());
 		renderLabel(context, "Particle X", hoveredParticle.getX());
 		renderLabel(context, "Particle Y", hoveredParticle.getY());
+		renderLabel(context, "Particle Rotation", hoveredParticle.getRotation());
 		renderLabel(context, "Particle Speed X", hoveredParticle.getSpeedX());
 		renderLabel(context, "Particle Speed Y", hoveredParticle.getSpeedY());
 		renderLabel(context, "Particle Speed Rotation", hoveredParticle.getSpeedRotation());
