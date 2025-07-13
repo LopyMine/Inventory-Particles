@@ -3,6 +3,8 @@ package net.lopymine.mossy;
 import dev.kikugie.stonecutter.build.StonecutterBuildExtension;
 import lombok.Getter;
 import me.modmuss50.mpp.ModPublishExtension;
+import net.lopymine.mossy.manager.*;
+import net.lopymine.mossy.tasks.*;
 import org.gradle.api.*;
 import org.gradle.api.plugins.*;
 import org.gradle.api.tasks.*;
@@ -11,9 +13,7 @@ import org.gradle.jvm.tasks.Jar;
 import net.fabricmc.loom.api.LoomGradleExtensionAPI;
 import net.fabricmc.loom.task.RemapJarTask;
 
-import net.lopymine.mossy.manager.*;
 import net.lopymine.mossy.multi.MultiVersion;
-import net.lopymine.mossy.tasks.*;
 
 import java.io.*;
 import java.nio.file.Files;

@@ -1,0 +1,16 @@
+{
+	"required": true,
+	"package": "net.lopymine.ip.mixin",
+	"refmap": "${mod_id}.refmap.json",
+	"compatibilityLevel": "JAVA_${java}",
+	"mixins": [
+	],
+	"client": [
+		"HandledScreenMixin",
+		"MinecraftClientMixin",
+		"ScreenMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

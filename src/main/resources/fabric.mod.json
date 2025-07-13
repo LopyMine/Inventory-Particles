@@ -16,13 +16,13 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-            "net.lopymine.mossy.Mossy"
+	        "net.lopymine.ip.InventoryParticles"
         ],
         "client": [
-            "net.lopymine.mossy.client.MossyClient"
+            "net.lopymine.ip.client.InventoryParticlesClient"
         ],
         "modmenu": [
-            "net.lopymine.mossy.modmenu.ModMenuIntegration"
+            "net.lopymine.ip.modmenu.ModMenuIntegration"
         ]
     },
     "depends": {

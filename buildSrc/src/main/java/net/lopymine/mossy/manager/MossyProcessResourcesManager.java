@@ -1,12 +1,12 @@
 package net.lopymine.mossy.manager;
 
 import lombok.experimental.ExtensionMethod;
+import net.lopymine.mossy.extension.MossyProcessResourcesExtension;
 import org.gradle.api.*;
 import org.gradle.api.internal.TaskInputsInternal;
 import org.gradle.language.jvm.tasks.ProcessResources;
 
 import net.lopymine.mossy.MossyPlugin;
-import net.lopymine.mossy.extension.*;
 
 import java.util.*;
 import org.jetbrains.annotations.NotNull;

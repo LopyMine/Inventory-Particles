@@ -1,12 +1,12 @@
 package net.lopymine.mossy.manager;
 
 import lombok.experimental.ExtensionMethod;
+import net.lopymine.mossy.MossyPlugin;
+import net.lopymine.mossy.extension.*;
 import org.gradle.api.*;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
 
-import net.lopymine.mossy.*;
-import net.lopymine.mossy.extension.*;
 import net.lopymine.mossy.extension.MossyAdditionalDependencies.AdditionalDependencyOverride;
 
 import java.util.*;
