@@ -1,0 +1,74 @@
+{
+	"life_time": 50,
+	"animation_type": "random_static",
+	"animation_speed": 1,
+
+	"textures": [
+		"inventory-particles:textures/cherry_leaves_0.png",
+		"inventory-particles:textures/cherry_leaves_1.png",
+		"inventory-particles:textures/cherry_leaves_2.png"
+	],
+
+	"holders": [
+		{
+			"item": "minecraft:cherry_leaves",
+			"spawn_area": "minecraft:cherry_leaves",
+			"spawn_count": [
+				99,
+				100
+			],
+			"frequency": [
+				20,
+				20
+			],
+			"speed_coefficient": 0.1,
+			"delta_coefficient": 1
+		}
+	],
+
+	"physics": {
+		"base": {
+			"cursor_impulse_x": true,
+			"cursor_impulse_y": true,
+			"impulse_y": [
+				0,
+				0
+			],
+			"impulse_y_bidirectional": true,
+			"impulse_x": [
+				0,
+				0
+			],
+			"impulse_x_bidirectional": true,
+			"acceleration_y": 0,
+			"acceleration_y_bidirectional": true,
+			"acceleration_x": 0,
+			"acceleration_x_bidirectional": true
+		},
+		"air": {
+			"braking_y": 0.0,
+			"braking_x": 0.0,
+			"terminal_velocity_y": 100.0,
+			"terminal_velocity_x": 100.0,
+			"turbulence_y": [
+				0,
+				0
+			],
+			"turbulence_x": [
+				0,
+				0
+			]
+		},
+		"rotation": {
+			"rotation_impulse": [
+				0,
+				2
+			],
+			"rotation_impulse_bidirectional": false,
+			"rotation_acceleration": 0.5,
+			"rotation_acceleration_bidirectional": false,
+			"rotation_braking": 0,
+			"rotation_terminal_velocity": 10.0
+		}
+	}
+}
