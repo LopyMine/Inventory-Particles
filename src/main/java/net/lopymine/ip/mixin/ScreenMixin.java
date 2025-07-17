@@ -1,7 +1,8 @@
 package net.lopymine.ip.mixin;
 
 import net.lopymine.ip.client.InventoryParticlesClient;
-import net.lopymine.ip.renderer.InvParticlesRenderer;
+import net.lopymine.ip.config.InventoryParticlesConfig;
+import net.lopymine.ip.renderer.InventoryParticlesRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.*;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,8 +15,15 @@ public class ScreenMixin {
 
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;render(Lnet/minecraft/client/gui/DrawContext;IIF)V", shift = Shift.AFTER), method = "renderWithTooltip")
 	private void renderInventoryParticles(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-		InvParticlesRenderer.getInstance().render(context, delta);
-		InventoryParticlesClient.getCursorRenderer().render(context);
-		InventoryParticlesClient.getParticleRenderer().render(context);
+		InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
+		if (!config.isModEnabled()) {
+			return;
+		}
+		InventoryParticlesRenderer.getInstance().render(context, delta);
+		if (!config.isDebugModeEnabled()) {
+			return;
+		}
+		InventoryParticlesClient.DEBUG_CURSOR_INFO_RENDERER.render(context);
+		InventoryParticlesClient.DEBUG_PARTICLE_INFO_RENDERER.render(context);
 	}
 }

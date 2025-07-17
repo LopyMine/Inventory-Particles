@@ -1,7 +1,9 @@
 package net.lopymine.ip.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
-import net.lopymine.ip.renderer.InvParticlesRenderer;
+import net.lopymine.ip.client.InventoryParticlesClient;
+import net.lopymine.ip.config.InventoryParticlesConfig;
+import net.lopymine.ip.renderer.InventoryParticlesRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.*;
@@ -22,29 +24,46 @@ public class HandledScreenMixin<T extends ScreenHandler> extends Screen {
 	}
 
 	@Inject(at = @At("TAIL"), method = "init")
-	private void inject(CallbackInfo ci) {
+	private void addDebugButton(CallbackInfo ci) {
+		InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
+		if (!config.isDebugModeEnabled() || !config.isModEnabled()) {
+			return;
+		}
 		this.addDrawableChild(ButtonWidget.builder(Text.of("Stop Ticking"), (button) -> {
-			InvParticlesRenderer.getInstance().setStopTicking(!InvParticlesRenderer.getInstance().isStopTicking());
+			InventoryParticlesRenderer renderer = InventoryParticlesRenderer.getInstance();
+			renderer.setStopTicking(!renderer.isStopTicking());
 		}).position(5, this.height - 25).build());
 	}
 
 	@Inject(at = @At("TAIL"), method = "render")
 	private void updateCursor(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-		InvParticlesRenderer.getInstance().updateCursor(mouseY, mouseX, this.handler.getCursorStack().getItem());
+		InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
+		if (!config.isModEnabled()) {
+			return;
+		}
+		InventoryParticlesRenderer.getInstance().updateCursor(mouseY, mouseX, this.handler.getCursorStack());
 	}
 
 	@Inject(at = @At("HEAD"), method = "tick")
 	private void tickInventoryParticles(CallbackInfo ci) {
-		InvParticlesRenderer.getInstance().tick();
+		InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
+		if (!config.isModEnabled()) {
+			return;
+		}
+		InventoryParticlesRenderer.getInstance().tick();
 	}
 
 	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;mouseClicked(DDI)Z"), method = "mouseClicked")
 	private boolean wrapOperation(HandledScreen<?> instance, double x, double y, int button, Operation<Boolean> original) {
-		Boolean bl = original.call(instance, x, y, button);
-		if (!bl && button == 1) {
-			InvParticlesRenderer.getInstance().lockHoveredParticle();
+		InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
+		if (!config.isDebugModeEnabled() || !config.isModEnabled()) {
+			return original.call(instance, x, y, button);
 		}
-		return bl;
+		Boolean noPressedWidgets = original.call(instance, x, y, button);
+		if (!noPressedWidgets) {
+			InventoryParticlesRenderer.getInstance().mouseClicked(button);
+		}
+		return noPressedWidgets;
 	}
 
 }

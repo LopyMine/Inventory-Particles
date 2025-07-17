@@ -1,24 +1,28 @@
 {
-	"modmenu.descriptionTranslation.mossy": "Template Fabric mod with some additional tweaks for my projects.",
-	"mossy.modmenu.title": "§l${mod_name} Configuration",
-	"mossy.modmenu.no_config_library_screen.message": "You need to install §6§lYet Another Config Lib [YACL]§f to open ${mod_name} Configuration Screen\n\n§a§lOpen §6§lYACL §a§lModrinth page?",
+	"modmenu.descriptionTranslation.${mod_id}": "Beautiful particles for your inventory items!",
+	"${mod_id}.modmenu.title": "§l${mod_name} Configuration",
+	"${mod_id}.modmenu.no_config_library_screen.message": "You need to install §6§lYet Another Config Lib [YACL]§f to open ${mod_name} Configuration Screen\n\n§a§lOpen §6§lYACL §a§lModrinth page?",
 
-	"mossy.modmenu.category.secret_category.name": "§lSecret",
+	"${mod_id}.modmenu.category.general.name": "General",
 
-	"mossy.modmenu.group.secret_group.name": "§lSecret Group",
-	"mossy.modmenu.group.secret_group.description": "Example Secret Group Description.",
+	"${mod_id}.modmenu.group.main_group.name": "Main",
+	"${mod_id}.modmenu.group.main_group.description": "Main settings.",
 
-	"mossy.modmenu.option.secret_option.name": "Secret Option",
-	"mossy.modmenu.option.secret_option.description": "Example Secret Option Description.",
+	"${mod_id}.modmenu.option.mod_enabled.name": "Mod Enabled",
+	"${mod_id}.modmenu.option.mod_enabled.description": "If enabled, you will see particles in your inventory from cursor with an item; if disabled, won't.",
 
-	"mossy.modmenu.category.general.name": "§lGeneral",
+	"${mod_id}.modmenu.option.debug_mode_enabled.name": "Debug Mode Enabled",
+	"${mod_id}.modmenu.option.debug_mode_enabled.description": "If enabled, you will some debug info; if disabled, won't.",
 
-	"mossy.modmenu.group.mossy_group.name": "§lMossy Group",
-	"mossy.modmenu.group.mossy_group.description": "Example Mossy Group Description.",
+	"${mod_id}.modmenu.group.particles_group.name": "Particles",
+	"${mod_id}.modmenu.group.particles_group.description": "Particle settings.",
 
-	"mossy.modmenu.option.mossy_option.name": "Mossy Option",
-	"mossy.modmenu.option.mossy_option.description": "Example Mossy Option Description.",
+	"${mod_id}.modmenu.option.maximum_particles_limit.name": "Maximum Particles Limit",
+	"${mod_id}.modmenu.option.maximum_particles_limit.description": "The maximum number of particles that can exists on the screen.",
 
-	"mossy.modmenu.formatter.enabled_or_disabled.true": "Enabled",
-	"mossy.modmenu.formatter.enabled_or_disabled.false": "Disabled"
+	"${mod_id}.modmenu.option.particle_deletion_mode.name": "Particle Deletion Mode",
+	"${mod_id}.modmenu.option.particle_deletion_mode.description": "Controls which particles will be removed for spawn new particles if the maximum particle limit has been reached.",
+
+	"${mod_id}.modmenu.formatter.enabled_or_disabled.true": "Enabled",
+	"${mod_id}.modmenu.formatter.enabled_or_disabled.false": "Disabled"
 }

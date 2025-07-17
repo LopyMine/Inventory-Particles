@@ -3,25 +3,26 @@ package net.lopymine.ip.spawner;
 import java.io.*;
 import java.util.*;
 import net.lopymine.ip.client.InventoryParticlesClient;
-import net.lopymine.ip.config.element.InvParticleHolder;
+import net.lopymine.ip.config.particle.ParticleHolder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.resource.Resource;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.random.Random;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.*;
 
 public record ParticleSpawnArea(IParticleSpawnPos[] positions) implements IParticleSpawnArea {
 
 	@Nullable
 	public static ParticleSpawnArea readFromTexture(Identifier id) {
-		if (InvParticleHolder.STANDARD_SPAWN_AREA.equals(id)) {
-			return new ParticleSpawnArea(new IParticleSpawnPos[0]);
+		if (ParticleHolder.STANDARD_SPAWN_AREA.equals(id)) {
+			return null;
 		}
 		try {
 			Optional<Resource> optional = MinecraftClient.getInstance().getResourceManager().getResource(id);
 			if (optional.isEmpty()) {
+				InventoryParticlesClient.LOGGER.error("Failed to find particle spawn area from \"{}\"! Will be used full area", id);
 				return null;
 			}
 			Resource resource = optional.get();
@@ -30,13 +31,15 @@ public record ParticleSpawnArea(IParticleSpawnPos[] positions) implements IParti
 
 			List<IParticleSpawnPos> list = new ArrayList<>();
 
-			for (int x = 0; x < image.getWidth(); x++) {
-				for (int y = 0; y < image.getWidth(); y++) {
+			int width = image.getWidth();
+			int height = image.getHeight();
+			for (int x = 0; x < width; x++) {
+				for (int y = 0; y < height; y++) {
 					int alpha = ColorHelper.getAlpha(image.getColorArgb(x, y));
 					if (alpha == 0) {
 						continue;
 					}
-					list.add(new ParticleSpawnPos(x, y));
+					list.add(new ParticleSpawnPos(x, y, width, height));
 				}
 			}
 

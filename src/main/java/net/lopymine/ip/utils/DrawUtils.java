@@ -14,8 +14,8 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class DrawUtils {
 
-	public static void drawTexture(DrawContext context, Identifier sprite, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight) {
-		context.drawTexture(/*? >=1.21.2 {*/RenderLayer::getGuiTextured,/*?}*/ sprite, x, y, u, v, width, height, textureWidth, textureHeight);
+	public static void drawTexture(DrawContext context, Identifier sprite, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight, int color) {
+		context.drawTexture(/*? >=1.21.2 {*/RenderLayer::getGuiTextured,/*?}*/ sprite, x, y, u, v, width, height, textureWidth, textureHeight, color);
 	}
 
 	public static void drawTooltip(DrawContext context, List<TooltipComponent> list, int x, int y) {

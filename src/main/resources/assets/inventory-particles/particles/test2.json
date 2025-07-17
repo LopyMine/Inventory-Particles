@@ -1,25 +1,26 @@
 {
-	"life_time": 50,
+	"life_time": 150,
 	"animation_type": "random_static",
 	"animation_speed": 1,
 
 	"textures": [
-		"inventory-particles:textures/cherry_leaves_0.png",
-		"inventory-particles:textures/cherry_leaves_1.png",
-		"inventory-particles:textures/cherry_leaves_2.png"
+		"inventory-particles:textures/test4.png"
 	],
 
 	"holders": [
 		{
-			"item": "minecraft:cherry_leaves",
-			"spawn_area": "minecraft:cherry_leaves",
+			"item": "minecraft:stick",
+			"color": "#BBBBFFFF",
+			"nbt_conditions": [
+
+			],
 			"spawn_count": [
-				99,
-				100
+				0,
+				1
 			],
 			"frequency": [
 				20,
-				20
+				40
 			],
 			"speed_coefficient": 0.1
 		}
@@ -27,52 +28,53 @@
 
 	"physics": {
 		"base": {
-			"cursor_impulse_x": true,
-			"cursor_impulse_y": true,
-			"impulse_y": [
-				0.0,
-				0.0
-			],
-			"impulse_y_bidirectional": true,
-			"impulse_x": [
-				0.0,
-				0.0
-			],
-			"impulse_x_bidirectional": true,
-			"acceleration_y": 0.0,
-			"acceleration_y_bidirectional": true,
-			"acceleration_x": 0.0,
-			"acceleration_x_bidirectional": true
+			"x_speed": {
+				"inherit_cursor_impulse": false,
+				"impulse": [ 0.0, 0.0 ],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max": 10.0,
+				"braking": 0,
+				"turbulence": [ 0.0, 0.0 ]
+			},
+			"y_speed": {
+				"inherit_cursor_impulse": false,
+				"impulse": [ 0.0, 0.0 ],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max": 10.0,
+				"braking": 0,
+				"turbulence": [ 0.0, 0.0 ]
+			}
 		},
-		"air": {
-			"braking_y": 0.0,
-			"braking_x": 0.0,
-			"terminal_velocity_y": 100.0,
-			"terminal_velocity_x": 100.0,
-			"turbulence_y": [
-				0.0,
-				0.0
-			],
-			"turbulence_x": [
-				0.0,
-				0.0
-			]
-		},
+
 		"rotation": {
+			"rotate_in_movement_direction": false,
+			"rotation_speed": {
+				"impulse": [ 0.0, 10.0 ],
+				"impulse_bidirectional": true,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max": 10.0,
+				"braking": 1,
+				"turbulence": [ 0.0, 0.0 ]
+			}
+		},
+
+		"angle": {
 			"spawn_angle": [
-				0.0,
-				0.0
+				-20.0,
+				20.0
 			],
-			"rotation_impulse": [
-				0.0,
-				0.0
-			],
-			"rotation_impulse_bidirectional": false,
-			"rotation_acceleration": 0.0,
-			"rotation_acceleration_bidirectional": false,
-			"rotation_braking": 0.0,
-			"rotation_terminal_velocity": 10.0,
-			"rotation_by_movement": false
+			"speed_in_angle_direction_enabled": true,
+			"speed_in_angle_direction": {
+				"impulse": [ 0.0, 0.0 ],
+				"impulse_bidirectional": false,
+				"acceleration": 2.0,
+				"acceleration_bidirectional": false
+			}
 		}
 	}
 }

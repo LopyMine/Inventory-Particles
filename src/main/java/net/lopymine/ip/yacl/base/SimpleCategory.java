@@ -2,18 +2,20 @@ package net.lopymine.ip.yacl.base;
 
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.ConfigCategory.Builder;
-import net.minecraft.text.Text;
+import net.minecraft.text.*;
 
 import net.lopymine.ip.utils.ModMenuUtils;
 
 @SuppressWarnings("unused")
 public class SimpleCategory {
 
+	private static final Style NAME_STYLE = Style.EMPTY.withBold(true);
+
 	private final Builder builder;
 
 	private SimpleCategory(String categoryId) {
 		String categoryKey = ModMenuUtils.getCategoryKey(categoryId);
-		Text categoryName = ModMenuUtils.getName(categoryKey);
+		Text categoryName = ModMenuUtils.getName(categoryKey).setStyle(NAME_STYLE);
 		this.builder = ConfigCategory.createBuilder().name(categoryName);
 	}
 

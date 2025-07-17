@@ -3,8 +3,12 @@ package net.lopymine.ip.spawner;
 import java.util.*;
 import java.util.function.*;
 import lombok.*;
-import net.lopymine.ip.config.element.*;
+import net.lopymine.ip.config.color.IParticleColorType;
+import net.lopymine.ip.config.range.IntegerRange;
 import net.lopymine.ip.element.*;
+import net.lopymine.ip.element.base.TickElement;
+import net.lopymine.ip.predicate.IParticlePredicate;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
@@ -13,30 +17,36 @@ import org.jetbrains.annotations.Nullable;
 @Setter
 public class ParticleSpawner extends TickElement implements IParticleSpawner {
 
+	private final Random random = Random.create();
+
 	@Nullable
 	private final ParticleSpawnArea spawnArea;
-	private final TwoIntegerRange countRange;
-	private final TwoIntegerRange frequencyRange;
+	private final IntegerRange countRange;
+	private final IntegerRange frequencyRange;
 	private final float speedCoefficient;
 	private final float deltaCoefficient;
-	private final Function<Cursor, InvParticle> function;
+	private final IParticleColorType colorType;
+	private final IParticlePredicate spawnCondition;
+	private final Function<InventoryCursor, InventoryParticle> function;
 	private int nextSpawnTicks = 0;
 
-	public ParticleSpawner(Identifier spawnArea, TwoIntegerRange countRange, TwoIntegerRange frequencyRange, float speedCoefficient, float deltaCoefficient, Function<Cursor, InvParticle> function) {
+	public ParticleSpawner(Identifier spawnArea, IntegerRange countRange, IntegerRange frequencyRange, float speedCoefficient, float deltaCoefficient, IParticleColorType colorType, IParticlePredicate spawnCondition, Function<InventoryCursor, InventoryParticle> function) {
 		this.spawnArea        = ParticleSpawnArea.readFromTexture(spawnArea);
 		this.countRange       = countRange;
 		this.frequencyRange   = frequencyRange;
 		this.speedCoefficient = speedCoefficient;
 		this.deltaCoefficient = deltaCoefficient;
+		this.colorType        = colorType;
+		this.spawnCondition   = spawnCondition;
 		this.function         = function;
 	}
 
-	public List<InvParticle> spawnFromSpeed(Random random, Cursor cursor) {
-		int spawnCount = (int) (random.nextBetween(this.countRange.getMin(), this.countRange.getMax()) * this.speedCoefficient * Math.sqrt(cursor.getSpeed()));
+	public List<InventoryParticle> spawnFromSpeed(InventoryCursor cursor) {
+		int spawnCount = (int) (this.random.nextBetween(this.countRange.getMin(), this.countRange.getMax()) * this.speedCoefficient * Math.sqrt(cursor.getSpeed()));
 		return this.createParticles(spawnCount, cursor, (particle) -> this.spawnParticleAtCursorDeltaPath(particle, cursor));
 	}
 
-	private void spawnParticleAtCursorDeltaPath(InvParticle particle, Cursor cursor) {
+	private void spawnParticleAtCursorDeltaPath(InventoryParticle particle, InventoryCursor cursor) {
 		Random random = particle.getRandom();
 		int deltaX = cursor.getX() - cursor.getLastX();
 		int deltaY = cursor.getY() - cursor.getLastY();
@@ -47,19 +57,11 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 		particle.setY(particle.getY() - pathY + random.nextBetween(0, 2));
 	}
 
-//	public List<InvParticle> spawnFromSpeedDelta(Random random, Cursor cursor) {
-//		//double sqrt = Math.sqrt(cursor.getDeltaSpeed());
-//		//int spawnCount = (int) (random.nextBetween(this.countRange.getMin(), this.countRange.getMax()) * this.deltaCoefficient * sqrt);
-//		//System.out.println(sqrt);
-//		//System.out.println(spawnCount + " BBBBB " + cursor.getDeltaSpeed());
-//		return List.of();//this.createParticles(spawnCount, cursor);
-//	}
-
-	public List<InvParticle> tickAndSpawn(Random random, Cursor cursor) {
+	public List<InventoryParticle> tickAndSpawn(InventoryCursor cursor) {
 		this.tick();
 
 		if (this.nextSpawnTicks == 0) {
-			int ticksToWaitForNextSpawn = random.nextBetween(this.frequencyRange.getMin(), this.frequencyRange.getMax());
+			int ticksToWaitForNextSpawn = this.random.nextBetween(this.frequencyRange.getMin(), this.frequencyRange.getMax());
 			this.nextSpawnTicks = this.ticks + ticksToWaitForNextSpawn;
 		}
 
@@ -69,31 +71,47 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 
 		this.nextSpawnTicks = 0;
 
-		return this.createParticles(random.nextBetween(this.countRange.getMin(), this.countRange.getMax()), cursor);
+		return this.createParticles(this.random.nextBetween(this.countRange.getMin(), this.countRange.getMax()), cursor);
 	}
 
-	private List<InvParticle> createParticles(int spawnCount, Cursor cursor) {
+	private List<InventoryParticle> createParticles(int spawnCount, InventoryCursor cursor) {
 		return createParticles(spawnCount, cursor, (particle) -> {});
 	}
 
-	private List<InvParticle> createParticles(int spawnCount, Cursor cursor, Consumer<InvParticle> consumer) {
-		List<InvParticle> particles = new ArrayList<>();
+	private List<InventoryParticle> createParticles(int spawnCount, InventoryCursor cursor, Consumer<InventoryParticle> consumer) {
+		if (spawnCount != 0 && !this.spawnCondition.test(cursor.getCurrentStack())) {
+			return List.of();
+		}
+
+		List<InventoryParticle> particles = new ArrayList<>();
 		for (int i = 0; i < spawnCount; i++) {
-			InvParticle particle = this.function.apply(cursor);
+			InventoryParticle particle = this.function.apply(cursor);
 			consumer.accept(particle);
 
-			IParticleSpawnPos particleSpawnPos = this.spawnArea == null ? null : this.spawnArea.getRandomPos(particle.getRandom());
-			if (particleSpawnPos != null) {
-				particle.setX(particle.getX() - 7.5F + particleSpawnPos.x());
-				particle.setY(particle.getY() - 7.5F + particleSpawnPos.y());
-			} else {
-				particle.setX(particle.getX() + particle.getRandom().nextBetween(-4, 4));
-				particle.setY(particle.getY() + particle.getRandom().nextBetween(-4, 4));
-			}
+			this.offsetParticlePos(particle);
+			this.setParticleColor(particle, cursor);
 
 			particles.add(particle);
 		}
+
 		return particles;
+	}
+
+	private void setParticleColor(InventoryParticle particle, InventoryCursor cursor) {
+		ItemStack currentItem = cursor.getCurrentStack();
+		int color = this.colorType.getColor(currentItem, particle.getRandom());
+		particle.setColor(color);
+	}
+
+	private void offsetParticlePos(InventoryParticle particle) {
+		IParticleSpawnPos particleSpawnPos = this.spawnArea == null ? null : this.spawnArea.getRandomPos(particle.getRandom());
+		if (particleSpawnPos != null) {
+			particle.setX(particle.getX() - 7.5F + particleSpawnPos.getXOffset() + particleSpawnPos.x());
+			particle.setY(particle.getY() - 7.5F + particleSpawnPos.getYOffset() + particleSpawnPos.y());
+		} else {
+			particle.setX(particle.getX() + particle.getRandom().nextBetween(-4, 4));
+			particle.setY(particle.getY() + particle.getRandom().nextBetween(-4, 4));
+		}
 	}
 
 }

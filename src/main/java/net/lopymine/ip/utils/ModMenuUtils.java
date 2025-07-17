@@ -1,7 +1,7 @@
 package net.lopymine.ip.utils;
 
 import net.lopymine.ip.InventoryParticles;
-import net.minecraft.text.Text;
+import net.minecraft.text.*;
 import net.minecraft.util.Identifier;
 
 import net.lopymine.ip.yacl.utils.SimpleContent;
@@ -22,11 +22,11 @@ public class ModMenuUtils {
 		return String.format("modmenu.group.%s", groupId);
 	}
 
-	public static Text getName(String key) {
+	public static MutableText getName(String key) {
 		return InventoryParticles.text(key + ".name");
 	}
 
-	public static Text getDescription(String key) {
+	public static MutableText getDescription(String key) {
 		return InventoryParticles.text(key + ".description");
 	}
 
@@ -34,7 +34,7 @@ public class ModMenuUtils {
 		return InventoryParticles.id(String.format("textures/config/%s.%s", contentId, content.getFileExtension()));
 	}
 
-	public static Text getModTitle() {
+	public static MutableText getModTitle() {
 		return InventoryParticles.text("modmenu.title");
 	}
 
@@ -42,11 +42,11 @@ public class ModMenuUtils {
 		return state -> InventoryParticles.text("modmenu.formatter.enabled_or_disabled." + state);
 	}
 
-	public static Text getNoConfigScreenMessage() {
+	public static MutableText getNoConfigScreenMessage() {
 		return InventoryParticles.text("modmenu.no_config_library_screen.message");
 	}
 
-	public static Text getOldConfigScreenMessage(String version) {
+	public static MutableText getOldConfigScreenMessage(String version) {
 		return InventoryParticles.text("modmenu.old_config_library_screen.message", version, InventoryParticles.YACL_DEPEND_VERSION);
 	}
 }

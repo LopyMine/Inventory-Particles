@@ -2,6 +2,7 @@ package net.lopymine.ip.config;
 
 import lombok.*;
 import net.lopymine.ip.InventoryParticles;
+import net.lopymine.ip.config.optimization.ParticleDeletionMode;
 import org.slf4j.*;
 
 import com.mojang.serialization.*;
@@ -21,16 +22,20 @@ import static net.lopymine.ip.utils.CodecUtils.option;
 public class InventoryParticlesConfig {
 
 	public static final Codec<InventoryParticlesConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-			option("mossy", false, Codec.BOOL, InventoryParticlesConfig::isMossy),
-			option("secret", 0.0F, Codec.FLOAT, InventoryParticlesConfig::getSecret)
+			option("mod_enabled", true, Codec.BOOL, InventoryParticlesConfig::isDebugModeEnabled),
+			option("debug_mode_enabled", false, Codec.BOOL, InventoryParticlesConfig::isDebugModeEnabled),
+			option("max_particles", 5000, Codec.INT, InventoryParticlesConfig::getMaxParticles),
+			option("particle_deletion_type", ParticleDeletionMode.OLDEST, ParticleDeletionMode.CODEC, InventoryParticlesConfig::getParticleDeletionMode)
 	).apply(instance, InventoryParticlesConfig::new));
 
 	private static final File CONFIG_FILE = FabricLoader.getInstance().getConfigDir().resolve(InventoryParticles.MOD_ID + ".json5").toFile();
 	private static final Logger LOGGER = LoggerFactory.getLogger(InventoryParticles.MOD_NAME + "/Config");
 	private static InventoryParticlesConfig INSTANCE;
 	
-	private boolean mossy;
-	private float secret;
+	private boolean modEnabled;
+	private boolean debugModeEnabled;
+	private int maxParticles;
+	private ParticleDeletionMode particleDeletionMode;
 
 	private InventoryParticlesConfig() {
 		throw new IllegalArgumentException();

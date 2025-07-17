@@ -2,19 +2,21 @@ package net.lopymine.ip.yacl.base;
 
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.gui.image.ImageRenderer;
-import net.minecraft.text.Text;
+import net.minecraft.text.*;
 
 import net.lopymine.ip.utils.ModMenuUtils;
 
 @SuppressWarnings("unused")
 public class SimpleGroup {
 
+	private static final Style NAME_STYLE = Style.EMPTY.withBold(true);
+
 	private final OptionGroup.Builder groupBuilder;
 	private final OptionDescription.Builder description;
 
 	public SimpleGroup(String groupId) {
 		String groupKey = ModMenuUtils.getGroupKey(groupId);
-		Text groupName = ModMenuUtils.getName(groupKey);
+		Text groupName = ModMenuUtils.getName(groupKey).setStyle(NAME_STYLE);
 		Text description = ModMenuUtils.getDescription(groupKey);
 
 		this.groupBuilder = OptionGroup.createBuilder().name(groupName);

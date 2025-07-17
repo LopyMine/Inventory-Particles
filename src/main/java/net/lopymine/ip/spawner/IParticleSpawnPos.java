@@ -6,4 +6,8 @@ public interface IParticleSpawnPos {
 
 	int y();
 
+	int getXOffset();
+
+	int getYOffset();
+
 }

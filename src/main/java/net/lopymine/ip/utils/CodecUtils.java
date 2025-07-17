@@ -26,6 +26,10 @@ public final class CodecUtils {
 		return codec.optionalFieldOf(optionId).xmap((o) -> o.orElse(defValue), Optional::ofNullable).forGetter(getter);
 	}
 
+	public static <A, B> RecordCodecBuilder<A, Optional<B>> option(String optionId, Codec<B> codec, Function<A, Optional<B>> getter) {
+		return codec.optionalFieldOf(optionId).forGetter(getter);
+	}
+
 	public static <A, B> RecordCodecBuilder<A, HashSet<B>> option(String optionId, HashSet<B> defValue, Codec<B> codec, Function<A, HashSet<B>> getter) {
 		return codec.listOf().xmap(HashSet::new, ArrayList::new).optionalFieldOf(optionId).xmap((o) -> o.orElse(defValue), Optional::ofNullable).forGetter(getter);
 	}
@@ -37,7 +41,6 @@ public final class CodecUtils {
 	public static <T, A, B> RecordCodecBuilder<T, HashMap<A, B>> option(String optionId, HashMap<A, B> defValue, Codec<A> codecA, Codec<B> codecB, Function<T, HashMap<A, B>> getter) {
 		return Codec.unboundedMap(codecA, codecB).xmap(HashMap::new, HashMap::new).optionalFieldOf(optionId).xmap((o) -> o.orElse(defValue), Optional::ofNullable).forGetter(getter);
 	}
-
 
 	public static <T> void decode(Codec<T> codec, JsonElement o, Consumer<T> consumer) {
 		try {
