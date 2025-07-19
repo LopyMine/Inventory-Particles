@@ -8,15 +8,16 @@ import net.minecraft.util.Identifier;
 @Getter
 public abstract class AbstractParticleTextureProviderWithPeriod extends AbstractParticleTextureProvider {
 
-	protected final int textureTicksPeriod;
+	protected final int changeTextureTickPeriod;
 	protected float changeTextureTick;
 
 	public AbstractParticleTextureProviderWithPeriod(List<Identifier> textures, float animationSpeed, int lifeTime) {
 		super(textures, animationSpeed, lifeTime);
-		this.textureTicksPeriod = lifeTime / textures.size();
+		this.changeTextureTickPeriod = !textures.isEmpty() ? lifeTime / textures.size() : 1;
+		this.updateChangeTextureTick();
 	}
 
 	protected void updateChangeTextureTick() {
-		this.changeTextureTick = this.ticks + this.textureTicksPeriod;
+		this.changeTextureTick = this.ticks + this.changeTextureTickPeriod;
 	}
 }

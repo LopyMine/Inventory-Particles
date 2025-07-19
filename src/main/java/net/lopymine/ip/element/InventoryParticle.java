@@ -58,10 +58,12 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 	public InventoryParticle(ParticleConfig config, InventoryCursor cursor) {
 		this.lifeTimeTicks   = config.getLifeTimeTicks();
 		this.textureProvider = IParticleTextureProvider.getTextureProvider(config);
-		this.texture         = this.textureProvider.getTexture(this.random);
+		this.texture         = this.textureProvider.getInitializationTexture(this.random);
 
 		this.x = cursor.getX() - 4F;
+		this.lastX = this.x;
 		this.y = cursor.getY() - 4F;
+		this.lastY = this.y;
 
 		ParticlePhysics physics = config.getPhysics();
 
@@ -85,11 +87,9 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 		super.tick();
 		this.textureProvider.tick();
 		this.texture = this.textureProvider.getTexture(this.random);
-		if (this.textureProvider.isShouldDead() || this.ticks > this.getLifeTimeTicks()) {
-			if (!this.isSelected()) {
-				this.dead = true;
-				return;
-			}
+		if (this.textureProvider.isShouldDead() || this.ticks >= this.getLifeTimeTicks()) {
+			this.dead = true;
+			return;
 		}
 
 		this.xSpeedController.tick(this);
@@ -115,17 +115,15 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 
 		Screen currentScreen = MinecraftClient.getInstance().currentScreen;
 		if (currentScreen != null && (this.x > currentScreen.width + 20 || this.y > currentScreen.height + 20)) {
-			if (!this.isSelected()) {
-				this.dead = true;
-			}
+			this.dead = true;
 		}
 	}
 
 	public void render(DrawContext context, InventoryCursor cursor, float tickProgress) {
 		InventoryParticlesRenderer renderer = InventoryParticlesRenderer.getInstance();
 
-		float x = renderer.isStopTicking() ? this.x : MathHelper.lerp(tickProgress, this.lastX, this.x);
-		float y = renderer.isStopTicking() ? this.y : MathHelper.lerp(tickProgress, this.lastY, this.y);
+		float x = renderer.isStopTicking() ? this.x : MathHelper.lerp((float) MathHelper.clamp(tickProgress, 0.0, 1.0F), this.lastX, this.x);
+		float y = renderer.isStopTicking() ? this.y : MathHelper.lerp((float) MathHelper.clamp(tickProgress, 0.0, 1.0F), this.lastY, this.y);
 
 		this.updateHovered(cursor, (int) x, (int) y, 8, 8);
 

@@ -10,6 +10,11 @@ public class LoopParticleTextureProvider extends StretchParticleTextureProvider 
 	}
 
 	@Override
+	protected void updateChangeTextureTick() {
+		this.changeTextureTick = this.ticks + this.animationSpeed;
+	}
+
+	@Override
 	public void updateCurrentTextureId() {
 		this.currentTextureId++;
 		if (this.currentTextureId >= this.textures.size()) {

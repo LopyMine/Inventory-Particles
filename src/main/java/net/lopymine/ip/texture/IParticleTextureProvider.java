@@ -22,6 +22,8 @@ public interface IParticleTextureProvider extends ITickElement, IDebugRenderable
 		};
 	}
 
+	Identifier getInitializationTexture(Random random);
+
 	Identifier getTexture(Random random);
 
 	boolean isShouldDead();

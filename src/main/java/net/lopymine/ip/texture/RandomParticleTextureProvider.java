@@ -1,7 +1,6 @@
 package net.lopymine.ip.texture;
 
 import java.util.List;
-import java.util.function.*;
 import lombok.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
@@ -19,8 +18,16 @@ public class RandomParticleTextureProvider extends AbstractParticleTextureProvid
 	}
 
 	@Override
-	public Identifier getTexture(Random random) {
-		if (this.currentTexture != null && this.ticks <= this.changeTextureTick) {
+	protected Identifier getInitializationTextureFromNotEmptyTextures(Random random) {
+		if (this.currentTexture == null) {
+			return this.textures.get(random.nextBetween(0, this.textures.size() - 1));
+		}
+		return this.currentTexture;
+	}
+
+	@Override
+	protected Identifier getTextureFromNotEmptyTextures(Random random) {
+		if (this.currentTexture != null && this.ticks < this.changeTextureTick) {
 			return this.currentTexture;
 		}
 

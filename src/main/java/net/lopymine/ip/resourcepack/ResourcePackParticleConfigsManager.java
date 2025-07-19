@@ -34,7 +34,7 @@ public class ResourcePackParticleConfigsManager {
 				try (InputStream inputStream = suppler.get(); BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
 					ParticleConfig config = ParticleConfig.CODEC.decode(JsonOps.INSTANCE, JsonParser.parseReader(reader))/*? if >=1.20.5 {*/.getOrThrow()/*?} else {*//*.getOrThrow(false, LOGGER::error)*//*?}*/.getFirst();
 					for (ParticleHolder holder : config.getHolders()) {
-						Item item = holder.getItem();
+						Item item = holder.getItem().getItem();
 						List<IParticleSpawner> list = PER_ITEM_PARTICLE_SPAWNERS.get(item);
 						ParticleSpawner spawner = holder.create(config::createParticle);
 						if (list == null) {

@@ -24,18 +24,16 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 	private final IntegerRange countRange;
 	private final IntegerRange frequencyRange;
 	private final float speedCoefficient;
-	private final float deltaCoefficient;
 	private final IParticleColorType colorType;
 	private final IParticlePredicate spawnCondition;
 	private final Function<InventoryCursor, InventoryParticle> function;
 	private int nextSpawnTicks = 0;
 
-	public ParticleSpawner(Identifier spawnArea, IntegerRange countRange, IntegerRange frequencyRange, float speedCoefficient, float deltaCoefficient, IParticleColorType colorType, IParticlePredicate spawnCondition, Function<InventoryCursor, InventoryParticle> function) {
+	public ParticleSpawner(Identifier spawnArea, IntegerRange countRange, IntegerRange frequencyRange, float speedCoefficient, IParticleColorType colorType, IParticlePredicate spawnCondition, Function<InventoryCursor, InventoryParticle> function) {
 		this.spawnArea        = ParticleSpawnArea.readFromTexture(spawnArea);
 		this.countRange       = countRange;
 		this.frequencyRange   = frequencyRange;
 		this.speedCoefficient = speedCoefficient;
-		this.deltaCoefficient = deltaCoefficient;
 		this.colorType        = colorType;
 		this.spawnCondition   = spawnCondition;
 		this.function         = function;

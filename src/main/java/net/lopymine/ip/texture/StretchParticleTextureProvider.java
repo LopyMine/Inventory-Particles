@@ -1,7 +1,6 @@
 package net.lopymine.ip.texture;
 
 import java.util.List;
-import java.util.function.*;
 import lombok.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
@@ -11,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 @Getter
 public class StretchParticleTextureProvider extends AbstractParticleTextureProviderWithPeriod {
 
-	protected int currentTextureId = -1;
+	protected int currentTextureId = 0;
 	@Nullable
 	private Identifier currentTexture;
 
@@ -20,8 +19,16 @@ public class StretchParticleTextureProvider extends AbstractParticleTextureProvi
 	}
 
 	@Override
-	public Identifier getTexture(Random random) {
-		if (this.currentTexture != null && this.ticks <= this.changeTextureTick) {
+	protected Identifier getInitializationTextureFromNotEmptyTextures(Random random) {
+		if (this.currentTexture == null) {
+			return this.currentTexture = this.textures.get(0);
+		}
+		return this.currentTexture;
+	}
+
+	@Override
+	protected Identifier getTextureFromNotEmptyTextures(Random random) {
+		if (this.currentTexture != null && this.ticks < this.changeTextureTick) {
 			return this.currentTexture;
 		}
 

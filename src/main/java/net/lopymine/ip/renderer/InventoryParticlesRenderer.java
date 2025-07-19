@@ -5,6 +5,7 @@ import lombok.*;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.optimization.ParticleDeletionMode;
 import net.lopymine.ip.element.*;
+import net.lopymine.ip.element.base.TickElement;
 import net.lopymine.ip.resourcepack.ResourcePackParticleConfigsManager;
 import net.lopymine.ip.spawner.*;
 import net.minecraft.client.MinecraftClient;
@@ -16,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 @Getter
 @Setter
-public class InventoryParticlesRenderer {
+public class InventoryParticlesRenderer extends TickElement {
 
 	private static final InventoryParticlesRenderer INSTANCE = new InventoryParticlesRenderer();
 
@@ -29,6 +30,8 @@ public class InventoryParticlesRenderer {
 
 	private boolean stoppedByInitializationReason;
 	private boolean stopTicking;
+	private int ticksPerTick = 1;
+	private int nextTick = 1;
 
 	@Nullable
 	private InventoryParticle hoveredParticle;
@@ -67,8 +70,21 @@ public class InventoryParticlesRenderer {
 		if (this.stopTicking || this.stoppedByInitializationReason) {
 			return;
 		}
+		super.tick();
+//		if (this.ticks < this.nextTick) {
+//			return;
+//		}
+//		this.nextTick = this.ticks + this.ticksPerTick;
 
 		this.cursor.tick();
+
+		this.screenParticles.removeIf((particle) -> {
+			if (particle == null) {
+				return true;
+			}
+			particle.tick();
+			return particle.isDead() && !particle.isSelected();
+		});
 
 		Item currentItem = this.cursor.getCurrentStack().getItem();
 		List<IParticleSpawner> particleSpawners = ResourcePackParticleConfigsManager.getPerItemParticleSpawners().get(currentItem);
@@ -83,14 +99,6 @@ public class InventoryParticlesRenderer {
 
 			particles.forEach(this::spawnParticle);
 		}
-
-		this.screenParticles.removeIf((particle) -> {
-			if (particle == null) {
-				return true;
-			}
-			particle.tick();
-			return particle.isDead();
-		});
 	}
 
 	private void spawnParticle(InventoryParticle particle) {

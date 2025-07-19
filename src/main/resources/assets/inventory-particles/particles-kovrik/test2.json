@@ -1,10 +1,12 @@
 {
-	"life_time": 150,
-	"animation_type": "random_static",
+	"life_time": 6,
+	"animation_type": "loop",
 	"animation_speed": 1,
 
 	"textures": [
-		"inventory-particles:textures/test4.png"
+		"inventory-particles:textures/test1.png",
+		"inventory-particles:textures/test2.png",
+		"inventory-particles:textures/test3.png"
 	],
 
 	"holders": [

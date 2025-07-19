@@ -15,10 +15,15 @@ public class RandomStaticParticleTextureProvider extends AbstractParticleTexture
 	}
 
 	@Override
-	public Identifier getTexture(Random random) {
+	protected Identifier getInitializationTextureFromNotEmptyTextures(Random random) {
 		if (this.currentTexture == null) {
 			return this.currentTexture = this.textures.get(random.nextBetween(0, this.textures.size() - 1));
 		}
 		return this.currentTexture;
+	}
+
+	@Override
+	protected Identifier getTextureFromNotEmptyTextures(Random random) {
+		return this.getInitializationTextureFromNotEmptyTextures(random);
 	}
 }

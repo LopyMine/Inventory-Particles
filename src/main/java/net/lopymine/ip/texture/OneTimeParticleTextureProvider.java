@@ -18,9 +18,8 @@ public class OneTimeParticleTextureProvider extends StretchParticleTextureProvid
 	public void updateCurrentTextureId() {
 		if (this.currentTextureId < this.textures.size() - 1) {
 			this.currentTextureId++;
-			if (this.currentTextureId >= this.textures.size() - 1) {
-				this.markDead();
-			}
+		} else {
+			this.markDead();
 		}
 	}
 }
