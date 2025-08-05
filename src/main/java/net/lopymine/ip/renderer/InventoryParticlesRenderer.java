@@ -71,20 +71,12 @@ public class InventoryParticlesRenderer extends TickElement {
 			return;
 		}
 		super.tick();
-//		if (this.ticks < this.nextTick) {
-//			return;
-//		}
-//		this.nextTick = this.ticks + this.ticksPerTick;
+		if (this.ticks < this.nextTick) {
+			return;
+		}
+		this.nextTick = this.ticks + this.ticksPerTick;
 
 		this.cursor.tick();
-
-		this.screenParticles.removeIf((particle) -> {
-			if (particle == null) {
-				return true;
-			}
-			particle.tick();
-			return particle.isDead() && !particle.isSelected();
-		});
 
 		Item currentItem = this.cursor.getCurrentStack().getItem();
 		List<IParticleSpawner> particleSpawners = ResourcePackParticleConfigsManager.getPerItemParticleSpawners().get(currentItem);
@@ -99,6 +91,14 @@ public class InventoryParticlesRenderer extends TickElement {
 
 			particles.forEach(this::spawnParticle);
 		}
+
+		this.screenParticles.removeIf((particle) -> {
+			if (particle == null) {
+				return true;
+			}
+			particle.tick();
+			return particle.isDead() && !particle.isSelected();
+		});
 	}
 
 	private void spawnParticle(InventoryParticle particle) {

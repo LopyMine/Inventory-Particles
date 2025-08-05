@@ -1,0 +1,43 @@
+{
+	components: {
+		"minecraft:charged_projectiles": [
+			{
+				count: 1,
+				components: {
+					"minecraft:potion_contents": {
+						potion: "minecraft:swiftness"
+					},
+					"minecraft:intangible_projectile": {}
+				},
+				id: "minecraft:tipped_arrow"
+			}
+		]
+	},
+	count: 1,
+	id: "minecraft:crossbow"
+}
+{
+	components: {
+		"minecraft:enchantments": {
+			levels: {
+				"minecraft:sharpness": 1,
+				"minecraft:unbreaking": 1
+			}
+		}
+	},
+	count: 1,
+	id: "minecraft:stone_sword"
+}
+
+{
+	components: {
+		"minecraft:enchantments": {
+			levels: {
+				"minecraft:sharpness": 1,
+				"minecraft:unbreaking": 1
+			}
+		}
+	},
+	count: 1,
+	id: "minecraft:stone_sword"
+}

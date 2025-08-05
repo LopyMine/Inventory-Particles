@@ -34,15 +34,15 @@ public class HandledScreenMixin<T extends ScreenHandler> extends Screen {
 			InventoryParticlesRenderer renderer = InventoryParticlesRenderer.getInstance();
 			renderer.setStopTicking(!renderer.isStopTicking());
 		}).position(5, this.height - 25).build());
-//		TextFieldWidget ticksPerTickField = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, stopTickingButton.getX(), stopTickingButton.getY() - 25, stopTickingButton.getWidth(), 20, Text.literal("Ticks Per Tick"));
-//		ticksPerTickField.setChangedListener((s) -> {
-//			try {
-//				InventoryParticlesRenderer.getInstance().setTicksPerTick(Integer.parseInt(s));
-//			} catch (Exception ignored) {
-//			}
-//		});
-//		ticksPerTickField.setPlaceholder(Text.of("1"));
-//		this.addDrawableChild(ticksPerTickField);
+		TextFieldWidget ticksPerTickField = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, stopTickingButton.getX(), stopTickingButton.getY() - 25, stopTickingButton.getWidth(), 20, Text.literal("Ticks Per Tick"));
+		ticksPerTickField.setChangedListener((s) -> {
+			try {
+				InventoryParticlesRenderer.getInstance().setTicksPerTick(Integer.parseInt(s));
+			} catch (Exception ignored) {
+			}
+		});
+		ticksPerTickField.setPlaceholder(Text.of("1"));
+		this.addDrawableChild(ticksPerTickField);
 	}
 
 	@Inject(at = @At("TAIL"), method = "render")

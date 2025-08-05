@@ -27,12 +27,14 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 	private final Random random = Random.create();
 
 	private final int lifeTimeTicks;
-	private final float standardAngle;
+	private final float standardParticleAngle;
+	private final float standardTextureAngle;
 	private final IParticleTextureProvider textureProvider;
 
 	private final SpeedController xSpeedController;
 	private final SpeedController ySpeedController;
-	private final RotationSpeedController<InventoryParticle> rotationSpeedController;
+	private final RotationSpeedController<InventoryParticle> particleRotationSpeedController;
+	private final RotationSpeedController<InventoryParticle> textureRotationSpeedController;
 	@Nullable
 	private final SpeedInAngleDirectionController<InventoryParticle> speedInAngleDirectionController;
 
@@ -48,8 +50,11 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 	private float speedX;
 	private float speedY;
 
-	private float lastAngle;
-	private float angle;
+	private float lastParticleAngle;
+	private float particleAngle;
+
+	private float lastTextureAngle;
+	private float textureAngle;
 
 	private boolean dead;
 	private boolean selected;
@@ -70,13 +75,14 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 		BasePhysics base = physics.getBase();
 		this.xSpeedController = new SpeedController(base.getXSpeed(), this.random, cursor.getSpeedX());
 		this.ySpeedController = new SpeedController(base.getYSpeed(), this.random, cursor.getSpeedY());
+		this.speedInAngleDirectionController = new SpeedInAngleDirectionController<>(base.getAngleSpeed(), this.random, this);
 
 		RotationSpeedPhysics rotation = physics.getRotation();
-		this.rotationSpeedController = new RotationSpeedController<>(rotation.getRotationSpeed(), this.random, rotation.isRotateInMovementDirection());
+		this.particleRotationSpeedController = new RotationSpeedController<>(rotation.getParticleRotationConfig(), this.random);
+		this.textureRotationSpeedController = new RotationSpeedController<>(rotation.getTextureRotationConfig(), this.random);
 
-		AnglePhysics angle = physics.getAngle();
-		this.standardAngle                   = angle.getSpawnAngle().getRandom(this.random);
-		this.speedInAngleDirectionController = angle.isSpeedInAngleDirectionEnabled() ? new SpeedInAngleDirectionController<>(angle.getAngleSpeedConfig(), this.random, this) : null;
+		this.standardParticleAngle = rotation.getParticleRotationConfig().getSpawnAngle().getRandom(this.random);
+		this.standardTextureAngle  = rotation.getTextureRotationConfig().getSpawnAngle().getRandom(this.random);
 	}
 
 	public void tick() {
@@ -87,7 +93,7 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 		super.tick();
 		this.textureProvider.tick();
 		this.texture = this.textureProvider.getTexture(this.random);
-		if (this.textureProvider.isShouldDead() || this.ticks >= this.getLifeTimeTicks()) {
+		if (this.textureProvider.isShouldDead() || this.ticks > this.getLifeTimeTicks()) {
 			this.dead = true;
 			return;
 		}
@@ -98,11 +104,19 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 		this.ySpeedController.tick(this);
 		this.speedY = this.ySpeedController.getSpeed();
 
-		this.rotationSpeedController.tick(this);
-		this.angle = this.rotationSpeedController.isRotateInMovementDirection() ?
-				this.rotationSpeedController.getRotation()
+		this.particleRotationSpeedController.tick(this);
+		this.lastParticleAngle = this.particleAngle;
+		this.particleAngle = this.particleRotationSpeedController.isRotateInMovementDirection() ?
+				this.particleRotationSpeedController.getRotation()
 				:
-				(this.angle + this.rotationSpeedController.getSpeed()) % 360F;
+				(this.standardParticleAngle + this.particleRotationSpeedController.getSpeed()) % 360F;
+
+		this.textureRotationSpeedController.tick(this);
+		this.lastTextureAngle = this.textureAngle;
+		this.textureAngle = this.textureRotationSpeedController.isRotateInMovementDirection() ?
+				this.textureRotationSpeedController.getRotation()
+				:
+				(this.standardTextureAngle + this.textureRotationSpeedController.getSpeed()) % 360F;
 
 		if (this.speedInAngleDirectionController != null) {
 			this.speedInAngleDirectionController.tick(this);
@@ -114,16 +128,22 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 		this.y += this.speedY;
 
 		Screen currentScreen = MinecraftClient.getInstance().currentScreen;
-		if (currentScreen != null && (this.x > currentScreen.width + 20 || this.y > currentScreen.height + 20)) {
-			this.dead = true;
+		if (currentScreen != null) {
+			int width = currentScreen.width;
+			int height = currentScreen.height;
+			float d = width / 4F;
+			float v = height / 4F;
+			if (this.x < -d || this.y < -v || this.x > width + d || this.y > height + v) {
+				this.dead = true;
+			}
 		}
 	}
 
 	public void render(DrawContext context, InventoryCursor cursor, float tickProgress) {
 		InventoryParticlesRenderer renderer = InventoryParticlesRenderer.getInstance();
 
-		float x = renderer.isStopTicking() ? this.x : MathHelper.lerp((float) MathHelper.clamp(tickProgress, 0.0, 1.0F), this.lastX, this.x);
-		float y = renderer.isStopTicking() ? this.y : MathHelper.lerp((float) MathHelper.clamp(tickProgress, 0.0, 1.0F), this.lastY, this.y);
+		float x = renderer.isStopTicking() ? this.x : MathHelper.lerp(tickProgress, this.lastX, this.x);
+		float y = renderer.isStopTicking() ? this.y : MathHelper.lerp(tickProgress, this.lastY, this.y);
 
 		this.updateHovered(cursor, (int) x, (int) y, 8, 8);
 
@@ -139,7 +159,7 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 		float halfSize = size / 2F;
 		matrices.translate(x, y, 500F);
 		matrices.translate(halfSize, halfSize, 0F);
-		matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(this.standardAngle + this.angle));
+		matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((this.particleAngle + this.textureAngle) % 360F));
 		matrices.translate(-halfSize, -halfSize, 0F);
 		if (bl) {
 			matrices.translate(-halfSize, -halfSize, 0F);
@@ -151,6 +171,11 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 	}
 
 	public float getAngle() {
-		return this.angle + this.standardAngle;
+		return this.particleAngle;
+	}
+
+	@Override
+	public void setAngle(float degrees) {
+		this.particleAngle = degrees;
 	}
 }

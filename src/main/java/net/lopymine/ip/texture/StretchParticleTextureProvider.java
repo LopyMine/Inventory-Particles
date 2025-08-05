@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 @Getter
 public class StretchParticleTextureProvider extends AbstractParticleTextureProviderWithPeriod {
 
-	protected int currentTextureId = 0;
+	protected int currentTextureId = -1;
 	@Nullable
 	private Identifier currentTexture;
 

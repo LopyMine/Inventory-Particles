@@ -1,4 +1,4 @@
-package net.lopymine.ip.config.speed.angle;
+package net.lopymine.ip.config.speed;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

@@ -10,18 +10,17 @@ import static net.lopymine.ip.utils.CodecUtils.option;
 
 @Getter
 @AllArgsConstructor
-public class SpeedConfig {
+public class RotationSpeedConfig {
 
-	public static final Codec<SpeedConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-			option("impulse", new FloatRange(), FloatRange.CODEC, SpeedConfig::getImpulse),
-			option("impulse_bidirectional", true, Codec.BOOL, SpeedConfig::isImpulseBidirectional),
-			option("acceleration", 0.0F, Codec.FLOAT, SpeedConfig::getAcceleration),
-			option("acceleration_bidirectional", true, Codec.BOOL, SpeedConfig::isAccelerationBidirectional),
-			option("max", Float.MAX_VALUE, Codec.FLOAT, SpeedConfig::getMax),
-			option("braking", 0.0F, Codec.FLOAT, SpeedConfig::getBraking),
-			option("turbulence", new FloatRange(), FloatRange.CODEC, SpeedConfig::getTurbulence),
-			option("cursor_impulse_inherit_coefficient", 0.0F, Codec.FLOAT, SpeedConfig::getCursorImpulseInheritCoefficient)
-	).apply(instance, SpeedConfig::new));
+	public static final Codec<RotationSpeedConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+			option("impulse", new FloatRange(), FloatRange.CODEC, RotationSpeedConfig::getImpulse),
+			option("impulse_bidirectional", true, Codec.BOOL, RotationSpeedConfig::isImpulseBidirectional),
+			option("acceleration", 0.0F, Codec.FLOAT, RotationSpeedConfig::getAcceleration),
+			option("acceleration_bidirectional", true, Codec.BOOL, RotationSpeedConfig::isAccelerationBidirectional),
+			option("max", Float.MAX_VALUE, Codec.FLOAT, RotationSpeedConfig::getMax),
+			option("braking", 0.0F, Codec.FLOAT, RotationSpeedConfig::getBraking),
+			option("turbulence", new FloatRange(), FloatRange.CODEC, RotationSpeedConfig::getTurbulence)
+	).apply(instance, RotationSpeedConfig::new));
 
 	private FloatRange impulse;
 	private boolean impulseBidirectional;
@@ -30,9 +29,8 @@ public class SpeedConfig {
 	private float max;
 	private float braking;
 	private FloatRange turbulence;
-	private float cursorImpulseInheritCoefficient;
 
-	public static SpeedConfig getNewInstance() {
+	public static RotationSpeedConfig getNewInstance() {
 		return CodecUtils.parseNewInstanceHacky(CODEC);
 	}
 

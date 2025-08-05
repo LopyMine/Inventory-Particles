@@ -65,8 +65,15 @@ public class InventoryCursor extends TickElement {
 	@Override
 	public void tick() {
 		super.tick();
-		this.setX(this.getMouseX());
-		this.setY(this.getMouseY());
+		if (this.ticks == 1) {
+			this.x = this.getMouseX();
+			this.y = this.getMouseY();
+			this.lastX = this.x;
+			this.lastY = this.y;
+		} else {
+			this.setX(this.getMouseX());
+			this.setY(this.getMouseY());
+		}
 		double speed = Math.sqrt(Math.pow(this.getDeltaX(), 2) + Math.pow(this.getDeltaY(), 2));
 		this.setSpeed(speed);
 	}

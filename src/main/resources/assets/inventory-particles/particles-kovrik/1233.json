@@ -1,0 +1,42 @@
+{
+	components: {
+		"minecraft:enchantments": {
+			levels: {
+				"minecraft:unbreaking": 1
+			}
+		}
+	}
+}
+{
+	components: {
+		"minecraft:charged_projectiles": [
+			{
+				count: 1,
+				components: {
+					"minecraft:potion_contents": {
+						potion: "minecraft:long_turtle_master"
+					},
+					"minecraft:intangible_projectile": {}
+				},
+				id: "minecraft:tipped_arrow"
+			}
+		]
+	},
+	count: 1,
+	id: "minecraft:crossbow"
+}
+{
+	components: {
+		"minecraft:charged_projectiles": [
+			{
+				count: 1,
+				components: {
+					"minecraft:intangible_projectile": {}
+				},
+				id: "minecraft:firework_rocket"
+			}
+		]
+	},
+	count: 1,
+	id: "minecraft:crossbow"
+}

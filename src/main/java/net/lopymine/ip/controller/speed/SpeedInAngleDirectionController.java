@@ -1,6 +1,6 @@
 package net.lopymine.ip.controller.speed;
 
-import net.lopymine.ip.config.speed.angle.AngleSpeedConfig;
+import net.lopymine.ip.config.speed.AngleSpeedConfig;
 import net.lopymine.ip.controller.IController;
 import net.lopymine.ip.debug.HideInDebugRender;
 import net.lopymine.ip.element.base.*;
@@ -25,6 +25,9 @@ public class SpeedInAngleDirectionController<T extends IMovableElement & IRotata
 	}
 
 	private void controlSpeed(T element, float multiplier) {
+		if (multiplier == 0.0F) {
+			return;
+		}
 		float angle = element.getAngle();
 		element.setSpeedX(element.getSpeedX() - (float) (Math.sin(-Math.toRadians(angle)) * multiplier));
 		element.setSpeedY(element.getSpeedY() - (float) (Math.cos(-Math.toRadians(angle)) * multiplier));

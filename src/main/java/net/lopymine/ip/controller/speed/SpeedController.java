@@ -8,9 +8,7 @@ public class SpeedController extends AbstractSpeedController<IMovableElement> {
 
 	public SpeedController(SpeedConfig config, Random random, float cursorSpeed) {
 		super(config, random);
-		if (config.isInheritCursorImpulse()) {
-			this.speed += cursorSpeed;
-		}
+		this.speed += (cursorSpeed * config.getCursorImpulseInheritCoefficient());
 	}
 
 }
