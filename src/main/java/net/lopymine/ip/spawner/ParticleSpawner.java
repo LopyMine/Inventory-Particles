@@ -5,6 +5,7 @@ import java.util.function.*;
 import lombok.*;
 import net.lopymine.ip.config.color.IParticleColorType;
 import net.lopymine.ip.config.range.IntegerRange;
+import net.lopymine.ip.controller.color.ColorController;
 import net.lopymine.ip.element.*;
 import net.lopymine.ip.element.base.TickElement;
 import net.lopymine.ip.predicate.IParticlePredicate;
@@ -87,7 +88,7 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 			consumer.accept(particle);
 
 			this.offsetParticlePos(particle);
-			this.setParticleColor(particle, cursor);
+			this.setParticleColorController(particle, cursor);
 
 			particles.add(particle);
 		}
@@ -95,10 +96,11 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 		return particles;
 	}
 
-	private void setParticleColor(InventoryParticle particle, InventoryCursor cursor) {
+	private void setParticleColorController(InventoryParticle particle, InventoryCursor cursor) {
 		ItemStack currentItem = cursor.getCurrentStack();
-		int color = this.colorType.getColor(currentItem, particle.getRandom());
-		particle.setColor(color);
+		IParticleColorType type = this.colorType.copy();
+		type.compile(currentItem, particle.getRandom());
+		particle.setColorController(new ColorController<>(type));
 	}
 
 	private void offsetParticlePos(InventoryParticle particle) {

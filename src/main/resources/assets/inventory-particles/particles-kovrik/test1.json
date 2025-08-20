@@ -28,18 +28,20 @@
 					}
 				}
 			],
-			"color": "nbt",
+			"color": {
+				"mode": "...",
+				"values": ["nbt", "#11223344"],
+				"speed": 1
+			},
+			"spawn": {
+				"area": "inventory-particles:spawn_areas/test2.png",
+				"count": [0, 1],
+				"frequency": [20, 40]
+			},
 			"spawn_area": "inventory-particles:spawn_areas/test2.png",
-			"spawn_count": [
-				0,
-				1
-			],
-			"frequency": [
-				20,
-				40
-			],
-			"speed_coefficient": 0.1,
-			"delta_coefficient": 1
+			"spawn_count": [0, 1],
+			"spawn_frequency": [20, 40],
+			"speed_coefficient": 0.1
 		},
 		{
 			"item": "minecraft:crossbow",

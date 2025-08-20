@@ -1,17 +1,36 @@
 package net.lopymine.ip.config.color;
 
 import java.util.*;
+import lombok.*;
+import net.lopymine.ip.utils.ArgbUtils;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.*;
 import net.minecraft.item.*;
 import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.random.Random;
 
+@Getter
+@Setter
 public class NbtParticleColorType implements IParticleColorType {
 
+	private int color;
+
 	@Override
-	public int getColor(ItemStack stack, Random random) {
+	public int tick(Random random) {
+		return this.color;
+	}
+
+	@Override
+	public IParticleColorType copy() {
+		return new NbtParticleColorType();
+	}
+
+	@Override
+	public void compile(ItemStack stack, Random random) {
+		this.color = getColorFromStack(stack);
+	}
+
+	private static int getColorFromStack(ItemStack stack) {
 		if (stack.isOf(Items.POTION) ||
 				stack.isOf(Items.LINGERING_POTION) ||
 				stack.isOf(Items.SPLASH_POTION) ||
@@ -50,20 +69,9 @@ public class NbtParticleColorType implements IParticleColorType {
 			return -1;
 		}
 
-		int red = 0;
-		int green = 0;
-		int blue = 0;
-		int count = 0;
-
-		for (Integer color : component.colors()) {
-			red += ColorHelper.getRed(color);
-			green += ColorHelper.getGreen(color);
-			blue += ColorHelper.getBlue(color);
-			count++;
-		}
-
-		return ColorHelper.getArgb(red / count, green / count, blue / count);
+		return ArgbUtils.mix(component.colors().toArray(Integer[]::new));
 	}
+
 	private static int getColorFromPotionContentsStack(ItemStack stack) {
 		PotionContentsComponent component = stack.getComponents().get(DataComponentTypes.POTION_CONTENTS);
 		if (component == null) {
@@ -77,11 +85,16 @@ public class NbtParticleColorType implements IParticleColorType {
 		if (component == null) {
 			return -1;
 		}
-		return ColorHelper.fullAlpha(component.rgb());
+		return ArgbUtils.fullAlpha(component.rgb());
 	}
 
 	@Override
-	public String getAsString() {
+	public String asString() {
 		return "nbt";
+	}
+
+	@Override
+	public String toString() {
+		return this.getString(this.color);
 	}
 }

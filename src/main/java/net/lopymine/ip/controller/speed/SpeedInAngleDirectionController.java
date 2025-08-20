@@ -1,27 +1,21 @@
 package net.lopymine.ip.controller.speed;
 
-import net.lopymine.ip.config.speed.AngleSpeedConfig;
+import net.lopymine.ip.config.speed.SpeedConfig;
 import net.lopymine.ip.controller.IController;
 import net.lopymine.ip.debug.HideInDebugRender;
 import net.lopymine.ip.element.base.*;
 import net.minecraft.util.math.random.Random;
 
-public class SpeedInAngleDirectionController<T extends IMovableElement & IRotatableElement> implements IController<T> {
+public class SpeedInAngleDirectionController<T extends IMovableElement & IRotatableElement> extends AbstractSpeedController<T> {
 
-	@HideInDebugRender
-	private final AngleSpeedConfig config;
-	@HideInDebugRender
-	private final Random random;
-
-	public SpeedInAngleDirectionController(AngleSpeedConfig config, Random random,T element) {
-		this.config = config;
-		this.random = random;
-		this.controlSpeed(element, config.getImpulseBidirectional(random));
+	public SpeedInAngleDirectionController(SpeedConfig config, Random random) {
+		super(config, random);
 	}
 
 	@Override
 	public void tick(T element) {
-		this.controlSpeed(element, this.config.getAccelerationBidirectional(this.random));
+		super.tick(element);
+		this.controlSpeed(element, this.speed);
 	}
 
 	private void controlSpeed(T element, float multiplier) {

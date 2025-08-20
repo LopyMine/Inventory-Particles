@@ -1,17 +1,27 @@
 package net.lopymine.ip.config.color;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.random.Random;
 
 public class StandardParticleColorType implements IParticleColorType {
 
 	@Override
-	public int getColor(ItemStack stack, Random random) {
+	public int tick(Random random) {
 		return -1;
 	}
 
 	@Override
-	public String getAsString() {
-		return "";
+	public IParticleColorType copy() {
+		return new StandardParticleColorType();
 	}
+
+	@Override
+	public String asString() {
+		return "standard";
+	}
+
+	@Override
+	public String toString() {
+		return this.getString(-1);
+	}
+
 }

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import lombok.*;
 import net.lopymine.ip.config.particle.*;
 import net.lopymine.ip.config.particle.ParticlePhysics.*;
+import net.lopymine.ip.controller.color.ColorController;
 import net.lopymine.ip.controller.speed.*;
 import net.lopymine.ip.debug.HideInDebugRender;
 import net.lopymine.ip.element.base.*;
@@ -21,7 +22,7 @@ import org.jetbrains.annotations.*;
 
 @Setter
 @Getter
-public class InventoryParticle extends TickElement implements ISelectableElement, IHoverableElement, IMovableElement, IRotatableElement, IRepaintable {
+public class InventoryParticle extends TickElement implements ISelectableElement, IHoverableElement, IMovableElement, IRotatableElement, IRepaintable, IRandomizable {
 
 	@HideInDebugRender
 	private final Random random = Random.create();
@@ -30,6 +31,9 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 	private final float standardParticleAngle;
 	private final float standardTextureAngle;
 	private final IParticleTextureProvider textureProvider;
+
+	@Nullable
+	private ColorController<InventoryParticle> colorController;
 
 	private final SpeedController xSpeedController;
 	private final SpeedController ySpeedController;
@@ -71,18 +75,20 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 		this.lastY = this.y;
 
 		ParticlePhysics physics = config.getPhysics();
-
 		BasePhysics base = physics.getBase();
-		this.xSpeedController = new SpeedController(base.getXSpeed(), this.random, cursor.getSpeedX());
-		this.ySpeedController = new SpeedController(base.getYSpeed(), this.random, cursor.getSpeedY());
-		this.speedInAngleDirectionController = new SpeedInAngleDirectionController<>(base.getAngleSpeed(), this.random, this);
-
 		RotationSpeedPhysics rotation = physics.getRotation();
-		this.particleRotationSpeedController = new RotationSpeedController<>(rotation.getParticleRotationConfig(), this.random);
-		this.textureRotationSpeedController = new RotationSpeedController<>(rotation.getTextureRotationConfig(), this.random);
 
 		this.standardParticleAngle = rotation.getParticleRotationConfig().getSpawnAngle().getRandom(this.random);
+		this.particleAngle = this.standardParticleAngle;
 		this.standardTextureAngle  = rotation.getTextureRotationConfig().getSpawnAngle().getRandom(this.random);
+		this.textureAngle = this.standardTextureAngle;
+
+		this.xSpeedController = new SpeedController(base.getXSpeed(), this.random, cursor.getSpeedX());
+		this.ySpeedController = new SpeedController(base.getYSpeed(), this.random, cursor.getSpeedY());
+		this.speedInAngleDirectionController = new SpeedInAngleDirectionController<>(base.getAngleSpeed(), this.random);
+
+		this.particleRotationSpeedController = new RotationSpeedController<>(rotation.getParticleRotationConfig(), this.random);
+		this.textureRotationSpeedController = new RotationSpeedController<>(rotation.getTextureRotationConfig(), this.random);
 	}
 
 	public void tick() {
@@ -98,6 +104,10 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 			return;
 		}
 
+		if (this.colorController != null) {
+			this.colorController.tick(this);
+		}
+
 		this.xSpeedController.tick(this);
 		this.speedX = this.xSpeedController.getSpeed();
 
@@ -106,17 +116,19 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 
 		this.particleRotationSpeedController.tick(this);
 		this.lastParticleAngle = this.particleAngle;
-		this.particleAngle = this.particleRotationSpeedController.isRotateInMovementDirection() ?
-				this.particleRotationSpeedController.getRotation()
-				:
-				(this.standardParticleAngle + this.particleRotationSpeedController.getSpeed()) % 360F;
+		if (this.particleRotationSpeedController.isRotateInMovementDirection()) {
+			this.particleAngle = this.particleRotationSpeedController.getRotation();
+		} else {
+			this.particleAngle = (this.particleAngle + this.particleRotationSpeedController.getSpeed()) % 360F;
+		}
 
 		this.textureRotationSpeedController.tick(this);
 		this.lastTextureAngle = this.textureAngle;
-		this.textureAngle = this.textureRotationSpeedController.isRotateInMovementDirection() ?
-				this.textureRotationSpeedController.getRotation()
-				:
-				(this.standardTextureAngle + this.textureRotationSpeedController.getSpeed()) % 360F;
+		if (this.textureRotationSpeedController.isRotateInMovementDirection()) {
+			this.textureAngle = this.textureRotationSpeedController.getRotation();
+		} else {
+			this.textureAngle = (this.textureAngle + this.textureRotationSpeedController.getSpeed()) % 360F;
+		}
 
 		if (this.speedInAngleDirectionController != null) {
 			this.speedInAngleDirectionController.tick(this);
@@ -159,7 +171,7 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 		float halfSize = size / 2F;
 		matrices.translate(x, y, 500F);
 		matrices.translate(halfSize, halfSize, 0F);
-		matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((this.particleAngle + this.textureAngle) % 360F));
+		matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((this.standardTextureAngle + this.textureAngle) % 360F));
 		matrices.translate(-halfSize, -halfSize, 0F);
 		if (bl) {
 			matrices.translate(-halfSize, -halfSize, 0F);
@@ -171,7 +183,7 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 	}
 
 	public float getAngle() {
-		return this.particleAngle;
+		return this.standardParticleAngle + this.particleAngle;
 	}
 
 	@Override

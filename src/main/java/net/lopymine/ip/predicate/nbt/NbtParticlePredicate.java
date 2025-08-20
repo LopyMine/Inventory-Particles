@@ -56,8 +56,39 @@ public record NbtParticlePredicate(HashSet<NbtNode> nodes, NbtNodeMatch match) i
 	}
 
 	private ReadResult readElementByType(NbtElement element, NbtNode node) {
-		List<String> findValues = node.getCheckValue().orElse(new ArrayList<>());
+		List<String> checkValues = node.getCheckValue().orElse(new ArrayList<>());
 		List<NbtNode> nodes = node.getNext().orElse(new ArrayList<>());
+
+		if (checkValues.isEmpty() && nodes.isEmpty()) {
+			return switch (node.getType()) {
+				case OBJECT -> element instanceof NbtCompound;
+				case LIST -> element instanceof NbtList;
+				case STRING -> element instanceof NbtString;
+				case INT -> element instanceof NbtInt;
+			} ? ReadResult.SUCCESS : ReadResult.FAILED;
+		}
+
+		boolean valueCheckedIfPresent = true; // true by default
+
+		if (!checkValues.isEmpty()) {
+			valueCheckedIfPresent = switch (node.getType()) {
+				case STRING, INT -> {
+					if (element instanceof NbtString || element instanceof NbtInt) {
+						String string = element.asString();
+						for (String findValue : checkValues) {
+							if (findValue.equals(string)) {
+								yield true;
+							}
+						}
+					}
+					yield false; // this means that element found, but with wrong value
+				}
+				case OBJECT, LIST -> true; // skip it
+			};
+			if (nodes.isEmpty()) {
+				return valueCheckedIfPresent ? ReadResult.SUCCESS : ReadResult.FAILED;
+			}
+		}
 
 		Stream<ReadResult> stream = nodes.stream().map((nextNode) -> {
 			switch (node.getType()) {
@@ -81,18 +112,6 @@ public record NbtParticlePredicate(HashSet<NbtNode> nodes, NbtNodeMatch match) i
 					}
 					return ReadResult.FAILED;
 				}
-				case STRING, INT -> {
-					if (element instanceof NbtString || element instanceof NbtInt) {
-						String string = element.asString();
-						for (String findValue : findValues) {
-							if (findValue.equals(string)) {
-								return ReadResult.SUCCESS;
-							}
-						}
-						return findValues.isEmpty() ? ReadResult.SUCCESS : ReadResult.FAILED;
-					}
-					return ReadResult.FAILED;
-				}
 			}
 			return ReadResult.FAILED;
 		});
@@ -103,7 +122,7 @@ public record NbtParticlePredicate(HashSet<NbtNode> nodes, NbtNodeMatch match) i
 			case ANY -> stream.anyMatch((result) -> result == ReadResult.SUCCESS);
 		};
 
-		return bl ? ReadResult.SUCCESS : ReadResult.FAILED;
+		return bl && valueCheckedIfPresent ? ReadResult.SUCCESS : ReadResult.FAILED;
 	}
 
 	private enum ReadResult {

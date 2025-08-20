@@ -1,5 +1,6 @@
 package net.lopymine.ip.config.particle;
 
+import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.*;
@@ -8,6 +9,8 @@ import lombok.*;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.config.CachedItem;
 import net.lopymine.ip.config.color.*;
+import net.lopymine.ip.config.color.advanced.*;
+import net.lopymine.ip.config.color.advanced.mode.*;
 import net.lopymine.ip.config.range.IntegerRange;
 import net.lopymine.ip.element.*;
 import net.lopymine.ip.predicate.nbt.*;
@@ -21,6 +24,36 @@ public class ParticleHolder {
 
 	public static final Identifier STANDARD_SPAWN_AREA = InventoryParticles.id("spawn_areas/standard.png");
 
+	public static final Codec<IParticleColorType> STANDARD_AND_LIST_COLOR_TYPE_CODEC = Codec.either(IParticleColorType.CODEC, IParticleColorType.CODEC.listOf())
+			.xmap((either) -> {
+				Optional<List<IParticleColorType>> right = either.right();
+				if (right.isPresent()) {
+					return new AdvancedParticleColorType(new AdvancedParticleColorTypeRandomStaticMode(), right.get(), 0);
+				}
+				Optional<IParticleColorType> left = either.left();
+				return left.orElse(null);
+			}, (type) -> {
+				if (type instanceof AdvancedParticleColorType advancedType) {
+					return Either.right(advancedType.getValues());
+				}
+				return Either.left(type);
+			});
+
+	public static final Codec<IParticleColorType> STANDARD_AND_ADVANCED_COLOR_TYPE_CODEC = Codec.either(AdvancedParticleColorType.CODEC, STANDARD_AND_LIST_COLOR_TYPE_CODEC)
+			.xmap((either) -> {
+				Optional<IParticleColorType> right = either.right();
+				if (right.isPresent()) {
+					return right.get();
+				}
+				Optional<AdvancedParticleColorType> left = either.left();
+				return left.orElse(null);
+			}, (type) -> {
+				if (type instanceof AdvancedParticleColorType advancedType) {
+					return Either.left(advancedType);
+				}
+				return Either.right(type);
+			});
+
 	public static final Codec<ParticleHolder> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			option("item", new CachedItem(), CachedItem.CODEC, ParticleHolder::getItem),
 			option("nbt_conditions_match", NbtNodeMatch.ANY, NbtNodeMatch.CODEC, ParticleHolder::getMatch),
@@ -28,7 +61,7 @@ public class ParticleHolder {
 			option("spawn_area", STANDARD_SPAWN_AREA, Identifier.CODEC, ParticleHolder::getSpawnArea),
 			option("spawn_count", new IntegerRange(), IntegerRange.CODEC, ParticleHolder::getSpawnCount),
 			option("spawn_frequency", new IntegerRange(), IntegerRange.CODEC, ParticleHolder::getSpawnFrequency),
-			option("color", new StandardParticleColorType(), IParticleColorType.CODEC, ParticleHolder::getColor),
+			option("color", new StandardParticleColorType(), STANDARD_AND_ADVANCED_COLOR_TYPE_CODEC, ParticleHolder::getColor),
 			option("speed_coefficient", 0.0F, Codec.FLOAT, ParticleHolder::getSpeedCoefficient)
 	).apply(instance, ParticleHolder::new));
 

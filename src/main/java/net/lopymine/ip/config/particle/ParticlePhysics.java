@@ -31,12 +31,12 @@ public class ParticlePhysics {
 		public static final Codec<BasePhysics> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 				option("x_speed", SpeedConfig.getNewInstance(), SpeedConfig.CODEC, BasePhysics::getXSpeed),
 				option("y_speed", SpeedConfig.getNewInstance(), SpeedConfig.CODEC, BasePhysics::getYSpeed),
-				option("angle_speed", AngleSpeedConfig.getNewInstance(), AngleSpeedConfig.CODEC, BasePhysics::getAngleSpeed)
+				option("angle_speed", SpeedConfig.getNewInstance(), SpeedConfig.CODEC, BasePhysics::getAngleSpeed)
 		).apply(instance, BasePhysics::new));
 
 		private SpeedConfig xSpeed;
 		private SpeedConfig ySpeed;
-		private AngleSpeedConfig angleSpeed;
+		private SpeedConfig angleSpeed;
 
 		public static BasePhysics getNewInstance() {
 			return CodecUtils.parseNewInstanceHacky(CODEC);
