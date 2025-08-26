@@ -50,7 +50,26 @@ public class NbtListParticleColorType implements IParticleColorType, IListPartic
 			return getColorFromFireworkExplosionStack(stack);
 		}
 
+		if (stack.isOf(Items.FIREWORK_ROCKET)) {
+			return getColorFromFirework(stack);
+		}
+
 		return NO_COLOR;
+	}
+
+	private static Integer[] getColorFromFirework(ItemStack stack) {
+		FireworksComponent component = stack.getComponents().get(DataComponentTypes.FIREWORKS);
+		if (component == null) {
+			return NO_COLOR;
+		}
+
+		Integer[][] colors = new Integer[component.explosions().size()][];
+
+		for (int i = 0; i < component.explosions().size(); i++) {
+			colors[i] = getColorFromFireworkExplosionStack(component.explosions().get(i));
+		}
+
+		return Arrays.stream(colors).flatMap(Arrays::stream).toArray(Integer[]::new);
 	}
 
 	private static Integer[] getColorFromFireworkExplosionStack(ItemStack stack) {
@@ -58,7 +77,10 @@ public class NbtListParticleColorType implements IParticleColorType, IListPartic
 		if (component == null) {
 			return NO_COLOR;
 		}
+		return getColorFromFireworkExplosionStack(component);
+	}
 
+	private static Integer[] getColorFromFireworkExplosionStack(FireworkExplosionComponent component) {
 		Integer[] colors = new Integer[component.colors().size()];
 
 		for (int i = 0; i < component.colors().size(); i++) {
@@ -79,6 +101,9 @@ public class NbtListParticleColorType implements IParticleColorType, IListPartic
 		effects.forEach((effect) -> {
 			colors.add(notZeroAlpha(effect.getEffectType().value().getColor()));
 		});
+		if (colors.isEmpty()) {
+			return new Integer[]{-13083194};
+		}
 		return colors.toArray(Integer[]::new);
 	}
 

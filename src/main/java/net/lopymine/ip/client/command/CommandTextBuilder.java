@@ -1,12 +1,23 @@
 package net.lopymine.ip.client.command;
 
+import java.util.*;
 import net.lopymine.ip.InventoryParticles;
+import net.minecraft.dialog.type.Dialog;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.*;
+import net.minecraft.text.ClickEvent.*;
 import net.minecraft.text.HoverEvent.*;
 import net.minecraft.text.HoverEvent.Action;
 
-import java.util.UUID;
+//? if >=1.21.5 {
+import java.io.File;
+import java.net.URI;
+import java.nio.file.Path;
+//?}
+
+import net.minecraft.util.Identifier;
 
 public class CommandTextBuilder {
 
@@ -69,23 +80,24 @@ public class CommandTextBuilder {
 		return this;
 	}
 
-	public static <T> HoverEvent getHoverEvent(Action/*? <=1.21.4 {*/<T>/*?}*/ action, T value) {
+	public static <T> HoverEvent getHoverEvent(Action/*? <=1.21.4 {*//*<T>*//*?}*/ action, T value) {
 		//? <=1.21.4 {
-		return new HoverEvent(action, value);
-		/*?} else {*/
-		/*return switch (action) {
+		/*return new HoverEvent(action, value);
+		*//*?} else {*/
+		return switch (action) {
 			case SHOW_TEXT -> new ShowText((Text) value);
 			case SHOW_ITEM -> new ShowItem((ItemStack) value);
 			case SHOW_ENTITY -> new ShowEntity((EntityContent) value);
 		};
-		*//*?}*/
+		/*?}*/
 	}
 
+	@SuppressWarnings("unchecked")
 	public static ClickEvent getClickEvent(ClickEvent.Action action, Object value) {
 		//? <=1.21.4 {
-		return new ClickEvent(action, (String) value);
-		/*?} else {*/
-		/*return switch (action) {
+		/*return new ClickEvent(action, (String) value);
+		*//*?} else {*/
+		return switch (action) {
 			case OPEN_URL -> new OpenUrl((URI) value);
 			case RUN_COMMAND -> new RunCommand((String) value);
 			case SUGGEST_COMMAND -> new SuggestCommand((String) value);
@@ -100,8 +112,12 @@ public class CommandTextBuilder {
 				}
 				yield new OpenFile((String) value);
 			}
+			//? if >=1.21.6 {
+			case CUSTOM -> new Custom((Identifier) value, Optional.empty());
+			case SHOW_DIALOG -> new ShowDialog((RegistryEntry<Dialog>) value);
+			//?}
 		};
-		*//*?}*/
+		/*?}*/
 	}
 
 	public Text build() {

@@ -6,7 +6,7 @@ import net.lopymine.ip.element.base.*;
 import net.minecraft.util.math.random.Random;
 
 @Getter
-public class RotationSpeedController<T extends IRotatableElement & IMovableElement> extends AbstractSpeedController<T> {
+public class RotationSpeedController<T extends IRotatableElement & IMovableElement> extends AbstractSpeedController<RotationSpeedController<T>, T> {
 
 	private final boolean rotateInMovementDirection;
 	private float rotation;

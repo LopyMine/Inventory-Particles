@@ -8,7 +8,7 @@ import net.lopymine.ip.config.range.IntegerRange;
 import net.lopymine.ip.controller.color.ColorController;
 import net.lopymine.ip.element.*;
 import net.lopymine.ip.element.base.TickElement;
-import net.lopymine.ip.predicate.IParticlePredicate;
+import net.lopymine.ip.predicate.IParticleSpawnPredicate;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.random.Random;
@@ -26,11 +26,11 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 	private final IntegerRange frequencyRange;
 	private final float speedCoefficient;
 	private final IParticleColorType colorType;
-	private final IParticlePredicate spawnCondition;
+	private final IParticleSpawnPredicate spawnCondition;
 	private final Function<InventoryCursor, InventoryParticle> function;
 	private int nextSpawnTicks = 0;
 
-	public ParticleSpawner(Identifier spawnArea, IntegerRange countRange, IntegerRange frequencyRange, float speedCoefficient, IParticleColorType colorType, IParticlePredicate spawnCondition, Function<InventoryCursor, InventoryParticle> function) {
+	public ParticleSpawner(Identifier spawnArea, IntegerRange countRange, IntegerRange frequencyRange, float speedCoefficient, IParticleColorType colorType, IParticleSpawnPredicate spawnCondition, Function<InventoryCursor, InventoryParticle> function) {
 		this.spawnArea        = ParticleSpawnArea.readFromTexture(spawnArea);
 		this.countRange       = countRange;
 		this.frequencyRange   = frequencyRange;
@@ -106,8 +106,8 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 	private void offsetParticlePos(InventoryParticle particle) {
 		IParticleSpawnPos particleSpawnPos = this.spawnArea == null ? null : this.spawnArea.getRandomPos(particle.getRandom());
 		if (particleSpawnPos != null) {
-			particle.setX(particle.getX() - 7.5F - particleSpawnPos.getXOffset() + particleSpawnPos.x());
-			particle.setY(particle.getY() - 7.5F - particleSpawnPos.getYOffset() + particleSpawnPos.y());
+			particle.setX(particle.getX() - (particle.getWidth() - 0.5F) - particleSpawnPos.getXOffset() + particleSpawnPos.x());
+			particle.setY(particle.getY() - (particle.getHeight() - 0.5F) - particleSpawnPos.getYOffset() + particleSpawnPos.y());
 		} else {
 			particle.setX(particle.getX() + particle.getRandom().nextBetween(-4, 4));
 			particle.setY(particle.getY() + particle.getRandom().nextBetween(-4, 4));

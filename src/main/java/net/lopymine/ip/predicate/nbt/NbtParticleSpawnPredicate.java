@@ -3,12 +3,13 @@ package net.lopymine.ip.predicate.nbt;
 import java.util.*;
 import java.util.stream.Stream;
 import net.lopymine.ip.client.InventoryParticlesClient;
-import net.lopymine.ip.predicate.IParticlePredicate;
+import net.lopymine.ip.predicate.IParticleSpawnPredicate;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 
-public record NbtParticlePredicate(HashSet<NbtNode> nodes, NbtNodeMatch match) implements IParticlePredicate {
+public record NbtParticleSpawnPredicate(HashSet<NbtNode> nodes, NbtNodeMatch match) implements IParticleSpawnPredicate {
 
 	@Override
 	public boolean test(ItemStack stack) {
@@ -17,11 +18,12 @@ public record NbtParticlePredicate(HashSet<NbtNode> nodes, NbtNodeMatch match) i
 		}
 		try {
 			MinecraftClient client = MinecraftClient.getInstance();
-			if (client.player == null) {
+			ClientPlayerEntity player = client.player;
+			if (player == null) {
 				return false;
 			}
 
-			NbtElement nbt = stack.toNbt(client.player.getRegistryManager());
+			NbtElement nbt = ItemStack.CODEC.encodeStart(player.getRegistryManager().getOps(NbtOps.INSTANCE), stack).getOrThrow();
 			if (!(nbt instanceof NbtCompound root)){
 				return false;
 			}
@@ -49,7 +51,7 @@ public record NbtParticlePredicate(HashSet<NbtNode> nodes, NbtNodeMatch match) i
 				case NONE -> success == 0;
 			};
 		} catch (Exception e) {
-			InventoryParticlesClient.LOGGER.error("Failed to read nbt from item \"{}\" for NbtParticlePredicate! Reason:", stack.getItemName().getString(), e);
+			InventoryParticlesClient.LOGGER.error("Failed to read nbt from item \"{}\" for NbtParticleSpawnPredicate! Reason:", stack.getItemName().getString(), e);
 		}
 
 		return true;
@@ -74,7 +76,14 @@ public record NbtParticlePredicate(HashSet<NbtNode> nodes, NbtNodeMatch match) i
 			valueCheckedIfPresent = switch (node.getType()) {
 				case STRING, INT -> {
 					if (element instanceof NbtString || element instanceof NbtInt) {
-						String string = element.asString();
+						//? if <=1.21.7 {
+						/*String string = element.asString();
+						*///?} else {
+						String string = element.asString().orElse(null);
+						if (string == null) {
+							yield false;
+						}
+						//?}
 						for (String findValue : checkValues) {
 							if (findValue.equals(string)) {
 								yield true;
@@ -117,7 +126,7 @@ public record NbtParticlePredicate(HashSet<NbtNode> nodes, NbtNodeMatch match) i
 		});
 
 		boolean bl = switch (node.getNextMatchType()) {
-			case NONE -> stream.noneMatch((result) -> result != ReadResult.SUCCESS);
+			case NONE -> stream.noneMatch((result) -> result == ReadResult.SUCCESS);
 			case ALL -> stream.allMatch((result) -> result == ReadResult.SUCCESS);
 			case ANY -> stream.anyMatch((result) -> result == ReadResult.SUCCESS);
 		};

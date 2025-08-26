@@ -12,20 +12,40 @@
 			"item": "minecraft:stone_sword",
 			"nbt_conditions": [
 				{
-					"name": "components",
-					"type": "object",
-					"next": {
-						"name": "minecraft:enchantments",
-						"type": "object",
-						"next": {
-							"name": "levels",
-							"type": "object",
+					"this_name": "components",
+					"this_type": "object",
+					"next": [
+						{
+							"this_name": "minecraft:block_state",
+							"this_type": "object",
+							"next": [
+								{
+									"this_name": "level",
+									"this_type": "String",
+									"check_value": "10"
+								},
+								{
+									"this_name": "level",
+									"this_type": "String",
+									"check_value": "11"
+								},
+								{
+									"this_name": "level",
+									"this_type": "String",
+									"check_value": "12"
+								}
+							]
+						},
+						{
+							"this_name": "minecraft:block_state",
+							"this_type": "object",
+							"next_match": "none",
 							"next": {
-								"name": "minecraft:sharpness",
-								"type": "int"
+								"this_name": "level",
+								"this_type": "string"
 							}
 						}
-					}
+					]
 				}
 			],
 			"color": {

@@ -1,9 +1,12 @@
 package net.lopymine.ip.config.particle;
 
+import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.*;
+import java.util.stream.Collectors;
 import lombok.*;
+import net.lopymine.ip.config.misc.Integer2ParticleSize;
 import net.lopymine.ip.element.*;
 import net.minecraft.util.Identifier;
 import static net.lopymine.ip.utils.CodecUtils.option;
@@ -12,10 +15,16 @@ import static net.lopymine.ip.utils.CodecUtils.option;
 @AllArgsConstructor
 public class ParticleConfig {
 
+	public static final Codec<DynamicParticleSize> DYNAMIC_PARTICLE_SIZE_CODEC = Codec.either(DynamicParticleSize.CODEC, ParticleSize.CODEC)
+			.xmap((either) -> {
+				return either.left().orElseGet(() -> either.right().map(DynamicParticleSize::single).orElse(null));
+			}, Either::left);
+
 	public static final Codec<ParticleConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			option("life_time", 0, Codec.INT, ParticleConfig::getLifeTimeTicks),
 			option("animation_type", ParticleAnimationType.RANDOM, ParticleAnimationType.CODEC, ParticleConfig::getAnimationType),
 			option("animation_speed", 1.0F, Codec.FLOAT, ParticleConfig::getAnimationSpeed),
+			option("size", DynamicParticleSize.STANDARD, DYNAMIC_PARTICLE_SIZE_CODEC, ParticleConfig::getSize),
 			option("textures", new ArrayList<>(), Identifier.CODEC, ParticleConfig::getTextures),
 			option("holders", new HashSet<>(), ParticleHolder.CODEC, ParticleConfig::getHolders),
 			option("physics", ParticlePhysics.getNewInstance(), ParticlePhysics.CODEC, ParticleConfig::getPhysics)
@@ -24,6 +33,7 @@ public class ParticleConfig {
 	private int lifeTimeTicks;
 	private ParticleAnimationType animationType;
 	private float animationSpeed;
+	private DynamicParticleSize size;
 	private ArrayList<Identifier> textures;
 	private HashSet<ParticleHolder> holders;
 	private ParticlePhysics physics;

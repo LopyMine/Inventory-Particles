@@ -80,7 +80,7 @@ public class ParticleHolder {
 				this.spawnFrequency,
 				this.speedCoefficient,
 				this.color,
-				new NbtParticlePredicate(this.nbtCondition, this.match),
+				new NbtParticleSpawnPredicate(this.nbtCondition, this.match),
 				function
 		);
 	}

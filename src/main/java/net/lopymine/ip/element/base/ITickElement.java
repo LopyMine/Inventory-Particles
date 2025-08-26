@@ -4,4 +4,6 @@ public interface ITickElement {
 
 	void tick();
 
+	int getTicks();
+
 }

@@ -13,6 +13,8 @@ import net.minecraft.util.math.random.Random;
 @Setter
 public class NbtParticleColorType implements IParticleColorType {
 
+	public static final int NO_COLOR = -1;
+
 	private int color;
 
 	@Override
@@ -42,11 +44,11 @@ public class NbtParticleColorType implements IParticleColorType {
 		if (stack.isOf(Items.CROSSBOW)) {
 			ChargedProjectilesComponent component = stack.getComponents().get(DataComponentTypes.CHARGED_PROJECTILES);
 			if (component == null) {
-				return -1;
+				return NO_COLOR;
 			}
 			List<ItemStack> projectiles = component.getProjectiles();
 			if (projectiles.isEmpty()) {
-				return -1;
+				return NO_COLOR;
 			}
 			ItemStack itemStack = projectiles.get(0);
 			return getColorFromPotionContentsStack(itemStack);
@@ -60,32 +62,68 @@ public class NbtParticleColorType implements IParticleColorType {
 			return getColorFromFireworkExplosionStack(stack);
 		}
 
-		return -1;
+		if (stack.isOf(Items.FIREWORK_ROCKET)) {
+			return getColorFromFirework(stack);
+		}
+
+		return NO_COLOR;
+	}
+
+	private static int getColorFromFirework(ItemStack stack) {
+		FireworksComponent component = stack.getComponents().get(DataComponentTypes.FIREWORKS);
+		if (component == null) {
+			return NO_COLOR;
+		}
+
+		Integer[] colors = new Integer[component.explosions().size()];
+
+		for (int i = 0; i < component.explosions().size(); i++) {
+			colors[i] = ArgbUtils.mix(getColorFromFireworkExplosionStack(component.explosions().get(i)));
+		}
+
+		return ArgbUtils.mix(colors);
 	}
 
 	private static int getColorFromFireworkExplosionStack(ItemStack stack) {
 		FireworkExplosionComponent component = stack.getComponents().get(DataComponentTypes.FIREWORK_EXPLOSION);
 		if (component == null) {
-			return -1;
+			return NO_COLOR;
+		}
+		return ArgbUtils.mix(getColorFromFireworkExplosionStack(component));
+	}
+
+	private static Integer[] getColorFromFireworkExplosionStack(FireworkExplosionComponent component) {
+		Integer[] colors = new Integer[component.colors().size()];
+
+		for (int i = 0; i < component.colors().size(); i++) {
+			colors[i] = notZeroAlpha(component.colors().getInt(i));
 		}
 
-		return ArgbUtils.mix(component.colors().toArray(Integer[]::new));
+		return colors;
 	}
 
 	private static int getColorFromPotionContentsStack(ItemStack stack) {
 		PotionContentsComponent component = stack.getComponents().get(DataComponentTypes.POTION_CONTENTS);
 		if (component == null) {
-			return -1;
+			return NO_COLOR;
 		}
-		return component.getColor(-1);
+		return notZeroAlpha(component.getColor());
 	}
 
 	private static int getColorFromDyedStack(ItemStack stack) {
 		DyedColorComponent component = stack.getComponents().get(DataComponentTypes.DYED_COLOR);
 		if (component == null) {
-			return -1;
+			return NO_COLOR;
 		}
-		return ArgbUtils.fullAlpha(component.rgb());
+		return notZeroAlpha(component.rgb());
+	}
+
+	private static int notZeroAlpha(int color) {
+		int alpha = ArgbUtils.getAlpha(color);
+		if (alpha == 0) {
+			return ArgbUtils.fullAlpha(color);
+		}
+		return color;
 	}
 
 	@Override

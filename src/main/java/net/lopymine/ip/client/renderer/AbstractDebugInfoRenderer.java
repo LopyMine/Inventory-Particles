@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 import java.util.stream.Stream.Builder;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.debug.*;
+import net.lopymine.ip.utils.ArgbUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -99,7 +100,7 @@ public abstract class AbstractDebugInfoRenderer {
 				label,
 				this.getTextX(screen, textRenderer, label),
 				this.getTextY(),
-				color.getColorValue() == null ? -1 : color.getColorValue(),
+				color.getColorValue() == null ? -1 : ArgbUtils.fullAlpha(color.getColorValue()),
 				true
 		);
 

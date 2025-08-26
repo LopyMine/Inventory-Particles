@@ -23,7 +23,9 @@ public class ScreenMixin {
 		if (!config.isDebugModeEnabled()) {
 			return;
 		}
+		context.createNewRootLayer();
 		InventoryParticlesClient.DEBUG_CURSOR_INFO_RENDERER.render(context);
 		InventoryParticlesClient.DEBUG_PARTICLE_INFO_RENDERER.render(context);
+		context.createNewRootLayer();
 	}
 }

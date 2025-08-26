@@ -29,7 +29,7 @@ public class NoConfigLibraryScreen {
 	private static void onConfirm(boolean open, Screen parent) {
 		if (open) {
 			try {
-				String url = NoConfigLibraryScreen.YACL_MODRINTH_LINK + SharedConstants.getGameVersion().getName();
+				String url = NoConfigLibraryScreen.YACL_MODRINTH_LINK + SharedConstants.getGameVersion()./*? if >=1.21.6 {*/ name() /*?} else {*//*getName()*//*?}*/;
 				URI link = new URI(url);
 				String string = link.getScheme();
 				if (string == null) {

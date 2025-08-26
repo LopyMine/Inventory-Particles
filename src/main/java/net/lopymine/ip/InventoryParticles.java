@@ -10,7 +10,7 @@ public class InventoryParticles implements ModInitializer {
 
 	public static final String MOD_NAME = /*$ mod_name*/ "Inventory Particles";
 	public static final String MOD_ID = /*$ mod_id*/ "inventory-particles";
-	public static final String YACL_DEPEND_VERSION = /*$ yacl*/ "3.6.6+1.21.4-fabric";
+	public static final String YACL_DEPEND_VERSION = /*$ yacl*/ "3.7.1+1.21.6-fabric";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
 
 	public static Identifier id(String path) {

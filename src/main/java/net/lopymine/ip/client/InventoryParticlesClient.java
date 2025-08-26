@@ -1,7 +1,6 @@
 package net.lopymine.ip.client;
 
 import net.lopymine.ip.client.renderer.*;
-import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.resourcepack.InventoryParticlesClientReloadListener;
 import org.slf4j.*;
 

@@ -18,6 +18,7 @@ public class SpeedConfig {
 			option("acceleration", 0.0F, Codec.FLOAT, SpeedConfig::getAcceleration),
 			option("acceleration_bidirectional", true, Codec.BOOL, SpeedConfig::isAccelerationBidirectional),
 			option("max", Float.MAX_VALUE, Codec.FLOAT, SpeedConfig::getMax),
+			option("max_bidirectional", true, Codec.BOOL, SpeedConfig::isMaxBidirectional),
 			option("braking", 0.0F, Codec.FLOAT, SpeedConfig::getBraking),
 			option("turbulence", new FloatRange(), FloatRange.CODEC, SpeedConfig::getTurbulence),
 			option("cursor_impulse_inherit_coefficient", 0.0F, Codec.FLOAT, SpeedConfig::getCursorImpulseInheritCoefficient)
@@ -28,6 +29,7 @@ public class SpeedConfig {
 	private float acceleration;
 	private boolean accelerationBidirectional;
 	private float max;
+	private boolean maxBidirectional;
 	private float braking;
 	private FloatRange turbulence;
 	private float cursorImpulseInheritCoefficient;
