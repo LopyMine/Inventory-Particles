@@ -105,12 +105,11 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 
 	private void offsetParticlePos(InventoryParticle particle) {
 		IParticleSpawnPos particleSpawnPos = this.spawnArea == null ? null : this.spawnArea.getRandomPos(particle.getRandom());
+		particle.setX(particle.getX() - 8F);
+		particle.setY(particle.getY() - 8F);
 		if (particleSpawnPos != null) {
-			particle.setX(particle.getX() - (particle.getWidth() - 0.5F) - particleSpawnPos.getXOffset() + particleSpawnPos.x());
-			particle.setY(particle.getY() - (particle.getHeight() - 0.5F) - particleSpawnPos.getYOffset() + particleSpawnPos.y());
-		} else {
-			particle.setX(particle.getX() + particle.getRandom().nextBetween(-4, 4));
-			particle.setY(particle.getY() + particle.getRandom().nextBetween(-4, 4));
+			particle.setX(particle.getX() - particleSpawnPos.getXOffset() + particleSpawnPos.x() - (particle.getWidth() / 2));
+			particle.setY(particle.getY() - particleSpawnPos.getYOffset() + particleSpawnPos.y() - (particle.getHeight() / 2));
 		}
 		particle.setLastX(particle.getX());
 		particle.setLastY(particle.getY());

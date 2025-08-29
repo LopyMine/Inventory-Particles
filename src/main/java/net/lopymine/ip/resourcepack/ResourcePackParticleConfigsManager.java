@@ -6,6 +6,7 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import net.lopymine.ip.InventoryParticles;
+import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.particle.*;
 import net.lopymine.ip.spawner.*;
@@ -26,7 +27,7 @@ public class ResourcePackParticleConfigsManager {
 		AtomicInteger foundConfigs = new AtomicInteger();
 		AtomicInteger registeredConfigs = new AtomicInteger();
 		resourceManager.streamResourcePacks().forEach((pack) -> {
-			pack.findResources(ResourceType.CLIENT_RESOURCES, InventoryParticles.MOD_ID, "particles", (id, suppler) -> {
+			pack.findResources(ResourceType.CLIENT_RESOURCES, InventoryParticles.MOD_ID, InventoryParticlesAtlasManager.FOLDER_ID.getPath(), (id, suppler) -> {
 				if (!id.getPath().endsWith(".json5") && !id.getPath().endsWith("json")) {
 					return;
 				}

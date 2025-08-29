@@ -1,5 +1,7 @@
 package net.lopymine.ip.client;
 
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.client.renderer.*;
 import net.lopymine.ip.resourcepack.InventoryParticlesClientReloadListener;
 import org.slf4j.*;
@@ -19,5 +21,8 @@ public class InventoryParticlesClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		LOGGER.info("{} Client Initialized", InventoryParticles.MOD_NAME);
 		InventoryParticlesClientReloadListener.register();
+		ClientLifecycleEvents.CLIENT_STOPPING.register((client) -> {
+			InventoryParticlesAtlasManager.getInstance().close();
+		});
 	}
 }

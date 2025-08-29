@@ -1,7 +1,7 @@
 package net.lopymine.ip.config.particle;
 
 import com.mojang.datafixers.util.Either;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.*;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.*;
 import java.util.function.Function;
@@ -54,11 +54,19 @@ public class ParticleHolder {
 				return Either.right(type);
 			});
 
+	public static final Codec<Identifier> SPAWN_AREA_CODEC = Codec.STRING.comapFlatMap((s) -> {
+		if (s.contains(":")) {
+			return Identifier.validate(s);
+		}
+		String path = s.endsWith(".png") ? s : s + ".png";
+		return DataResult.success(InventoryParticles.id("spawn_areas/" + path));
+	}, Identifier::toString);
+
 	public static final Codec<ParticleHolder> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			option("item", new CachedItem(), CachedItem.CODEC, ParticleHolder::getItem),
 			option("nbt_conditions_match", NbtNodeMatch.ANY, NbtNodeMatch.CODEC, ParticleHolder::getMatch),
 			option("nbt_conditions", new HashSet<>(), NbtNode.CODEC, ParticleHolder::getNbtCondition),
-			option("spawn_area", STANDARD_SPAWN_AREA, Identifier.CODEC, ParticleHolder::getSpawnArea),
+			option("spawn_area", STANDARD_SPAWN_AREA, SPAWN_AREA_CODEC, ParticleHolder::getSpawnArea),
 			option("spawn_count", new IntegerRange(), IntegerRange.CODEC, ParticleHolder::getSpawnCount),
 			option("spawn_frequency", new IntegerRange(), IntegerRange.CODEC, ParticleHolder::getSpawnFrequency),
 			option("color", new StandardParticleColorType(), STANDARD_AND_ADVANCED_COLOR_TYPE_CODEC, ParticleHolder::getColor),

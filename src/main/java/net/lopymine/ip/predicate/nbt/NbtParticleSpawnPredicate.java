@@ -75,19 +75,27 @@ public record NbtParticleSpawnPredicate(HashSet<NbtNode> nodes, NbtNodeMatch mat
 		if (!checkValues.isEmpty()) {
 			valueCheckedIfPresent = switch (node.getType()) {
 				case STRING, INT -> {
-					if (element instanceof NbtString || element instanceof NbtInt) {
+					String value = null;
+					if (element instanceof NbtString) {
+						//? if <=1.21.7 {
+						/*value = element.asString();
+						 *///?} else {
+						value = element.asString().orElse(null);
+						//?}
+					}
+					if (element instanceof NbtInt) {
 						//? if <=1.21.7 {
 						/*String string = element.asString();
-						*///?} else {
-						String string = element.asString().orElse(null);
-						if (string == null) {
-							yield false;
-						}
+						 *///?} else {
+						value = element.asInt().map(Object::toString).orElse(null);
 						//?}
-						for (String findValue : checkValues) {
-							if (findValue.equals(string)) {
-								yield true;
-							}
+					}
+					if (value == null) {
+						yield false;
+					}
+					for (String findValue : checkValues) {
+						if (findValue.equals(value)) {
+							yield true;
 						}
 					}
 					yield false; // this means that element found, but with wrong value

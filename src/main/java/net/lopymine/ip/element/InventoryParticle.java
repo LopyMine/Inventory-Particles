@@ -1,8 +1,8 @@
 package net.lopymine.ip.element;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import lombok.*;
 import lombok.experimental.ExtensionMethod;
+import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.config.particle.*;
 import net.lopymine.ip.config.particle.ParticlePhysics.*;
 import net.lopymine.ip.controller.color.ColorController;
@@ -16,14 +16,14 @@ import net.lopymine.ip.renderer.InventoryParticlesRenderer;
 import net.lopymine.ip.texture.IParticleTextureProvider;
 import net.lopymine.ip.utils.DrawUtils;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.texture.Sprite;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.*;
-import org.joml.Matrix3x2fStack;
 
 @Setter
 @Getter
@@ -50,11 +50,14 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 	private final RotationSpeedController<InventoryParticle> textureRotationSpeedController;
 
 	@NotNull
-	private Identifier texture;
+	private Sprite texture;
 	private int color = -1;
 
-	private float width = ParticleSize.STANDARD_SIZE.getWidth();
-	private float height = ParticleSize.STANDARD_SIZE.getHeight();
+	private float lastWidth = StaticParticleSize.STANDARD_SIZE.getWidth();
+	private float lastHeight = StaticParticleSize.STANDARD_SIZE.getHeight();
+
+	private float width = StaticParticleSize.STANDARD_SIZE.getWidth();
+	private float height = StaticParticleSize.STANDARD_SIZE.getHeight();
 
 	private float lastX;
 	private float lastY;
@@ -81,9 +84,9 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 
 		this.dynamicSizeController = new DynamicSizeController<>(config.getSize(), this);
 
-		this.x = cursor.getX() - 4F;
+		this.x = cursor.getX();
 		this.lastX = this.x;
-		this.y = cursor.getY() - 4F;
+		this.y = cursor.getY();
 		this.lastY = this.y;
 
 		ParticlePhysics physics = config.getPhysics();
@@ -166,35 +169,40 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 	public void render(DrawContext context, InventoryCursor cursor, float tickProgress) {
 		InventoryParticlesRenderer renderer = InventoryParticlesRenderer.getInstance();
 
-		float x = renderer.isStopTicking() ? this.x : MathHelper.lerp(tickProgress, this.lastX, this.x);
-		float y = renderer.isStopTicking() ? this.y : MathHelper.lerp(tickProgress, this.lastY, this.y);
+		float delta = (this.ticks + tickProgress) / this.lifeTimeTicks;
+		float renderWidth = renderer.isStopTicking() ? this.width : MathHelper.lerp(delta, this.lastWidth, this.width);
+		float renderHeight = renderer.isStopTicking() ? this.height : MathHelper.lerp(delta, this.lastHeight, this.height);
+
+		float x = renderer.isStopTicking() ? this.x : MathHelper.lerp(delta, this.lastX, this.x);
+		float y = renderer.isStopTicking() ? this.y : MathHelper.lerp(delta, this.lastY, this.y);
 
 		this.updateHovered(cursor, x, y, this.width, this.height);
 
 		boolean bl = (renderer.isStopTicking() && this.isHovered()) || this.isSelected();
 
-		int m = bl ? 4 : 1;
-
+		int m = bl ? 2 : 1;
 
 		//? if <=1.21.6 {
 		/*RenderSystem.enableDepthTest();
 		RenderSystem.enableBlend();
 		*///?}
 		
-		float width = this.width * m;
+		float width = (renderWidth * m);
 		float halfWidth = width / 2F;
-		float height = this.height * m;
+		float height = (renderHeight * m);
 		float halfHeight = height / 2F;
 
 		context.push();
 		context.translate(x, y, 500F);
+
+		if (bl) {
+			context.translate(-halfWidth / 2F, -halfHeight / 2F, 0F);
+		}
+
 		context.translate(halfWidth, halfHeight, 0F);
 		context.rotateZ((this.standardTextureAngle + this.textureAngle) % 360F);
-		context.translate(-halfWidth, -halfHeight, 0F);
-		if (bl) {
-			context.translate(-halfWidth, -halfHeight, 0F);
-		}
-		DrawUtils.drawTexture(context, this.texture, 0, 0, 0, 0, width, height, width, height, this.color);
+		context.translate(-halfWidth , -halfHeight, 0F);
+		DrawUtils.drawParticleSprite(context, this.texture, 0, 0, width, height, this.color);
 		context.pop();
 
 		//? if <=1.21.6 {
@@ -210,5 +218,17 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 	@Override
 	public void setAngle(float degrees) {
 		this.particleAngle = degrees;
+	}
+
+	@Override
+	public void setWidth(float width) {
+		this.lastWidth = this.width;
+		this.width = width;
+	}
+
+	@Override
+	public void setHeight(float height) {
+		this.lastHeight = this.height;
+		this.height = height;
 	}
 }

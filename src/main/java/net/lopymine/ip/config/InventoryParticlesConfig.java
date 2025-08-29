@@ -22,7 +22,7 @@ import static net.lopymine.ip.utils.CodecUtils.option;
 public class InventoryParticlesConfig {
 
 	public static final Codec<InventoryParticlesConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-			option("mod_enabled", true, Codec.BOOL, InventoryParticlesConfig::isDebugModeEnabled),
+			option("mod_enabled", true, Codec.BOOL, InventoryParticlesConfig::isModEnabled),
 			option("debug_mode_enabled", false, Codec.BOOL, InventoryParticlesConfig::isDebugModeEnabled),
 			option("max_particles", 5000, Codec.INT, InventoryParticlesConfig::getMaxParticles),
 			option("particle_deletion_type", ParticleDeletionMode.OLDEST, ParticleDeletionMode.CODEC, InventoryParticlesConfig::getParticleDeletionMode)

@@ -3,8 +3,10 @@ package net.lopymine.ip.texture;
 import java.util.*;
 import lombok.*;
 import net.lopymine.ip.InventoryParticles;
+import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.debug.HideInDebugRender;
 import net.lopymine.ip.element.base.TickElement;
+import net.minecraft.client.texture.Sprite;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 
@@ -13,37 +15,34 @@ import net.minecraft.util.math.random.Random;
 @AllArgsConstructor
 public abstract class AbstractParticleTextureProvider extends TickElement implements IParticleTextureProvider {
 
-	@HideInDebugRender
-	public static final Identifier ID = InventoryParticles.id("textures/missing_texture.png");
-
-	protected List<Identifier> textures;
+	protected List<Sprite> textures;
 	protected float animationSpeed;
 	protected int lifeTime;
 	protected boolean shouldDead;
 
-	public AbstractParticleTextureProvider(List<Identifier> textures, float animationSpeed, int lifeTime) {
+	public AbstractParticleTextureProvider(List<Sprite> textures, float animationSpeed, int lifeTime) {
 		this(textures, animationSpeed, lifeTime, false);
 	}
 
 	@Override
-	public Identifier getInitializationTexture(Random random) {
+	public Sprite getInitializationTexture(Random random) {
 		if (this.textures.isEmpty()) {
-			return ID;
+			return InventoryParticlesAtlasManager.getInstance().getMissingSprite();
 		}
 		return this.getInitializationTextureFromNotEmptyTextures(random);
 	}
 
-	protected abstract Identifier getInitializationTextureFromNotEmptyTextures(Random random);
+	protected abstract Sprite getInitializationTextureFromNotEmptyTextures(Random random);
 
 	@Override
-	public Identifier getTexture(Random random) {
+	public Sprite getTexture(Random random) {
 		if (this.textures.isEmpty()) {
-			return ID;
+			return InventoryParticlesAtlasManager.getInstance().getMissingSprite();
 		}
 		return this.getTextureFromNotEmptyTextures(random);
 	}
 
-	protected abstract Identifier getTextureFromNotEmptyTextures(Random random);
+	protected abstract Sprite getTextureFromNotEmptyTextures(Random random);
 
 	protected void markDead() {
 		this.shouldDead = true;

@@ -45,15 +45,6 @@ public class HandledScreenMixin<T extends ScreenHandler> extends Screen {
 		this.addDrawableChild(ticksPerTickField);
 	}
 
-	@Inject(at = @At("TAIL"), method = "render")
-	private void updateCursor(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-		InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
-		if (!config.isModEnabled()) {
-			return;
-		}
-		InventoryParticlesRenderer.getInstance().updateCursor(mouseY, mouseX, this.handler.getCursorStack());
-	}
-
 	@Inject(at = @At("HEAD"), method = "tick")
 	private void tickInventoryParticles(CallbackInfo ci) {
 		InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();

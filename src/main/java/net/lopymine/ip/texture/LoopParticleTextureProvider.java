@@ -1,11 +1,12 @@
 package net.lopymine.ip.texture;
 
 import java.util.*;
+import net.minecraft.client.texture.Sprite;
 import net.minecraft.util.Identifier;
 
 public class LoopParticleTextureProvider extends StretchParticleTextureProvider {
 
-	public LoopParticleTextureProvider(List<Identifier> textures, float animationSpeed, int lifeTime) {
+	public LoopParticleTextureProvider(List<Sprite> textures, float animationSpeed, int lifeTime) {
 		super(textures, animationSpeed, lifeTime);
 	}
 

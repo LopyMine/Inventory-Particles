@@ -14,6 +14,10 @@ public class ArgbUtils {
 	}
 
 	public static int mix(Integer[] array) {
+		if (array.length == 0) {
+			return -1;
+		}
+
 		int red = 0;
 		int green = 0;
 		int blue = 0;

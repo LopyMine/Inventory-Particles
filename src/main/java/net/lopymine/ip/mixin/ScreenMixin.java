@@ -5,6 +5,7 @@ import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.renderer.InventoryParticlesRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.*;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.At.Shift;
@@ -27,5 +28,17 @@ public class ScreenMixin {
 		InventoryParticlesClient.DEBUG_CURSOR_INFO_RENDERER.render(context);
 		InventoryParticlesClient.DEBUG_PARTICLE_INFO_RENDERER.render(context);
 		context.createNewRootLayer();
+	}
+
+	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;render(Lnet/minecraft/client/gui/DrawContext;IIF)V", shift = Shift.AFTER), method = "renderWithTooltip")
+	private void updateCursor(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+		InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
+
+		Screen screen = (Screen) (Object) this;
+		if (!config.isModEnabled() || !(screen instanceof HandledScreen<?> handledScreen)) {
+			return;
+		}
+
+		InventoryParticlesRenderer.getInstance().updateCursor(mouseY, mouseX, handledScreen.getScreenHandler().getCursorStack());
 	}
 }

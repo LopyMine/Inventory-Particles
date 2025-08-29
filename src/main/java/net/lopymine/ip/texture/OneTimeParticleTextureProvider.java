@@ -1,11 +1,11 @@
 package net.lopymine.ip.texture;
 
 import java.util.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.texture.Sprite;
 
 public class OneTimeParticleTextureProvider extends StretchParticleTextureProvider {
 
-	public OneTimeParticleTextureProvider(List<Identifier> textures, float animationSpeed, int lifeTime) {
+	public OneTimeParticleTextureProvider(List<Sprite> textures, float animationSpeed, int lifeTime) {
 		super(textures, animationSpeed, lifeTime);
 	}
 

@@ -2,6 +2,7 @@ package net.lopymine.ip.texture;
 
 import java.util.List;
 import lombok.*;
+import net.minecraft.client.texture.Sprite;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
@@ -12,14 +13,14 @@ public class StretchParticleTextureProvider extends AbstractParticleTextureProvi
 
 	protected int currentTextureId = -1;
 	@Nullable
-	private Identifier currentTexture;
+	private Sprite currentTexture;
 
-	public StretchParticleTextureProvider(List<Identifier> textures, float animationSpeed, int lifeTime) {
+	public StretchParticleTextureProvider(List<Sprite> textures, float animationSpeed, int lifeTime) {
 		super(textures, animationSpeed, lifeTime);
 	}
 
 	@Override
-	protected Identifier getInitializationTextureFromNotEmptyTextures(Random random) {
+	protected Sprite getInitializationTextureFromNotEmptyTextures(Random random) {
 		if (this.currentTexture == null) {
 			return this.currentTexture = this.textures.get(0);
 		}
@@ -27,7 +28,7 @@ public class StretchParticleTextureProvider extends AbstractParticleTextureProvi
 	}
 
 	@Override
-	protected Identifier getTextureFromNotEmptyTextures(Random random) {
+	protected Sprite getTextureFromNotEmptyTextures(Random random) {
 		if (this.currentTexture != null && this.ticks < this.changeTextureTick) {
 			return this.currentTexture;
 		}

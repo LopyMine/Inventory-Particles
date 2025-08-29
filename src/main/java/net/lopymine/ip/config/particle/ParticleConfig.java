@@ -4,9 +4,7 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.*;
-import java.util.stream.Collectors;
 import lombok.*;
-import net.lopymine.ip.config.misc.Integer2ParticleSize;
 import net.lopymine.ip.element.*;
 import net.minecraft.util.Identifier;
 import static net.lopymine.ip.utils.CodecUtils.option;
@@ -15,17 +13,25 @@ import static net.lopymine.ip.utils.CodecUtils.option;
 @AllArgsConstructor
 public class ParticleConfig {
 
-	public static final Codec<DynamicParticleSize> DYNAMIC_PARTICLE_SIZE_CODEC = Codec.either(DynamicParticleSize.CODEC, ParticleSize.CODEC)
+	public static final Codec<DynamicParticleSizes> DYNAMIC_PARTICLE_SIZE_CODEC = Codec.either(StaticParticleSize.CODEC, DynamicParticleSizes.CODEC)
 			.xmap((either) -> {
-				return either.left().orElseGet(() -> either.right().map(DynamicParticleSize::single).orElse(null));
-			}, Either::left);
+				return either.right().orElseGet(() -> either.left().map(DynamicParticleSizes::fromStatic).orElse(null));
+			}, Either::right);
+
+	public static final Codec<Identifier> TEXTURES_CODEC = Identifier.CODEC.xmap((id) -> {
+		if (id.getPath().endsWith(".png")) {
+			String path = id.getPath();
+			return Identifier.of(id.getNamespace(), path.substring(0, path.length() - 4));
+		}
+		return id;
+	}, (id) -> id);
 
 	public static final Codec<ParticleConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			option("life_time", 0, Codec.INT, ParticleConfig::getLifeTimeTicks),
 			option("animation_type", ParticleAnimationType.RANDOM, ParticleAnimationType.CODEC, ParticleConfig::getAnimationType),
 			option("animation_speed", 1.0F, Codec.FLOAT, ParticleConfig::getAnimationSpeed),
-			option("size", DynamicParticleSize.STANDARD, DYNAMIC_PARTICLE_SIZE_CODEC, ParticleConfig::getSize),
-			option("textures", new ArrayList<>(), Identifier.CODEC, ParticleConfig::getTextures),
+			option("size", DynamicParticleSizes.STANDARD, DYNAMIC_PARTICLE_SIZE_CODEC, ParticleConfig::getSize),
+			option("textures", new ArrayList<>(), TEXTURES_CODEC, ParticleConfig::getTextures),
 			option("holders", new HashSet<>(), ParticleHolder.CODEC, ParticleConfig::getHolders),
 			option("physics", ParticlePhysics.getNewInstance(), ParticlePhysics.CODEC, ParticleConfig::getPhysics)
 	).apply(instance, ParticleConfig::new));
@@ -33,7 +39,7 @@ public class ParticleConfig {
 	private int lifeTimeTicks;
 	private ParticleAnimationType animationType;
 	private float animationSpeed;
-	private DynamicParticleSize size;
+	private DynamicParticleSizes size;
 	private ArrayList<Identifier> textures;
 	private HashSet<ParticleHolder> holders;
 	private ParticlePhysics physics;

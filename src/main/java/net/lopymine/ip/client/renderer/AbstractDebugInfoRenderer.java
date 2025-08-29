@@ -1,6 +1,6 @@
 package net.lopymine.ip.client.renderer;
 
-import java.lang.reflect.Field;
+import java.lang.reflect.*;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Stream;
@@ -49,7 +49,13 @@ public abstract class AbstractDebugInfoRenderer {
 			c = c.getSuperclass();
 		} while (c != null);
 
-		builder.build().filter((field) -> !field.isAnnotationPresent(HideInDebugRender.class)).forEach((field) -> {
+		builder.build().filter((field) -> {
+			int modifiers = field.getModifiers();
+			if (Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)) {
+				return false;
+			}
+			return !field.isAnnotationPresent(HideInDebugRender.class);
+		}).forEach((field) -> {
 			try {
 				String name = field.getName();
 				field.setAccessible(true);
@@ -66,7 +72,22 @@ public abstract class AbstractDebugInfoRenderer {
 				ISpecialFieldDebugRenderer specialFieldRenderer = this.specialFieldRenderers.get(name);
 				if (specialFieldRenderer != null) {
 					specialFieldRenderer.consumeDebugRender(renderFieldData, renderDecoration, value);
-				} else {
+				}
+//				else if (value instanceof Collection<?> collection) {
+//					renderDecoration.accept("]");
+//					Iterator<?> iterator = collection.iterator();
+//					while (iterator.hasNext()) {
+//						Object next = iterator.next();
+//						this.xOffset += this.getTextXOffset();
+//						this.renderFieldData(context, name, next);
+//						this.xOffset -= this.getTextXOffset();
+//						if (iterator.hasNext()) {
+//							renderDecoration.accept(",");
+//						}
+//					}
+//					renderDecoration.accept("[");
+//				}
+				else {
 					this.renderFieldData(context, name, value);
 				}
 

@@ -1,11 +1,15 @@
 package net.lopymine.ip.resourcepack;
 
+import java.util.concurrent.*;
 import net.fabricmc.fabric.api.resource.*;
 import net.lopymine.ip.InventoryParticles;
+import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
+import net.lopymine.ip.texture.IParticleTextureProvider;
 import net.minecraft.resource.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.util.*;
+import net.minecraft.util.profiler.*;
 
-public class InventoryParticlesClientReloadListener implements SimpleSynchronousResourceReloadListener {
+public class InventoryParticlesClientReloadListener implements IdentifiableResourceReloadListener {
 
 	public static void register() {
 		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new InventoryParticlesClientReloadListener());
@@ -17,7 +21,18 @@ public class InventoryParticlesClientReloadListener implements SimpleSynchronous
 	}
 
 	@Override
-	public void reload(ResourceManager manager) {
+	public CompletableFuture<Void> reload(Synchronizer synchronizer, ResourceManager manager, Executor prepareExecutor, Executor applyExecutor) {
+		return synchronizer.whenPrepared(Unit.INSTANCE).thenRunAsync(() -> {
+			Profiler profiler = Profilers.get();
+			profiler.push("listener");
+			this.reloadStuff(synchronizer, manager, prepareExecutor, applyExecutor);
+			profiler.pop();
+		}, applyExecutor);
+	}
+
+	public void reloadStuff(Synchronizer synchronizer, ResourceManager manager, Executor prepareExecutor, Executor applyExecutor) {
+		IParticleTextureProvider.clear();
+		InventoryParticlesAtlasManager.getInstance().reload(synchronizer, manager, prepareExecutor, applyExecutor);
 		ResourcePackParticleConfigsManager.reload();
 	}
 }

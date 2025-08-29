@@ -2,6 +2,7 @@ package net.lopymine.ip.controller.speed;
 
 import java.util.*;
 import lombok.*;
+import net.lopymine.ip.config.range.FloatRange;
 import net.lopymine.ip.config.speed.SpeedConfig;
 import net.lopymine.ip.controller.IController;
 import net.lopymine.ip.controller.modifier.IControllerModifier;
@@ -34,19 +35,20 @@ public abstract class AbstractSpeedController<C extends AbstractSpeedController<
 	public void tick(E element) {
 		this.lastSpeed = this.speed;
 
-		float speed = this.config.isMaxBidirectional() ? Math.abs(this.speed) : this.speed;
-		if (speed < this.config.getMax()) {
-			float acceleration = this.config.getAccelerationBidirectional(this.random);
-			for (ISpeedControllerModifier<? super C, ? super E> m : this.modifiers) {
-				acceleration += m.getAcceleration(element);
+		FloatRange maxAcceleration = this.config.getMaxAcceleration();
+		float acceleration = this.config.getAccelerationBidirectional(this.random);
+		for (ISpeedControllerModifier<? super C, ? super E> m : this.modifiers) {
+			acceleration += m.getAcceleration(element);
+		}
+		boolean canApplyAcceleration = acceleration < 0 ? (this.speed > maxAcceleration.getMin()) : (this.speed < maxAcceleration.getMax());
+		if (canApplyAcceleration && acceleration != 0.0F) {
+			this.speed += acceleration;
+			if (this.speed < maxAcceleration.getMin()) {
+				this.speed = maxAcceleration.getMin();
 			}
-			float updatedSpeed = this.speed + acceleration;
-
-			this.speed = this.config.isMaxBidirectional()
-					?
-					Math.copySign(Math.min(Math.abs(updatedSpeed), this.config.getMax()), updatedSpeed)
-					:
-					Math.min(updatedSpeed, this.config.getMax());
+			if (this.speed > maxAcceleration.getMax()) {
+				this.speed = maxAcceleration.getMax();
+			}
 		}
 
 		if (this.speed > 0) {
@@ -76,6 +78,14 @@ public abstract class AbstractSpeedController<C extends AbstractSpeedController<
 			turbulence += modifier.getTurbulence(element);
 		}
 		this.speed += turbulence;
+
+		FloatRange max = this.config.getMax();
+		if (this.speed < max.getMin()) {
+			this.speed = max.getMin();
+		}
+		if (this.speed > max.getMax()) {
+			this.speed = max.getMax();
+		}
 	}
 
 	@SuppressWarnings("unused")

@@ -22,6 +22,10 @@ public final class CodecUtils {
 		}
 	}
 
+	public static <A, B> RecordCodecBuilder<A, B> option(String optionId, Codec<B> codec, Function<A, B> getter, Object... ignored) {
+		return codec.fieldOf(optionId).forGetter(getter);
+	}
+
 	public static <A, B> RecordCodecBuilder<A, B> option(String optionId, B defValue, Codec<B> codec, Function<A, B> getter) {
 		return codec.optionalFieldOf(optionId).xmap((o) -> o.orElse(defValue), Optional::ofNullable).forGetter(getter);
 	}
