@@ -1,6 +1,7 @@
 package net.lopymine.ip.predicate.nbt;
 
 import com.mojang.serialization.Codec;
+import java.util.Set;
 import lombok.Getter;
 import net.minecraft.util.StringIdentifiable;
 
@@ -13,6 +14,8 @@ public enum NbtNodeType implements StringIdentifiable {
 	INT(3);
 
 	public static final Codec<NbtNodeType> CODEC = StringIdentifiable.createCodec(NbtNodeType::values);
+	public static final Set<NbtNodeType> STRING_LIKE = Set.of(STRING, INT);
+	public static final Set<NbtNodeType> OBJECT_LIKE = Set.of(OBJECT, LIST);
 
 	private final int id;
 

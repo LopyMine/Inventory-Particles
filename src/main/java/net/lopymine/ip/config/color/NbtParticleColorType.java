@@ -51,7 +51,7 @@ public class NbtParticleColorType implements IParticleColorType {
 				return NO_COLOR;
 			}
 			ItemStack itemStack = projectiles.get(0);
-			return getColorFromFirework(itemStack);
+			return getColorFromPotionContentsStack(itemStack);
 		}
 
 		if (stack.isIn(ItemTags.DYEABLE)) {

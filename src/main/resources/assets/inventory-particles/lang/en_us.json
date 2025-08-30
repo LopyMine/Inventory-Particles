@@ -14,6 +14,9 @@
 	"${mod_id}.modmenu.option.debug_mode_enabled.name": "Debug Mode Enabled",
 	"${mod_id}.modmenu.option.debug_mode_enabled.description": "If enabled, you will some debug info; if disabled, won't.",
 
+	"${mod_id}.modmenu.option.nbt_debug_mode_enabled.name": "Nbt Debug Mode Enabled",
+	"${mod_id}.modmenu.option.nbt_debug_mode_enabled.description": "If enabled, you will some debug info about item nbt in game logs; if disabled, won't.",
+
 	"${mod_id}.modmenu.group.particles_group.name": "Particles",
 	"${mod_id}.modmenu.group.particles_group.description": "Particle settings.",
 

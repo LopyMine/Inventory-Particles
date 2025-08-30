@@ -48,6 +48,10 @@ public class YACLConfigurationScreen {
 				SimpleOption.<Boolean>startBuilder("debug_mode_enabled")
 						.withBinding(defConfig.isDebugModeEnabled(), config::isDebugModeEnabled, config::setDebugModeEnabled, false)
 						.withController(ENABLED_OR_DISABLE_FORMATTER)
+						.build(),
+				SimpleOption.<Boolean>startBuilder("nbt_debug_mode_enabled")
+						.withBinding(defConfig.isNbtDebugModeEnabled(), config::isNbtDebugModeEnabled, config::setNbtDebugModeEnabled, false)
+						.withController(ENABLED_OR_DISABLE_FORMATTER)
 						.build()
 		).build();
 	}

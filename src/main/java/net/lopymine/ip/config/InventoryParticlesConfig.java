@@ -24,6 +24,7 @@ public class InventoryParticlesConfig {
 	public static final Codec<InventoryParticlesConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			option("mod_enabled", true, Codec.BOOL, InventoryParticlesConfig::isModEnabled),
 			option("debug_mode_enabled", false, Codec.BOOL, InventoryParticlesConfig::isDebugModeEnabled),
+			option("nbt_debug_mode_enabled", false, Codec.BOOL, InventoryParticlesConfig::isNbtDebugModeEnabled),
 			option("max_particles", 5000, Codec.INT, InventoryParticlesConfig::getMaxParticles),
 			option("particle_deletion_type", ParticleDeletionMode.OLDEST, ParticleDeletionMode.CODEC, InventoryParticlesConfig::getParticleDeletionMode)
 	).apply(instance, InventoryParticlesConfig::new));
@@ -34,6 +35,7 @@ public class InventoryParticlesConfig {
 	
 	private boolean modEnabled;
 	private boolean debugModeEnabled;
+	private boolean nbtDebugModeEnabled;
 	private int maxParticles;
 	private ParticleDeletionMode particleDeletionMode;
 

@@ -14,6 +14,9 @@
 	"${mod_id}.modmenu.option.debug_mode_enabled.name": "Включить режим отладки",
 	"${mod_id}.modmenu.option.debug_mode_enabled.description": "Если включено, вы сможете увидеть некоторую информацию для отладки мода; если отключено, не сможете.",
 
+	"${mod_id}.modmenu.option.nbt_debug_mode_enabled.name": "Включить режим отладки NBT",
+	"${mod_id}.modmenu.option.nbt_debug_mode_enabled.description": "Если включено, вы сможете увидеть некоторую информацию для отладки NBT в консоли игры; если отключено, не сможете.",
+
 	"${mod_id}.modmenu.group.particles_group.name": "Частицы",
 	"${mod_id}.modmenu.group.particles_group.description": "Настройки частиц.",
 
