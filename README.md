@@ -9,31 +9,31 @@
 ![Ingame Showcase](https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/ima222ge.webp?raw=true)
 
 ![Label "1300+ Textures, 800+ areas, 400+ configs"](https://cdn.modrinth.com/data/cached_images/b31510bc5bff1c5c150a1aadb6a317e220882f6c.png)
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/arrow.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/bedrock.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/campfire.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/carrot.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/diamond.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/disc.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/honey.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/key.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/lava.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/potato.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/potion.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/pufferfish.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/sculk.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/snow.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/totem.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/blaze.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/command.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/light.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/note.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/shell.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/spore.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/stand.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/tnt.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/water.webp?raw=true" width="164px" alt="Showcase"/>
-<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/wool.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/arrow.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/bedrock.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/campfire.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/carrot.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/diamond.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/disc.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/honey.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/key.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/lava.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/potato.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/potion.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/pufferfish.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/sculk.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/snow.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/totem.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/blaze.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/command.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/light.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/note.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/shell.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/spore.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/stand.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/tnt.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/water.webp?raw=true" width="160px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/wool.webp?raw=true" width="160px" alt="Showcase"/>
 ![Just decoration here](https://cdn.modrinth.com/data/cached_images/e66456118e8d1bd51d25bd166f33d70e008a0fe6_0.webp)
 
 !["Configurable" Title](https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/image.webp?raw=true)
