@@ -110,7 +110,8 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 		if (ParticleSpawnContext.isCursor(context)) {
 			count *= config.getCursorParticlesSpawnCountCoefficient();
 		}
-		int countOfParticles = (int) (count * config.getGlobalParticlesSpawnCountCoefficient());
+		float v = count * config.getGlobalParticlesSpawnCountCoefficient();
+		int countOfParticles = v > 0.0F && v < 1.0F ? 1 : (int) v;
 
 		List<InventoryParticle> particles = new ArrayList<>();
 		for (int i = 0; i < countOfParticles; i++) {

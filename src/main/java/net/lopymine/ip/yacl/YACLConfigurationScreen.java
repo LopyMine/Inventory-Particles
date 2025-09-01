@@ -70,32 +70,32 @@ public class YACLConfigurationScreen {
 						.build(),
 				SimpleOption.<Float>startBuilder("global_particles_spawn_count_coefficient")
 						.withBinding(defConfig.getGlobalParticlesSpawnCountCoefficient(), config::getGlobalParticlesSpawnCountCoefficient, config::setGlobalParticlesSpawnCountCoefficient, true)
-						.withController(0.0F, 2.0F, 0.1F)
+						.withController(0.0F, 20.0F, 0.1F)
 						.withDescription(SimpleContent.NONE)
 						.build(),
 				SimpleOption.<Float>startBuilder("global_particles_spawn_range_coefficient")
 						.withBinding(defConfig.getGlobalParticlesSpawnRangeCoefficient(), config::getGlobalParticlesSpawnRangeCoefficient, config::setGlobalParticlesSpawnRangeCoefficient, true)
-						.withController(0.0F, 2.0F, 0.1F)
+						.withController(0.0F, 50.0F, 1F)
 						.withDescription(SimpleContent.NONE)
 						.build(),
 				SimpleOption.<Float>startBuilder("cursor_particles_spawn_count_coefficient")
 						.withBinding(defConfig.getCursorParticlesSpawnCountCoefficient(), config::getCursorParticlesSpawnCountCoefficient, config::setCursorParticlesSpawnCountCoefficient, true)
-						.withController(0.0F, 2.0F, 0.1F)
+						.withController(0.0F, 20.0F, 0.1F)
 						.withDescription(SimpleContent.NONE)
 						.build(),
 				SimpleOption.<Float>startBuilder("cursor_particles_spawn_range_coefficient")
 						.withBinding(defConfig.getCursorParticlesSpawnRangeCoefficient(), config::getCursorParticlesSpawnRangeCoefficient, config::setCursorParticlesSpawnRangeCoefficient, true)
-						.withController(0.0F, 2.0F, 0.1F)
+						.withController(0.0F, 50.0F, 1F)
 						.withDescription(SimpleContent.NONE)
 						.build(),
 				SimpleOption.<Float>startBuilder("gui_particles_spawn_count_coefficient")
 						.withBinding(defConfig.getGuiParticlesSpawnCountCoefficient(), config::getGuiParticlesSpawnCountCoefficient, config::setGuiParticlesSpawnCountCoefficient, true)
-						.withController(0.0F, 2.0F, 0.1F)
+						.withController(0.0F, 20.0F, 0.1F)
 						.withDescription(SimpleContent.NONE)
 						.build(),
 				SimpleOption.<Float>startBuilder("gui_particles_spawn_range_coefficient")
 						.withBinding(defConfig.getGuiParticlesSpawnRangeCoefficient(), config::getGuiParticlesSpawnRangeCoefficient, config::setGuiParticlesSpawnRangeCoefficient, true)
-						.withController(0.0F, 2.0F, 0.1F)
+						.withController(0.0F, 50.0F, 1F)
 						.withDescription(SimpleContent.NONE)
 						.build(),
 				SimpleOption.<Integer>startBuilder("maximum_particles_limit")
