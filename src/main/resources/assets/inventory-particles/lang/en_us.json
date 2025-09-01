@@ -1,5 +1,5 @@
 {
-	"modmenu.descriptionTranslation.${mod_id}": "Beautiful particles for your inventory items!",
+	"modmenu.descriptionTranslation.${mod_id}": "${mod_description}",
 	"${mod_id}.modmenu.title": "§l${mod_name} Configuration",
 	"${mod_id}.modmenu.no_config_library_screen.message": "You need to install §6§lYet Another Config Lib [YACL]§f to open ${mod_name} Configuration Screen\n\n§a§lOpen §6§lYACL §a§lModrinth page?",
 
@@ -19,6 +19,30 @@
 
 	"${mod_id}.modmenu.group.particles_group.name": "Particles",
 	"${mod_id}.modmenu.group.particles_group.description": "Particle settings.",
+
+	"${mod_id}.modmenu.option.particle_spawn_type.name": "Particle Spawn Type",
+	"${mod_id}.modmenu.option.particle_spawn_type.description": "Determines where particles from items will spawn.",
+
+	"${mod_id}.modmenu.option.particle_spawn_type.only_in_cursor": "Only In Cursor",
+	"${mod_id}.modmenu.option.particle_spawn_type.everywhere": "Everywhere (GUI + Cursor)",
+
+	"${mod_id}.modmenu.option.global_particles_spawn_count_coefficient.name": "[Global] Particles Spawn Count Coefficient",
+	"${mod_id}.modmenu.option.global_particles_spawn_count_coefficient.description": "Coefficient that determines how many/few particles can be spawned both in the GUI and around the cursor.",
+
+	"${mod_id}.modmenu.option.global_particles_spawn_range_coefficient.name": "[Global] Particles Spawn Range Coefficient",
+	"${mod_id}.modmenu.option.global_particles_spawn_range_coefficient.description": "Coefficient that determines how many/few particles can be spawned both in the GUI and around the cursor.",
+
+	"${mod_id}.modmenu.option.cursor_particles_spawn_count_coefficient.name": "[Cursor] Particles Spawn Count Coefficient",
+	"${mod_id}.modmenu.option.cursor_particles_spawn_count_coefficient.description": "Coefficient that determines how many/few particles can be spawned around the cursor.",
+
+	"${mod_id}.modmenu.option.cursor_particles_spawn_range_coefficient.name": "[Cursor] Particles Spawn Range Coefficient",
+	"${mod_id}.modmenu.option.cursor_particles_spawn_range_coefficient.description": "Coefficient that determines how many/few particles can be spawned around the cursor.",
+
+	"${mod_id}.modmenu.option.gui_particles_spawn_count_coefficient.name": "[GUI] Particles Spawn Count Coefficient",
+	"${mod_id}.modmenu.option.gui_particles_spawn_count_coefficient.description": "Coefficient that determines how many/few particles can be spawned in the GUI.",
+
+	"${mod_id}.modmenu.option.gui_particles_spawn_range_coefficient.name": "[GUI] Particles Spawn Range Coefficient",
+	"${mod_id}.modmenu.option.gui_particles_spawn_range_coefficient.description": "Coefficient that determines how many/few particles can be spawned in the GUI.",
 
 	"${mod_id}.modmenu.option.maximum_particles_limit.name": "Maximum Particles Limit",
 	"${mod_id}.modmenu.option.maximum_particles_limit.description": "The maximum number of particles that can exists on the screen.",

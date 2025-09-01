@@ -1,0 +1,93 @@
+{
+	"life_time": 100,
+	"animation_type": "onetime",
+	"animation_speed": 10.0,
+	
+	"size": {
+		"width": 8,
+		"height": 8
+	},
+
+	"textures": [
+		"inventory-particles:vanilla/glitter/glitter_5.png",
+		"inventory-particles:vanilla/glitter/glitter_4.png",
+		"inventory-particles:vanilla/glitter/glitter_3.png",
+		"inventory-particles:vanilla/glitter/glitter_2.png",
+		"inventory-particles:vanilla/glitter/glitter_1.png",
+		"inventory-particles:vanilla/glitter/glitter_0.png"
+	],
+	
+	"holders": [
+		{
+			"item": "minecraft:totem_of_undying",
+			"spawn_area": "totem_of_undying_totem_of_undying.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 20],
+			"speed_coefficient": 0.2,
+			"color": ["#1DAF18", "#218E20", "#266D28", "#B8DD10", "#B3BE1E", "#AFA02D"],
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"physics": {
+		"base": {
+			"x_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.5
+			},
+			"y_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.1,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 3.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.5
+			},
+			"angle_speed": {
+				"impulse": [1.0, 2.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0]
+			}
+		},
+		"rotation": {
+			"particle": {
+				"spawn_angle": [0.0, 360.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			},
+			"texture": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": true,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			}
+		}
+	}
+}

@@ -127,7 +127,10 @@ public class MossyPlugin implements Plugin<Project> {
 		Jar jar = (Jar) project.getTasks().getByName("jar");
 		jar.getArchiveBaseName().set(base.getArchivesName().get());
 		jar.from(getRootFile(project, "LICENSE"), (spec) -> {
-			spec.rename(s -> "%s_%s".formatted(s, base.getArchivesName().get()));
+			spec.rename(s -> "%s_%s".formatted(s, base.getArchivesName().get().toUpperCase()));
+		});
+		jar.from(getRootFile(project, "ASSETS_LICENSE"), (spec) -> {
+			spec.rename(s -> "%s_%s".formatted(s, base.getArchivesName().get().toUpperCase()));
 		});
 	}
 

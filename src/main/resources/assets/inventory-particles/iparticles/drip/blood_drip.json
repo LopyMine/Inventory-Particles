@@ -1,0 +1,210 @@
+{
+	"life_time": 300,
+	"animation_type": "random_static",
+	"animation_speed": 1.0,
+	
+	"size": {
+		"width": 8,
+		"height": 8
+	},
+
+	"textures": [
+		"inventory-particles:drip/blood_drip_0.png",
+		"inventory-particles:drip/blood_drip_1.png",
+		"inventory-particles:drip/blood_drip_2.png"
+	],
+	
+	"holders": [
+		{
+			"item": "minecraft:beef",
+			"spawn_area": "beef_drip.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [20, 80],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:porkchop",
+			"spawn_area": "porkchop_drip.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [20, 80],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:mutton",
+			"spawn_area": "mutton_drip.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [20, 80],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:chicken",
+			"spawn_area": "chicken_drip.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [20, 80],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:leather",
+			"spawn_area": "leather_drip.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [20, 80],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:rabbit",
+			"spawn_area": "rabbit_drip.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [20, 80],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:rabbit_hide",
+			"spawn_area": "rabbit_hide_drip.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [20, 80],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:rabbit_foot",
+			"spawn_area": "rabbit_foot_drip.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [20, 80],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:spider_eye",
+			"spawn_area": "spider_eye_drip.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [20, 80],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:fermented_spider_eye",
+			"spawn_area": "fermented_spider_eye_drip.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [20, 80],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:heartbreak_pottery_sherd",
+			"spawn_area": "heartbreak_pottery_sherd_drip.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [20, 80],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"physics": {
+		"base": {
+			"x_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.05,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 1.0
+			},
+			"y_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.3,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [-0.1, 0.1],
+				"cursor_impulse_inherit_coefficient": 1.0
+			},
+			"angle_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0]
+			}
+		},
+		"rotation": {
+			"particle": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			},
+			"texture": {
+				"spawn_angle": [0.0, 360.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [1.0, 3.0],
+					"impulse_bidirectional": true,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			}
+		}
+	}
+}

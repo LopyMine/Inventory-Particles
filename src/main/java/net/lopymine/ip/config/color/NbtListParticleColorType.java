@@ -133,6 +133,9 @@ public class NbtListParticleColorType implements IParticleColorType, IListPartic
 		if (this.currentColor != null) {
 			return this.currentColor;
 		}
+		if (this.colors.length == 0) {
+			return -1;
+		}
 		return this.currentColor = this.colors[random.nextBetween(0, this.colors.length - 1)];
 	}
 

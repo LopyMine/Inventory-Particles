@@ -13,6 +13,7 @@ import net.lopymine.ip.debug.HideInDebugRender;
 import net.lopymine.ip.element.base.*;
 import net.lopymine.ip.extension.DrawContextExtension;
 import net.lopymine.ip.renderer.InventoryParticlesRenderer;
+import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.lopymine.ip.texture.IParticleTextureProvider;
 import net.lopymine.ip.utils.DrawUtils;
 import net.minecraft.client.MinecraftClient;
@@ -77,16 +78,16 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 	private boolean selected;
 	private boolean hovered;
 
-	public InventoryParticle(ParticleConfig config, InventoryCursor cursor) {
+	public InventoryParticle(ParticleConfig config, ParticleSpawnContext context) {
 		this.lifeTimeTicks   = config.getLifeTimeTicks();
 		this.textureProvider = IParticleTextureProvider.getTextureProvider(config);
 		this.texture         = this.textureProvider.getInitializationTexture(this.random);
 
 		this.dynamicSizeController = new DynamicSizeController<>(config.getSize(), this);
 
-		this.x = cursor.getX();
+		this.x = context.getX();
 		this.lastX = this.x;
-		this.y = cursor.getY();
+		this.y = context.getY();
 		this.lastY = this.y;
 
 		ParticlePhysics physics = config.getPhysics();
@@ -98,10 +99,10 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 		this.standardTextureAngle  = rotation.getTextureRotationConfig().getSpawnAngle().getRandom(this.random);
 		this.textureAngle = 0.0F;
 
-		this.xSpeedController = new SpeedController<>(base.getXSpeed(), this.random, cursor.getSpeedX());
+		this.xSpeedController = new SpeedController<>(base.getXSpeed(), this.random, context.getImpulseX());
 		this.xSpeedController.registerModifier(new SpeedInAngleDirectionControllerModifier<>(base.getAngleSpeed(), this.random, true), true, this);
 
-		this.ySpeedController = new SpeedController<>(base.getYSpeed(), this.random, cursor.getSpeedY());
+		this.ySpeedController = new SpeedController<>(base.getYSpeed(), this.random, context.getImpulseY());
 		this.ySpeedController.registerModifier(new SpeedInAngleDirectionControllerModifier<>(base.getAngleSpeed(), this.random, false), true, this);
 
 		this.particleRotationSpeedController = new RotationSpeedController<>(rotation.getParticleRotationConfig(), this.random);

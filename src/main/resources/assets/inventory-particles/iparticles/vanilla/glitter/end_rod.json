@@ -1,0 +1,406 @@
+{
+	"life_time": 50,
+	"animation_type": "onetime",
+	"animation_speed": 5.0,
+	
+	"size": {
+		"width": 8,
+		"height": 8
+	},
+
+	"textures": [
+		"inventory-particles:vanilla/glitter/glitter_5.png",
+		"inventory-particles:vanilla/glitter/glitter_4.png",
+		"inventory-particles:vanilla/glitter/glitter_3.png",
+		"inventory-particles:vanilla/glitter/glitter_2.png",
+		"inventory-particles:vanilla/glitter/glitter_1.png",
+		"inventory-particles:vanilla/glitter/glitter_0.png"
+	],
+	
+	"holders": [
+		{
+			"item": "minecraft:end_rod",
+			"spawn_area": "end_rod.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.3,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:shulker_shell",
+			"spawn_area": "shulker_shell_end_rod.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:shulker_box",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:red_shulker_box",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:orange_shulker_box",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:yellow_shulker_box",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:lime_shulker_box",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:green_shulker_box",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:cyan_shulker_box",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:light_blue_shulker_box",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:blue_shulker_box",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:purple_shulker_box",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:magenta_shulker_box",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:pink_shulker_box",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:brown_shulker_box",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:white_shulker_box",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:light_gray_shulker_box",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:gray_shulker_box",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:black_shulker_box",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:elytra",
+			"spawn_area": "elytra_end_rod.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.15,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:eye_armor_trim_smithing_template",
+			"spawn_area": "eye_armor_trim_smithing_template_end_rod.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.15,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:spire_armor_trim_smithing_template",
+			"spawn_area": "spire_armor_trim_smithing_template_end_rod.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.15,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#7FFFFFFF"],
+				"speed": 40
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"physics": {
+		"base": {
+			"x_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.5
+			},
+			"y_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.025,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 5.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.5
+			},
+			"angle_speed": {
+				"impulse": [1.0, 1.5],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.1,
+				"turbulence": [0.0, 0.0]
+			}
+		},
+		"rotation": {
+			"particle": {
+				"spawn_angle": [0.0, 360.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			},
+			"texture": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": true,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			}
+		}
+	}
+}

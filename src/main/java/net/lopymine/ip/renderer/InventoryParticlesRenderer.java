@@ -4,14 +4,18 @@ import java.util.*;
 import lombok.*;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.optimization.ParticleDeletionMode;
+import net.lopymine.ip.config.spawn.ParticleSpawnType;
 import net.lopymine.ip.element.*;
 import net.lopymine.ip.element.base.TickElement;
 import net.lopymine.ip.resourcepack.ResourcePackParticleConfigsManager;
 import net.lopymine.ip.spawner.*;
+import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.item.*;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
 
@@ -66,7 +70,7 @@ public class InventoryParticlesRenderer extends TickElement {
 		this.cursor.setCurrentStack(item);
 	}
 
-	public void tick() {
+	public void tick(ScreenHandler handler, int inventoryX, int inventoryY) {
 		if (this.stopTicking || this.stoppedByInitializationReason) {
 			return;
 		}
@@ -78,16 +82,34 @@ public class InventoryParticlesRenderer extends TickElement {
 
 		this.cursor.tick();
 
+		if (InventoryParticlesConfig.getInstance().getParticleSpawnType() == ParticleSpawnType.EVERYWHERE) {
+			for (Slot slot : handler.slots) {
+				ItemStack stack = slot.getStack();
+				if (stack.isEmpty()) {
+					continue;
+				}
+				List<IParticleSpawner> particleSpawners = ResourcePackParticleConfigsManager.getPerItemParticleSpawners().get(stack.getItem());
+				if (particleSpawners == null) {
+					continue;
+				}
+				ParticleSpawnContext context = ParticleSpawnContext.slot(slot, inventoryX, inventoryY);
+				for (IParticleSpawner spawner : particleSpawners) {
+					for (InventoryParticle particle : spawner.tickAndSpawn(context)) {
+						this.spawnParticle(particle);
+					}
+				}
+			}
+		}
+
 		Item currentItem = this.cursor.getCurrentStack().getItem();
 		List<IParticleSpawner> particleSpawners = ResourcePackParticleConfigsManager.getPerItemParticleSpawners().get(currentItem);
-
 		if (currentItem != Items.AIR && particleSpawners != null) {
 			List<InventoryParticle> particles = new ArrayList<>();
 
 			for (IParticleSpawner spawner : particleSpawners) {
-				particles.addAll(spawner.tickAndSpawn(this.cursor));
-				particles.addAll(spawner.spawnFromSpeed(this.cursor));
-			}
+				particles.addAll(spawner.tickAndSpawn(ParticleSpawnContext.cursor(this.cursor)));
+				particles.addAll(spawner.spawnFromCursor(this.cursor));
+ 			}
 
 			particles.forEach(this::spawnParticle);
 		}
@@ -156,5 +178,12 @@ public class InventoryParticlesRenderer extends TickElement {
 		this.hoveredParticle.setSelected(true);
 		this.selectedParticle = this.hoveredParticle;
 		ClickableWidget.playClickSound(MinecraftClient.getInstance().getSoundManager());
+	}
+
+	public void updateParticlesPositions(float xCoefficient, float yCoefficient) {
+		for (InventoryParticle particle : this.screenParticles) {
+			particle.setX(particle.getX() * xCoefficient);
+			particle.setY(particle.getY() * yCoefficient);
+		}
 	}
 }

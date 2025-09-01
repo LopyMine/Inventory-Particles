@@ -1,0 +1,448 @@
+{
+	"life_time": 100,
+	"animation_type": "onetime",
+	"animation_speed": 2.0,
+	
+	"size": {
+		"width": 8,
+		"height": 8
+	},
+
+	"textures": [
+		"inventory-particles:vanilla/generic/generic_5.png",
+		"inventory-particles:vanilla/generic/generic_4.png",
+		"inventory-particles:vanilla/generic/generic_3.png",
+		"inventory-particles:vanilla/generic/generic_2.png",
+		"inventory-particles:vanilla/generic/generic_1.png",
+		"inventory-particles:vanilla/generic/generic_0.png"
+	],
+	
+	"holders": [
+		{
+			"item": "minecraft:torch",
+			"spawn_area": "torch_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:soul_torch",
+			"spawn_area": "soul_torch_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:lava_bucket",
+			"spawn_area": "lava_bucket_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:candle",
+			"spawn_area": "candle_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:red_candle",
+			"spawn_area": "red_candle_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:orange_candle",
+			"spawn_area": "orange_candle_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:yellow_candle",
+			"spawn_area": "yellow_candle_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:lime_candle",
+			"spawn_area": "lime_candle_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:green_candle",
+			"spawn_area": "green_candle_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:cyan_candle",
+			"spawn_area": "cyan_candle_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:light_blue_candle",
+			"spawn_area": "light_blue_candle_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:blue_candle",
+			"spawn_area": "blue_candle_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:purple_candle",
+			"spawn_area": "purple_candle_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:magenta_candle",
+			"spawn_area": "magenta_candle_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:pink_candle",
+			"spawn_area": "pink_candle_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:brown_candle",
+			"spawn_area": "brown_candle_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:white_candle",
+			"spawn_area": "white_candle_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:light_gray_candle",
+			"spawn_area": "light_gray_candle_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:gray_candle",
+			"spawn_area": "gray_candle_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:black_candle",
+			"spawn_area": "black_candle_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:furnace",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:furnace_minecart",
+			"spawn_area": "furnace_minecart_smoke.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:blast_furnace",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:smoker",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:brewing_stand",
+			"spawn_area": "brewing_stand_smoke.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#111111", "#333333"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"physics": {
+		"base": {
+			"x_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.05,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.25
+			},
+			"y_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": -0.1,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 0.3],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.25
+			},
+			"angle_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0]
+			}
+		},
+		"rotation": {
+			"particle": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			},
+			"texture": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": true,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			}
+		}
+	}
+}

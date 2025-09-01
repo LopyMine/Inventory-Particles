@@ -3,12 +3,14 @@ package net.lopymine.ip.spawner;
 import java.util.*;
 import java.util.function.*;
 import lombok.*;
+import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.color.IParticleColorType;
 import net.lopymine.ip.config.range.IntegerRange;
 import net.lopymine.ip.controller.color.ColorController;
 import net.lopymine.ip.element.*;
 import net.lopymine.ip.element.base.TickElement;
 import net.lopymine.ip.predicate.IParticleSpawnPredicate;
+import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.random.Random;
@@ -27,10 +29,10 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 	private final float speedCoefficient;
 	private final IParticleColorType colorType;
 	private final IParticleSpawnPredicate spawnCondition;
-	private final Function<InventoryCursor, InventoryParticle> function;
+	private final Function<ParticleSpawnContext, InventoryParticle> function;
 	private int nextSpawnTicks = 0;
 
-	public ParticleSpawner(Identifier spawnArea, IntegerRange countRange, IntegerRange frequencyRange, float speedCoefficient, IParticleColorType colorType, IParticleSpawnPredicate spawnCondition, Function<InventoryCursor, InventoryParticle> function) {
+	public ParticleSpawner(Identifier spawnArea, IntegerRange countRange, IntegerRange frequencyRange, float speedCoefficient, IParticleColorType colorType, IParticleSpawnPredicate spawnCondition, Function<ParticleSpawnContext, InventoryParticle> function) {
 		this.spawnArea        = ParticleSpawnArea.readFromTexture(spawnArea);
 		this.countRange       = countRange;
 		this.frequencyRange   = frequencyRange;
@@ -40,7 +42,7 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 		this.function         = function;
 	}
 
-	public List<InventoryParticle> spawnFromSpeed(InventoryCursor cursor) {
+	public List<InventoryParticle> spawnFromCursor(InventoryCursor cursor) {
 		int spawnCount = (int) (this.random.nextBetween(this.countRange.getMin(), this.countRange.getMax()) * this.speedCoefficient * Math.sqrt(cursor.getSpeed()));
 		return this.createParticles(spawnCount, cursor, (particle) -> this.spawnParticleAtCursorDeltaPath(particle, cursor));
 	}
@@ -56,11 +58,23 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 		particle.setY(particle.getY() - pathY + random.nextBetween(0, 2));
 	}
 
-	public List<InventoryParticle> tickAndSpawn(InventoryCursor cursor) {
+	public List<InventoryParticle> tickAndSpawn(ParticleSpawnContext context) {
 		this.tick();
 
 		if (this.nextSpawnTicks == 0) {
-			int ticksToWaitForNextSpawn = this.random.nextBetween(this.frequencyRange.getMin(), this.frequencyRange.getMax());
+			int ticks = this.random.nextBetween(this.frequencyRange.getMin(), this.frequencyRange.getMax());
+
+			InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
+
+			float f = (float) ticks;
+			if (ParticleSpawnContext.isSlot(context)) {
+				f *= config.getGuiParticlesSpawnRangeCoefficient();
+			}
+			if (ParticleSpawnContext.isCursor(context)) {
+				f *= config.getCursorParticlesSpawnRangeCoefficient();
+			}
+			int ticksToWaitForNextSpawn = (int) (f * config.getGlobalParticlesSpawnRangeCoefficient());
+
 			this.nextSpawnTicks = this.ticks + ticksToWaitForNextSpawn;
 		}
 
@@ -70,25 +84,41 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 
 		this.nextSpawnTicks = 0;
 
-		return this.createParticles(this.random.nextBetween(this.countRange.getMin(), this.countRange.getMax()), cursor);
+		return this.spawn(context);
 	}
 
-	private List<InventoryParticle> createParticles(int spawnCount, InventoryCursor cursor) {
-		return createParticles(spawnCount, cursor, (particle) -> {});
+	@Override
+	public List<InventoryParticle> spawn(ParticleSpawnContext context) {
+		return this.createParticles(this.random.nextBetween(this.countRange.getMin(), this.countRange.getMax()), context, (particle) -> {});
 	}
 
 	private List<InventoryParticle> createParticles(int spawnCount, InventoryCursor cursor, Consumer<InventoryParticle> consumer) {
-		if (spawnCount != 0 && !this.spawnCondition.test(cursor.getCurrentStack())) {
+		return this.createParticles(spawnCount, ParticleSpawnContext.cursor(cursor), consumer);
+	}
+
+	private List<InventoryParticle> createParticles(int spawnCount, ParticleSpawnContext context, Consumer<InventoryParticle> consumer) {
+		if (spawnCount != 0 && !this.spawnCondition.test(context.getStack())) {
 			return List.of();
 		}
 
+		InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
+
+		float count = (float) spawnCount;
+		if (ParticleSpawnContext.isSlot(context)) {
+			count *= config.getGuiParticlesSpawnCountCoefficient();
+		}
+		if (ParticleSpawnContext.isCursor(context)) {
+			count *= config.getCursorParticlesSpawnCountCoefficient();
+		}
+		int countOfParticles = (int) (count * config.getGlobalParticlesSpawnCountCoefficient());
+
 		List<InventoryParticle> particles = new ArrayList<>();
-		for (int i = 0; i < spawnCount; i++) {
-			InventoryParticle particle = this.function.apply(cursor);
+		for (int i = 0; i < countOfParticles; i++) {
+			InventoryParticle particle = this.function.apply(context);
 			consumer.accept(particle);
 
 			this.offsetParticlePos(particle);
-			this.setParticleColorController(particle, cursor);
+			this.setParticleColorController(particle, context);
 
 			particles.add(particle);
 		}
@@ -96,8 +126,8 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 		return particles;
 	}
 
-	private void setParticleColorController(InventoryParticle particle, InventoryCursor cursor) {
-		ItemStack currentItem = cursor.getCurrentStack();
+	private void setParticleColorController(InventoryParticle particle, ParticleSpawnContext context) {
+		ItemStack currentItem = context.getStack();
 		IParticleColorType type = this.colorType.copy();
 		type.compile(currentItem, particle.getRandom());
 		particle.setColorController(new ColorController<>(type));

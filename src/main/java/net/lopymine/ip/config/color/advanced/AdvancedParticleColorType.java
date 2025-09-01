@@ -49,6 +49,9 @@ public class AdvancedParticleColorType implements IParticleColorType {
 
 	@Override
 	public int tick(Random random) {
+		if (this.compiledValues.length == 0) {
+			return -1;
+		}
 		return this.mode.tickResolve(this.compiledValues, random);
 	}
 

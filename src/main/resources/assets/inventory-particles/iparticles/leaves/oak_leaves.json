@@ -1,0 +1,163 @@
+{
+	"life_time": 300,
+	"animation_type": "random_static",
+	"animation_speed": 1.0,
+	"size": {
+		"width": 8,
+		"height": 8
+	},
+
+	"textures": [
+		"inventory-particles:leaves/oak_leaves_0.png",
+		"inventory-particles:leaves/oak_leaves_1.png",
+		"inventory-particles:leaves/oak_leaves_2.png"
+	],
+	"holders": [
+		{
+			"item": "minecraft:oak_leaves",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 5],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.4,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:oak_sapling",
+			"spawn_area": "oak_sapling_leaves.png",
+			"spawn_count": [0, 3],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:stick",
+			"spawn_area": "stick_leaves.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [40, 300],
+			"speed_coefficient": 0.0,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:wooden_pickaxe",
+			"spawn_area": "wooden_pickaxe_leaves.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [40, 300],
+			"speed_coefficient": 0.0,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:wooden_axe",
+			"spawn_area": "wooden_axe_leaves.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [40, 300],
+			"speed_coefficient": 0.0,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:wooden_sword",
+			"spawn_area": "wooden_sword_leaves.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [40, 300],
+			"speed_coefficient": 0.0,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:wooden_shovel",
+			"spawn_area": "wooden_shovel_leaves.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [40, 300],
+			"speed_coefficient": 0.0,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:wooden_hoe",
+			"spawn_area": "wooden_hoe_leaves.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [40, 300],
+			"speed_coefficient": 0.0,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"physics": {
+		"base": {
+			"x_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.2,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [-0.25, 0.25],
+				"cursor_impulse_inherit_coefficient": 1.0
+			},
+			"y_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.1,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [-0.25, 0.25],
+				"cursor_impulse_inherit_coefficient": 1.0
+			},
+			"angle_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0]
+			}
+		},
+		"rotation": {
+			"particle": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			},
+			"texture": {
+				"spawn_angle": [0.0, 360.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [5.0, 15.0],
+					"impulse_bidirectional": true,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 15.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			}
+		}
+	}
+}

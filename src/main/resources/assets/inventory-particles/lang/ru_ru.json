@@ -1,6 +1,6 @@
 {
-	"modmenu.descriptionTranslation.${mod_id}": "Beautiful particles for your inventory items!",
-	"${mod_id}.modmenu.title": "§l${mod_name} Configuration",
+	"modmenu.descriptionTranslation.${mod_id}": "Необычные частицы для ваших вещей в инвентаре! Сделайте свой инвентарь немного живее и динамичнее!",
+	"${mod_id}.modmenu.title": "§l${mod_name} Конфигурация",
 	"${mod_id}.modmenu.no_config_library_screen.message": "Вам необходимо установить §6§lYet Another Config Lib [YACL]§f, чтобы открыть экран конфигурации ${mod_name} \n\n§a§lОткрыть страницу §6§lYACL §a§lна Modrinth?",
 
 	"${mod_id}.modmenu.category.general.name": "Основное",
@@ -19,6 +19,29 @@
 
 	"${mod_id}.modmenu.group.particles_group.name": "Частицы",
 	"${mod_id}.modmenu.group.particles_group.description": "Настройки частиц.",
+
+	"${mod_id}.modmenu.option.particle_spawn_type.name": "Тип появления частиц",
+	"${mod_id}.modmenu.option.particle_spawn_type.description": "Определяет, где будут появляться частицы",
+	"${mod_id}.modmenu.option.particle_spawn_type.only_in_cursor": "Только в курсоре",
+	"${mod_id}.modmenu.option.particle_spawn_type.everywhere": "Везде (Меню + Курсор)",
+
+	"${mod_id}.modmenu.option.global_particles_spawn_count_coefficient.name": "[Глобально] Коэфф. количества частиц",
+	"${mod_id}.modmenu.option.global_particles_spawn_count_coefficient.description": "Коэффициент, определяющий как много/мало частиц может появиться и в меню, и вокруг курсора.",
+
+	"${mod_id}.modmenu.option.global_particles_spawn_range_coefficient.name": "[Глобально] Коэфф. частоты появления частиц",
+	"${mod_id}.modmenu.option.global_particles_spawn_range_coefficient.description": "Коэффициент, определяющий как редко/часто частицы будут появляться и в меню, и вокруг курсора.",
+
+	"${mod_id}.modmenu.option.cursor_particles_spawn_count_coefficient.name": "[Курсор] Коэфф. количества частиц",
+	"${mod_id}.modmenu.option.cursor_particles_spawn_count_coefficient.description": "Коэффициент, определяющий как много/мало частиц может появиться вокруг курсора.",
+
+	"${mod_id}.modmenu.option.cursor_particles_spawn_range_coefficient.name": "[Курсор] Коэфф. частоты появления частиц",
+	"${mod_id}.modmenu.option.cursor_particles_spawn_range_coefficient.description": "Коэффициент, определяющий как редко/часто частицы будут появляться вокруг курсора.",
+
+	"${mod_id}.modmenu.option.gui_particles_spawn_count_coefficient.name": "[Меню] Коэфф. количества частиц",
+	"${mod_id}.modmenu.option.gui_particles_spawn_count_coefficient.description": "Коэффициент, определяющий как много/мало частиц может появиться в меню.",
+
+	"${mod_id}.modmenu.option.gui_particles_spawn_range_coefficient.name": "[Меню] Коэфф. частоты появления частиц",
+	"${mod_id}.modmenu.option.gui_particles_spawn_range_coefficient.description": "Коэффициент, определяющий как редко/часто частицы будут появляться в меню.",
 
 	"${mod_id}.modmenu.option.maximum_particles_limit.name": "Максимальное количество частиц",
 	"${mod_id}.modmenu.option.maximum_particles_limit.description": "Максимальное количество частиц, которое может существовать на экране.",

@@ -1,143 +1,212 @@
-OUTATED, maybe I will update on one good day
+[![Discord link to the "LopyMine's Project" discord server](https://cdn.modrinth.com/data/cached_images/21f178aff2b64844fefeaf94a3a3a418440fd43f.png)](https://discord.gg/NZzxdkrV4s) [![Github Link-Banner](https://cdn.modrinth.com/data/cached_images/d87060a9e4522786e45b4b54d10853a1b4a91b10.png)](https://github.com/LopyMine/Inventory-Particles) [![Support Link-Banner [Boosty]](https://cdn.modrinth.com/data/cached_images/dce91fef079649dee277c52a998fc068e745e99e.png)](https://boosty.to/lopymine/donate)
 
-<img src="src/main/resources/icon/icon.png" align="right" width="190px" alt="mod logo"/>
+[![CurseForge Link-Banner](https://cdn.modrinth.com/data/cached_images/c39affcb732c8b1a4fe189e79898c686da3d63e2.png)](https://www.curseforge.com/minecraft/mc-mods/inventory-particles) [![Modrinth Link-Banner](https://cdn.modrinth.com/data/cached_images/9991553f6a20e5105b9b153b8d817bc3630c18a8.png)](https://modrinth.com/mod/inventory-particles)
 
-[![Discord link to the "LopyMine's Project" discord server](https://cdn.modrinth.com/data/cached_images/21f178aff2b64844fefeaf94a3a3a418440fd43f.png)](https://discord.gg/NZzxdkrV4s) [![Support Link-Banner [Boosty]](https://cdn.modrinth.com/data/cached_images/dce91fef079649dee277c52a998fc068e745e99e.png)](https://boosty.to/lopymine/donate)
+!["Description" Title](https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/image2.webp?raw=true)
 
-### Mossy - Template Fabric Mod
+**Inventory Particles** — Visual Fabric mod which adds a lot of new particles for your inventory items! With it you can make your inventory a little more lively and dynamic! Of course, completely client-side.
 
----
+![Ingame Showcase](https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/ima222ge.webp?raw=true)
 
-Mossy is a template Fabric mod with some additional tweaks and code templates.
+![Label "1300+ Textures, 800+ areas, 400+ configs"](https://cdn.modrinth.com/data/cached_images/b31510bc5bff1c5c150a1aadb6a317e220882f6c.png)
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/arrow.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/bedrock.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/campfire.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/carrot.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/diamond.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/disc.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/honey.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/key.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/lava.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/potato.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/potion.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/pufferfish.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/sculk.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/snow.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/totem.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/blaze.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/command.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/light.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/note.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/shell.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/spore.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/stand.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/tnt.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/water.webp?raw=true" width="164px" alt="Showcase"/>
+<img src="https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/wool.webp?raw=true" width="164px" alt="Showcase"/>
+![Just decoration here](https://cdn.modrinth.com/data/cached_images/e66456118e8d1bd51d25bd166f33d70e008a0fe6_0.webp)
 
-### Tweaks and templates
----
-### Done
-1) Multi-version modding by [Stonecutter](https://stonecutter.kikugie.dev/) plugin
-2) Easy player setting (uuid and nickname) 
-3) Mod Menu Integration
-4) Fast YACL configuration for config screen (WIP)
-5) Mod Config template
-6) Versioned AWs and Mixins
-7) Fast `gradle.properties`, AWs and mixins generation for each version (for 1st point)
-8) Split run folder for `runs/client` and `runs/server`
-### Planned
-9) Add support for multi-loaders
+!["Configurable" Title](https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/image.webp?raw=true)
 
-# How to set up it
-Basically, there are two ways: 
-1) You can fork this template mod and make your mod
-2) You can integrate Mossy build system into your ready-made mod
+**All particles** in Inventory Particles are **data driven**! This means that you can add more particles just by using resource packs and some basic configs!
 
-But we will focus on the second way. In this way you will need to copy files `stonecutter.gradle`, `settings.gradle`, `gradle.properties`, `build.gradle`, `LICENSE`, `Mossy/src/main/resources/fabric.mod.json` and optional `.gitignore`. 
+**You can customize:**
+1) Physics (acceleration, braking, impulses, etc.)
+2) Rotations (actual and visual)
+3) Sizes (+ animations)
+4) Colors (+ animations)
+5) Texture (+ animations)
+6) Holders (items from which they will spawn)
+7) Spawn Area (just with additional texture)
+8) Life Time (ticks)
+9) And other little things ^^
 
-Then you will need to set up `gradle.properties`.
-
-## About `gradle.properties`
-- `Mod Properties` contains mod info
-- `Main Dependencies` like `Build Dependencies`, but not versioned
-- `Build Dependencies` contains build properties, usually they versioned
-- `Multi-Versions` basically contains only one property, it's a `multi_versions`, versions in it should be separated with space ' '
-- `Additional Dependencies` contains additional depends, and you can add it easily:
-```properties
-# If you want to have it versioned, just write:
-dep.MOD_ID=[VERSIONED]
-# and add this property to every `Mossy/versions/[MINECRAFT VERSION]/gradle.properties`, if it's boring for you, just remove `gradle.properties` and reload gradle, each `gradle.properties` with last versions of depends will be generated.
-#
-# If you want to have static version, just write:
-dep.MOD_ID=MOD_VERSION
-#
-# READ ME
-# MOD_ID should be taken from Modrinth.
-# `dep.` part is important.
-```
-
-After you can reload gradle and check all updates.
-
-Also don't forgot to add your dependency in `build.gradle` with this value
-
-## About Mixins and AWs
-
-After reloading gradle, in your `resources` folder you will find `mixins` and `aws` folders. In them, you will find generated mixins and AWs for each minecraft version. What version they are for is indicated in their name.
-
-You might be surprised that all mixins have a `.json5` extension instead of `.json`. This is needed to support comments which are needed for the [Stonecutter](https://stonecutter.kikugie.dev/) plugin. In build all mixins will be converted to `.json` by [j52j](https://github.com/kikugie/j52j).
-
-To understand how comments work, I recommend to check the [Stonecutter docs](https://stonecutter.kikugie.dev/stonecutter/introduction).
-
-AWs, in turn, have nothing unusual.
-
-## About `fabric.mod.json`
-In Mossy, `fabric.mod.json` has some features you should know, here are the main ones:
-```json5
-// ...
-// Other code
-    "depends": {
-        "fabricloader": ">=${fabric_loader}",
-        "minecraft": ">=${minecraft}",
-        "java": ">=${java}",
-        "fabric-api": ">=${fabric_api}"
-    }, // needs because we have multi-versions
-    "accessWidener": "aws/${minecraft}.accesswidener", // needs to get path to AW for current minecraft version
-    "mixins": [
-        "mixins/${minecraft}-${modId}.mixins.json" // needs to get path to mixing config for current minecraft version
-    ]
-// Other code
-// ...
-```
-
-## About `player/player.properties`
-
-`Mossy/player/player.properties` is just a properties file, which uses to set up minecraft runs config with properties, to set up your nickname and uuid if they are present. If you want to add it, just create `player` folder in your project, and file `player.properties` with this content:
-
-```properties
-# Player properties
-# If you don't want to change any properties, just remove it
-player_nickname=Cool boy
-player_uuid=Your UUID here
-# After changes, you need to delete "/.idea/runConfigurations" folder and reopen project and reload gradle
-```
-
-## About `.json5` files
-At now plugin j52j will convert all `.json5` files in `Mossy/src/main/resources/` to `.json` in build, check [this](https://github.com/kikugie/j52j?tab=readme-ov-file#configuring-the-plugin) if you wanna to safe some files from converting.
-
-# How to use it
-
-## Switching current minecraft version
-
-After settings and reloading gradle, you should have gradle tasks in the `stonecutter` category, select the one and you will switch the active minecraft version of the game to the selected one.
-- `Refresh active project` will refresh project and update comments.
-- `Reset active project` will switch current minecraft version to first of the `multi_versions` in main `gradle.properties` file.
-
-You can check current minecraft version in `stonecutter.gradle` file.
-For more info check the [Stonecutter docs](https://stonecutter.kikugie.dev/stonecutter/introduction).
+> Unfortunately, we haven't had time to make a wiki yet, so for now you can try to figure it out by yourself 😅
 
 <details>
-<summary>Showcase</summary>
-<br>
-<img src="img/switching_version.gif" width="400" alt="Showcase"/>
+<summary> Example Config </summary>
+
+```json
+{
+	"life_time": 100,
+	"animation_type": "stretch",
+	"animation_speed": 1.0,
+
+	"size": {
+		"width": 8.0,
+		"height": 8.0
+	},
+	// or
+	"size": {
+		// https://nicmulvaney.com/easing
+		"interpolation": "ease_in_quint",
+		"sizes": {
+			"0": {
+				"width": 16.0,
+				"height": 16.0,
+				// Overrides "ease_in_quint"
+				"interpolation": "linear"
+			},
+			"50": {
+				"width": 32.0,
+				"height": 32.0
+			},
+			"100": {
+				"width": 64.0,
+				"height": 64.0
+			}
+		}
+	},
+
+	"textures": [
+		"inventory-particles:example/texture_0.png",
+		"inventory-particles:example/texture_1.png"
+	],
+	
+	"holders": [
+		{
+			"item": "minecraft:potion",
+			"spawn_area": "example_spawn_area.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.3,
+
+			"color": "#AARRGGBB",
+			// or
+			"color": {
+				// mixed, random, random_static, gradient, gradient_random_static, gradient_loop, gradient_bounce
+				"mode": "gradient",
+				"values": ["#FF8CC091", "#003700", "nbt", "nbt_list"],
+				"speed": 5.0
+			},
+
+			"nbt_conditions_match": "none",
+			"nbt_conditions": [
+				{
+					"this_name": "components",
+					"this_type": "object",
+					"next_match": "any",
+					"next": {
+						"this_name": "minecraft:potion_contents",
+						"this_type": "object",
+						"next_match": "any",
+						"next": [
+							{
+								"this_name": "potion",
+								"this_type": "string",
+								"check_value": "minecraft:water"
+							}
+						]
+					}
+				}
+			]
+		}
+	],
+	
+	"physics": {
+		"base": {
+			"x_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 1.0
+			},
+			"y_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 1.0
+			},
+			"angle_speed": {
+				"impulse": [1.0, 1.5],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0]
+			}
+		},
+		"rotation": {
+			"particle": {
+				"spawn_angle": [0.0, 360.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			},
+			"texture": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": true,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			}
+		}
+	}
+}
+```
 </details>
 
-## Launching current minecraft version
-To run current minecraft version with your mod you will need to execute run configuration with the same version, that in `stonecutter.gradle`, to switch it, read previous text above.
+![Just decoration here](https://cdn.modrinth.com/data/cached_images/e66456118e8d1bd51d25bd166f33d70e008a0fe6_0.webp)
 
-Also, your game folder is now split to `Mossy/runs/client` and `Mossy/runs/server`, boop.
+![Showcase](https://cdn.modrinth.com/data/cached_images/c681a00eaa95d93c03b28566a266f2aad3707e5f.png)
 
-<details>
-<summary>Showcase</summary>
-<br>
-<img src="img/launching_minecraft.gif" width="600" alt="Showcase"/>
-<img src="img/launched_mod.png" width="600" alt="Showcase"/>
-</details>
+### ![Icon](https://cdn.modrinth.com/data/cached_images/9111988448f778aaff9ac4477e463343fe4dc7e4.png) Want to support mod and authors? Just tell everyone about this mod!
 
-## Building mod
-To build your mod for each minecraft version which you write in main `gradle.properties`, you can just start specified gradle task `chiseledBuild` in `project` group, after execution you can go to `Mossy/versions/[MINECRAFT VERSION]/build/libs/your_builded_mod.jar`.
+Yeah, you got it right. Just by advertising, you will support the mod and the creators well. The more people will know about this mod, the more downloads it will have, more downloads will give good motivation to authors and increase income from the site (literally free donation). **Remember, advertising must not be intrusive and annoiyng!**
 
-<details>
-<summary>Showcase</summary>
-<br>
-<img src="img/building_mod.gif"  width="400" alt="Showcase"/>
-
-And after executing `chiseledBuild` task you can check your mods, here is example for minecraft 1.20.1:
-
-<img src="img/mod.png" width="500" alt="Showcase"/>
-</details>
+### What you can do?
+- Make a video review / advertisement
+- Tell your friends about this mod
+- Just download this mod (if you want to play with it :D)

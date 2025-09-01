@@ -1,0 +1,223 @@
+{
+	"life_time": 300,
+	"animation_type": "random_static",
+	"animation_speed": 1.0,
+	
+	"size": {
+		"width": 8,
+		"height": 8
+	},
+
+	"textures": [
+		"inventory-particles:dust/color_dust/color_dust_0.png",
+		"inventory-particles:dust/color_dust/color_dust_1.png",
+		"inventory-particles:dust/color_dust/color_dust_2.png"
+	],
+	
+	"holders": [
+		{
+			"item": "minecraft:leather_helmet",
+			"spawn_area": "leather_helmet_dust.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 20],
+			"speed_coefficient": 0.25,
+			"color": "nbt",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": [
+                {
+                    "this_name": "components",
+                    "this_type": "object",
+                    "next": { 
+                        "this_name": "minecraft:dyed_color",
+                        "this_type": "int"
+                    }
+                }
+            ]
+		},
+		{
+			"item": "minecraft:leather_chestplate",
+			"spawn_area": "leather_chestplate_dust.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 20],
+			"speed_coefficient": 0.25,
+			"color": "nbt",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": [
+                {
+                    "this_name": "components",
+                    "this_type": "object",
+                    "next": { 
+                        "this_name": "minecraft:dyed_color",
+                        "this_type": "int"
+                    }
+                }
+            ]
+		},
+		{
+			"item": "minecraft:leather_leggings",
+			"spawn_area": "leather_leggings_dust.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 20],
+			"speed_coefficient": 0.25,
+			"color": "nbt",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": [
+                {
+                    "this_name": "components",
+                    "this_type": "object",
+                    "next": { 
+                        "this_name": "minecraft:dyed_color",
+                        "this_type": "int"
+                    }
+                }
+            ]
+		},
+		{
+			"item": "minecraft:leather_boots",
+			"spawn_area": "leather_boots_dust.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 20],
+			"speed_coefficient": 0.25,
+			"color": "nbt",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": [
+                {
+                    "this_name": "components",
+                    "this_type": "object",
+                    "next": { 
+                        "this_name": "minecraft:dyed_color",
+                        "this_type": "int"
+                    }
+                }
+            ]
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:wolf_armor",
+			"spawn_area": "wolf_armor_dust.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 20],
+			"speed_coefficient": 0.25,
+			"color": "nbt",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": [
+                {
+                    "this_name": "components",
+                    "this_type": "object",
+                    "next": { 
+                        "this_name": "minecraft:dyed_color",
+                        "this_type": "int"
+                    }
+                }
+            ]
+		},
+		{
+			"item": "minecraft:leather_horse_armor",
+			"spawn_area": "leather_horse_armor_dust.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 20],
+			"speed_coefficient": 0.25,
+			"color": "nbt",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": [
+                {
+                    "this_name": "components",
+                    "this_type": "object",
+                    "next": { 
+                        "this_name": "minecraft:dyed_color",
+                        "this_type": "int"
+                    }
+                }
+            ]
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:firework_star",
+			"spawn_area": "firework_star_color_dust.png",
+			"spawn_count": [1, 2],
+			"spawn_frequency": [20, 40],
+			"speed_coefficient": 0.2,
+			"color": "nbt",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": [
+                {
+                    "this_name": "components",
+                    "this_type": "object",
+                    "next": { 
+                        "this_name": "minecraft:firework_explosion",
+                        "this_type": "object"
+                    }
+                }
+            ]
+		}
+	],
+	"physics": {
+		"base": {
+			"x_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.025,
+				"turbulence": [-0.1, 0.1],
+				"cursor_impulse_inherit_coefficient": 0.5
+			},
+			"y_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.05,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 2.0],
+				"braking": 0.0,
+				"turbulence": [-0.05, 0.05],
+				"cursor_impulse_inherit_coefficient": 0.5
+			},
+			"angle_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0]
+			}
+		},
+		"rotation": {
+			"particle": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			},
+			"texture": {
+				"spawn_angle": [0.0, 360.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [5.0, 15.0],
+					"impulse_bidirectional": true,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			}
+		}
+	}
+}

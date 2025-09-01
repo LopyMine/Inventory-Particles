@@ -12,7 +12,7 @@ public class RotationSpeedController<T extends IRotatableElement & IMovableEleme
 	private float rotation;
 
 	public RotationSpeedController(RotationConfig config, Random random) {
-		super(config.getSpeedConfig(), random);
+		super(config.getSpeedConfig(), random, 0.0F);
 		this.rotateInMovementDirection = config.isRotateInMovementDirection();
 	}
 

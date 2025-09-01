@@ -1,0 +1,163 @@
+{
+	"life_time": 20,
+	"animation_type": "onetime",
+	"animation_speed": 2.0,
+	
+	"size": {
+		"width": 8,
+		"height": 8
+	},
+
+	"textures": [
+		"inventory-particles:vanilla/small_gust/small_gust_1.png",
+		"inventory-particles:vanilla/small_gust/small_gust_2.png",
+		"inventory-particles:vanilla/small_gust/small_gust_3.png",
+		"inventory-particles:vanilla/small_gust/small_gust_4.png",
+		"inventory-particles:vanilla/small_gust/small_gust_5.png",
+		"inventory-particles:vanilla/small_gust/small_gust_6.png"
+	],
+	
+	"holders": [
+		{
+			"item": "minecraft:breeze_rod",
+			"spawn_area": "breeze_rod_small_gust.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [5, 15],
+			"speed_coefficient": 0.2,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:wind_charge",
+			"spawn_area": "wind_charge_small_gust.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [5, 15],
+			"speed_coefficient": 0.2,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:heavy_core",
+			"spawn_area": "head.png",
+			"spawn_count": [0, 3],
+			"spawn_frequency": [5, 15],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:mace",
+			"spawn_area": "mace_small_gust.png",
+			"spawn_count": [0, 3],
+			"spawn_frequency": [5, 15],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:guster_pottery_sherd",
+			"spawn_area": "guster_pottery_sherd_small_gust.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 20],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:flow_pottery_sherd",
+			"spawn_area": "flow_pottery_sherd_small_gust.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 20],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:flow_armor_trim_smithing_template",
+			"spawn_area": "flow_armor_trim_smithing_template_small_gust.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [5, 15],
+			"speed_coefficient": 0.2,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"physics": {
+		"base": {
+			"x_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [-0.5, 0.5],
+				"cursor_impulse_inherit_coefficient": 0.25
+			},
+			"y_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [-0.5, 0.5],
+				"cursor_impulse_inherit_coefficient": 0.25
+			},
+			"angle_speed": {
+				"impulse": [0.5, 1.5],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0]
+			}
+		},
+		"rotation": {
+			"particle": {
+				"spawn_angle": [0.0, 360.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			},
+			"texture": {
+				"spawn_angle": [0.0, 360.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": true,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,328 @@
+{
+	"life_time": 50,
+	"animation_type": "onetime",
+	"animation_speed": 4.0,
+	
+	"size": {
+		"width": 8,
+		"height": 8
+	},
+
+	"textures": [
+		"inventory-particles:vanilla/potion/effect_5.png",
+		"inventory-particles:vanilla/potion/effect_4.png",
+		"inventory-particles:vanilla/potion/effect_3.png",
+		"inventory-particles:vanilla/potion/effect_2.png",
+		"inventory-particles:vanilla/potion/effect_1.png",
+		"inventory-particles:vanilla/potion/effect_0.png"
+	],
+	
+	"holders": [
+		{
+			"item": "minecraft:potion",
+			"spawn_area": "potion_potion.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.3,
+			"color": "nbt",
+			"nbt_conditions_match": "none",
+			"nbt_conditions": [
+				{
+					"this_name": "components",
+					"this_type": "object",
+					"next": {
+						"this_name": "minecraft:potion_contents",
+						"this_type": "object",
+						"next": [
+							{
+								"this_name": "potion",
+								"this_type": "string",
+								"check_value": "minecraft:water"
+							},
+							{
+								"this_name": "potion",
+								"this_type": "string",
+								"check_value": "minecraft:mundane"
+							},
+							{
+								"this_name": "potion",
+								"this_type": "string",
+								"check_value": "minecraft:thick"
+							},
+							{
+								"this_name": "potion",
+								"this_type": "string",
+								"check_value": "minecraft:awkward"
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"item": "minecraft:splash_potion",
+			"spawn_area": "splash_potion_potion.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.4,
+			"color": "nbt",
+			"nbt_conditions_match": "none",
+			"nbt_conditions": [
+				{
+					"this_name": "components",
+					"this_type": "object",
+					"next": {
+						"this_name": "minecraft:potion_contents",
+						"this_type": "object",
+						"next": [
+							{
+								"this_name": "potion",
+								"this_type": "string",
+								"check_value": "minecraft:water"
+							},
+							{
+								"this_name": "potion",
+								"this_type": "string",
+								"check_value": "minecraft:mundane"
+							},
+							{
+								"this_name": "potion",
+								"this_type": "string",
+								"check_value": "minecraft:thick"
+							},
+							{
+								"this_name": "potion",
+								"this_type": "string",
+								"check_value": "minecraft:awkward"
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"item": "minecraft:lingering_potion",
+			"spawn_area": "lingering_potion_potion.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.5,
+			"color": "nbt",
+			"nbt_conditions_match": "none",
+			"nbt_conditions": [
+				{
+					"this_name": "components",
+					"this_type": "object",
+					"next": {
+						"this_name": "minecraft:potion_contents",
+						"this_type": "object",
+						"next": [
+							{
+								"this_name": "potion",
+								"this_type": "string",
+								"check_value": "minecraft:water"
+							},
+							{
+								"this_name": "potion",
+								"this_type": "string",
+								"check_value": "minecraft:mundane"
+							},
+							{
+								"this_name": "potion",
+								"this_type": "string",
+								"check_value": "minecraft:thick"
+							},
+							{
+								"this_name": "potion",
+								"this_type": "string",
+								"check_value": "minecraft:awkward"
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"item": "minecraft:tipped_arrow",
+			"spawn_area": "tipped_arrow_potion.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.4,
+			"color": "nbt",
+			"nbt_conditions_match": "none",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:crossbow",
+			"spawn_area": "crossbow_tipped_arrow_potion.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.4,
+			"color": "nbt",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": [
+				{
+					"this_name": "components",
+					"this_type": "object",
+					"next_match": "any",
+					"next": {	
+						"this_name": "minecraft:charged_projectiles",
+						"this_type": "list",
+						"next_match": "any",
+						"next": {
+							"this_name": "",
+							"this_type": "object",
+							"next_match": "any",
+								"next": {	
+								"this_name": "id",
+								"this_type": "string",
+								"check_value": "minecraft:tipped_arrow"
+							}
+						}
+					}
+				}
+			]
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:spider_eye",
+			"spawn_area": "spider_eye_potion.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": "#87A363",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:pufferfish",
+			"spawn_area": "pufferfish_potion.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": "#87A363",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:pufferfish_bucket",
+			"spawn_area": "pufferfish_bucket_potion.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": "#87A363",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:poisonous_potato",
+			"spawn_area": "poisonous_potato_potion.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": "#87A363",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:arms_up_pottery_sherd",
+			"spawn_area": "arms_up_pottery_sherd_potion.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": "#CD5CAB",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:heart_pottery_sherd",
+			"spawn_area": "heart_pottery_sherd_potion.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": "#F82423",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:brewer_pottery_sherd",
+			"spawn_area": "brewer_pottery_sherd_potion.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": "#8BAFE0",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"physics": {
+		"base": {
+			"x_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.5
+			},
+			"y_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": -0.1,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-5.0, 100.0],
+				"max_bidirectional": false,
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.5
+			},
+			"angle_speed": {
+				"impulse": [1.0, 1.5],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0]
+			}
+		},
+		"rotation": {
+			"particle": {
+				"spawn_angle": [0.0, 360.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			},
+			"texture": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": true,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			}
+		}
+	}
+}

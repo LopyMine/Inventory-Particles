@@ -1,0 +1,116 @@
+{
+	"life_time": 50,
+	"animation_type": "onetime",
+	"animation_speed": 6.0,
+	
+	"size": {
+		"width": 8,
+		"height": 8
+	},
+
+	"textures": [
+		"inventory-particles:vanilla/spark/spark_7.png",
+		"inventory-particles:vanilla/spark/spark_6.png",
+		"inventory-particles:vanilla/spark/spark_5.png",
+		"inventory-particles:vanilla/spark/spark_4.png",
+		"inventory-particles:vanilla/spark/spark_3.png",
+		"inventory-particles:vanilla/spark/spark_2.png",
+		"inventory-particles:vanilla/spark/spark_1.png",
+		"inventory-particles:vanilla/spark/spark_0.png"
+	],
+	
+	"holders": [
+		{
+			"item": "minecraft:crossbow",
+			"spawn_area": "crossbow_firework_firework.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.3,
+			"color": "nbt_list",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": [
+				{
+					"this_name": "components",
+					"this_type": "object",
+					"next_match": "any",
+					"next": {	
+						"this_name": "minecraft:charged_projectiles",
+						"this_type": "list",
+						"next_match": "any",
+						"next": {	
+							"this_name": "",
+							"this_type": "object",
+							"next_match": "any",
+							"next": {	
+								"this_name": "id",
+								"this_type": "string",
+								"check_value": "minecraft:firework_rocket"
+							}
+						}
+					}
+				}
+			]
+		}
+	],
+	"physics": {
+		"base": {
+			"x_speed": {
+				"impulse": [0.5, 1.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.05,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.5
+			},
+			"y_speed": {
+				"impulse": [0.5, 1.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.025,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 0.5],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.5
+			},
+			"angle_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0]
+			}
+		},
+		"rotation": {
+			"particle": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			},
+			"texture": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": true,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			}
+		}
+	}
+}

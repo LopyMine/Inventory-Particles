@@ -1,0 +1,290 @@
+{
+	"life_time": 750,
+	"animation_type": "random_static",
+	"animation_speed": 1.0,
+	
+	"size": {
+		"width": 8,
+		"height": 8
+	},
+
+	"textures": [
+		"inventory-particles:sparkles/trim_sparkles_0.png",
+		"inventory-particles:sparkles/trim_sparkles_1.png",
+		"inventory-particles:sparkles/trim_sparkles_2.png"
+	],
+	
+	"holders": [
+		{
+			"item": "minecraft:bolt_armor_trim_smithing_template",
+			"spawn_area": "bolt_armor_trim_smithing_template_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:coast_armor_trim_smithing_template",
+			"spawn_area": "coast_armor_trim_smithing_template_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:dune_armor_trim_smithing_template",
+			"spawn_area": "dune_armor_trim_smithing_template_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:eye_armor_trim_smithing_template",
+			"spawn_area": "eye_armor_trim_smithing_template_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:flow_armor_trim_smithing_template",
+			"spawn_area": "flow_armor_trim_smithing_template_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:host_armor_trim_smithing_template",
+			"spawn_area": "host_armor_trim_smithing_template_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:raiser_armor_trim_smithing_template",
+			"spawn_area": "raiser_armor_trim_smithing_template_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:rib_armor_trim_smithing_template",
+			"spawn_area": "rib_armor_trim_smithing_template_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:sentry_armor_trim_smithing_template",
+			"spawn_area": "sentry_armor_trim_smithing_template_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:shaper_armor_trim_smithing_template",
+			"spawn_area": "shaper_armor_trim_smithing_template_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:silence_armor_trim_smithing_template",
+			"spawn_area": "silence_armor_trim_smithing_template_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:snout_armor_trim_smithing_template",
+			"spawn_area": "snout_armor_trim_smithing_template_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:spire_armor_trim_smithing_template",
+			"spawn_area": "spire_armor_trim_smithing_template_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:tide_armor_trim_smithing_template",
+			"spawn_area": "tide_armor_trim_smithing_template_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:vex_armor_trim_smithing_template",
+			"spawn_area": "vex_armor_trim_smithing_template_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:ward_armor_trim_smithing_template",
+			"spawn_area": "ward_armor_trim_smithing_template_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:wayfinder_armor_trim_smithing_template",
+			"spawn_area": "wayfinder_armor_trim_smithing_template_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:wild_armor_trim_smithing_template",
+			"spawn_area": "wild_armor_trim_smithing_template_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:netherite_upgrade_smithing_template",
+			"spawn_area": "netherite_upgrade_smithing_template_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:music_disc_relic",
+			"spawn_area": "music_disc_relic_sparkles.png",
+			"spawn_count": [0, 6],
+			"spawn_frequency": [1, 1],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"physics": {
+		"base": {
+			"x_speed": {
+				"impulse": [-2.0, -3.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.05,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.5
+			},
+			"y_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": -0.1,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.5
+			},
+			"angle_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0]
+			}
+		},
+		"rotation": {
+			"particle": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			},
+			"texture": {
+				"spawn_angle": [0.0, 360.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [5.0, 15.0],
+					"impulse_bidirectional": true,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			}
+		}
+	}
+}

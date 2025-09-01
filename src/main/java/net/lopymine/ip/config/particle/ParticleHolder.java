@@ -15,6 +15,7 @@ import net.lopymine.ip.config.range.IntegerRange;
 import net.lopymine.ip.element.*;
 import net.lopymine.ip.predicate.nbt.*;
 import net.lopymine.ip.spawner.ParticleSpawner;
+import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.minecraft.util.Identifier;
 import static net.lopymine.ip.utils.CodecUtils.option;
 
@@ -82,7 +83,7 @@ public class ParticleHolder {
 	private IParticleColorType color;
 	private float speedCoefficient;
 
-	public ParticleSpawner create(Function<InventoryCursor, InventoryParticle> function) {
+	public ParticleSpawner create(Function<ParticleSpawnContext, InventoryParticle> function) {
 		return new ParticleSpawner(this.spawnArea,
 				this.spawnCount,
 				this.spawnFrequency,

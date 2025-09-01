@@ -1,0 +1,341 @@
+{
+	"life_time": 50,
+	"animation_type": "random_static",
+	"animation_speed": 1.0,
+	
+	"size": {
+		"width": 8,
+		"height": 8
+	},
+
+	"textures": [
+		"inventory-particles:light/light_0.png",
+		"inventory-particles:light/light_1.png"
+	],
+	
+	"holders": [
+		{
+			"item": "minecraft:light",
+			"spawn_area": "light_light.png",
+			"spawn_count": [0, 3],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.3,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 50
+			},
+			"nbt_conditions_match": "none",
+			"nbt_conditions": [
+				{
+					"this_name": "components",
+					"this_type": "object"
+				}
+			]
+		},
+		{
+			"item": "minecraft:light",
+			"spawn_area": "light_light.png",
+			"spawn_count": [0, 3],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.3,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 50
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": [
+				{
+					"this_name": "components",
+					"this_type": "object",
+					"next_match": "any",
+					"next": { 
+						"this_name": "minecraft:block_state",
+						"this_type": "object",
+						"next_match": "any",
+						"next": [
+							{
+								"this_name": "level",
+								"this_type": "string",
+								"check_value": "14"
+							},
+							{
+								"this_name": "level",
+								"this_type": "string",
+								"check_value": "13"
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"item": "minecraft:light",
+			"spawn_area": "light_light.png",
+			"spawn_count": [0, 3],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 50
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": [
+				{
+					"this_name": "components",
+					"this_type": "object",
+					"next_match": "any",
+					"next": { 
+						"this_name": "minecraft:block_state",
+						"this_type": "object",
+						"next_match": "any",
+						"next": [
+							{
+								"this_name": "level",
+								"this_type": "string",
+								"check_value": "12"
+							},
+							{
+								"this_name": "level",
+								"this_type": "string",
+								"check_value": "11"
+							},
+							{
+								"this_name": "level",
+								"this_type": "string",
+								"check_value": "10"
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"item": "minecraft:light",
+			"spawn_area": "light_light.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 50
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": [
+				{
+					"this_name": "components",
+					"this_type": "object",
+					"next_match": "any",
+					"next": { 
+						"this_name": "minecraft:block_state",
+						"this_type": "object",
+						"next_match": "any",
+						"next": [
+							{
+								"this_name": "level",
+								"this_type": "string",
+								"check_value": "9"
+							},
+							{
+								"this_name": "level",
+								"this_type": "string",
+								"check_value": "8"
+							},
+							{
+								"this_name": "level",
+								"this_type": "string",
+								"check_value": "7"
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"item": "minecraft:light",
+			"spawn_area": "light_light.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 50
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": [
+				{
+					"this_name": "components",
+					"this_type": "object",
+					"next_match": "any",
+					"next": { 
+						"this_name": "minecraft:block_state",
+						"this_type": "object",
+						"next_match": "any",
+						"next": [
+							{
+								"this_name": "level",
+								"this_type": "string",
+								"check_value": "6"
+							},
+							{
+								"this_name": "level",
+								"this_type": "string",
+								"check_value": "5"
+							},
+							{
+								"this_name": "level",
+								"this_type": "string",
+								"check_value": "4"
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"item": "minecraft:light",
+			"spawn_area": "light_light.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.15,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 50
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": [
+				{
+					"this_name": "components",
+					"this_type": "object",
+					"next_match": "any",
+					"next": { 
+						"this_name": "minecraft:block_state",
+						"this_type": "object",
+						"next_match": "any",
+						"next": [
+							{
+								"this_name": "level",
+								"this_type": "string",
+								"check_value": "3"
+							},
+							{
+								"this_name": "level",
+								"this_type": "string",
+								"check_value": "2"
+							},
+							{
+								"this_name": "level",
+								"this_type": "string",
+								"check_value": "1"
+							}
+						]
+					}
+				}
+			]
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:glow_item_frame",
+			"spawn_area": "glow_item_frame_light.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.3,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 50
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:glow_berries",
+			"spawn_area": "glow_berries_light.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.3,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 50
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"physics": {
+		"base": {
+			"x_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.5
+			},
+			"y_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.025,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 0.5],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.5
+			},
+			"angle_speed": {
+				"impulse": [1.0, 1.5],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.05,
+				"turbulence": [0.0, 0.0]
+			}
+		},
+		"rotation": {
+			"particle": {
+				"spawn_angle": [0.0, 360.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			},
+			"texture": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": true,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			}
+		}
+	}
+}

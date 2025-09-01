@@ -19,40 +19,53 @@ public abstract class AbstractSpeedController<C extends AbstractSpeedController<
 	private List<ISpeedControllerModifier<? super C, ? super E>> modifiers = new ArrayList<>();
 
 	@HideInDebugRender
-	protected final SpeedConfig config;
-	@HideInDebugRender
 	protected final Random random;
+	private final float acceleration;
+	private final boolean accelerationBidirectional;
+	private final FloatRange maxAcceleration;
+	private final FloatRange max;
+	private final float braking;
+	private final FloatRange turbulence;
+
 	protected float lastSpeed;
 	protected float speed;
 
-	public AbstractSpeedController(SpeedConfig config, Random random) {
-		this.config = config;
-		this.speed  = config.getImpulseBidirectional(random);
-		this.random = random;
+	public AbstractSpeedController(SpeedConfig config, Random random, float impulse) {
+		this(random, config.getAcceleration(), config.isAccelerationBidirectional(), config.getMaxAcceleration(), config.getMax(), config.getBraking(), config.getTurbulence(), impulse);
+	}
+
+	public AbstractSpeedController(Random random, float acceleration, boolean accelerationBidirectional, FloatRange maxAcceleration, FloatRange max, float braking, FloatRange turbulence, float impulse) {
+		this.random                    = random;
+		this.acceleration              = acceleration;
+		this.accelerationBidirectional = accelerationBidirectional && random.nextBoolean();
+		this.maxAcceleration           = this.accelerationBidirectional ? new FloatRange(-maxAcceleration.getMax(), -maxAcceleration.getMin()) : maxAcceleration;
+		this.max                       = max;
+		this.braking                   = braking;
+		this.turbulence                = turbulence;
+		this.speed                     = impulse;
 	}
 
 	@Override
 	public void tick(E element) {
 		this.lastSpeed = this.speed;
 
-		FloatRange maxAcceleration = this.config.getMaxAcceleration();
-		float acceleration = this.config.getAccelerationBidirectional(this.random);
+		float acceleration = this.getAcceleration() * (this.isAccelerationBidirectional() ? -1 : 1);
 		for (ISpeedControllerModifier<? super C, ? super E> m : this.modifiers) {
 			acceleration += m.getAcceleration(element);
 		}
-		boolean canApplyAcceleration = acceleration < 0 ? (this.speed > maxAcceleration.getMin()) : (this.speed < maxAcceleration.getMax());
+		boolean canApplyAcceleration = acceleration < 0 ? (this.getSpeed() > this.getMaxAcceleration().getMin()) : (this.speed < this.getMaxAcceleration().getMax());
 		if (canApplyAcceleration && acceleration != 0.0F) {
 			this.speed += acceleration;
-			if (this.speed < maxAcceleration.getMin()) {
-				this.speed = maxAcceleration.getMin();
+			if (this.speed < this.getMaxAcceleration().getMin()) {
+				this.speed = this.getMaxAcceleration().getMin();
 			}
-			if (this.speed > maxAcceleration.getMax()) {
-				this.speed = maxAcceleration.getMax();
+			if (this.speed > this.getMaxAcceleration().getMax()) {
+				this.speed = this.getMaxAcceleration().getMax();
 			}
 		}
 
 		if (this.speed > 0) {
-			float braking = this.config.getBraking();
+			float braking = this.getBraking();
 			for (ISpeedControllerModifier<? super C, ? super E> modifier : this.modifiers) {
 				braking += modifier.getBraking(element);
 			}
@@ -63,7 +76,7 @@ public abstract class AbstractSpeedController<C extends AbstractSpeedController<
 		}
 
 		if (this.speed < 0) {
-			float braking = this.config.getBraking();
+			float braking = this.getBraking();
 			for (ISpeedControllerModifier<? super C, ? super E> modifier : this.modifiers) {
 				braking += modifier.getBraking(element);
 			}
@@ -73,13 +86,13 @@ public abstract class AbstractSpeedController<C extends AbstractSpeedController<
 			}
 		}
 
-		float turbulence = this.config.getTurbulence().getRandom(this.random);
+		float turbulence = this.getTurbulence().getRandom(this.random);
 		for (ISpeedControllerModifier<? super C, ? super E> modifier : this.modifiers) {
 			turbulence += modifier.getTurbulence(element);
 		}
 		this.speed += turbulence;
 
-		FloatRange max = this.config.getMax();
+		FloatRange max = this.getMax();
 		if (this.speed < max.getMin()) {
 			this.speed = max.getMin();
 		}

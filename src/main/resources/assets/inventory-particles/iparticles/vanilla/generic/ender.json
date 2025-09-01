@@ -1,0 +1,283 @@
+{
+	"life_time": 60,
+	"animation_type": "random_static",
+	"animation_speed": 1.0,
+	
+	"size": {
+		"width": 8,
+		"height": 8
+	},
+
+	"textures": [
+		"inventory-particles:vanilla/generic/generic_5.png",
+		"inventory-particles:vanilla/generic/generic_5.png",
+		"inventory-particles:vanilla/generic/generic_4.png",
+		"inventory-particles:vanilla/generic/generic_4.png",
+		"inventory-particles:vanilla/generic/generic_3.png",
+		"inventory-particles:vanilla/generic/generic_3.png",
+		"inventory-particles:vanilla/generic/generic_2.png",
+		"inventory-particles:vanilla/generic/generic_1.png",
+		"inventory-particles:vanilla/generic/generic_0.png"
+	],
+	
+	"holders": [
+		{
+			"item": "minecraft:ender_pearl",
+			"spawn_area": "ender_pearl_ender.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.4,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#B025C8", "#D045E8"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:ender_eye",
+			"spawn_area": "ender_eye_ender.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.4,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#B025C8", "#D045E8"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:end_crystal",
+			"spawn_area": "end_crystal_ender.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.4,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#B025C8", "#D045E8"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:ender_chest",
+			"spawn_area": "chest.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.4,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#B025C8", "#D045E8"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:end_portal_frame",
+			"spawn_area": "end_portal_frame_top.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.4,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#B025C8", "#D045E8"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:chorus_fruit",
+			"spawn_area": "chorus_fruit_ender.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.4,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#B025C8", "#D045E8"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:chorus_plant",
+			"spawn_area": "chorus.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#B025C8", "#D045E8"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:chorus_flower",
+			"spawn_area": "chorus.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#B025C8", "#D045E8"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:dragon_breath",
+			"spawn_area": "dragon_breath_ender.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.4,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#B025C8", "#D045E8"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:dragon_head",
+			"spawn_area": "dragon_head.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.4,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#B025C8", "#D045E8"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:dragon_egg",
+			"spawn_area": "dragon_egg.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.4,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#B025C8", "#D045E8"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:eye_armor_trim_smithing_template",
+			"spawn_area": "eye_armor_trim_smithing_template_ender.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#B025C8", "#D045E8"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:spire_armor_trim_smithing_template",
+			"spawn_area": "spire_armor_trim_smithing_template_ender.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#B025C8", "#D045E8"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"physics": {
+		"base": {
+			"x_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [-0.1, 0.1],
+				"cursor_impulse_inherit_coefficient": 0.25
+			},
+			"y_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [-0.1, 0.1],
+				"cursor_impulse_inherit_coefficient": 0.25
+			},
+			"angle_speed": {
+				"impulse": [1.0, 1.5],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.05,
+				"turbulence": [0.0, 0.0]
+			}
+		},
+		"rotation": {
+			"particle": {
+				"spawn_angle": [0.0, 360.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			},
+			"texture": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": true,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			}
+		}
+	}
+}

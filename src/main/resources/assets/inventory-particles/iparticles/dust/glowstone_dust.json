@@ -1,0 +1,146 @@
+{
+	"life_time": 300,
+	"animation_type": "random_static",
+	"animation_speed": 1.0,
+	
+	"size": {
+		"width": 8,
+		"height": 8
+	},
+
+	"textures": [
+		"inventory-particles:dust/glowstone_dust_0.png",
+		"inventory-particles:dust/glowstone_dust_1.png",
+		"inventory-particles:dust/glowstone_dust_2.png"
+	],
+	
+	"holders": [
+		{
+			"item": "minecraft:glowstone_dust",
+			"spawn_area": "glowstone_dust_dust.png",
+			"spawn_count": [2, 4],
+			"spawn_frequency": [10, 20],
+			"speed_coefficient": 0.25,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:glowstone",
+			"spawn_area": "block.png",
+			"spawn_count": [2, 4],
+			"spawn_frequency": [10, 20],
+			"speed_coefficient": 0.5,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:spectral_arrow",
+			"spawn_area": "spectral_arrow_dust.png",
+			"spawn_count": [2, 4],
+			"spawn_frequency": [10, 20],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:crossbow",
+			"spawn_area": "crossbow_spectral_arrow_dust.png",
+			"spawn_count": [2, 4],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": [
+				{
+					"this_name": "components",
+					"this_type": "object",
+					"next_match": "any",
+					"next": {	
+						"this_name": "minecraft:charged_projectiles",
+						"this_type": "list",
+						"next_match": "any",
+						"next": {	
+							"this_name": "",
+							"this_type": "object",
+							"next_match": "any",
+							"next": {	
+								"this_name": "id",
+								"this_type": "string",
+								"check_value": "minecraft:spectral_arrow"
+							}
+						}
+					}
+				}
+			]
+		}
+	],
+	"physics": {
+		"base": {
+			"x_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.025,
+				"turbulence": [-0.1, 0.1],
+				"cursor_impulse_inherit_coefficient": 0.5
+			},
+			"y_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.05,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 2.0],
+				"braking": 0.0,
+				"turbulence": [-0.05, 0.05],
+				"cursor_impulse_inherit_coefficient": 0.5
+			},
+			"angle_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0]
+			}
+		},
+		"rotation": {
+			"particle": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			},
+			"texture": {
+				"spawn_angle": [0.0, 360.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [5.0, 15.0],
+					"impulse_bidirectional": true,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			}
+		}
+	}
+}

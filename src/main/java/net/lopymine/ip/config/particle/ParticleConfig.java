@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.*;
 import lombok.*;
 import net.lopymine.ip.element.*;
+import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.minecraft.util.Identifier;
 import static net.lopymine.ip.utils.CodecUtils.option;
 
@@ -44,8 +45,8 @@ public class ParticleConfig {
 	private HashSet<ParticleHolder> holders;
 	private ParticlePhysics physics;
 
-	public InventoryParticle createParticle(InventoryCursor cursor) {
-		return new InventoryParticle(this, cursor);
+	public InventoryParticle createParticle(ParticleSpawnContext context) {
+		return new InventoryParticle(this, context);
 	}
 
 }

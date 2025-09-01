@@ -1,0 +1,253 @@
+{
+	"life_time": 50,
+	"animation_type": "random_static",
+	"animation_speed": 1.0,
+	
+	"size": {
+		"width": 8,
+		"height": 8
+	},
+
+	"textures": [
+		"inventory-particles:vanilla/sga/sga_a.png",
+		"inventory-particles:vanilla/sga/sga_b.png",
+		"inventory-particles:vanilla/sga/sga_c.png",
+		"inventory-particles:vanilla/sga/sga_d.png",
+		"inventory-particles:vanilla/sga/sga_e.png",
+		"inventory-particles:vanilla/sga/sga_f.png",
+		"inventory-particles:vanilla/sga/sga_g.png",
+		"inventory-particles:vanilla/sga/sga_h.png",
+		"inventory-particles:vanilla/sga/sga_i.png",
+		"inventory-particles:vanilla/sga/sga_j.png",
+		"inventory-particles:vanilla/sga/sga_k.png",
+		"inventory-particles:vanilla/sga/sga_l.png",
+		"inventory-particles:vanilla/sga/sga_m.png",
+		"inventory-particles:vanilla/sga/sga_n.png",
+		"inventory-particles:vanilla/sga/sga_o.png",
+		"inventory-particles:vanilla/sga/sga_p.png",
+		"inventory-particles:vanilla/sga/sga_q.png",
+		"inventory-particles:vanilla/sga/sga_r.png",
+		"inventory-particles:vanilla/sga/sga_s.png",
+		"inventory-particles:vanilla/sga/sga_t.png",
+		"inventory-particles:vanilla/sga/sga_u.png",
+		"inventory-particles:vanilla/sga/sga_v.png",
+		"inventory-particles:vanilla/sga/sga_w.png",
+		"inventory-particles:vanilla/sga/sga_x.png",
+		"inventory-particles:vanilla/sga/sga_y.png",
+		"inventory-particles:vanilla/sga/sga_z.png"
+	],
+	
+	"holders": [
+		{
+			"item": "minecraft:enchanted_book",
+			"spawn_area": "enchanted_book_sga.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 32
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:enchanting_table",
+			"spawn_area": "enchanting_table_top.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 32
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:bookshelf",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 32
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:lapis_lazuli",
+			"spawn_area": "lapis_lazuli_sga.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 32
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:lapis_block",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 32
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:lapis_ore",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 32
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:deepslate_lapis_ore",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 32
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:experience_bottle",
+			"spawn_area": "experience_bottle_sga.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 32
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:enchanted_golden_apple",
+			"spawn_area": "enchanted_golden_apple_sga.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 32
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:end_crystal",
+			"spawn_area": "end_crystal_sga.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 32
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"physics": {
+		"base": {
+			"x_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.25
+			},
+			"y_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.25
+			},
+			"angle_speed": {
+				"impulse": [1.0, 1.5],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.05,
+				"turbulence": [0.0, 0.0]
+			}
+		},
+		"rotation": {
+			"particle": {
+				"spawn_angle": [0.0, 360.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			},
+			"texture": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": true,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			}
+		}
+	}
+}

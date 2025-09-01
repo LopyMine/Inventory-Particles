@@ -1,0 +1,204 @@
+{
+	"life_time": 10,
+	"animation_type": "onetime",
+	"animation_speed": 2.0,
+	"size": {
+		"width": 8,
+		"height": 8
+	},
+
+	"textures": [
+		"inventory-particles:redstone/redstone_0.png",
+		"inventory-particles:redstone/redstone_1.png",
+		"inventory-particles:redstone/redstone_2.png",
+		"inventory-particles:redstone/redstone_3.png"
+	],
+	"holders": [
+		{
+			"item": "minecraft:redstone",
+			"spawn_area": "redstone_redstone.png",
+			"spawn_count": [1, 2],
+			"spawn_frequency": [1, 4],
+			"speed_coefficient": 0.15,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:redstone_block",
+			"spawn_area": "block.png",
+			"spawn_count": [3, 6],
+			"spawn_frequency": [1, 4],
+			"speed_coefficient": 0.15,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:redstone_torch",
+			"spawn_area": "redstone_torch_redstone.png",
+			"spawn_count": [1, 2],
+			"spawn_frequency": [1, 4],
+			"speed_coefficient": 0.15,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:repeater",
+			"spawn_area": "repeater_redstone.png",
+			"spawn_count": [1, 2],
+			"spawn_frequency": [1, 4],
+			"speed_coefficient": 0.15,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:comparator",
+			"spawn_area": "comparator_redstone.png",
+			"spawn_count": [1, 2],
+			"spawn_frequency": [1, 4],
+			"speed_coefficient": 0.15,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:redstone_ore",
+			"spawn_area": "block.png",
+			"spawn_count": [1, 2],
+			"spawn_frequency": [1, 4],
+			"speed_coefficient": 0.15,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:deepslate_redstone_ore",
+			"spawn_area": "block.png",
+			"spawn_count": [1, 2],
+			"spawn_frequency": [1, 4],
+			"speed_coefficient": 0.15,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+
+
+
+
+
+		{
+			"item": "minecraft:crafter",
+			"spawn_area": "block.png",
+			"spawn_count": [1, 2],
+			"spawn_frequency": [1, 4],
+			"speed_coefficient": 0.15,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:powered_rail",
+			"spawn_area": "powered_rail_redstone.png",
+			"spawn_count": [1, 2],
+			"spawn_frequency": [1, 4],
+			"speed_coefficient": 0.15,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:activator_rail",
+			"spawn_area": "activator_rail_redstone.png",
+			"spawn_count": [1, 4],
+			"spawn_frequency": [1, 4],
+			"speed_coefficient": 0.15,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:detector_rail",
+			"spawn_area": "detector_rail_redstone.png",
+			"spawn_count": [1, 2],
+			"spawn_frequency": [1, 4],
+			"speed_coefficient": 0.15,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"physics": {
+		"base": {
+			"x_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 1.0
+			},
+			"y_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 1.0
+			},
+			"angle_speed": {
+				"impulse": [3.0, 5.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0]
+			}
+		},
+		"rotation": {
+			"particle": {
+				"spawn_angle": [0.0, 360.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			},
+			"texture": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": true,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			}
+		}
+	}
+}
