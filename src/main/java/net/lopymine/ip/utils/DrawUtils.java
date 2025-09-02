@@ -16,7 +16,7 @@ public class DrawUtils {
 			int color
 	) {
 		//? if <=1.21.4 {
-		/*context.drawSpriteStretched(net.minecraft.client.render.RenderLayer::getGuiTexturedOverlay, sprite, x, y, (int) width, (int) height, color);
+		/*context.drawSpriteStretched(RenderLayer::getGuiTexturedOverlay, sprite, x, y, (int) width, (int) height, color);
 		*///?} else {
 		context.drawTexturedQuad(
 				/*? if >=1.21.6 {*/ net.minecraft.client.gl.RenderPipelines.GUI_TEXTURED, /*?} elif >=1.21.2 {*/ /*net.minecraft.client.render.RenderLayer::getGuiTextured,*//*?}*/

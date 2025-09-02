@@ -23,6 +23,10 @@ import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.*;
 
+//? if <=1.21.6 {
+import com.mojang.blaze3d.systems.RenderSystem;
+//?}
+
 @Setter
 @Getter
 @ExtensionMethod(DrawContextExtension.class)
@@ -181,8 +185,8 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 		int m = bl ? 2 : 1;
 
 		//? if <=1.21.6 {
-		/*com.mojang.blaze3d.systems.RenderSystem.enableDepthTest();
-		com.mojang.blaze3d.systems.RenderSystem.enableBlend();
+		/*RenderSystem.enableDepthTest();
+		RenderSystem.enableBlend();
 		*///?}
 		
 		float width = (renderWidth * m);
@@ -204,8 +208,8 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 		context.pop();
 
 		//? if <=1.21.6 {
-		/*com.mojang.blaze3d.systems.RenderSystem.disableBlend();
-		com.mojang.blaze3d.systems.RenderSystem.disableDepthTest();
+		/*RenderSystem.disableBlend();
+		RenderSystem.disableDepthTest();
 		*///?}
 	}
 

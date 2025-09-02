@@ -2,6 +2,10 @@ package net.lopymine.ip.extension;
 
 import net.minecraft.client.gui.DrawContext;
 
+//? if <1.21.6 {
+import net.minecraft.util.math.RotationAxis;
+//?}
+
 public class DrawContextExtension {
 
 	public static void push(DrawContext context) {
@@ -43,7 +47,7 @@ public class DrawContextExtension {
 		//? if >=1.21.6 {
 		context.getMatrices().rotate(angle * ((float) Math.PI / 180F));
 		//?} else {
-		/*context.getMatrices().multiply(net.minecraft.util.math.RotationAxis.POSITIVE_Z.rotationDegrees(angle));
+		/*context.getMatrices().multiply(RotationAxis.POSITIVE_Z.rotationDegrees(angle));
 		 *///?}
 	}
 
