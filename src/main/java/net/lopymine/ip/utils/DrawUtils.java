@@ -1,6 +1,7 @@
 package net.lopymine.ip.utils;
 
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.texture.Sprite;
 
 public class DrawUtils {
@@ -14,6 +15,9 @@ public class DrawUtils {
 			float height,
 			int color
 	) {
+		//? if <=1.21.4 {
+		/*context.drawSpriteStretched(net.minecraft.client.render.RenderLayer::getGuiTexturedOverlay, sprite, x, y, (int) width, (int) height, color);
+		*///?} else {
 		context.drawTexturedQuad(
 				/*? if >=1.21.6 {*/ net.minecraft.client.gl.RenderPipelines.GUI_TEXTURED, /*?} elif >=1.21.2 {*/ /*net.minecraft.client.render.RenderLayer::getGuiTextured,*//*?}*/
 				sprite.getAtlasId(),
@@ -27,5 +31,6 @@ public class DrawUtils {
 				sprite.getMaxV(),
 				color
 		);
+		//?}
 	}
 }

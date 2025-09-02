@@ -29,10 +29,14 @@ public class ScreenMixin {
 		if (!config.isDebugModeEnabled()) {
 			return;
 		}
+		//? if >=1.21.6 {
 		context.createNewRootLayer();
+		//?}
 		InventoryParticlesClient.DEBUG_CURSOR_INFO_RENDERER.render(context);
 		InventoryParticlesClient.DEBUG_PARTICLE_INFO_RENDERER.render(context);
+		//? if >=1.21.6 {
 		context.createNewRootLayer();
+		//?}
 	}
 
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;render(Lnet/minecraft/client/gui/DrawContext;IIF)V", shift = Shift.AFTER), method = "renderWithTooltip")

@@ -2,7 +2,6 @@ package net.lopymine.ip.element;
 
 import lombok.*;
 import lombok.experimental.ExtensionMethod;
-import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.config.particle.*;
 import net.lopymine.ip.config.particle.ParticlePhysics.*;
 import net.lopymine.ip.controller.color.ColorController;
@@ -17,11 +16,9 @@ import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.lopymine.ip.texture.IParticleTextureProvider;
 import net.lopymine.ip.utils.DrawUtils;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.*;
@@ -184,8 +181,8 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 		int m = bl ? 2 : 1;
 
 		//? if <=1.21.6 {
-		/*RenderSystem.enableDepthTest();
-		RenderSystem.enableBlend();
+		/*com.mojang.blaze3d.systems.RenderSystem.enableDepthTest();
+		com.mojang.blaze3d.systems.RenderSystem.enableBlend();
 		*///?}
 		
 		float width = (renderWidth * m);
@@ -207,8 +204,8 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 		context.pop();
 
 		//? if <=1.21.6 {
-		/*RenderSystem.disableBlend();
-		RenderSystem.disableDepthTest();
+		/*com.mojang.blaze3d.systems.RenderSystem.disableBlend();
+		com.mojang.blaze3d.systems.RenderSystem.disableDepthTest();
 		*///?}
 	}
 
