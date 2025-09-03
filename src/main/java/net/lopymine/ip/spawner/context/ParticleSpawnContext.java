@@ -10,6 +10,7 @@ import net.minecraft.screen.slot.Slot;
 public class ParticleSpawnContext {
 
 	private static final ParticleSpawnContext CURSOR_CONTEXT = new ParticleSpawnContext();
+	private static final ParticleSpawnContext FOCUSED_SLOT_CONTEXT = new ParticleSpawnContext();
 	private static final ParticleSpawnContext SLOT_CONTEXT = new ParticleSpawnContext();
 
 	private ItemStack stack;
@@ -32,6 +33,15 @@ public class ParticleSpawnContext {
 		SLOT_CONTEXT.setImpulseX(0F);
 		SLOT_CONTEXT.setImpulseY(0F);
 		return SLOT_CONTEXT;
+	}
+
+	public static ParticleSpawnContext focusedSlot(Slot slot, int inventoryX, int inventoryY) {
+		FOCUSED_SLOT_CONTEXT.setStack(slot.getStack());
+		FOCUSED_SLOT_CONTEXT.setX(inventoryX + slot.x + 8);
+		FOCUSED_SLOT_CONTEXT.setY(inventoryY + slot.y + 8);
+		FOCUSED_SLOT_CONTEXT.setImpulseX(0F);
+		FOCUSED_SLOT_CONTEXT.setImpulseY(0F);
+		return FOCUSED_SLOT_CONTEXT;
 	}
 
 	public static boolean isSlot(ParticleSpawnContext context) {

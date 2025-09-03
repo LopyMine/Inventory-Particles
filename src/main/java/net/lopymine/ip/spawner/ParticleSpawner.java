@@ -6,6 +6,7 @@ import lombok.*;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.color.IParticleColorType;
 import net.lopymine.ip.config.range.IntegerRange;
+import net.lopymine.ip.config.sub.InventoryParticlesCoefficients;
 import net.lopymine.ip.controller.color.ColorController;
 import net.lopymine.ip.element.*;
 import net.lopymine.ip.element.base.TickElement;
@@ -64,7 +65,7 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 		if (this.nextSpawnTicks == 0) {
 			int ticks = this.random.nextBetween(this.frequencyRange.getMin(), this.frequencyRange.getMax());
 
-			InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
+			InventoryParticlesCoefficients config = InventoryParticlesConfig.getInstance().getCoefficientsConfig();
 
 			float f = (float) ticks;
 			if (ParticleSpawnContext.isSlot(context)) {
@@ -101,7 +102,7 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 			return List.of();
 		}
 
-		InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
+		InventoryParticlesCoefficients config = InventoryParticlesConfig.getInstance().getCoefficientsConfig();
 
 		float count = (float) spawnCount;
 		if (ParticleSpawnContext.isSlot(context)) {

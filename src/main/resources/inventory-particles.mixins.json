@@ -3,13 +3,13 @@
 	"package": "net.lopymine.ip.mixin",
 	"refmap": "${mod_id}.refmap.json",
 	"compatibilityLevel": "JAVA_${java}",
-	"mixins": [
-	],
+	"mixins": [],
 	"client": [
 		"AtlasLoaderMixin",
 		"HandledScreenMixin",
 		"MinecraftClientMixin",
-		"ScreenMixin"
+		"ScreenMixin",
+		"ScreenHandlerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -31,7 +31,7 @@ public abstract class AbstractSpeedController<C extends AbstractSpeedController<
 	protected float speed;
 
 	public AbstractSpeedController(SpeedConfig config, Random random, float impulse) {
-		this(random, config.getAcceleration(), config.isAccelerationBidirectional(), config.getMaxAcceleration(), config.getMax(), config.getBraking(), config.getTurbulence(), impulse);
+		this(random, config.getAcceleration(), config.isAccelerationBidirectional(), config.getMaxAcceleration(), config.getMax(), config.getBraking(), config.getTurbulence(), impulse + config.getImpulseBidirectional(random));
 	}
 
 	public AbstractSpeedController(Random random, float acceleration, boolean accelerationBidirectional, FloatRange maxAcceleration, FloatRange max, float braking, FloatRange turbulence, float impulse) {

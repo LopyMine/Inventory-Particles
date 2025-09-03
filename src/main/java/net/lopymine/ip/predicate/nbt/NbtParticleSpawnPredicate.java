@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.Stream;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
+import net.lopymine.ip.config.sub.InventoryParticlesMain;
 import net.lopymine.ip.predicate.IParticleSpawnPredicate;
 import net.lopymine.ip.predicate.nbt.debug.DebugNbtPath;
 import net.minecraft.client.MinecraftClient;
@@ -74,7 +75,7 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 	}
 
 	private ReadResult readElementByType(NbtElement element, NbtNode node, @NotNull DebugNbtPath debugNbtPath) {
-		boolean debugLog = InventoryParticlesConfig.getInstance().isDebugModeEnabled();
+		boolean debugLog = InventoryParticlesConfig.getInstance().getMainConfig().isDebugModeEnabled();
 
 		List<String> checkValues = node.getCheckValue().orElse(new ArrayList<>());
 		List<NbtNode> nodes = node.getNext().orElse(new ArrayList<>());
@@ -179,7 +180,7 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 	}
 
 	private void debugLog(@Nullable DebugNbtPath debugNbtPath, DebugLogReason reason, Object... objects) {
-		if (!InventoryParticlesConfig.getInstance().isNbtDebugModeEnabled()) {
+		if (!InventoryParticlesConfig.getInstance().getMainConfig().isNbtDebugModeEnabled()) {
 			return;
 		}
 		reason.debug(debugNbtPath, objects);

@@ -2,6 +2,8 @@ package net.lopymine.ip.renderer;
 
 import java.util.*;
 import lombok.*;
+import net.lopymine.ip.InventoryParticles;
+import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.optimization.ParticleDeletionMode;
 import net.lopymine.ip.config.spawn.ParticleSpawnType;
@@ -13,11 +15,12 @@ import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.math.random.Random;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.*;
 
 @Getter
 @Setter
@@ -25,9 +28,10 @@ public class InventoryParticlesRenderer extends TickElement {
 
 	private static final InventoryParticlesRenderer INSTANCE = new InventoryParticlesRenderer();
 
-	private final List<InventoryParticle> renderingParticles = new ArrayList<>();
 	@Getter
-	private final LinkedList<InventoryParticle> screenParticles = new LinkedList<>();
+	private final Collection<InventoryParticle> screenParticles = getScreenParticlesList();
+	private final List<InventoryParticle> pendingParticles = new ArrayList<>();
+
 	private InventoryCursor cursor = new InventoryCursor();
 
 	private final Random random = Random.create();
@@ -51,23 +55,24 @@ public class InventoryParticlesRenderer extends TickElement {
 
 	public void render(DrawContext context, float tickProgress) {
 		this.hoveredParticle = null;
-		this.renderingParticles.addAll(this.screenParticles);
-		for (InventoryParticle screenParticle : this.renderingParticles) {
-			if (screenParticle == null) {
-				continue;
+		this.runSoft(() -> {
+			for (InventoryParticle screenParticle : this.screenParticles) {
+				if (screenParticle == null) {
+					continue;
+				}
+				screenParticle.render(context, this.cursor, tickProgress);
+				if (screenParticle.isHovered()) {
+					this.hoveredParticle = screenParticle;
+				}
 			}
-			screenParticle.render(context, this.cursor, tickProgress);
-			if (screenParticle.isHovered()) {
-				this.hoveredParticle = screenParticle;
-			}
-		}
-		this.renderingParticles.clear();
+		}, "rendering_particle");
 	}
 
-	public void updateCursor(int mouseY, int mouseX, ItemStack item) {
+	public void updateCursor(int mouseY, int mouseX, ItemStack item, Slot focusedStack) {
 		this.cursor.setMouseY(mouseY);
 		this.cursor.setMouseX(mouseX);
 		this.cursor.setCurrentStack(item);
+		this.cursor.setHoveredSlot(focusedStack);
 	}
 
 	public void tick(ScreenHandler handler, int inventoryX, int inventoryY) {
@@ -80,27 +85,88 @@ public class InventoryParticlesRenderer extends TickElement {
 		}
 		this.nextTick = this.ticks + this.ticksPerTick;
 
-		this.cursor.tick();
+		this.runSoft(() -> {
+			this.cursor.tick();
 
-		if (InventoryParticlesConfig.getInstance().getParticleSpawnType() == ParticleSpawnType.EVERYWHERE) {
-			for (Slot slot : handler.slots) {
-				ItemStack stack = slot.getStack();
-				if (stack.isEmpty()) {
-					continue;
+			ParticleSpawnType type = InventoryParticlesConfig.getInstance().getParticleConfig().getParticleSpawnType();
+			if (type.isSlots()) {
+				this.spawnSlotsParticles(handler, inventoryX, inventoryY);
+			}
+			if (type.isHoveredSlot()) {
+				this.spawnHoveredSlotParticles(inventoryX, inventoryY);
+			}
+			if (type.isCursor()) {
+				this.spawnCursorParticles();
+			}
+
+			this.pushPendingParticles();
+
+			this.screenParticles.removeIf((particle) -> {
+				if (particle == null) {
+					return true;
 				}
-				List<IParticleSpawner> particleSpawners = ResourcePackParticleConfigsManager.getPerItemParticleSpawners().get(stack.getItem());
-				if (particleSpawners == null) {
-					continue;
-				}
-				ParticleSpawnContext context = ParticleSpawnContext.slot(slot, inventoryX, inventoryY);
-				for (IParticleSpawner spawner : particleSpawners) {
-					for (InventoryParticle particle : spawner.tickAndSpawn(context)) {
-						this.spawnParticle(particle);
-					}
+				particle.tick();
+				return particle.isDead() && !particle.isSelected();
+			});
+		}, "ticking_inventory_particles");
+	}
+
+	private void pushPendingParticles() {
+		this.screenParticles.addAll(this.pendingParticles);
+		this.pendingParticles.clear();
+	}
+
+	private void spawnHoveredSlotParticles(int inventoryX, int inventoryY) {
+		if (false) {
+			return;
+		}
+		Slot focusedSlot = this.cursor.getHoveredSlot();
+		if (focusedSlot == null) {
+			return;
+		}
+		ItemStack stack = focusedSlot.getStack();
+		if (stack.isEmpty()) {
+			return;
+		}
+		Item item = stack.getItem();
+		List<IParticleSpawner> spawners = ResourcePackParticleConfigsManager.getPerItemParticleSpawners().get(item);
+		if (spawners == null) {
+			return;
+		}
+		ParticleSpawnContext context = ParticleSpawnContext.focusedSlot(focusedSlot, inventoryX, inventoryY);
+		for (IParticleSpawner spawner : spawners) {
+			for (InventoryParticle particle : spawner.tickAndSpawn(context)) {
+				this.spawnParticle(particle);
+			}
+		}
+	}
+
+	private void spawnSlotsParticles(ScreenHandler handler, int inventoryX, int inventoryY) {
+		if (false) {
+			return;
+		}
+		for (Slot slot : handler.slots) {
+			ItemStack stack = slot.getStack();
+			if (stack.isEmpty()) {
+				continue;
+			}
+			List<IParticleSpawner> particleSpawners = ResourcePackParticleConfigsManager.getPerItemParticleSpawners().get(stack.getItem());
+			if (particleSpawners == null) {
+				continue;
+			}
+			ParticleSpawnContext context = ParticleSpawnContext.slot(slot, inventoryX, inventoryY);
+			for (IParticleSpawner spawner : particleSpawners) {
+				for (InventoryParticle particle : spawner.tickAndSpawn(context)) {
+					this.spawnParticle(particle);
 				}
 			}
 		}
+	}
 
+	private void spawnCursorParticles() {
+		if (false) {
+			return;
+		}
 		Item currentItem = this.cursor.getCurrentStack().getItem();
 		List<IParticleSpawner> particleSpawners = ResourcePackParticleConfigsManager.getPerItemParticleSpawners().get(currentItem);
 		if (currentItem != Items.AIR && particleSpawners != null) {
@@ -109,39 +175,37 @@ public class InventoryParticlesRenderer extends TickElement {
 			for (IParticleSpawner spawner : particleSpawners) {
 				particles.addAll(spawner.tickAndSpawn(ParticleSpawnContext.cursor(this.cursor)));
 				particles.addAll(spawner.spawnFromCursor(this.cursor));
- 			}
+			}
 
 			particles.forEach(this::spawnParticle);
 		}
-
-		this.screenParticles.removeIf((particle) -> {
-			if (particle == null) {
-				return true;
-			}
-			particle.tick();
-			return particle.isDead() && !particle.isSelected();
-		});
 	}
 
 	private void spawnParticle(InventoryParticle particle) {
 		InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
-		int difference = (this.screenParticles.size() + 1) - config.getMaxParticles();
+		int difference = (this.screenParticles.size() + 1) - config.getParticleConfig().getMaxParticles();
 		if (difference > 0) {
-			this.clearParticlesForNewOnes(difference, config.getParticleDeletionMode());
+			this.clearParticlesForNewOnes(difference, config.getParticleConfig().getParticleDeletionMode());
 		}
-		this.screenParticles.add(particle);
+		this.pendingParticles.add(particle);
 	}
 
 	private void clearParticlesForNewOnes(int difference, ParticleDeletionMode mode) {
 		switch (mode) {
 			case OLDEST -> {
+				if (!(this.screenParticles instanceof ArrayDeque<InventoryParticle> deque)) {
+					return;
+				}
 				for (int i = 0; i < difference; i++) {
-					this.screenParticles.pollFirst();
+					deque.pollFirst();
 				}
 			}
 			case RANDOM -> {
+				if (!(this.screenParticles instanceof ArrayList<InventoryParticle> list)) {
+					return;
+				}
 				for (int i = 0; i < difference; i++) {
-					this.screenParticles.remove(this.random.nextBetween(0, this.screenParticles.size() - 1));
+					list.remove(this.random.nextBetween(0, list.size() - 1));
 				}
 			}
 		}
@@ -149,6 +213,7 @@ public class InventoryParticlesRenderer extends TickElement {
 
 	public void clear() {
 		this.screenParticles.clear();
+		this.pendingParticles.clear();
 		this.hoveredParticle = null;
 		this.selectedParticle = null;
 		this.stoppedByInitializationReason = true;
@@ -161,6 +226,10 @@ public class InventoryParticlesRenderer extends TickElement {
 
 	public void mouseClicked(int button) {
 		if (button != 1) {
+			return;
+		}
+
+		if (!this.isStopTicking()) {
 			return;
 		}
 
@@ -185,5 +254,49 @@ public class InventoryParticlesRenderer extends TickElement {
 			particle.setX(particle.getX() * xCoefficient);
 			particle.setY(particle.getY() * yCoefficient);
 		}
+		for (InventoryParticle particle : this.pendingParticles) {
+			particle.setX(particle.getX() * xCoefficient);
+			particle.setY(particle.getY() * yCoefficient);
+		}
+	}
+
+	private void runSoft(Runnable runnable, String action) {
+		try {
+			runnable.run();
+		} catch (Exception e) {
+			ClientPlayerEntity player = MinecraftClient.getInstance().player;
+			if (player != null) {
+				player.sendMessage(InventoryParticles.text("error." + action), false);
+			}
+			InventoryParticlesClient.LOGGER.error("Failed to render particle!", e);
+			InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
+			config.getMainConfig().setModEnabled(false);
+			config.saveAsync();
+		}
+	}
+
+	public void onPutInSlot(Slot slot, ItemStack stack, int inventoryX, int inventoryY) {
+		if (stack.isEmpty() && !slot.hasStack()){
+			return;
+		}
+		List<IParticleSpawner> spawners = ResourcePackParticleConfigsManager.getPerItemParticleSpawners().get(stack.getItem());
+		if (spawners != null) {
+			ParticleSpawnContext context = ParticleSpawnContext.slot(slot, inventoryX, inventoryY);
+			if (context.getStack().isEmpty()) {
+				context.setStack(stack);
+			}
+			for (IParticleSpawner spawner : spawners) {
+				for (InventoryParticle particle : spawner.spawn(context)) {
+					this.spawnParticle(particle);
+				}
+			}
+		}
+	}
+
+	private static @NotNull Collection<InventoryParticle> getScreenParticlesList() {
+		return switch (InventoryParticlesConfig.getInstance().getParticleConfig().getParticleDeletionMode()) {
+			case OLDEST -> new ArrayDeque<>();
+			case RANDOM -> new ArrayList<>();
+		};
 	}
 }

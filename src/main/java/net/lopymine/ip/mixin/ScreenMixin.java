@@ -2,11 +2,14 @@ package net.lopymine.ip.mixin;
 
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
+import net.lopymine.ip.config.sub.InventoryParticlesMain;
 import net.lopymine.ip.renderer.InventoryParticlesRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.*;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.item.*;
+import net.minecraft.screen.slot.Slot;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.At.Shift;
@@ -21,10 +24,16 @@ public class ScreenMixin {
 
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;render(Lnet/minecraft/client/gui/DrawContext;IIF)V", shift = Shift.AFTER), method = "renderWithTooltip")
 	private void renderInventoryParticles(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-		InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
+		InventoryParticlesMain config = InventoryParticlesConfig.getInstance().getMainConfig();
 		if (!config.isModEnabled()) {
 			return;
 		}
+
+		Screen screen = (Screen) (Object) this;
+		if (screen instanceof HandledScreen<?> handledScreen) {
+			InventoryParticlesRenderer.getInstance().updateCursor(mouseY, mouseX, handledScreen.getScreenHandler().getCursorStack(), handledScreen.focusedSlot);
+		}
+
 		InventoryParticlesRenderer.getInstance().render(context, delta);
 		if (!config.isDebugModeEnabled()) {
 			return;
@@ -33,17 +42,5 @@ public class ScreenMixin {
 		InventoryParticlesClient.DEBUG_CURSOR_INFO_RENDERER.render(context);
 		InventoryParticlesClient.DEBUG_PARTICLE_INFO_RENDERER.render(context);
 		context.createNewRootLayer();
-	}
-
-	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;render(Lnet/minecraft/client/gui/DrawContext;IIF)V", shift = Shift.AFTER), method = "renderWithTooltip")
-	private void updateCursor(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-		InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
-
-		Screen screen = (Screen) (Object) this;
-		if (!config.isModEnabled() || !(screen instanceof HandledScreen<?> handledScreen)) {
-			return;
-		}
-
-		InventoryParticlesRenderer.getInstance().updateCursor(mouseY, mouseX, handledScreen.getScreenHandler().getCursorStack());
 	}
 }
