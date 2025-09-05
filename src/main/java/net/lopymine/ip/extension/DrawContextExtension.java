@@ -2,6 +2,10 @@ package net.lopymine.ip.extension;
 
 import net.minecraft.client.gui.DrawContext;
 
+//? if <1.21.6 {
+import net.minecraft.util.math.RotationAxis;
+//?}
+
 public class DrawContextExtension {
 
 	public static void push(DrawContext context) {

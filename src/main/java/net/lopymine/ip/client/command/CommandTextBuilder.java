@@ -2,7 +2,6 @@ package net.lopymine.ip.client.command;
 
 import java.util.*;
 import net.lopymine.ip.InventoryParticles;
-import net.minecraft.dialog.type.Dialog;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -15,6 +14,7 @@ import net.minecraft.text.HoverEvent.Action;
 import java.io.File;
 import java.net.URI;
 import java.nio.file.Path;
+import net.minecraft.dialog.type.Dialog;
 //?}
 
 import net.minecraft.util.Identifier;

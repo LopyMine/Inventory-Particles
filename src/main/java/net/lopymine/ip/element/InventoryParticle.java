@@ -2,7 +2,6 @@ package net.lopymine.ip.element;
 
 import lombok.*;
 import lombok.experimental.ExtensionMethod;
-import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.config.particle.*;
 import net.lopymine.ip.config.particle.ParticlePhysics.*;
 import net.lopymine.ip.controller.color.ColorController;
@@ -17,14 +16,16 @@ import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.lopymine.ip.texture.IParticleTextureProvider;
 import net.lopymine.ip.utils.DrawUtils;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.*;
+
+//? if <=1.21.6 {
+import com.mojang.blaze3d.systems.RenderSystem;
+//?}
 
 @Setter
 @Getter
