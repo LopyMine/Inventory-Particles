@@ -1,10 +1,7 @@
 package net.lopymine.ip.config;
 
-import java.util.function.Supplier;
 import lombok.*;
 import net.lopymine.ip.InventoryParticles;
-import net.lopymine.ip.config.optimization.ParticleDeletionMode;
-import net.lopymine.ip.config.spawn.ParticleSpawnType;
 import net.lopymine.ip.config.sub.*;
 import org.slf4j.*;
 
@@ -25,18 +22,18 @@ import static net.lopymine.ip.utils.CodecUtils.option;
 public class InventoryParticlesConfig {
 
 	public static final Codec<InventoryParticlesConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-			option("main", InventoryParticlesMain.getNewInstance(), InventoryParticlesMain.CODEC, InventoryParticlesConfig::getMainConfig),
+			option("main", InventoryParticlesMainConfig.getNewInstance(), InventoryParticlesMainConfig.CODEC, InventoryParticlesConfig::getMainConfig),
 			option("particle", InventoryParticleConfig.getNewInstance(), InventoryParticleConfig.CODEC, InventoryParticlesConfig::getParticleConfig),
-			option("coefficients", InventoryParticlesCoefficients.getNewInstance(), InventoryParticlesCoefficients.CODEC, InventoryParticlesConfig::getCoefficientsConfig)
+			option("coefficients", InventoryParticlesCoefficientsConfig.getNewInstance(), InventoryParticlesCoefficientsConfig.CODEC, InventoryParticlesConfig::getCoefficientsConfig)
 	).apply(instance, InventoryParticlesConfig::new));
 
 	private static final File CONFIG_FILE = FabricLoader.getInstance().getConfigDir().resolve(InventoryParticles.MOD_ID + ".json5").toFile();
 	private static final Logger LOGGER = LoggerFactory.getLogger(InventoryParticles.MOD_NAME + "/Config");
 	private static InventoryParticlesConfig INSTANCE;
 
-	private InventoryParticlesMain mainConfig;
+	private InventoryParticlesMainConfig mainConfig;
 	private InventoryParticleConfig particleConfig;
-	private InventoryParticlesCoefficients coefficientsConfig;
+	private InventoryParticlesCoefficientsConfig coefficientsConfig;
 
 	private InventoryParticlesConfig() {
 		throw new IllegalArgumentException();

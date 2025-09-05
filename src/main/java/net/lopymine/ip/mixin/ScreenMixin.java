@@ -2,14 +2,11 @@ package net.lopymine.ip.mixin;
 
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
-import net.lopymine.ip.config.sub.InventoryParticlesMain;
+import net.lopymine.ip.config.sub.InventoryParticlesMainConfig;
 import net.lopymine.ip.renderer.InventoryParticlesRenderer;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.*;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.item.*;
-import net.minecraft.screen.slot.Slot;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.At.Shift;
@@ -24,7 +21,7 @@ public class ScreenMixin {
 
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;render(Lnet/minecraft/client/gui/DrawContext;IIF)V", shift = Shift.AFTER), method = "renderWithTooltip")
 	private void renderInventoryParticles(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-		InventoryParticlesMain config = InventoryParticlesConfig.getInstance().getMainConfig();
+		InventoryParticlesMainConfig config = InventoryParticlesConfig.getInstance().getMainConfig();
 		if (!config.isModEnabled()) {
 			return;
 		}

@@ -5,8 +5,8 @@
 
 	"${mod_id}.modmenu.category.general.name": "Основное",
 
-	"${mod_id}.modmenu.group.main_group.name": "Главное",
-	"${mod_id}.modmenu.group.main_group.description": "Главные настройки.",
+	"${mod_id}.modmenu.group.main.name": "Главное",
+	"${mod_id}.modmenu.group.main.description": "Главные настройки.",
 
 	"${mod_id}.modmenu.option.mod_enabled.name": "Включить мод",
 	"${mod_id}.modmenu.option.mod_enabled.description": "Если включено, вы увидите различные частицы, исходящие от курсора с предметов в вашем инвентаре; если отключено, не увидите.",
@@ -17,37 +17,74 @@
 	"${mod_id}.modmenu.option.nbt_debug_mode_enabled.name": "Включить режим отладки NBT",
 	"${mod_id}.modmenu.option.nbt_debug_mode_enabled.description": "Если включено, вы сможете увидеть некоторую информацию для отладки NBT в консоли игры; если отключено, не сможете.",
 
-	"${mod_id}.modmenu.group.particles_group.name": "Частицы",
-	"${mod_id}.modmenu.group.particles_group.description": "Настройки частиц.",
+	
+	"${mod_id}.modmenu.group.particles.name": "Настройки частиц",
+	"${mod_id}.modmenu.group.particles.description": "Просто настройки частиц.",
 
-	"${mod_id}.modmenu.option.particle_spawn_type.name": "Тип появления частиц",
-	"${mod_id}.modmenu.option.particle_spawn_type.description": "Определяет, где будут появляться частицы",
-	"${mod_id}.modmenu.option.particle_spawn_type.only_in_cursor": "Только в курсоре",
-	"${mod_id}.modmenu.option.particle_spawn_type.everywhere": "Везде (Меню + Курсор)",
+	"${mod_id}.modmenu.option.cursor_spawn_enabled.name": "Появление вокруг курсора",
+	"${mod_id}.modmenu.option.cursor_spawn_enabled.description": "Если включено, частицы будут появляться вокруг курсора (если захвачен предмет); если отключено, не будут.",
 
-	"${mod_id}.modmenu.option.global_particles_spawn_count_coefficient.name": "[Глобально] Коэфф. количества частиц",
-	"${mod_id}.modmenu.option.global_particles_spawn_count_coefficient.description": "Коэффициент, определяющий как много/мало частиц может появиться и в меню, и вокруг курсора.",
+	"${mod_id}.modmenu.option.hovered_slot_spawn_enabled.name": "Появление на наведённом слоте",
+	"${mod_id}.modmenu.option.hovered_slot_spawn_enabled.description": "Если включено, частицы будут появляться вокруг наведённого слота; если отключено, не будут.",
 
-	"${mod_id}.modmenu.option.global_particles_spawn_range_coefficient.name": "[Глобально] Коэфф. частоты появления частиц",
-	"${mod_id}.modmenu.option.global_particles_spawn_range_coefficient.description": "Коэффициент, определяющий как редко/часто частицы будут появляться и в меню, и вокруг курсора.",
+	"${mod_id}.modmenu.option.gui_slots_spawn_enabled.name": "Появление на слотах в меню",
+	"${mod_id}.modmenu.option.gui_slots_spawn_enabled.description": "Если включено, частицы будут появляться вокруг всех слотов в меню; если отключено, не будут.",
 
-	"${mod_id}.modmenu.option.cursor_particles_spawn_count_coefficient.name": "[Курсор] Коэфф. количества частиц",
-	"${mod_id}.modmenu.option.cursor_particles_spawn_count_coefficient.description": "Коэффициент, определяющий как много/мало частиц может появиться вокруг курсора.",
+	"${mod_id}.modmenu.option.gui_action_spawn_enabled.name": "Появление при действиях в меню",
+	"${mod_id}.modmenu.option.gui_action_spawn_enabled.description": "Если включено, частицы будут появляться после некоторых действий в меню (например, взять/положить предметы); если отключено, не будут.",
 
-	"${mod_id}.modmenu.option.cursor_particles_spawn_range_coefficient.name": "[Курсор] Коэфф. частоты появления частиц",
-	"${mod_id}.modmenu.option.cursor_particles_spawn_range_coefficient.description": "Коэффициент, определяющий как редко/часто частицы будут появляться вокруг курсора.",
+	"${mod_id}.modmenu.option.gui_action_take_spawn_enabled.name": "Появление при взятии предмета из слота",
+	"${mod_id}.modmenu.option.gui_action_take_spawn_enabled.description": "Если включено, частицы будут появляться при взятии предмета из слота; если отключено, не будут.",
 
-	"${mod_id}.modmenu.option.gui_particles_spawn_count_coefficient.name": "[Меню] Коэфф. количества частиц",
-	"${mod_id}.modmenu.option.gui_particles_spawn_count_coefficient.description": "Коэффициент, определяющий как много/мало частиц может появиться в меню.",
-
-	"${mod_id}.modmenu.option.gui_particles_spawn_range_coefficient.name": "[Меню] Коэфф. частоты появления частиц",
-	"${mod_id}.modmenu.option.gui_particles_spawn_range_coefficient.description": "Коэффициент, определяющий как редко/часто частицы будут появляться в меню.",
-
-	"${mod_id}.modmenu.option.maximum_particles_limit.name": "Максимальное количество частиц",
-	"${mod_id}.modmenu.option.maximum_particles_limit.description": "Максимальное количество частиц, которое может существовать на экране.",
+	"${mod_id}.modmenu.option.gui_action_put_spawn_enabled.name": "Появление при помещении предмета в слот",
+	"${mod_id}.modmenu.option.gui_action_put_spawn_enabled.description": "Если включено, частицы будут появляться при помещении предмета в слот; если отключено, не будут.",
 
 	"${mod_id}.modmenu.option.particle_deletion_mode.name": "Режим удаления частиц",
-	"${mod_id}.modmenu.option.particle_deletion_mode.description": "Контролирует то, какие именно частицы будут удалены для спавна новых частиц, если был достигнут порог в их максимальное количество.",
+	"${mod_id}.modmenu.option.particle_deletion_mode.description": "Определяет, какие частицы будут удалены для появления новых, если достигнут лимит частиц.",
+
+	"${mod_id}.modmenu.option.particle_deletion_mode.random": "Случайные",
+	"${mod_id}.modmenu.option.particle_deletion_mode.oldest": "Самые старые",
+
+	"${mod_id}.modmenu.option.max_particles.name": "Максимальное количество частиц",
+	"${mod_id}.modmenu.option.max_particles.description": "Максимальное количество частиц, которое может существовать на экране.",
+
+	"${mod_id}.modmenu.option.particle_transparency.name": "Прозрачность частиц",
+	"${mod_id}.modmenu.option.particle_transparency.description": "Определяет прозрачность всех частиц на экране.",
+
+
+	"${mod_id}.modmenu.group.coefficients.name": "Коэффициенты появления частиц",
+	"${mod_id}.modmenu.group.coefficients.description": "Коэффициенты появления частиц для разных ситуаций.",
+
+	"${mod_id}.modmenu.option.global_count_coefficient.name": "[Глобально] Коэффициент количества частиц",
+	"${mod_id}.modmenu.option.global_count_coefficient.description": "Глобальный множитель количества частиц, которые могут появиться. Применяется дополнительно поверх других коэффициентов.",
+
+	"${mod_id}.modmenu.option.global_cooldown_coefficient.name": "[Глобально] Коэффициент частоты появления частиц",
+	"${mod_id}.modmenu.option.global_cooldown_coefficient.description": "Глобальный множитель частоты появления частиц после появления частиц. Применяется дополнительно поверх других коэффициентов.",
+
+	"${mod_id}.modmenu.option.cursor_count_coefficient.name": "[Курсор] Коэффициент количества частиц",
+	"${mod_id}.modmenu.option.cursor_count_coefficient.description": "Множитель количества частиц, которые могут появиться вокруг курсора.",
+
+	"${mod_id}.modmenu.option.cursor_cooldown_coefficient.name": "[Курсор] Коэффициент частоты появления частиц",
+	"${mod_id}.modmenu.option.cursor_cooldown_coefficient.description": "Множитель частоты появления частиц после появления частиц вокруг курсора.",
+
+	"${mod_id}.modmenu.option.hovered_slot_count_coefficient.name": "[Выделенный слот] Коэффициент количества частиц",
+	"${mod_id}.modmenu.option.hovered_slot_count_coefficient.description": "Множитель количества частиц, которые могут появиться на выделенном слоте.",
+
+	"${mod_id}.modmenu.option.hovered_slot_cooldown_coefficient.name": "[Выделенный слот] Коэффициент частоты появления частиц",
+	"${mod_id}.modmenu.option.hovered_slot_cooldown_coefficient.description": "Множитель частоты появления частиц после появления частиц на выделенном слоте.",
+
+	"${mod_id}.modmenu.option.gui_slots_count_coefficient.name": "[Меню слоты] Коэффициент количества частиц",
+	"${mod_id}.modmenu.option.gui_slots_count_coefficient.description": "Множитель количества частиц, которые могут появиться вокруг всех слотов в открытом GUI.",
+
+	"${mod_id}.modmenu.option.gui_slots_cooldown_coefficient.name": "[Меню слоты] Коэффициент частоты появления частиц",
+	"${mod_id}.modmenu.option.gui_slots_cooldown_coefficient.description": "Множитель частоты появления частиц после появления частиц вокруг всех слотов в открытом GUI.",
+
+	"${mod_id}.modmenu.option.gui_action_count_coefficient.name": "[Действия в меню] Коэффициент количества частиц",
+	"${mod_id}.modmenu.option.gui_action_count_coefficient.description": "Множитель количества частиц, которые могут появиться во время каких-то действий в открытом меню.",
+
+	"${mod_id}.modmenu.option.gui_action_spawn_chance.name": "[Действия в меню] Шанс появления частиц",
+	"${mod_id}.modmenu.option.gui_action_spawn_chance.description": "Шанс (не частота) появления частиц во время каких-то действий в открытом меню. (например, взять/положить предметы).",
+
 
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.true": "Включено",
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.false": "Выключено"

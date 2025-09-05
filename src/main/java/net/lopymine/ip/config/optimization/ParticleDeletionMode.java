@@ -1,6 +1,7 @@
 package net.lopymine.ip.config.optimization;
 
 import com.mojang.serialization.Codec;
+import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.yacl.utils.EnumWithText;
 import net.minecraft.text.Text;
 import net.minecraft.util.StringIdentifiable;
@@ -19,6 +20,6 @@ public enum ParticleDeletionMode implements StringIdentifiable, EnumWithText {
 
 	@Override
 	public Text getText() {
-		return Text.literal(this.name());
+		return InventoryParticles.text("modmenu.option.particle_deletion_mode." + this.asString());
 	}
 }

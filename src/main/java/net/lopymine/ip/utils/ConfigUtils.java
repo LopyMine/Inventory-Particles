@@ -17,7 +17,7 @@ public class ConfigUtils {
 		String backupName = fileName + ".bkp";
 		int index = 0;
 		while (Files.exists(parentDir.resolve(backupName))) {
-			backupName = String.format("%s%d.bkp", fileName, ++index);
+			backupName = String.format("%s_%d.bkp", fileName, ++index);
 		}
 
 		return backupName;

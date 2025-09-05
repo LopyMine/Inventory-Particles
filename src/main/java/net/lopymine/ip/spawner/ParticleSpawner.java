@@ -6,7 +6,7 @@ import lombok.*;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.color.IParticleColorType;
 import net.lopymine.ip.config.range.IntegerRange;
-import net.lopymine.ip.config.sub.InventoryParticlesCoefficients;
+import net.lopymine.ip.config.sub.InventoryParticlesCoefficientsConfig.ParticleCoefficientConfig;
 import net.lopymine.ip.controller.color.ColorController;
 import net.lopymine.ip.element.*;
 import net.lopymine.ip.element.base.TickElement;
@@ -44,7 +44,7 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 	}
 
 	public List<InventoryParticle> spawnFromCursor(InventoryCursor cursor) {
-		int spawnCount = (int) (this.random.nextBetween(this.countRange.getMin(), this.countRange.getMax()) * this.speedCoefficient * Math.sqrt(cursor.getSpeed()));
+		int spawnCount = (int) (this.random.nextBetween(this.countRange.getMin(), this.countRange.getMax()) * this.speedCoefficient * (Math.sqrt(cursor.getSpeed()) * 1.0F));
 		return this.createParticles(spawnCount, cursor, (particle) -> this.spawnParticleAtCursorDeltaPath(particle, cursor));
 	}
 
@@ -64,18 +64,7 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 
 		if (this.nextSpawnTicks == 0) {
 			int ticks = this.random.nextBetween(this.frequencyRange.getMin(), this.frequencyRange.getMax());
-
-			InventoryParticlesCoefficients config = InventoryParticlesConfig.getInstance().getCoefficientsConfig();
-
-			float f = (float) ticks;
-			if (ParticleSpawnContext.isSlot(context)) {
-				f *= config.getGuiParticlesSpawnRangeCoefficient();
-			}
-			if (ParticleSpawnContext.isCursor(context)) {
-				f *= config.getCursorParticlesSpawnRangeCoefficient();
-			}
-			int ticksToWaitForNextSpawn = (int) (f * config.getGlobalParticlesSpawnRangeCoefficient());
-
+			int ticksToWaitForNextSpawn = (int) ((((float) ticks) * context.getCooldownCoefficient()) * InventoryParticlesConfig.getInstance().getCoefficientsConfig().getGlobalConfig().getCooldownCoefficient());
 			this.nextSpawnTicks = this.ticks + ticksToWaitForNextSpawn;
 		}
 
@@ -102,17 +91,8 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 			return List.of();
 		}
 
-		InventoryParticlesCoefficients config = InventoryParticlesConfig.getInstance().getCoefficientsConfig();
-
-		float count = (float) spawnCount;
-		if (ParticleSpawnContext.isSlot(context)) {
-			count *= config.getGuiParticlesSpawnCountCoefficient();
-		}
-		if (ParticleSpawnContext.isCursor(context)) {
-			count *= config.getCursorParticlesSpawnCountCoefficient();
-		}
-		float v = count * config.getGlobalParticlesSpawnCountCoefficient();
-		int countOfParticles = v > 0.0F && v < 1.0F ? 1 : (int) v;
+		float count = (float) ((((float) spawnCount) * context.getCountCoefficient()) * InventoryParticlesConfig.getInstance().getCoefficientsConfig().getGlobalConfig().getCountCoefficient());
+		int countOfParticles = count > 0.0F && count < 1.0F ? 1 : (int) count;
 
 		List<InventoryParticle> particles = new ArrayList<>();
 		for (int i = 0; i < countOfParticles; i++) {

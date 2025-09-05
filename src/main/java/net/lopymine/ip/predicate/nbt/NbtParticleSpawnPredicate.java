@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.stream.Stream;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
-import net.lopymine.ip.config.sub.InventoryParticlesMain;
 import net.lopymine.ip.predicate.IParticleSpawnPredicate;
 import net.lopymine.ip.predicate.nbt.debug.DebugNbtPath;
 import net.minecraft.client.MinecraftClient;

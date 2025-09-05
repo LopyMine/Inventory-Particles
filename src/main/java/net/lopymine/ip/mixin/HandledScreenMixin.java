@@ -3,7 +3,7 @@ package net.lopymine.ip.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import net.fabricmc.loader.api.FabricLoader;
 import net.lopymine.ip.config.InventoryParticlesConfig;
-import net.lopymine.ip.config.sub.InventoryParticlesMain;
+import net.lopymine.ip.config.sub.InventoryParticlesMainConfig;
 import net.lopymine.ip.renderer.InventoryParticlesRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -31,7 +31,7 @@ public class HandledScreenMixin<T extends ScreenHandler> extends Screen {
 	@Inject(at = @At("TAIL"), method = "init")
 	private void addDebugButton(CallbackInfo ci) {
 		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
-			InventoryParticlesMain config = InventoryParticlesConfig.getInstance().getMainConfig();
+			InventoryParticlesMainConfig config = InventoryParticlesConfig.getInstance().getMainConfig();
 			if (!config.isDebugModeEnabled() || !config.isModEnabled()) {
 				return;
 			}
@@ -53,7 +53,7 @@ public class HandledScreenMixin<T extends ScreenHandler> extends Screen {
 
 	@Inject(at = @At("HEAD"), method = "tick")
 	private void tickInventoryParticles(CallbackInfo ci) {
-		InventoryParticlesMain config = InventoryParticlesConfig.getInstance().getMainConfig();
+		InventoryParticlesMainConfig config = InventoryParticlesConfig.getInstance().getMainConfig();
 		if (!config.isModEnabled()) {
 			return;
 		}
@@ -62,7 +62,7 @@ public class HandledScreenMixin<T extends ScreenHandler> extends Screen {
 
 	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;mouseClicked(DDI)Z"), method = "mouseClicked")
 	private boolean addParticleFocusing(HandledScreen<?> instance, double x, double y, int button, Operation<Boolean> original) {
-		InventoryParticlesMain config = InventoryParticlesConfig.getInstance().getMainConfig();
+		InventoryParticlesMainConfig config = InventoryParticlesConfig.getInstance().getMainConfig();
 		if (!config.isDebugModeEnabled() || !config.isModEnabled()) {
 			return original.call(instance, x, y, button);
 		}

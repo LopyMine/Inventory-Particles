@@ -6,7 +6,7 @@ import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.optimization.ParticleDeletionMode;
-import net.lopymine.ip.config.spawn.ParticleSpawnType;
+import net.lopymine.ip.config.sub.InventoryParticleConfig;
 import net.lopymine.ip.element.*;
 import net.lopymine.ip.element.base.TickElement;
 import net.lopymine.ip.resourcepack.ResourcePackParticleConfigsManager;
@@ -88,14 +88,14 @@ public class InventoryParticlesRenderer extends TickElement {
 		this.runSoft(() -> {
 			this.cursor.tick();
 
-			ParticleSpawnType type = InventoryParticlesConfig.getInstance().getParticleConfig().getParticleSpawnType();
-			if (type.isSlots()) {
-				this.spawnSlotsParticles(handler, inventoryX, inventoryY);
+			InventoryParticleConfig config = InventoryParticlesConfig.getInstance().getParticleConfig();
+			if (config.isGuiSlotsSpawnEnabled()) {
+				this.spawnAllSlotsParticles(handler, inventoryX, inventoryY);
 			}
-			if (type.isHoveredSlot()) {
+			if (config.isHoveredSlotSpawnEnabled()) {
 				this.spawnHoveredSlotParticles(inventoryX, inventoryY);
 			}
-			if (type.isCursor()) {
+			if (config.isCursorSpawnEnabled()) {
 				this.spawnCursorParticles();
 			}
 
@@ -120,11 +120,11 @@ public class InventoryParticlesRenderer extends TickElement {
 		if (false) {
 			return;
 		}
-		Slot focusedSlot = this.cursor.getHoveredSlot();
-		if (focusedSlot == null) {
+		Slot hoveredSlot = this.cursor.getHoveredSlot();
+		if (hoveredSlot == null) {
 			return;
 		}
-		ItemStack stack = focusedSlot.getStack();
+		ItemStack stack = hoveredSlot.getStack();
 		if (stack.isEmpty()) {
 			return;
 		}
@@ -133,7 +133,7 @@ public class InventoryParticlesRenderer extends TickElement {
 		if (spawners == null) {
 			return;
 		}
-		ParticleSpawnContext context = ParticleSpawnContext.focusedSlot(focusedSlot, inventoryX, inventoryY);
+		ParticleSpawnContext context = ParticleSpawnContext.hoveredSlot(hoveredSlot, inventoryX, inventoryY);
 		for (IParticleSpawner spawner : spawners) {
 			for (InventoryParticle particle : spawner.tickAndSpawn(context)) {
 				this.spawnParticle(particle);
@@ -141,11 +141,14 @@ public class InventoryParticlesRenderer extends TickElement {
 		}
 	}
 
-	private void spawnSlotsParticles(ScreenHandler handler, int inventoryX, int inventoryY) {
+	private void spawnAllSlotsParticles(ScreenHandler handler, int inventoryX, int inventoryY) {
 		if (false) {
 			return;
 		}
 		for (Slot slot : handler.slots) {
+			if (this.cursor.getHoveredSlot() != null && this.cursor.getHoveredSlot().id == slot.id) {
+				continue;
+			}
 			ItemStack stack = slot.getStack();
 			if (stack.isEmpty()) {
 				continue;
@@ -266,7 +269,7 @@ public class InventoryParticlesRenderer extends TickElement {
 		} catch (Exception e) {
 			ClientPlayerEntity player = MinecraftClient.getInstance().player;
 			if (player != null) {
-				player.sendMessage(InventoryParticles.text("error." + action), false);
+				player.sendMessage(InventoryParticles.text("error." + action), false); // todo rework error message
 			}
 			InventoryParticlesClient.LOGGER.error("Failed to render particle!", e);
 			InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
@@ -279,18 +282,24 @@ public class InventoryParticlesRenderer extends TickElement {
 		if (stack.isEmpty() && !slot.hasStack()){
 			return;
 		}
-		List<IParticleSpawner> spawners = ResourcePackParticleConfigsManager.getPerItemParticleSpawners().get(stack.getItem());
-		if (spawners != null) {
-			ParticleSpawnContext context = ParticleSpawnContext.slot(slot, inventoryX, inventoryY);
-			if (context.getStack().isEmpty()) {
-				context.setStack(stack);
-			}
-			for (IParticleSpawner spawner : spawners) {
-				for (InventoryParticle particle : spawner.spawn(context)) {
-					this.spawnParticle(particle);
+		int chanceOfSpawn = (int) (InventoryParticlesConfig.getInstance().getCoefficientsConfig().getGuiActionConfig().getCooldownCoefficient() * 100F);
+		if (this.random.nextBetween(0, 100) > chanceOfSpawn) {
+			return;
+		}
+		this.runSoft(() -> {
+			List<IParticleSpawner> spawners = ResourcePackParticleConfigsManager.getPerItemParticleSpawners().get(stack.isEmpty() ? slot.getStack().getItem() : stack.getItem());
+			if (spawners != null) {
+				ParticleSpawnContext context = ParticleSpawnContext.guiActionSlot(slot, inventoryX, inventoryY);
+				if (context.getStack().isEmpty()) {
+					context.setStack(stack);
+				}
+				for (IParticleSpawner spawner : spawners) {
+					for (InventoryParticle particle : spawner.spawn(context)) {
+						this.spawnParticle(particle);
+					}
 				}
 			}
-		}
+		}, "put_in_slot");
 	}
 
 	private static @NotNull Collection<InventoryParticle> getScreenParticlesList() {
