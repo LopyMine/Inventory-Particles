@@ -68,11 +68,11 @@ public class InventoryParticlesRenderer extends TickElement {
 		}, "rendering_particle");
 	}
 
-	public void updateCursor(int mouseY, int mouseX, ItemStack item, Slot focusedStack) {
+	public void updateCursor(int mouseY, int mouseX, ItemStack item, Slot focusedSlot) {
 		this.cursor.setMouseY(mouseY);
 		this.cursor.setMouseX(mouseX);
 		this.cursor.setCurrentStack(item);
-		this.cursor.setHoveredSlot(focusedStack);
+		this.cursor.setHoveredSlot(focusedSlot);
 	}
 
 	public void tick(ScreenHandler handler, int inventoryX, int inventoryY) {

@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.client.renderer.*;
 import net.lopymine.ip.resourcepack.InventoryParticlesClientReloadListener;
+import net.minecraft.screen.slot.Slot;
 import org.slf4j.*;
 
 import net.fabricmc.api.ClientModInitializer;

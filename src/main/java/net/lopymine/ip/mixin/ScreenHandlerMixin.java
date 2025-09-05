@@ -6,7 +6,6 @@ import net.lopymine.ip.renderer.InventoryParticlesRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.*;
-import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen.CreativeScreenHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
@@ -37,10 +36,8 @@ public abstract class ScreenHandlerMixin {
 			if (!(currentScreen instanceof HandledScreen<?> handledScreen)) {
 				return;
 			}
-			Slot slot = this.slots.get(slotIndex);
-			boolean bl = currentScreen instanceof CreativeInventoryScreen;
-			int offset = bl ? 32 : 0;
-			InventoryParticlesRenderer.getInstance().onPutInSlot(slot, this.getCursorStack(), handledScreen.x, handledScreen.y - offset);
+			Slot slot = handledScreen.getScreenHandler().slots.get(slotIndex);
+			InventoryParticlesRenderer.getInstance().onPutInSlot(slot, this.getCursorStack(), handledScreen.x, handledScreen.y);
 		}
 	}
 
