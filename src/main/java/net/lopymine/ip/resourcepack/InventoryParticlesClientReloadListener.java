@@ -21,9 +21,11 @@ public class InventoryParticlesClientReloadListener implements IdentifiableResou
 	}
 
 	@Override
-	public CompletableFuture<Void> reload(Synchronizer synchronizer, ResourceManager manager, Executor prepareExecutor, Executor applyExecutor) {
+	public CompletableFuture<Void> reload(Synchronizer synchronizer, ResourceManager manager, /*? if <=1.21.1 {*/ /*Profiler profiler, Profiler applyProfiler, *//*?}*/ Executor prepareExecutor, Executor applyExecutor) {
 		return synchronizer.whenPrepared(Unit.INSTANCE).thenRunAsync(() -> {
+			//? if >=1.21.2 {
 			Profiler profiler = Profilers.get();
+			//?}
 			profiler.push("listener");
 			this.reloadStuff(synchronizer, manager, prepareExecutor, applyExecutor);
 			profiler.pop();

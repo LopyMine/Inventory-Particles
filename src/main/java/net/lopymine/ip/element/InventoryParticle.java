@@ -2,7 +2,6 @@ package net.lopymine.ip.element;
 
 import lombok.*;
 import lombok.experimental.ExtensionMethod;
-import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.particle.*;
 import net.lopymine.ip.config.particle.ParticlePhysics.*;
@@ -18,11 +17,9 @@ import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.lopymine.ip.texture.IParticleTextureProvider;
 import net.lopymine.ip.utils.*;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.*;
@@ -183,11 +180,6 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 		boolean bl = (renderer.isStopTicking() && this.isHovered()) || this.isSelected();
 
 		int m = bl ? 2 : 1;
-
-		//? if <=1.21.6 {
-		/*RenderSystem.enableDepthTest();
-		RenderSystem.enableBlend();
-		*///?}
 		
 		float width = (renderWidth * m);
 		float halfWidth = width / 2F;
@@ -195,7 +187,7 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 		float halfHeight = height / 2F;
 
 		context.push();
-		context.translate(x, y, 500F);
+		context.translate(x, y, 350F);
 
 		if (bl) {
 			context.translate(-halfWidth / 2F, -halfHeight / 2F, 0F);
@@ -206,11 +198,6 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 		context.translate(-halfWidth , -halfHeight, 0F);
 		DrawUtils.drawParticleSprite(context, this.texture, 0, 0, width, height, this.getRenderColor());
 		context.pop();
-
-		//? if <=1.21.6 {
-		/*RenderSystem.disableBlend();
-		RenderSystem.disableDepthTest();
-		*///?}
 	}
 
 	private int getRenderColor() {

@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.particle.ParticleHolder;
+import net.lopymine.ip.utils.ArgbUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.resource.Resource;
@@ -35,7 +36,7 @@ public record ParticleSpawnArea(IParticleSpawnPos[] positions) implements IParti
 			int height = image.getHeight();
 			for (int x = 0; x < width; x++) {
 				for (int y = 0; y < height; y++) {
-					int alpha = ColorHelper.getAlpha(image.getColorArgb(x, y));
+					int alpha = ArgbUtils.getAlpha(image./*? if <=1.21.1 {*/ /*getColor *//*?} else {*/ getColorArgb /*?}*/(x, y));
 					if (alpha == 0) {
 						continue;
 					}

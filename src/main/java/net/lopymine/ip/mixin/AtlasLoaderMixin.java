@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableList.Builder;
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import com.llamalad7.mixinextras.sugar.Local;
 import java.util.*;
-import java.util.function.Function;
+import java.util.function.*;
 import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.utils.MissingSpriteUtils;
 import net.lopymine.ip.yacl.mixin.IAtlasLoaderMixin;
@@ -25,6 +25,7 @@ public class AtlasLoaderMixin implements IAtlasLoaderMixin {
 	@Unique
 	private boolean marked;
 
+	//? if >=1.21 {
 	@Inject(at = @At(value = "INVOKE", target = "Ljava/util/List;forEach(Ljava/util/function/Consumer;)V", shift = Shift.AFTER), method = "loadSources", cancellable = true)
 	private void swapMissingTexture(ResourceManager resourceManager, CallbackInfoReturnable<List<Function<SpriteOpener, SpriteContents>>> cir, @Local Map<Identifier, SpriteRegion> map) {
 		if (!this.marked) {
@@ -35,6 +36,18 @@ public class AtlasLoaderMixin implements IAtlasLoaderMixin {
 		builder.addAll(map.values());
 		cir.setReturnValue(builder.build());
 	}
+	//?} else {
+	/*@Inject(at = @At(value = "INVOKE", target = "Ljava/util/List;forEach(Ljava/util/function/Consumer;)V", shift = Shift.AFTER), method = "loadSources", cancellable = true)
+	private void swapMissingTexture(ResourceManager resourceManager, CallbackInfoReturnable<List<Supplier<SpriteContents>>> cir, @Local Map<Identifier, SpriteRegion> map) {
+		if (!this.marked) {
+			return;
+		}
+		Builder<Supplier<SpriteContents>> builder = ImmutableList.builder();
+		builder.add(MissingSpriteUtils::getMissingParticle);
+		builder.addAll(map.values());
+		cir.setReturnValue(builder.build());
+	}
+	*///?}
 
 	@Override
 	public void inventoryParticles$mark() {

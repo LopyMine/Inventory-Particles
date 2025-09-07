@@ -1,8 +1,9 @@
 accessWidener v2 named
-# 1.21.8 AW
+# 1.20.1 AW
 
-accessible field net/minecraft/client/texture/SpriteAtlasTexture missingSprite Lnet/minecraft/client/texture/Sprite;
 accessible field net/minecraft/client/gui/screen/ingame/HandledScreen focusedSlot Lnet/minecraft/screen/slot/Slot;
 
 accessible field net/minecraft/client/gui/screen/ingame/HandledScreen x I
 accessible field net/minecraft/client/gui/screen/ingame/HandledScreen y I
+
+accessible method net/minecraft/client/texture/MissingSprite createImage (II)Lnet/minecraft/client/texture/NativeImage;

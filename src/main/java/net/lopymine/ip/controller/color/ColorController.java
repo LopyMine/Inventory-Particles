@@ -1,6 +1,6 @@
 package net.lopymine.ip.controller.color;
 
-import net.lopymine.ip.config.color.IParticleColorType;
+import net.lopymine.ip.color.IParticleColorType;
 import net.lopymine.ip.controller.IController;
 import net.lopymine.ip.element.base.*;
 

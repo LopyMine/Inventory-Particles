@@ -14,6 +14,15 @@ import java.util.function.*;
 @SuppressWarnings("unused")
 public final class CodecUtils {
 
+	public static <A> Codec<A> recursive(String name, Function<Codec<A>, Codec<A>> wrapped) {
+		//? if >=1.21 {
+		return Codec.recursive(name, wrapped);
+		//?} else {
+		/*return new RecursiveCodec<>(name, wrapped);
+		 *///?}
+	}
+
+
 	public static <A> A parseNewInstanceHacky(Codec<A> codec) {
 		try {
 			return codec.decode(JsonOps.INSTANCE, /*? <=1.17.1 {*//*new JsonParser().parse("{}")*//*?} else {*/JsonParser.parseString("{}")/*?}*/)/*? if >=1.20.5 {*/.getOrThrow()/*?} else {*//*.getOrThrow(false, InventoryParticlesClient.LOGGER::error)*//*?}*/.getFirst();

@@ -1,4 +1,4 @@
-package net.lopymine.ip.config.color.advanced.mode;
+package net.lopymine.ip.color.advanced.mode;
 
 import lombok.*;
 import net.minecraft.util.math.random.Random;

@@ -10,7 +10,7 @@ import net.minecraft.util.math.random.Random;
 @AllArgsConstructor
 public class FloatRange {
 
-	public static final Codec<FloatRange> CODEC = Codec.FLOAT.listOf(2, 2).xmap(FloatRange::new, FloatRange::toList);
+	public static final Codec<FloatRange> CODEC = Codec.FLOAT.listOf(/*? if >=1.21 {*/ 2, 2 /*?}*/).xmap(FloatRange::new, FloatRange::toList);
 
 	private float min;
 	private float max;

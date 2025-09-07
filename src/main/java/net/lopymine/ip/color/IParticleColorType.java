@@ -1,4 +1,4 @@
-package net.lopymine.ip.config.color;
+package net.lopymine.ip.color;
 
 import com.mojang.serialization.Codec;
 import java.util.*;

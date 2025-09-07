@@ -1,4 +1,4 @@
-package net.lopymine.ip.config.color;
+package net.lopymine.ip.color;
 
 import net.minecraft.util.math.random.Random;
 

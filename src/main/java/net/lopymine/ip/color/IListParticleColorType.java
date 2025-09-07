@@ -1,4 +1,4 @@
-package net.lopymine.ip.config.color;
+package net.lopymine.ip.color;
 
 public interface IListParticleColorType {
 

@@ -1,10 +1,10 @@
-package net.lopymine.ip.config.color.advanced;
+package net.lopymine.ip.color.advanced;
 
 import com.mojang.serialization.Codec;
 import java.util.*;
 import lombok.*;
-import net.lopymine.ip.config.color.*;
-import net.lopymine.ip.config.color.advanced.mode.IAdvancedParticleColorTypeMode;
+import net.lopymine.ip.color.*;
+import net.lopymine.ip.color.advanced.mode.IAdvancedParticleColorTypeMode;
 import net.lopymine.ip.debug.HideInDebugRender;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.random.Random;

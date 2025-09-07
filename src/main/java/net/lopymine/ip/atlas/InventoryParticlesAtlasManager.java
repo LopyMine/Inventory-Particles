@@ -43,6 +43,6 @@ public class InventoryParticlesAtlasManager {
 	}
 
 	public Sprite getMissingSprite() {
-		return this.atlas.missingSprite;
+		return /*? if >=1.21 {*/ this.atlas.missingSprite /*?} else {*/ /*this.getSprite(MissingSprite.getMissingSpriteId()) *//*?}*/;
 	}
 }

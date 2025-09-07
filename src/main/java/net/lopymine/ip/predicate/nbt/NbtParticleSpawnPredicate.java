@@ -2,6 +2,7 @@ package net.lopymine.ip.predicate.nbt;
 
 import java.util.*;
 import java.util.stream.Stream;
+import net.fabricmc.loader.api.FabricLoader;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.predicate.IParticleSpawnPredicate;
@@ -27,6 +28,10 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 		if (this.nodes.isEmpty()) {
 			return true;
 		}
+
+		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+			return true;
+		}
 		
 		try {
 			MinecraftClient client = MinecraftClient.getInstance();
@@ -35,11 +40,15 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 				return false;
 			}
 
+			//? if >=1.21 {
 			NbtElement nbt = ItemStack.CODEC.encodeStart(player.getRegistryManager().getOps(NbtOps.INSTANCE), stack).getOrThrow();
-			if (!(nbt instanceof NbtCompound root)){
+			if (!(nbt instanceof NbtCompound root)) {
 				this.debugLog(null, DebugLogReason.ENCODED_WRONG_ROOT, stack.getItem().getName());
 				return false;
 			}
+			//?} else {
+			/*NbtCompound root = stack.writeNbt(new NbtCompound());
+			*///?}
 
 			int success = 0;
 
@@ -67,7 +76,7 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 				case NONE -> success == 0;
 			};
 		} catch (Exception e) {
-			InventoryParticlesClient.LOGGER.error("Failed to read nbt from item \"{}\" for NbtParticleSpawnPredicate! Reason:", stack.getItemName().getString(), e);
+			InventoryParticlesClient.LOGGER.error("Failed to read nbt from item \"{}\" for NbtParticleSpawnPredicate! Reason:", stack.getItem().getName().getString(), e);
 		}
 
 		return true;
@@ -101,15 +110,15 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 				case STRING, INT -> {
 					String value = null;
 					if (element instanceof NbtString) {
-						//? if <=1.21.7 {
+						//? if <=1.21.4 {
 						/*value = element.asString();
 						 *///?} else {
 						value = element.asString().orElse(null);
 						//?}
 					}
 					if (element instanceof NbtInt) {
-						//? if <=1.21.7 {
-						/*String string = element.asString();
+						//? if <=1.21.4 {
+						/*value = element.asString();
 						 *///?} else {
 						value = element.asInt().map(Object::toString).orElse(null);
 						//?}

@@ -1,5 +1,6 @@
 package net.lopymine.ip.utils;
 
+import net.minecraft.client.resource.metadata.AnimationResourceMetadata;
 import net.minecraft.client.texture.*;
 import net.minecraft.resource.metadata.ResourceMetadata;
 import net.minecraft.util.Identifier;
@@ -12,6 +13,6 @@ public class MissingSpriteUtils {
 		image.copyRect(nativeImage, 0, 0, 1, 1, 6, 6, false,false);
 		image.close();
 
-		return new SpriteContents(MissingSprite.getMissingSpriteId(), new SpriteDimensions(8, 8), nativeImage, ResourceMetadata.NONE);
+		return new SpriteContents(MissingSprite.getMissingSpriteId(), new SpriteDimensions(8, 8), nativeImage, /*? if >=1.21 {*/ ResourceMetadata.NONE /*?} else {*/ /*AnimationResourceMetadata.EMPTY *//*?}*/);
 	}
 }

@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class IntegerRange {
 
-	public static final Codec<IntegerRange> CODEC = Codec.INT.listOf(2, 2).xmap(IntegerRange::new, IntegerRange::toList);
+	public static final Codec<IntegerRange> CODEC = Codec.INT.listOf(/*? if >=1.21 {*/ 2, 2 /*?}*/).xmap(IntegerRange::new, IntegerRange::toList);
 
 	private int min;
 	private int max;

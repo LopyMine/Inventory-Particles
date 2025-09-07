@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.*;
 import lombok.*;
+import net.lopymine.ip.utils.CodecUtils;
 import static net.lopymine.ip.utils.CodecUtils.option;
 
 @Getter
@@ -13,10 +14,9 @@ import static net.lopymine.ip.utils.CodecUtils.option;
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class NbtNode {
 
-	public static final Codec<NbtNode> CODEC = Codec.recursive(
+	public static final Codec<NbtNode> CODEC = CodecUtils.recursive(
 			"ip_nbt_node",
 			(codec) -> {
-
 				Codec<List<NbtNode>> nextCodec = Codec.either(codec, codec.listOf()).xmap((either) -> {
 					Optional<List<NbtNode>> right = either.right();
 					Optional<NbtNode> left = either.left();

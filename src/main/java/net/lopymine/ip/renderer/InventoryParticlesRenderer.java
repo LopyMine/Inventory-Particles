@@ -12,13 +12,17 @@ import net.lopymine.ip.element.base.TickElement;
 import net.lopymine.ip.resourcepack.ResourcePackParticleConfigsManager;
 import net.lopymine.ip.spawner.*;
 import net.lopymine.ip.spawner.context.ParticleSpawnContext;
+import net.lopymine.ip.utils.DrawUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.item.*;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.*;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.*;
 
@@ -55,7 +59,11 @@ public class InventoryParticlesRenderer extends TickElement {
 
 	public void render(DrawContext context, float tickProgress) {
 		this.hoveredParticle = null;
+		if (this.screenParticles.isEmpty()) {
+			return;
+		}
 		this.runSoft(() -> {
+			DrawUtils.prepareParticlesBuffer();
 			for (InventoryParticle screenParticle : this.screenParticles) {
 				if (screenParticle == null) {
 					continue;
@@ -65,6 +73,7 @@ public class InventoryParticlesRenderer extends TickElement {
 					this.hoveredParticle = screenParticle;
 				}
 			}
+			DrawUtils.endParticlesBuffer();
 		}, "rendering_particle");
 	}
 
@@ -239,7 +248,7 @@ public class InventoryParticlesRenderer extends TickElement {
 		if (this.selectedParticle != null) {
 			this.selectedParticle.setSelected(false);
 			this.selectedParticle = null;
-			ClickableWidget.playClickSound(MinecraftClient.getInstance().getSoundManager());
+			this.playClickSound();
 			return;
 		}
 
@@ -249,7 +258,11 @@ public class InventoryParticlesRenderer extends TickElement {
 
 		this.hoveredParticle.setSelected(true);
 		this.selectedParticle = this.hoveredParticle;
-		ClickableWidget.playClickSound(MinecraftClient.getInstance().getSoundManager());
+		this.playClickSound();
+	}
+
+	private void playClickSound() {
+		MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 	}
 
 	public void updateParticlesPositions(float xCoefficient, float yCoefficient) {
@@ -269,9 +282,10 @@ public class InventoryParticlesRenderer extends TickElement {
 		} catch (Exception e) {
 			ClientPlayerEntity player = MinecraftClient.getInstance().player;
 			if (player != null) {
-				player.sendMessage(InventoryParticles.text("error." + action), false); // todo rework error message
+				MutableText text = Text.literal("[%s] ".formatted(InventoryParticles.MOD_NAME)).append(Text.literal("Unexpected error with id \"%s\", please report this issue with your game logs! Mod was automatically disabled to prevent spamming ^^".formatted(action)).formatted(Formatting.RED));
+				player.sendMessage(text, false);
 			}
-			InventoryParticlesClient.LOGGER.error("Failed to render particle!", e);
+			InventoryParticlesClient.LOGGER.error("[{}] Failed to process inventory particles!", action, e);
 			InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
 			config.getMainConfig().setModEnabled(false);
 			config.saveAsync();

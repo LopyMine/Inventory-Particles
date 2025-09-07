@@ -2,10 +2,8 @@ package net.lopymine.ip.client.command;
 
 import java.util.*;
 import net.lopymine.ip.InventoryParticles;
-import net.minecraft.dialog.type.Dialog;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.*;
 import net.minecraft.text.ClickEvent.*;
 import net.minecraft.text.HoverEvent.*;
@@ -17,7 +15,11 @@ import java.net.URI;
 import java.nio.file.Path;
 //?}
 
+//? if >=1.21.6 {
 import net.minecraft.util.Identifier;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.dialog.type.Dialog;
+//?}
 
 public class CommandTextBuilder {
 
@@ -92,7 +94,9 @@ public class CommandTextBuilder {
 		/*?}*/
 	}
 
+	//? if >=1.21.6 {
 	@SuppressWarnings("unchecked")
+	//?}
 	public static ClickEvent getClickEvent(ClickEvent.Action action, Object value) {
 		//? <=1.21.4 {
 		/*return new ClickEvent(action, (String) value);
