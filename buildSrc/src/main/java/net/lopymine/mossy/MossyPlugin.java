@@ -40,7 +40,7 @@ public class MossyPlugin implements Plugin<Project> {
 		plugins.apply("dev.kikugie.stonecutter");
 		plugins.apply("fabric-loom");
 		plugins.apply("me.modmuss50.mod-publish-plugin");
-		plugins.apply("dev.kikugie.j52j");
+		plugins.apply("dev.kikugie.fletching-table");
 
 		//
 

@@ -1,9 +1,9 @@
 package net.lopymine.ip.extension;
 
 //? if <=1.20.1 {
-import java.util.Optional;
+/*import java.util.Optional;
 import net.minecraft.nbt.*;
-//?}
+*///?}
 
 public class OptionalExtension {
 

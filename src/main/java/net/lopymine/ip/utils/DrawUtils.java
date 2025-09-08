@@ -71,7 +71,7 @@ public class DrawUtils {
 		if (PARTICLES_BUFFER != null) {
 			endParticlesBuffer();
 		}
-		com.mojang.blaze3d.systems.RenderSystem.enableDepthTest();
+		com.mojang.blaze3d.systems.RenderSystem.disableDepthTest();
 		com.mojang.blaze3d.systems.RenderSystem.enableBlend();
 		com.mojang.blaze3d.systems.RenderSystem.setShaderTexture(0, InventoryParticlesAtlasManager.ATLAS_ID);
 		com.mojang.blaze3d.systems.RenderSystem.setShader(GameRenderer::getPositionTexColorProgram);
@@ -90,7 +90,7 @@ public class DrawUtils {
 		}
 		BufferRenderer.drawWithGlobalProgram(PARTICLES_BUFFER.end());
 		com.mojang.blaze3d.systems.RenderSystem.disableBlend();
-		com.mojang.blaze3d.systems.RenderSystem.disableDepthTest();
+		com.mojang.blaze3d.systems.RenderSystem.enableDepthTest();
 		PARTICLES_BUFFER = null;
 	}
 	*///?} else {

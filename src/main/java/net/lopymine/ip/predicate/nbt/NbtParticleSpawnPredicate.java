@@ -29,7 +29,7 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 			return true;
 		}
 
-		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+		if (FabricLoader.getInstance().isDevelopmentEnvironment() && false) {
 			return true;
 		}
 		

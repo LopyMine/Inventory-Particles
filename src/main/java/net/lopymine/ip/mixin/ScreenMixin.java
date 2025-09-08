@@ -1,12 +1,19 @@
 package net.lopymine.ip.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.*;
+import com.mojang.blaze3d.systems.RenderSystem;
+import java.util.List;
+import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.sub.InventoryParticlesMainConfig;
 import net.lopymine.ip.renderer.InventoryParticlesRenderer;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.*;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.gui.tooltip.TooltipPositioner;
+import net.minecraft.text.OrderedText;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.At.Shift;
@@ -44,4 +51,18 @@ public class ScreenMixin {
 		context.createNewRootLayer();
 		//?}
 	}
+
+	//? if <=1.21.4 {
+	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTooltip(Lnet/minecraft/client/font/TextRenderer;Ljava/util/List;Lnet/minecraft/client/gui/tooltip/TooltipPositioner;II)V"), method = "renderWithTooltip")
+	private void fixTooltip(DrawContext instance, TextRenderer textRenderer, List<OrderedText> text, TooltipPositioner positioner, int x, int y, Operation<Void> original) {
+		boolean bl = InventoryParticlesConfig.getInstance().getMainConfig().isModEnabled();
+		if (bl) {
+			RenderSystem.disableDepthTest();
+		}
+		original.call(instance, textRenderer, text, positioner, x, y);
+		if (bl) {
+			RenderSystem.enableDepthTest();
+		}
+	}
+	*///?}
 }

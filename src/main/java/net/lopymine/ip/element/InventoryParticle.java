@@ -187,7 +187,7 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 		float halfHeight = height / 2F;
 
 		context.push();
-		context.translate(x, y, 350F);
+		context.translate(x, y, 300F);
 
 		if (bl) {
 			context.translate(-halfWidth / 2F, -halfHeight / 2F, 0F);
