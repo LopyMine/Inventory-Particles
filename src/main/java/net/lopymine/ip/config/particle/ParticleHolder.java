@@ -4,7 +4,7 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.*;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.*;
-import java.util.function.Function;
+import java.util.function.*;
 import lombok.*;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.color.*;
@@ -16,7 +16,8 @@ import net.lopymine.ip.element.*;
 import net.lopymine.ip.predicate.nbt.*;
 import net.lopymine.ip.spawner.ParticleSpawner;
 import net.lopymine.ip.spawner.context.ParticleSpawnContext;
-import net.minecraft.util.Identifier;
+import net.minecraft.util.*;
+import net.minecraft.util.math.random.Random;
 import static net.lopymine.ip.utils.CodecUtils.option;
 
 @Getter
@@ -64,6 +65,7 @@ public class ParticleHolder {
 	}, Identifier::toString);
 
 	public static final Codec<ParticleHolder> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+			option("name", (Supplier<String>) () -> "UnknownParticle@" + Random.create().nextBetween(0, 100000), Codec.STRING, ParticleHolder::getName),
 			option("item", new CachedItem(), CachedItem.CODEC, ParticleHolder::getItem),
 			option("nbt_conditions_match", NbtNodeMatch.ANY, NbtNodeMatch.CODEC, ParticleHolder::getMatch),
 			option("nbt_conditions", new HashSet<>(), NbtNode.CODEC, ParticleHolder::getNbtCondition),
@@ -74,6 +76,7 @@ public class ParticleHolder {
 			option("speed_coefficient", 0.0F, Codec.FLOAT, ParticleHolder::getSpeedCoefficient)
 	).apply(instance, ParticleHolder::new));
 
+	private String name;
 	private CachedItem item;
 	private NbtNodeMatch match;
 	private HashSet<NbtNode> nbtCondition;
@@ -89,7 +92,7 @@ public class ParticleHolder {
 				this.spawnFrequency,
 				this.speedCoefficient,
 				this.color,
-				new NbtParticleSpawnPredicate(this.nbtCondition, this.match),
+				new NbtParticleSpawnPredicate(this.name, this.nbtCondition, this.match),
 				function
 		);
 	}

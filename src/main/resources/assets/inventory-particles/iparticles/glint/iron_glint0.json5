@@ -9,11 +9,11 @@
 	},
 
 	"textures": [
-		"inventory-particles:glint/iron_glint1_0.png",
-		"inventory-particles:glint/iron_glint1_1.png",
-		"inventory-particles:glint/iron_glint1_2.png",
-		"inventory-particles:glint/iron_glint1_3.png",
-		"inventory-particles:glint/iron_glint1_4.png"
+		"inventory-particles:glint/iron_glint0_0.png",
+		"inventory-particles:glint/iron_glint0_1.png",
+		"inventory-particles:glint/iron_glint0_2.png",
+		"inventory-particles:glint/iron_glint0_3.png",
+		"inventory-particles:glint/iron_glint0_4.png"
 	],
 	
 	"holders": [
@@ -299,6 +299,7 @@
 			"spawn_frequency": [10, 40],
 			"speed_coefficient": 0.1,
 			"color": "",
+			//? if >=1.21 {
 			"nbt_conditions_match": "none",
 			"nbt_conditions": [
 				{
@@ -306,6 +307,21 @@
 					"this_type": "object"
 				}
 			]
+			//?} else {
+			/*"nbt_conditions_match": "none",
+			"nbt_conditions": [
+				{
+					"this_name": "tag",
+					"this_type": "object",
+					"next_match": "any",
+					"next": {
+						"this_name": "ChargedProjectiles",
+						"this_type": "list",
+						"check_value": "NOT_EMPTY_LIST"
+					}
+				}
+			]
+			*///?}
 		},
 		{
 			"item": "minecraft:crossbow",
@@ -314,21 +330,22 @@
 			"spawn_frequency": [10, 40],
 			"speed_coefficient": 0.1,
 			"color": "",
+			//? if >=1.21 {
 			"nbt_conditions_match": "any",
 			"nbt_conditions": [
 				{
 					"this_name": "components",
 					"this_type": "object",
 					"next_match": "any",
-					"next": {	
+					"next": {
 						"this_name": "minecraft:charged_projectiles",
 						"this_type": "list",
 						"next_match": "any",
-						"next": {	
+						"next": {
 							"this_name": "",
 							"this_type": "object",
 							"next_match": "any",
-							"next": {	
+							"next": {
 								"this_name": "id",
 								"this_type": "string",
 								"check_value": "minecraft:arrow"
@@ -337,6 +354,31 @@
 					}
 				}
 			]
+			//?} else {
+			/*"nbt_conditions_match": "any",
+			"nbt_conditions": [
+				{
+					"this_name": "tag",
+					"this_type": "object",
+					"next_match": "any",
+					"next": {
+						"this_name": "ChargedProjectiles",
+						"this_type": "list",
+						"next_match": "any",
+						"next": {
+							"this_name": "",
+							"this_type": "object",
+							"next_match": "any",
+							"next": {
+								"this_name": "id",
+								"this_type": "string",
+								"check_value": "minecraft:arrow"
+							}
+						}
+					}
+				}
+			]
+			*///?}
 		},
 		
 		

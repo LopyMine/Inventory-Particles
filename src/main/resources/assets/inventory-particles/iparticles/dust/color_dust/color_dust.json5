@@ -22,17 +22,35 @@
 			"spawn_frequency": [10, 20],
 			"speed_coefficient": 0.25,
 			"color": "nbt",
+			//? if >=1.21 {
 			"nbt_conditions_match": "any",
 			"nbt_conditions": [
-                {
-                    "this_name": "components",
-                    "this_type": "object",
-                    "next": { 
-                        "this_name": "minecraft:dyed_color",
-                        "this_type": "int"
-                    }
-                }
-            ]
+				{
+					"this_name": "components",
+					"this_type": "object",
+					"next": {
+						"this_name": "minecraft:dyed_color",
+						"this_type": "int"
+					}
+				}
+			]
+			//?} else {
+			/*"nbt_conditions_match": "any",
+			"nbt_conditions": [
+				{
+					"this_name": "tag",
+					"this_type": "object",
+					"next": {
+						"this_name": "display",
+						"this_type": "object",
+						"next": {
+							"this_name": "color",
+							"this_type": "int"
+						}
+					}
+				}
+			]
+			*///?}
 		},
 		{
 			"item": "minecraft:leather_chestplate",
@@ -41,17 +59,35 @@
 			"spawn_frequency": [10, 20],
 			"speed_coefficient": 0.25,
 			"color": "nbt",
+			//? if >=1.21 {
 			"nbt_conditions_match": "any",
 			"nbt_conditions": [
-                {
-                    "this_name": "components",
-                    "this_type": "object",
-                    "next": { 
-                        "this_name": "minecraft:dyed_color",
-                        "this_type": "int"
-                    }
-                }
-            ]
+				{
+					"this_name": "components",
+					"this_type": "object",
+					"next": {
+						"this_name": "minecraft:dyed_color",
+						"this_type": "int"
+					}
+				}
+			]
+			//?} else {
+			/*"nbt_conditions_match": "any",
+			"nbt_conditions": [
+				{
+					"this_name": "tag",
+					"this_type": "object",
+					"next": {
+						"this_name": "display",
+						"this_type": "object",
+						"next": {
+							"this_name": "color",
+							"this_type": "int"
+						}
+					}
+				}
+			]
+			*///?}
 		},
 		{
 			"item": "minecraft:leather_leggings",
@@ -60,17 +96,35 @@
 			"spawn_frequency": [10, 20],
 			"speed_coefficient": 0.25,
 			"color": "nbt",
+			//? if >=1.21 {
 			"nbt_conditions_match": "any",
 			"nbt_conditions": [
-                {
-                    "this_name": "components",
-                    "this_type": "object",
-                    "next": { 
-                        "this_name": "minecraft:dyed_color",
-                        "this_type": "int"
-                    }
-                }
-            ]
+				{
+					"this_name": "components",
+					"this_type": "object",
+					"next": {
+						"this_name": "minecraft:dyed_color",
+						"this_type": "int"
+					}
+				}
+			]
+			//?} else {
+			/*"nbt_conditions_match": "any",
+			"nbt_conditions": [
+				{
+					"this_name": "tag",
+					"this_type": "object",
+					"next": {
+						"this_name": "display",
+						"this_type": "object",
+						"next": {
+							"this_name": "color",
+							"this_type": "int"
+						}
+					}
+				}
+			]
+			*///?}
 		},
 		{
 			"item": "minecraft:leather_boots",
@@ -79,17 +133,35 @@
 			"spawn_frequency": [10, 20],
 			"speed_coefficient": 0.25,
 			"color": "nbt",
+			//? if >=1.21 {
 			"nbt_conditions_match": "any",
 			"nbt_conditions": [
-                {
-                    "this_name": "components",
-                    "this_type": "object",
-                    "next": { 
-                        "this_name": "minecraft:dyed_color",
-                        "this_type": "int"
-                    }
-                }
-            ]
+				{
+					"this_name": "components",
+					"this_type": "object",
+					"next": {
+						"this_name": "minecraft:dyed_color",
+						"this_type": "int"
+					}
+				}
+			]
+			//?} else {
+			/*"nbt_conditions_match": "any",
+			"nbt_conditions": [
+				{
+					"this_name": "tag",
+					"this_type": "object",
+					"next": {
+						"this_name": "display",
+						"this_type": "object",
+						"next": {
+							"this_name": "color",
+							"this_type": "int"
+						}
+					}
+				}
+			]
+			*///?}
 		},
 		
 		
@@ -103,17 +175,35 @@
 			"spawn_frequency": [10, 20],
 			"speed_coefficient": 0.25,
 			"color": "nbt",
+			//? if >=1.21 {
 			"nbt_conditions_match": "any",
 			"nbt_conditions": [
-                {
-                    "this_name": "components",
-                    "this_type": "object",
-                    "next": { 
-                        "this_name": "minecraft:dyed_color",
-                        "this_type": "int"
-                    }
-                }
-            ]
+				{
+					"this_name": "components",
+					"this_type": "object",
+					"next": {
+						"this_name": "minecraft:dyed_color",
+						"this_type": "int"
+					}
+				}
+			]
+			//?} else {
+			/*"nbt_conditions_match": "any",
+			"nbt_conditions": [
+				{
+					"this_name": "tag",
+					"this_type": "object",
+					"next": {
+						"this_name": "display",
+						"this_type": "object",
+						"next": {
+							"this_name": "color",
+							"this_type": "int"
+						}
+					}
+				}
+			]
+			*///?}
 		},
 		{
 			"item": "minecraft:leather_horse_armor",
@@ -122,17 +212,35 @@
 			"spawn_frequency": [10, 20],
 			"speed_coefficient": 0.25,
 			"color": "nbt",
+			//? if >=1.21 {
 			"nbt_conditions_match": "any",
 			"nbt_conditions": [
-                {
-                    "this_name": "components",
-                    "this_type": "object",
-                    "next": { 
-                        "this_name": "minecraft:dyed_color",
-                        "this_type": "int"
-                    }
-                }
-            ]
+				{
+					"this_name": "components",
+					"this_type": "object",
+					"next": {
+						"this_name": "minecraft:dyed_color",
+						"this_type": "int"
+					}
+				}
+			]
+			//?} else {
+			/*"nbt_conditions_match": "any",
+			"nbt_conditions": [
+				{
+					"this_name": "tag",
+					"this_type": "object",
+					"next": {
+						"this_name": "display",
+						"this_type": "object",
+						"next": {
+							"this_name": "color",
+							"this_type": "int"
+						}
+					}
+				}
+			]
+			*///?}
 		},
 		
 		
@@ -146,17 +254,35 @@
 			"spawn_frequency": [20, 40],
 			"speed_coefficient": 0.2,
 			"color": "nbt",
+			//? if >=1.21 {
 			"nbt_conditions_match": "any",
 			"nbt_conditions": [
-                {
-                    "this_name": "components",
-                    "this_type": "object",
-                    "next": { 
-                        "this_name": "minecraft:firework_explosion",
-                        "this_type": "object"
-                    }
-                }
-            ]
+				{
+					"this_name": "components",
+					"this_type": "object",
+					"next": {
+						"this_name": "minecraft:firework_explosion",
+						"this_type": "object"
+					}
+				}
+			]
+			//?} else {
+			/*"nbt_conditions_match": "any",
+			"nbt_conditions": [
+				{
+					"this_name": "tag",
+					"this_type": "object",
+					"next": {
+						"this_name": "Explosion",
+						"this_type": "object",
+						"next": {
+							"this_name": "Colors",
+							"this_type": "list"
+						}
+					}
+				}
+			]
+			*///?}
 		}
 	],
 	"physics": {

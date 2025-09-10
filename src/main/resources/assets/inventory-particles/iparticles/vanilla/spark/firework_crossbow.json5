@@ -27,21 +27,22 @@
 			"spawn_frequency": [5, 20],
 			"speed_coefficient": 0.3,
 			"color": "nbt_list",
+			//? if >=1.21 {
 			"nbt_conditions_match": "any",
 			"nbt_conditions": [
 				{
 					"this_name": "components",
 					"this_type": "object",
 					"next_match": "any",
-					"next": {	
+					"next": {
 						"this_name": "minecraft:charged_projectiles",
 						"this_type": "list",
 						"next_match": "any",
-						"next": {	
+						"next": {
 							"this_name": "",
 							"this_type": "object",
 							"next_match": "any",
-							"next": {	
+							"next": {
 								"this_name": "id",
 								"this_type": "string",
 								"check_value": "minecraft:firework_rocket"
@@ -50,6 +51,31 @@
 					}
 				}
 			]
+			//?} else {
+			/*"nbt_conditions_match": "any",
+			"nbt_conditions": [
+				{
+					"this_name": "tag",
+					"this_type": "object",
+					"next_match": "any",
+					"next": {
+						"this_name": "ChargedProjectiles",
+						"this_type": "list",
+						"next_match": "any",
+						"next": {
+							"this_name": "",
+							"this_type": "object",
+							"next_match": "any",
+							"next": {
+								"this_name": "id",
+								"this_type": "string",
+								"check_value": "minecraft:firework_rocket"
+							}
+						}
+					}
+				}
+			]
+			*///?}
 		}
 	],
 	"physics": {

@@ -2,6 +2,7 @@ package net.lopymine.ip.predicate.nbt;
 
 import java.util.*;
 import java.util.stream.Stream;
+import lombok.AllArgsConstructor;
 import net.fabricmc.loader.api.FabricLoader;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
@@ -13,23 +14,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 import org.jetbrains.annotations.*;
 
+@AllArgsConstructor
 public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 
+	private final String particleName;
 	private final HashSet<NbtNode> nodes;
 	private final NbtNodeMatch match;
-
-	public NbtParticleSpawnPredicate(HashSet<NbtNode> nodes, NbtNodeMatch match) {
-		this.nodes = nodes;
-		this.match = match;
-	}
 
 	@Override
 	public boolean test(ItemStack stack) {
 		if (this.nodes.isEmpty()) {
-			return true;
-		}
-
-		if (FabricLoader.getInstance().isDevelopmentEnvironment() && false) {
 			return true;
 		}
 		
@@ -91,9 +85,9 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 		if (checkValues.isEmpty() && nodes.isEmpty()) {
 			boolean rightType = switch (node.getType()) {
 				case OBJECT -> element instanceof NbtCompound;
-				case LIST -> element instanceof NbtList;
+				case LIST -> element instanceof AbstractNbtList /*? if <=1.21.4 {*//*<?>*//*?}*/;
 				case STRING -> element instanceof NbtString;
-				case INT -> element instanceof NbtInt;
+				case INT -> element instanceof AbstractNbtNumber;
 			};
 			if (rightType) {
 				return ReadResult.SUCCESS;
@@ -116,11 +110,11 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 						value = element.asString().orElse(null);
 						//?}
 					}
-					if (element instanceof NbtInt) {
+					if (element instanceof AbstractNbtNumber number) {
 						//? if <=1.21.4 {
-						/*value = element.asString();
+						/*value = String.valueOf(number.intValue());
 						 *///?} else {
-						value = element.asInt().map(Object::toString).orElse(null);
+						value = number.asInt().map(Object::toString).orElse(null);
 						//?}
 					}
 					if (value == null) {
@@ -136,6 +130,32 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 					yield false;
 				}
 				case OBJECT, LIST -> {
+					if (node.getType() == NbtNodeType.LIST) {
+						if (checkValues.size() == 1) {
+							if (element instanceof AbstractNbtList /*? if <=1.21.4 {*//*<?>*//*?}*/ list) {
+								List<String> values = List.of("EMPTY_LIST", "NOT_EMPTY_LIST");
+
+								boolean empty = checkValues.get(0).equals(values.get(0));
+								boolean notEmpty = checkValues.get(0).equals(values.get(1));
+								if (empty && list.isEmpty()) {
+									yield true;
+								} else if (empty) {
+									this.debugLog(debugNbtPath, DebugLogReason.CHECK_LIST_EMPTY, node.getName());
+									yield false;
+								}
+								if (notEmpty && !list.isEmpty()) {
+									yield true;
+								} else if (notEmpty) {
+									this.debugLog(debugNbtPath, DebugLogReason.CHECK_LIST_NOT_EMPTY, node.getName());
+									yield false;
+								}
+								this.debugLog(debugNbtPath, DebugLogReason.CHECK_LIST_UNKNOWN, node.getName(), checkValues.get(0), values);
+								yield false;
+							}
+							this.debugLog(debugNbtPath, DebugLogReason.CHECK_VALUE_IN_NOT_LIST_OBJECT, node.getName(), node.getType(), NbtNodeType.LIST);
+							yield false;
+						}
+					}
 					this.debugLog(debugNbtPath, DebugLogReason.NOT_STRING_LIKE, node.getName(), node.getType(), NbtNodeType.STRING_LIKE);
 					yield true; // true by default
 				}
@@ -161,8 +181,8 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 					return ReadResult.FAILED;
 				}
 				case LIST -> {
-					if (element instanceof NbtList nbt) {
-						for (NbtElement nbtElement : nbt) {
+					if (element instanceof AbstractNbtList/*? if <=1.21.4 {*//*<?>*//*?}*/ list) {
+						for (NbtElement nbtElement : list) {
 							if (this.readElementByType(nbtElement, nextNode, debugNbtPath) == ReadResult.SUCCESS) {
 								return ReadResult.SUCCESS;
 							}
@@ -191,7 +211,7 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 		if (!InventoryParticlesConfig.getInstance().getMainConfig().isNbtDebugModeEnabled()) {
 			return;
 		}
-		reason.debug(debugNbtPath, objects);
+		reason.debug(this.particleName, debugNbtPath, objects);
 	}
 
 	private enum DebugLogReason {
@@ -205,7 +225,11 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 		NOT_STRING_LIKE("NBT node \"{}\" is not string-like. Found type: \"{}\", Expected one of: \"{}\"."),
 		NOT_OBJECT_LIKE("NBT node \"{}\" is not object-like. Found type: \"{}\", Expected one of: \"{}\"."),
 		NODE_NOT_FOUND("Next NBT node \"{}\" not found. Available nodes: \"{}\"."),
-		NODE_NOT_FOUND_IN_LIST("Next NBT node \"{}\" not found in the NBT list node.");
+		NODE_NOT_FOUND_IN_LIST("Next NBT node \"{}\" not found in the NBT list node."),
+		CHECK_LIST_UNKNOWN("Unknown check mode for NBT list \"{}\". Found mode: \"{}\", Expected one of: \"{}\"."),
+		CHECK_LIST_EMPTY("Required empty NBT list, but \"{}\" wasn't."),
+		CHECK_LIST_NOT_EMPTY("Required NBT list with any element, but \"{}\" was empty."),
+		CHECK_VALUE_IN_NOT_LIST_OBJECT("NBT node \"{}\" is not list-like. Found type: \"{}\", Expected one of: \"{}\".");
 
 		private final String message;
 
@@ -213,12 +237,12 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 			this.message = message;
 		}
 
-		public void debug(@Nullable DebugNbtPath path, Object... objects) {
+		public void debug(String particleName, @Nullable DebugNbtPath path, Object... objects) {
 			String string = this.message + (path == null ? ("") : (" Path: %s".formatted(path.toString())));
 			if (path != null) {
 				path.back();
 			}
-			InventoryParticlesClient.LOGGER.error(string, objects);
+			InventoryParticlesClient.LOGGER.error("[%s] %s".formatted(particleName, string), objects);
 		}
 	}
 
