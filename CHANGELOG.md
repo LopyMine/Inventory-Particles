@@ -1,3 +1,3 @@
 - Ported to versions below (<1.21.8)
 - Fixed some bugs with nbt predicates
-- Added more configurable particle spawn actions
+- Added more configurable particle spawn action
