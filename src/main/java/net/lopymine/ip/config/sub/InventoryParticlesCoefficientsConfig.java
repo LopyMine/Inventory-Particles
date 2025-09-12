@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import java.util.function.Supplier;
 import lombok.*;
 import static com.mojang.serialization.Codec.DOUBLE;
-import static com.mojang.serialization.Codec.FLOAT;
 import static com.mojang.serialization.codecs.RecordCodecBuilder.create;
 import static net.lopymine.ip.utils.CodecUtils.*;
 import static net.lopymine.ip.utils.CodecUtils.option;

@@ -46,7 +46,7 @@ public class DynamicSizeController<E extends IResizableElement & IMovableElement
 			DynamicParticleSize nextParticleSize = this.nextSize.getObject();
 
 			Integer2DynamicParticleSize lastSize = this.getLastSize(element);
-			float progress = (((float) ticks) - lastSize.getIndex()) / (((float) this.nextSize.getIndex()) - lastSize.getIndex());
+			double progress = (((double) ticks) - lastSize.getIndex()) / (((double) this.nextSize.getIndex()) - lastSize.getIndex());
 
 			DynamicParticleSizeInterpolation interpolation =
 					nextParticleSize.getInterpolation() != DynamicParticleSizeInterpolation.NO_INTERPOLATION
@@ -55,13 +55,13 @@ public class DynamicSizeController<E extends IResizableElement & IMovableElement
 					:
 					this.dynamicParticleSizes.getInterpolation();
 
-			float lastWidth = lastSize.getObject().getWidth();
-			float nextWidth = nextParticleSize.getWidth();
-			float width = interpolation.getInterpolated(lastWidth, nextWidth, progress);
+			double lastWidth = lastSize.getObject().getWidth();
+			double nextWidth = nextParticleSize.getWidth();
+			double width = interpolation.getInterpolated(lastWidth, nextWidth, progress);
 
-			float lastHeight = lastSize.getObject().getHeight();
-			float nextHeight = nextParticleSize.getHeight();
-			float height = interpolation.getInterpolated(lastHeight, nextHeight, progress);
+			double lastHeight = lastSize.getObject().getHeight();
+			double nextHeight = nextParticleSize.getHeight();
+			double height = interpolation.getInterpolated(lastHeight, nextHeight, progress);
 
 			this.offset(element, width, height);
 
@@ -93,13 +93,13 @@ public class DynamicSizeController<E extends IResizableElement & IMovableElement
 		}
 	}
 
-	private void offset(E element, float nextWidth, float nextHeight) {
+	private void offset(E element, double nextWidth, double nextHeight) {
 		this.offset(element, element.getWidth(), element.getHeight(), nextWidth, nextHeight);
 	}
 
-	private void offset(E element, float lastWidth, float lastHeight, float nextWidth, float nextHeight) {
-		float offsetX = (nextWidth - lastWidth) / 2F;
-		float offsetY = (nextHeight - lastHeight) / 2F;
+	private void offset(E element, double lastWidth, double lastHeight, double nextWidth, double nextHeight) {
+		double offsetX = (nextWidth - lastWidth) / 2F;
+		double offsetY = (nextHeight - lastHeight) / 2F;
 		element.setX(element.getX() - offsetX);
 		element.setY(element.getY() - offsetY);
 	}

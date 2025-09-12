@@ -13,7 +13,7 @@ public class RandomStaticParticleTextureProvider extends AbstractParticleTexture
 	@Nullable
 	private Sprite currentTexture;
 
-	public RandomStaticParticleTextureProvider(List<Sprite> textures, float animationSpeed, int lifeTime) {
+	public RandomStaticParticleTextureProvider(List<Sprite> textures, double animationSpeed, int lifeTime) {
 		super(textures, animationSpeed, lifeTime);
 	}
 

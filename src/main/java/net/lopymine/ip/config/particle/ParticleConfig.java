@@ -31,7 +31,7 @@ public class ParticleConfig {
 	public static final Codec<ParticleConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			option("life_time", 0, Codec.INT, ParticleConfig::getLifeTimeTicks),
 			option("animation_type", ParticleAnimationType.RANDOM, ParticleAnimationType.CODEC, ParticleConfig::getAnimationType),
-			option("animation_speed", 1.0F, Codec.FLOAT, ParticleConfig::getAnimationSpeed),
+			option("animation_speed", 1.0D, Codec.DOUBLE, ParticleConfig::getAnimationSpeed),
 			option("size", DynamicParticleSizes.STANDARD, DYNAMIC_PARTICLE_SIZE_CODEC, ParticleConfig::getSize),
 			option("textures", new ArrayList<>(), TEXTURES_CODEC, ParticleConfig::getTextures),
 			option("holders", new HashSet<>(), ParticleHolder.CODEC, ParticleConfig::getHolders),
@@ -40,7 +40,7 @@ public class ParticleConfig {
 
 	private int lifeTimeTicks;
 	private ParticleAnimationType animationType;
-	private float animationSpeed;
+	private double animationSpeed;
 	private DynamicParticleSizes size;
 	private ArrayList<Identifier> textures;
 	private HashSet<ParticleHolder> holders;

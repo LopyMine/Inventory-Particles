@@ -13,16 +13,16 @@ public class StaticParticleSize {
 	public static final StaticParticleSize STANDARD_SIZE = new StaticParticleSize();
 
 	public static final Codec<StaticParticleSize> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-			Codec.FLOAT.fieldOf("width").forGetter(StaticParticleSize::getWidth),
-			Codec.FLOAT.fieldOf("height").forGetter(StaticParticleSize::getHeight)
+			Codec.DOUBLE.fieldOf("width").forGetter(StaticParticleSize::getWidth),
+			Codec.DOUBLE.fieldOf("height").forGetter(StaticParticleSize::getHeight)
 	).apply(instance, StaticParticleSize::new));
 
-	private float width;
-	private float height;
+	private double width;
+	private double height;
 
 	public StaticParticleSize() {
-		this.width  = 8F;
-		this.height = 8F;
+		this.width  = 8D;
+		this.height = 8D;
 	}
 
 }

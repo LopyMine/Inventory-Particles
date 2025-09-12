@@ -164,9 +164,9 @@ public class YACLConfigurationScreen {
 						.withController(0, Integer.MAX_VALUE, 1, false)
 						.withDescription(SimpleContent.NONE)
 						.build(),
-				SimpleOption.<Float>startBuilder("particle_transparency")
+				SimpleOption.<Double>startBuilder("particle_transparency")
 						.withBinding(defParticleConfig.getParticleTransparency(), particleConfig::getParticleTransparency, particleConfig::setParticleTransparency, true)
-						.withController(0.0F, 1.0F, 0.05F)
+						.withController(0.0D, 1.0D, 0.05D)
 						.withDescription(SimpleContent.NONE)
 						.build()
 		);

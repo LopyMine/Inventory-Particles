@@ -6,7 +6,7 @@ import net.minecraft.util.math.random.Random;
 
 public class SpeedController<E extends IMovableElement> extends AbstractSpeedController<SpeedController<E>, E> {
 
-	public SpeedController(SpeedConfig config, Random random, float impulse) {
+	public SpeedController(SpeedConfig config, Random random, double impulse) {
 		super(config, random, impulse * config.getCursorImpulseInheritCoefficient());
 	}
 

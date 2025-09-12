@@ -2,8 +2,8 @@ package net.lopymine.ip.element.base;
 
 public interface IRotatableElement {
 
-	float getAngle();
+	double getAngle();
 
-	void setAngle(float degrees);
+	void setAngle(double degrees);
 
 }

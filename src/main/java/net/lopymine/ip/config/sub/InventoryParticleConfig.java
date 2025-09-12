@@ -23,7 +23,7 @@ public class InventoryParticleConfig {
 			option("gui_action_put_spawn_enabled", false, Codec.BOOL, InventoryParticleConfig::isGuiActionPutSpawnEnabled),
 			option("particle_deletion_type", ParticleDeletionMode.OLDEST, ParticleDeletionMode.CODEC, InventoryParticleConfig::getParticleDeletionMode),
 			option("max_particles", 5000, Codec.INT, InventoryParticleConfig::getMaxParticles),
-			option("particle_transparency", 1.0F, Codec.FLOAT, InventoryParticleConfig::getParticleTransparency)
+			option("particle_transparency", 1.0D, Codec.DOUBLE, InventoryParticleConfig::getParticleTransparency)
 	).apply(inst, InventoryParticleConfig::new));
 
 	private boolean cursorSpawnEnabled;
@@ -34,7 +34,7 @@ public class InventoryParticleConfig {
 	private boolean guiActionPutSpawnEnabled;
 	private ParticleDeletionMode particleDeletionMode;
 	private int maxParticles;
-	private float particleTransparency;
+	private double particleTransparency;
 
 	public static Supplier<InventoryParticleConfig> getNewInstance() {
 		return () -> CodecUtils.parseNewInstanceHacky(CODEC);

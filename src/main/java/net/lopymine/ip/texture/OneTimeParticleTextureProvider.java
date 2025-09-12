@@ -5,7 +5,7 @@ import net.minecraft.client.texture.Sprite;
 
 public class OneTimeParticleTextureProvider extends StretchParticleTextureProvider {
 
-	public OneTimeParticleTextureProvider(List<Sprite> textures, float animationSpeed, int lifeTime) {
+	public OneTimeParticleTextureProvider(List<Sprite> textures, double animationSpeed, int lifeTime) {
 		super(textures, animationSpeed, lifeTime);
 	}
 

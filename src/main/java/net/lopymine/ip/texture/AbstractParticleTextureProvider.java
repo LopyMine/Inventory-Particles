@@ -16,11 +16,11 @@ import net.minecraft.util.math.random.Random;
 public abstract class AbstractParticleTextureProvider extends TickElement implements IParticleTextureProvider {
 
 	protected List<Sprite> textures;
-	protected float animationSpeed;
+	protected double animationSpeed;
 	protected int lifeTime;
 	protected boolean shouldDead;
 
-	public AbstractParticleTextureProvider(List<Sprite> textures, float animationSpeed, int lifeTime) {
+	public AbstractParticleTextureProvider(List<Sprite> textures, double animationSpeed, int lifeTime) {
 		this(textures, animationSpeed, lifeTime, false);
 	}
 

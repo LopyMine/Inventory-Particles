@@ -2,10 +2,9 @@ package net.lopymine.ip.controller.speed;
 
 import java.util.*;
 import lombok.*;
-import net.lopymine.ip.config.range.FloatRange;
+import net.lopymine.ip.config.range.DoubleRange;
 import net.lopymine.ip.config.speed.SpeedConfig;
 import net.lopymine.ip.controller.IController;
-import net.lopymine.ip.controller.modifier.IControllerModifier;
 import net.lopymine.ip.controller.modifier.speed.ISpeedControllerModifier;
 import net.lopymine.ip.debug.HideInDebugRender;
 import net.lopymine.ip.element.base.IMovableElement;
@@ -20,25 +19,25 @@ public abstract class AbstractSpeedController<C extends AbstractSpeedController<
 
 	@HideInDebugRender
 	protected Random random;
-	private float acceleration;
+	private double acceleration;
 	private boolean accelerationBidirectional;
-	private FloatRange maxAcceleration;
-	private FloatRange max;
-	private float braking;
-	private FloatRange turbulence;
+	private DoubleRange maxAcceleration;
+	private DoubleRange max;
+	private double braking;
+	private DoubleRange turbulence;
 
-	protected float lastSpeed;
-	protected float speed;
+	protected double lastSpeed;
+	protected double speed;
 
-	public AbstractSpeedController(SpeedConfig config, Random random, float impulse) {
+	public AbstractSpeedController(SpeedConfig config, Random random, double impulse) {
 		this(random, config.getAcceleration(), config.isAccelerationBidirectional(), config.getMaxAcceleration(), config.getMax(), config.getBraking(), config.getTurbulence(), impulse + config.getImpulseBidirectional(random));
 	}
 
-	public AbstractSpeedController(Random random, float acceleration, boolean accelerationBidirectional, FloatRange maxAcceleration, FloatRange max, float braking, FloatRange turbulence, float impulse) {
+	public AbstractSpeedController(Random random, double acceleration, boolean accelerationBidirectional, DoubleRange maxAcceleration, DoubleRange max, double braking, DoubleRange turbulence, double impulse) {
 		this.random                    = random;
 		this.acceleration              = acceleration;
 		this.accelerationBidirectional = accelerationBidirectional && random.nextBoolean();
-		this.maxAcceleration           = this.accelerationBidirectional ? new FloatRange(-maxAcceleration.getMax(), -maxAcceleration.getMin()) : maxAcceleration;
+		this.maxAcceleration           = this.accelerationBidirectional ? new DoubleRange(-maxAcceleration.getMax(), -maxAcceleration.getMin()) : maxAcceleration;
 		this.max                       = max;
 		this.braking                   = braking;
 		this.turbulence                = turbulence;
@@ -49,7 +48,7 @@ public abstract class AbstractSpeedController<C extends AbstractSpeedController<
 	public void tick(E element) {
 		this.lastSpeed = this.speed;
 
-		float acceleration = this.getAcceleration() * (this.isAccelerationBidirectional() ? -1 : 1);
+		double acceleration = this.getAcceleration() * (this.isAccelerationBidirectional() ? -1 : 1);
 		for (ISpeedControllerModifier<? super C, ? super E> m : this.modifiers) {
 			acceleration += m.getAcceleration(element);
 		}
@@ -65,7 +64,7 @@ public abstract class AbstractSpeedController<C extends AbstractSpeedController<
 		}
 
 		if (this.speed > 0) {
-			float braking = this.getBraking();
+			double braking = this.getBraking();
 			for (ISpeedControllerModifier<? super C, ? super E> modifier : this.modifiers) {
 				braking += modifier.getBraking(element);
 			}
@@ -76,7 +75,7 @@ public abstract class AbstractSpeedController<C extends AbstractSpeedController<
 		}
 
 		if (this.speed < 0) {
-			float braking = this.getBraking();
+			double braking = this.getBraking();
 			for (ISpeedControllerModifier<? super C, ? super E> modifier : this.modifiers) {
 				braking += modifier.getBraking(element);
 			}
@@ -86,13 +85,13 @@ public abstract class AbstractSpeedController<C extends AbstractSpeedController<
 			}
 		}
 
-		float turbulence = this.getTurbulence().getRandom(this.random);
+		double turbulence = this.getTurbulence().getRandom(this.random);
 		for (ISpeedControllerModifier<? super C, ? super E> modifier : this.modifiers) {
 			turbulence += modifier.getTurbulence(element);
 		}
 		this.speed += turbulence;
 
-		FloatRange max = this.getMax();
+		DoubleRange max = this.getMax();
 		if (this.speed < max.getMin()) {
 			this.speed = max.getMin();
 		}

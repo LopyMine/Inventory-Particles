@@ -2,16 +2,16 @@ package net.lopymine.ip.element.base;
 
 public interface IResizableElement {
 
-	void setLastWidth(float width);
+	void setLastWidth(double width);
 
-	void setLastHeight(float height);
+	void setLastHeight(double height);
 
-	void setWidth(float width);
+	void setWidth(double width);
 
-	void setHeight(float height);
+	void setHeight(double height);
 
-	float getHeight();
+	double getHeight();
 
-	float getWidth();
+	double getWidth();
 
 }

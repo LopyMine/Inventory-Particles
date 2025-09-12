@@ -53,16 +53,16 @@ public class InventoryCursor extends TickElement {
 		return Math.abs(this.y - this.lastY);
 	}
 
-	public float getSpeedX() {
-		float rawCursorSpeedX = this.x - this.lastX;
+	public double getSpeedX() {
+		double rawCursorSpeedX = this.x - this.lastX;
 		int directionalX = rawCursorSpeedX < 0 ? -1 : 1;
-		return (float) (Math.sqrt(Math.abs(rawCursorSpeedX)) * directionalX);
+		return (Math.sqrt(Math.abs(rawCursorSpeedX)) * directionalX);
 	}
 
-	public float getSpeedY() {
-		float rawCursorSpeedY = this.y - this.lastY;
+	public double getSpeedY() {
+		double rawCursorSpeedY = this.y - this.lastY;
 		int directionalY = rawCursorSpeedY < 0 ? -1 : 1;
-		return (float) (Math.sqrt(Math.abs(rawCursorSpeedY)) * directionalY);
+		return (Math.sqrt(Math.abs(rawCursorSpeedY)) * directionalY);
 	}
 
 	@Override

@@ -17,22 +17,22 @@ import net.minecraft.util.math.MathHelper;
 @AllArgsConstructor
 public class DynamicParticleSizeInterpolation {
 
-	private static final Map<String, Function<Float, Float>> REGISTERED_INTERPOLATIONS = new HashMap<>();
-	public static final DynamicParticleSizeInterpolation NO_INTERPOLATION = new DynamicParticleSizeInterpolation("shouldn't be registered", (f) -> 1.0F);
+	private static final Map<String, Function<Double, Double>> REGISTERED_INTERPOLATIONS = new HashMap<>();
+	public static final DynamicParticleSizeInterpolation NO_INTERPOLATION = new DynamicParticleSizeInterpolation("shouldn't be registered", (f) -> 1.0D);
 
-	public static final Function<Float, Float> LINEAR_FUNCTION = (f) -> f;
+	public static final Function<Double, Double> LINEAR_FUNCTION = (f) -> f;
 	public static final DynamicParticleSizeInterpolation LINEAR_INTERPOLATION = new DynamicParticleSizeInterpolation("linear", LINEAR_FUNCTION);
 	public static final Codec<DynamicParticleSizeInterpolation> CODEC;
 
 	private String id;
 	@HideInDebugRender
-	private Function<Float, Float> function;
+	private Function<Double, Double> function;
 
-	private static void register(String id, Function<Float, Float> function) {
+	private static void register(String id, Function<Double, Double> function) {
 		REGISTERED_INTERPOLATIONS.put(id, function);
 	}
 
-	public float getInterpolated(float first, float second, float progress) {
+	public double getInterpolated(double first, double second, double progress) {
 		return MathHelper.lerp(this.function.apply(progress), first, second);
 	}
 
@@ -41,7 +41,7 @@ public class DynamicParticleSizeInterpolation {
 
 		MethodHandles.Lookup lookup = MethodHandles.lookup();
 		for (Method method : Easing.class.getDeclaredMethods()) {
-			if (method.getReturnType() != Float.TYPE || method.getParameterCount() != 1 || method.getParameters()[0].getType() != Float.TYPE) {
+			if (method.getReturnType() != Double.TYPE || method.getParameterCount() != 1 || method.getParameters()[0].getType() != Double.TYPE) {
 				continue;
 			}
 			String name = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, method.getName());
@@ -55,11 +55,11 @@ public class DynamicParticleSizeInterpolation {
 						MethodType.methodType(Function.class),
 						MethodType.methodType(Object.class, Object.class),
 						methodHandle,
-						MethodType.methodType(Float.class, Float.class)
+						MethodType.methodType(Double.class, Double.class)
 				);
 
 				@SuppressWarnings("unchecked")
-				Function<Float, Float> function = (Function<Float, Float>) site.getTarget().invokeExact();
+				Function<Double, Double> function = (Function<Double, Double>) site.getTarget().invokeExact();
 
 				register(name, function);
 			} catch (Throwable e) {
@@ -68,7 +68,7 @@ public class DynamicParticleSizeInterpolation {
 		}
 
 		CODEC = Codec.STRING.xmap((s) -> {
-			Function<Float, Float> function = REGISTERED_INTERPOLATIONS.get(s);
+			Function<Double, Double> function = REGISTERED_INTERPOLATIONS.get(s);
 			if (function == null) {
 				InventoryParticlesClient.LOGGER.error("Failed to find interpolation method with name \"{}\"!", s);
 				return NO_INTERPOLATION;

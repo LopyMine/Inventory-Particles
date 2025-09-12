@@ -3,7 +3,7 @@ package net.lopymine.ip.config.particle;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.*;
-import net.lopymine.ip.config.range.FloatRange;
+import net.lopymine.ip.config.range.DoubleRange;
 import net.lopymine.ip.config.speed.*;
 import net.lopymine.ip.utils.CodecUtils;
 import static net.lopymine.ip.utils.CodecUtils.option;
@@ -69,12 +69,12 @@ public class ParticlePhysics {
 		public static class RotationConfig {
 
 			public static final Codec<RotationConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-					option("spawn_angle", new FloatRange(), FloatRange.CODEC, RotationConfig::getSpawnAngle),
+					option("spawn_angle", new DoubleRange(), DoubleRange.CODEC, RotationConfig::getSpawnAngle),
 					option("rotate_in_movement_direction", false, Codec.BOOL, RotationConfig::isRotateInMovementDirection),
 					option("speed", SpeedConfig.getNewInstance(), SpeedConfig.CODEC, RotationConfig::getSpeedConfig)
 			).apply(instance, RotationConfig::new));
 
-			private FloatRange spawnAngle;
+			private DoubleRange spawnAngle;
 			private boolean rotateInMovementDirection;
 			private SpeedConfig speedConfig;
 

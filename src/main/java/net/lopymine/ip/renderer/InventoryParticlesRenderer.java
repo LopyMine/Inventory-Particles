@@ -255,7 +255,7 @@ public class InventoryParticlesRenderer extends TickElement {
 		MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 	}
 
-	public void updateParticlesPositions(float xCoefficient, float yCoefficient) {
+	public void updateParticlesPositions(double xCoefficient, double yCoefficient) {
 		for (IParticle particle : this.screenParticles) {
 			particle.setX(particle.getX() * xCoefficient);
 			particle.setY(particle.getY() * yCoefficient);

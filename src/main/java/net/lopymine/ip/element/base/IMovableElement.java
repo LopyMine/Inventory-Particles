@@ -2,24 +2,24 @@ package net.lopymine.ip.element.base;
 
 public interface IMovableElement {
 
-	float getX();
+	double getX();
 
-	float getY();
+	double getY();
 
-	float getLastX();
+	double getLastX();
 
-	float getLastY();
+	double getLastY();
 
-	void setX(float x);
+	void setX(double x);
 
-	void setY(float y);
+	void setY(double y);
 
-	float getSpeedX();
+	double getSpeedX();
 
-	float getSpeedY();
+	double getSpeedY();
 
-	void setSpeedX(float speedX);
+	void setSpeedX(double speedX);
 
-	void setSpeedY(float speedY);
+	void setSpeedY(double speedY);
 
 }

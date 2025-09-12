@@ -6,7 +6,7 @@ import net.minecraft.util.Identifier;
 
 public class LoopParticleTextureProvider extends StretchParticleTextureProvider {
 
-	public LoopParticleTextureProvider(List<Sprite> textures, float animationSpeed, int lifeTime) {
+	public LoopParticleTextureProvider(List<Sprite> textures, double animationSpeed, int lifeTime) {
 		super(textures, animationSpeed, lifeTime);
 	}
 

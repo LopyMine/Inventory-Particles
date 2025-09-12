@@ -21,30 +21,30 @@ public class SpeedInAngleDirectionControllerModifier<E extends IMovableElement &
 	}
 
 	@Override
-	public float getImpulse(E element) {
+	public double getImpulse(E element) {
 		return this.calc(this.config.getImpulseBidirectional(this.random), element);
 	}
 
 	@Override
-	public float getAcceleration(E element) {
+	public double getAcceleration(E element) {
 		return this.calc(this.config.getAccelerationBidirectional(this.random), element);
 	}
 
 	@Override
-	public float getBraking(E element) {
+	public double getBraking(E element) {
 		return Math.abs(this.calc(this.config.getBraking(), element));
 	}
 
 	@Override
-	public float getTurbulence(E element) {
+	public double getTurbulence(E element) {
 		return this.calc(this.config.getTurbulence().getRandom(this.random), element);
 	}
 
-	public float calc(float multiplier, E element) {
-		if (multiplier == 0.0F) {
-			return 0F;
+	public double calc(double multiplier, E element) {
+		if (multiplier == 0.0D) {
+			return 0.0D;
 		}
 		double value = Math.toRadians(element.getAngle());
-		return (float) ((this.xAxis ? Math.sin(value) : -Math.cos(value)) * multiplier);
+		return (this.xAxis ? Math.sin(value) : -Math.cos(value)) * multiplier;
 	}
 }

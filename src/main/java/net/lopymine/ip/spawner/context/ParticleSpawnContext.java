@@ -38,7 +38,7 @@ public class ParticleSpawnContext {
 
 	private ItemStack stack;
 	private int x, y;
-	private float impulseX, impulseY;
+	private double impulseX, impulseY;
 	private Function<InventoryParticleConfig, Boolean> enabledFunction;
 	private Function<InventoryParticlesCoefficientsConfig, ParticleCoefficientConfig> configFunction;
 	private Function<ParticleCoefficientConfig, Double> countFunction;

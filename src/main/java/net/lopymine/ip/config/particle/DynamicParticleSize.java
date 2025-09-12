@@ -15,15 +15,15 @@ public class DynamicParticleSize {
 
 	public static final Codec<DynamicParticleSize> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			option("interpolation", DynamicParticleSizeInterpolation.NO_INTERPOLATION, DynamicParticleSizeInterpolation.CODEC, DynamicParticleSize::getInterpolation),
-			option("width", Codec.FLOAT, DynamicParticleSize::getWidth),
-			option("height", Codec.FLOAT, DynamicParticleSize::getHeight)
+			option("width", Codec.DOUBLE, DynamicParticleSize::getWidth),
+			option("height", Codec.DOUBLE, DynamicParticleSize::getHeight)
 	).apply(instance, DynamicParticleSize::new));
 
 	private DynamicParticleSizeInterpolation interpolation;
-	private float width;
-	private float height;
+	private double width;
+	private double height;
 
-	public DynamicParticleSize(float width, float height) {
+	public DynamicParticleSize(double width, double height) {
 		this.interpolation = DynamicParticleSizeInterpolation.NO_INTERPOLATION;
 		this.width  = width;
 		this.height = height;

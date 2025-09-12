@@ -10,10 +10,10 @@ import net.minecraft.util.math.random.Random;
 public class RotationSpeedController<T extends IRotatableElement & IMovableElement> extends AbstractSpeedController<RotationSpeedController<T>, T> {
 
 	private boolean rotateInMovementDirection;
-	private float rotation;
+	private double rotation;
 
 	public RotationSpeedController(RotationConfig config, Random random) {
-		super(config.getSpeedConfig(), random, 0.0F);
+		super(config.getSpeedConfig(), random, 0.0D);
 		this.rotateInMovementDirection = config.isRotateInMovementDirection();
 	}
 
@@ -25,15 +25,15 @@ public class RotationSpeedController<T extends IRotatableElement & IMovableEleme
 			return;
 		}
 
-		float deltaX = element.getX() - element.getLastX();
-		float deltaY = element.getY() - element.getLastY();
+		double deltaX = element.getX() - element.getLastX();
+		double deltaY = element.getY() - element.getLastY();
 
 		if (deltaX == 0.0F && deltaY == 0.0F) {
 			return;
 		}
 
-		float movementRotationRad = (float) Math.atan2(-deltaY, -deltaX);
-		float rotationDegrees = (float) Math.toDegrees(movementRotationRad) - 90F;
+		double movementRotationRad = Math.atan2(-deltaY, -deltaX);
+		double rotationDegrees = Math.toDegrees(movementRotationRad) - 90F;
 		this.rotation = rotationDegrees % 360F;
 	}
 }

@@ -15,7 +15,7 @@ public class StretchParticleTextureProvider extends AbstractParticleTextureProvi
 	@Nullable
 	private Sprite currentTexture;
 
-	public StretchParticleTextureProvider(List<Sprite> textures, float animationSpeed, int lifeTime) {
+	public StretchParticleTextureProvider(List<Sprite> textures, double animationSpeed, int lifeTime) {
 		super(textures, animationSpeed, lifeTime);
 	}
 

@@ -34,8 +34,8 @@ public class InventoryParticle extends TickElement implements IParticle, IRotata
 	private final Random random = Random.create();
 
 	private int lifeTimeTicks;
-	private float standardParticleAngle;
-	private float standardTextureAngle;
+	private double standardParticleAngle;
+	private double standardTextureAngle;
 	private IParticleTextureProvider textureProvider;
 
 	@Nullable
@@ -53,25 +53,25 @@ public class InventoryParticle extends TickElement implements IParticle, IRotata
 	private Sprite texture;
 	private int color = -1;
 
-	private float lastWidth = StaticParticleSize.STANDARD_SIZE.getWidth();
-	private float lastHeight = StaticParticleSize.STANDARD_SIZE.getHeight();
+	private double lastWidth = StaticParticleSize.STANDARD_SIZE.getWidth();
+	private double lastHeight = StaticParticleSize.STANDARD_SIZE.getHeight();
 
-	private float width = StaticParticleSize.STANDARD_SIZE.getWidth();
-	private float height = StaticParticleSize.STANDARD_SIZE.getHeight();
+	private double width = StaticParticleSize.STANDARD_SIZE.getWidth();
+	private double height = StaticParticleSize.STANDARD_SIZE.getHeight();
 
-	private float lastX;
-	private float lastY;
-	private float x;
-	private float y;
+	private double lastX;
+	private double lastY;
+	private double x;
+	private double y;
 
-	private float speedX;
-	private float speedY;
+	private double speedX;
+	private double speedY;
 
-	private float lastParticleAngle;
-	private float particleAngle;
+	private double lastParticleAngle;
+	private double particleAngle;
 
-	private float lastTextureAngle;
-	private float textureAngle;
+	private double lastTextureAngle;
+	private double textureAngle;
 
 	private boolean dead;
 	private boolean selected;
@@ -158,8 +158,8 @@ public class InventoryParticle extends TickElement implements IParticle, IRotata
 		if (currentScreen != null) {
 			int width = currentScreen.width;
 			int height = currentScreen.height;
-			float d = width / 4F;
-			float v = height / 4F;
+			double d = width / 4F;
+			double v = height / 4F;
 			if (this.x < -d || this.y < -v || this.x > width + d || this.y > height + v) {
 				this.dead = true;
 			}
@@ -167,12 +167,12 @@ public class InventoryParticle extends TickElement implements IParticle, IRotata
 	}
 
 	public void render(DrawContext context, InventoryCursor cursor, float tickProgress, boolean stoppedTicking) {
-		float renderWidth = stoppedTicking ? this.width : MathHelper.lerp(tickProgress, this.lastWidth, this.width);
-		float renderHeight = stoppedTicking ? this.height : MathHelper.lerp(tickProgress, this.lastHeight, this.height);
-		float x = stoppedTicking ? this.x : (float) MathHelper.lerp((double) tickProgress, this.lastX, this.x);
-		float y = stoppedTicking ? this.y : (float) MathHelper.lerp((double) tickProgress, this.lastY, this.y);
+		float renderWidth = stoppedTicking ? (float) this.width : (float) MathHelper.lerp(tickProgress, this.lastWidth, this.width);
+		float renderHeight = stoppedTicking ? (float) this.height : (float)  MathHelper.lerp(tickProgress, this.lastHeight, this.height);
+		float x = stoppedTicking ? (float) this.x : (float) MathHelper.lerp(tickProgress, this.lastX, this.x);
+		float y = stoppedTicking ? (float) this.y : (float) MathHelper.lerp(tickProgress, this.lastY, this.y);
 
-		this.updateHovered(cursor, x, y, this.width, this.height);
+		this.updateHovered(cursor, x, y, renderWidth, renderHeight);
 		boolean bl = (stoppedTicking && this.isHovered()) || this.isSelected();
 
 		int m = bl ? 2 : 1;
@@ -190,7 +190,7 @@ public class InventoryParticle extends TickElement implements IParticle, IRotata
 		}
 
 		context.translate(halfWidth, halfHeight, 0F);
-		context.rotateZ((this.standardTextureAngle + this.textureAngle) % 360F);
+		context.rotateZ((float) (this.standardTextureAngle + this.textureAngle) % 360F);
 		context.translate(-halfWidth , -halfHeight, 0F);
 		DrawUtils.drawParticleSprite(context, this.texture, 0, 0, width, height, this.getRenderColor());
 		context.pop();
@@ -205,23 +205,23 @@ public class InventoryParticle extends TickElement implements IParticle, IRotata
 		return ArgbUtils.getArgb(configAlpha, ArgbUtils.getRed(this.color), ArgbUtils.getGreen(this.color), ArgbUtils.getBlue(this.color));
 	}
 
-	public float getAngle() {
+	public double getAngle() {
 		return this.standardParticleAngle + this.particleAngle;
 	}
 
 	@Override
-	public void setAngle(float degrees) {
+	public void setAngle(double degrees) {
 		this.particleAngle = degrees;
 	}
 
 	@Override
-	public void setWidth(float width) {
+	public void setWidth(double width) {
 		this.lastWidth = this.width;
 		this.width = width;
 	}
 
 	@Override
-	public void setHeight(float height) {
+	public void setHeight(double height) {
 		this.lastHeight = this.height;
 		this.height = height;
 	}

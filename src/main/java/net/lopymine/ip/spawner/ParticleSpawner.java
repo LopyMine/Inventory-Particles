@@ -18,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class ParticleSpawner extends TickElement implements IParticleSpawner {
 
 	private final Random random = Random.create();
@@ -26,13 +27,13 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 	private final ParticleSpawnArea spawnArea;
 	private final IntegerRange countRange;
 	private final IntegerRange frequencyRange;
-	private final float speedCoefficient;
+	private final double speedCoefficient;
 	private final IParticleColorType colorType;
 	private final IParticleSpawnPredicate spawnCondition;
 	private final Function<ParticleSpawnContext, InventoryParticle> function;
 	private int nextSpawnTicks = 0;
 
-	public ParticleSpawner(Identifier spawnArea, IntegerRange countRange, IntegerRange frequencyRange, float speedCoefficient, IParticleColorType colorType, IParticleSpawnPredicate spawnCondition, Function<ParticleSpawnContext, InventoryParticle> function) {
+	public ParticleSpawner(Identifier spawnArea, IntegerRange countRange, IntegerRange frequencyRange, double speedCoefficient, IParticleColorType colorType, IParticleSpawnPredicate spawnCondition, Function<ParticleSpawnContext, InventoryParticle> function) {
 		this.spawnArea        = ParticleSpawnArea.readFromTexture(spawnArea);
 		this.countRange       = countRange;
 		this.frequencyRange   = frequencyRange;
@@ -116,8 +117,8 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 
 	private void offsetParticlePos(InventoryParticle particle) {
 		IParticleSpawnPos particleSpawnPos = this.spawnArea == null ? null : this.spawnArea.getRandomPos(particle.getRandom());
-		particle.setX(particle.getX() - 8F);
-		particle.setY(particle.getY() - 8F);
+		particle.setX(particle.getX() - 8D);
+		particle.setY(particle.getY() - 8D);
 		if (particleSpawnPos != null) {
 			particle.setX(particle.getX() - particleSpawnPos.getXOffset() + particleSpawnPos.x() - (particle.getWidth() / 2));
 			particle.setY(particle.getY() - particleSpawnPos.getYOffset() + particleSpawnPos.y() - (particle.getHeight() / 2));

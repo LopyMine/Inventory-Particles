@@ -23,7 +23,7 @@ public interface IParticleTextureProvider extends ITickElement, IDebugRenderable
 			return textures.stream().map(InventoryParticlesAtlasManager.getInstance()::getSprite).toList();
 		});
 
-		float animationSpeed = config.getAnimationSpeed();
+		double animationSpeed = config.getAnimationSpeed();
 		int lifeTime = config.getLifeTimeTicks();
 		return switch (config.getAnimationType()) {
 			case STRETCH -> new StretchParticleTextureProvider(sprites, animationSpeed, lifeTime);

@@ -6,13 +6,13 @@ import net.lopymine.ip.element.base.IMovableElement;
 
 public interface ISpeedControllerModifier<C extends AbstractSpeedController<C, E>, E extends IMovableElement> extends IControllerModifier<C, E> {
 
-	float getImpulse(E element);
+	double getImpulse(E element);
 
-	float getAcceleration(E element);
+	double getAcceleration(E element);
 
-	float getBraking(E element);
+	double getBraking(E element);
 
-	float getTurbulence(E element);
+	double getTurbulence(E element);
 
 	@Override
 	default void modify(C controller, E element) { }

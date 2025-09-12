@@ -74,7 +74,7 @@ public class ParticleHolder {
 			option("spawn_count", new IntegerRange(), IntegerRange.CODEC, ParticleHolder::getSpawnCount),
 			option("spawn_frequency", new IntegerRange(), IntegerRange.CODEC, ParticleHolder::getSpawnFrequency),
 			option("color", new StandardParticleColorType(), STANDARD_AND_ADVANCED_COLOR_TYPE_CODEC, ParticleHolder::getColor),
-			option("speed_coefficient", 0.0F, Codec.FLOAT, ParticleHolder::getSpeedCoefficient)
+			option("speed_coefficient", 0.0D, Codec.DOUBLE, ParticleHolder::getSpeedCoefficient)
 	).apply(instance, ParticleHolder::new));
 
 	private String name;
@@ -85,7 +85,7 @@ public class ParticleHolder {
 	private IntegerRange spawnCount;
 	private IntegerRange spawnFrequency;
 	private IParticleColorType color;
-	private float speedCoefficient;
+	private double speedCoefficient;
 
 	public ParticleSpawner create(Function<ParticleSpawnContext, InventoryParticle> function) {
 		return new ParticleSpawner(this.spawnArea,

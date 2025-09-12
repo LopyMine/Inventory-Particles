@@ -9,9 +9,9 @@ import net.minecraft.client.texture.Sprite;
 public abstract class AbstractParticleTextureProviderWithPeriod extends AbstractParticleTextureProvider {
 
 	protected int changeTextureTickPeriod;
-	protected float changeTextureTick;
+	protected double changeTextureTick;
 
-	public AbstractParticleTextureProviderWithPeriod(List<Sprite> textures, float animationSpeed, int lifeTime) {
+	public AbstractParticleTextureProviderWithPeriod(List<Sprite> textures, double animationSpeed, int lifeTime) {
 		super(textures, animationSpeed, lifeTime);
 		this.changeTextureTickPeriod = !textures.isEmpty() ? lifeTime / textures.size() : 1;
 		this.updateChangeTextureTick();
