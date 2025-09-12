@@ -9,6 +9,7 @@ import net.lopymine.ip.utils.CodecUtils;
 import static net.lopymine.ip.utils.CodecUtils.option;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public class ParticlePhysics {
 
@@ -25,6 +26,7 @@ public class ParticlePhysics {
 	}
 
 	@Getter
+	@Setter
 	@AllArgsConstructor
 	public static class BasePhysics {
 
@@ -45,6 +47,7 @@ public class ParticlePhysics {
 	}
 
 	@Getter
+	@Setter
 	@AllArgsConstructor
 	public static class RotationSpeedPhysics {
 
@@ -61,6 +64,7 @@ public class ParticlePhysics {
 		}
 
 		@Getter
+		@Setter
 		@AllArgsConstructor
 		public static class RotationConfig {
 

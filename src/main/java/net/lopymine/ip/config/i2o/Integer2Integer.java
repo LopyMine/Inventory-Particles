@@ -1,4 +1,4 @@
-package net.lopymine.ip.config.misc;
+package net.lopymine.ip.config.i2o;
 
 import com.mojang.serialization.Codec;
 import lombok.*;

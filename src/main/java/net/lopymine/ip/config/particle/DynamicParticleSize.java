@@ -6,8 +6,8 @@ import static net.lopymine.ip.utils.CodecUtils.option;
 
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 public class DynamicParticleSize {
 

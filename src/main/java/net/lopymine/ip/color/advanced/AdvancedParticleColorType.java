@@ -24,11 +24,11 @@ public class AdvancedParticleColorType implements IParticleColorType {
 			option("speed", 0, INT, AdvancedParticleColorType::getSpeed)
 	).apply(instance, AdvancedParticleColorType::new));
 
-	private final IAdvancedParticleColorTypeMode mode;
-	private final List<IParticleColorType> values;
+	private IAdvancedParticleColorTypeMode mode;
+	private List<IParticleColorType> values;
 	@Nullable
 	private Integer[] compiledValues;
-	private final int speed;
+	private int speed;
 
 	public AdvancedParticleColorType(IAdvancedParticleColorTypeMode mode, List<IParticleColorType> values, int speed) {
 		this.mode   = mode;

@@ -34,15 +34,8 @@ public class ResourcePackParticleConfigsManager {
 				ParticleConfig config = ParticleConfig.CODEC.decode(JsonOps.INSTANCE, JsonParser.parseReader(reader))/*? if >=1.20.5 {*/.getOrThrow()/*?} else {*//*.getOrThrow(false, InventoryParticlesClient.LOGGER::error)*//*?}*/.getFirst();
 				for (ParticleHolder holder : config.getHolders()) {
 					Item item = holder.getItem().getItem();
-					List<IParticleSpawner> list = PER_ITEM_PARTICLE_SPAWNERS.get(item);
 					ParticleSpawner spawner = holder.create(config::createParticle);
-					if (list == null) {
-						List<IParticleSpawner> spawners = new ArrayList<>();
-						spawners.add(spawner);
-						PER_ITEM_PARTICLE_SPAWNERS.put(item, spawners);
-					} else {
-						list.add(spawner);
-					}
+					registerItemSpawner(item, spawner);
 				}
 				InventoryParticlesClient.LOGGER.debug("Registered config at \"{}\"", id);
 				registeredConfigs.getAndIncrement();
@@ -53,6 +46,10 @@ public class ResourcePackParticleConfigsManager {
 		});
 
 		InventoryParticlesClient.LOGGER.info("Registering finished, found: {}, registered: {}", foundConfigs.get(), registeredConfigs.get());
+	}
+
+	public static void registerItemSpawner(Item item, IParticleSpawner spawner) {
+		PER_ITEM_PARTICLE_SPAWNERS.computeIfAbsent(item, (i) -> new ArrayList<>()).add(spawner);
 	}
 
 	public static Map<Item, List<IParticleSpawner>> getPerItemParticleSpawners() {

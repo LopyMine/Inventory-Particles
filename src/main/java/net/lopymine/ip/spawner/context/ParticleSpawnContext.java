@@ -8,6 +8,7 @@ import net.lopymine.ip.config.sub.InventoryParticlesCoefficientsConfig.ParticleC
 import net.lopymine.ip.element.InventoryCursor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 @Setter
@@ -63,31 +64,25 @@ public class ParticleSpawnContext {
 		return CURSOR_CONTEXT;
 	}
 
-	public static ParticleSpawnContext slot(Slot slot, int inventoryX, int inventoryY) {
-		ALL_SLOTS_CONTEXT.setStack(slot.getStack());
-		ALL_SLOTS_CONTEXT.setX(inventoryX + slot.x + 8);
-		ALL_SLOTS_CONTEXT.setY(inventoryY + slot.y + 8);
-		ALL_SLOTS_CONTEXT.setImpulseX(0F);
-		ALL_SLOTS_CONTEXT.setImpulseY(0F);
-		return ALL_SLOTS_CONTEXT;
+	public static ParticleSpawnContext hoveredSlot(Slot slot, int inventoryX, int inventoryY) {
+		return slot(HOVERED_SLOT_CONTEXT, slot, inventoryX, inventoryY);
 	}
 
 	public static ParticleSpawnContext guiActionSlot(Slot slot, int inventoryX, int inventoryY) {
-		GUI_ACTION_SLOT.setStack(slot.getStack());
-		GUI_ACTION_SLOT.setX(inventoryX + slot.x + 8);
-		GUI_ACTION_SLOT.setY(inventoryY + slot.y + 8);
-		GUI_ACTION_SLOT.setImpulseX(0F);
-		GUI_ACTION_SLOT.setImpulseY(0F);
-		return GUI_ACTION_SLOT;
+		return slot(GUI_ACTION_SLOT, slot, inventoryX, inventoryY);
 	}
 
-	public static ParticleSpawnContext hoveredSlot(Slot slot, int inventoryX, int inventoryY) {
-		HOVERED_SLOT_CONTEXT.setStack(slot.getStack());
-		HOVERED_SLOT_CONTEXT.setX(inventoryX + slot.x + 8);
-		HOVERED_SLOT_CONTEXT.setY(inventoryY + slot.y + 8);
-		HOVERED_SLOT_CONTEXT.setImpulseX(0F);
-		HOVERED_SLOT_CONTEXT.setImpulseY(0F);
-		return HOVERED_SLOT_CONTEXT;
+	public static ParticleSpawnContext slots(Slot slot, int inventoryX, int inventoryY) {
+		return slot(ALL_SLOTS_CONTEXT, slot, inventoryX, inventoryY);
+	}
+
+	private static @NotNull ParticleSpawnContext slot(ParticleSpawnContext context, Slot slot, int inventoryX, int inventoryY) {
+		context.setStack(slot.getStack());
+		context.setX(inventoryX + slot.x + 8);
+		context.setY(inventoryY + slot.y + 8);
+		context.setImpulseX(0F);
+		context.setImpulseY(0F);
+		return context;
 	}
 
 	public double getCountCoefficient() {

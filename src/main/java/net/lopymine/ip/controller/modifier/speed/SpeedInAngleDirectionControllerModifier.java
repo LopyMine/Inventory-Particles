@@ -1,15 +1,18 @@
 package net.lopymine.ip.controller.modifier.speed;
 
+import lombok.*;
 import net.lopymine.ip.config.speed.SpeedConfig;
 import net.lopymine.ip.controller.speed.*;
 import net.lopymine.ip.element.base.*;
 import net.minecraft.util.math.random.Random;
 
+@Getter
+@Setter
 public class SpeedInAngleDirectionControllerModifier<E extends IMovableElement & IRotatableElement> implements ISpeedControllerModifier<SpeedController<E>, E> {
 
-	private final SpeedConfig config;
-	private final Random random;
-	private final boolean xAxis;
+	private SpeedConfig config;
+	private Random random;
+	private boolean xAxis;
 
 	public SpeedInAngleDirectionControllerModifier(SpeedConfig config, Random random, boolean xAxis) {
 		this.config = config;

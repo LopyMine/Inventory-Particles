@@ -1,9 +1,12 @@
 package net.lopymine.ip.color.advanced.mode;
 
+import lombok.*;
 import net.lopymine.ip.element.base.TickElement;
 import net.lopymine.ip.utils.ArgbUtils;
 import net.minecraft.util.math.random.Random;
 
+@Getter
+@Setter
 public class AdvancedParticleColorTypeGradientBounceMode extends TickElement implements IAdvancedParticleColorTypeMode {
 
 	protected final int time;

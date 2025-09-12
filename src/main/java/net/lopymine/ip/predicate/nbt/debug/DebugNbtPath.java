@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 @Setter
 @Getter
+@AllArgsConstructor
 public class DebugNbtPath {
 
 	private String name;
@@ -27,8 +28,7 @@ public class DebugNbtPath {
 		NbtNodeType type = this.getType();
 		DebugNbtPath parent = this.getParent();
 
-		DebugNbtPath path = new DebugNbtPath(name, type);
-		path.setParent(parent);
+		DebugNbtPath path = new DebugNbtPath(name, type, parent);
 
 		this.setName(next.getName());
 		this.setType(next.getType());

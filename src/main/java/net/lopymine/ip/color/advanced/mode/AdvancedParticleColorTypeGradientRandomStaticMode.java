@@ -1,8 +1,11 @@
 package net.lopymine.ip.color.advanced.mode;
 
+import lombok.*;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
 
+@Getter
+@Setter
 public class AdvancedParticleColorTypeGradientRandomStaticMode extends AdvancedParticleColorTypeGradientMode {
 
 	@Nullable

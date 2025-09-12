@@ -1,11 +1,13 @@
 package net.lopymine.ip.texture;
 
 import java.util.List;
+import lombok.*;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
 
+@Getter
+@Setter
 public class RandomStaticParticleTextureProvider extends AbstractParticleTextureProvider {
 
 	@Nullable

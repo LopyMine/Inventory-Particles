@@ -4,12 +4,13 @@ import com.mojang.serialization.Codec;
 import java.util.*;
 import java.util.stream.Collectors;
 import lombok.*;
-import net.lopymine.ip.config.misc.Integer2DynamicParticleSize;
+import net.lopymine.ip.config.i2o.Integer2DynamicParticleSize;
 import net.lopymine.ip.debug.IDebugRenderable;
 import static com.mojang.serialization.codecs.RecordCodecBuilder.create;
 import static net.lopymine.ip.utils.CodecUtils.option;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public class DynamicParticleSizes implements IDebugRenderable {
 

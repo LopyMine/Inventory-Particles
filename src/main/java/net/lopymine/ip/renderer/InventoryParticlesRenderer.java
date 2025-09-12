@@ -33,25 +33,21 @@ public class InventoryParticlesRenderer extends TickElement {
 	private static final InventoryParticlesRenderer INSTANCE = new InventoryParticlesRenderer();
 
 	@Getter
-	private final Collection<InventoryParticle> screenParticles = getScreenParticlesList();
-	private final List<InventoryParticle> pendingParticles = new ArrayList<>();
-
-	private InventoryCursor cursor = new InventoryCursor();
-
+	private final Collection<IParticle> screenParticles = getScreenParticlesList();
+	private final List<IParticle> pendingParticles = new ArrayList<>();
 	private final Random random = Random.create();
 
+	private InventoryCursor cursor = new InventoryCursor();
 	private boolean stoppedByInitializationReason;
-	private boolean stopTicking;
+	private boolean stoppedTicking;
 	private int ticksPerTick = 1;
 	private int nextTick = 1;
-
 	@Nullable
-	private InventoryParticle hoveredParticle;
+	private IParticle hoveredParticle;
 	@Nullable
-	private InventoryParticle selectedParticle;
+	private IParticle selectedParticle;
 
-	private InventoryParticlesRenderer() {
-	}
+	private InventoryParticlesRenderer() { }
 
 	public static InventoryParticlesRenderer getInstance() {
 		return INSTANCE;
@@ -64,13 +60,13 @@ public class InventoryParticlesRenderer extends TickElement {
 		}
 		this.runSoft(() -> {
 			DrawUtils.prepareParticlesBuffer();
-			for (InventoryParticle screenParticle : this.screenParticles) {
-				if (screenParticle == null) {
+			for (IParticle particle : this.screenParticles) {
+				if (particle == null) {
 					continue;
 				}
-				screenParticle.render(context, this.cursor, tickProgress);
-				if (screenParticle.isHovered()) {
-					this.hoveredParticle = screenParticle;
+				particle.render(context, this.cursor, tickProgress, this.isStoppedTicking());
+				if (particle.isHovered()) {
+					this.hoveredParticle = particle;
 				}
 			}
 			DrawUtils.endParticlesBuffer();
@@ -85,7 +81,7 @@ public class InventoryParticlesRenderer extends TickElement {
 	}
 
 	public void tick(ScreenHandler handler, int inventoryX, int inventoryY) {
-		if (this.stopTicking || this.stoppedByInitializationReason) {
+		if (this.stoppedTicking || this.stoppedByInitializationReason) {
 			return;
 		}
 		super.tick();
@@ -126,9 +122,6 @@ public class InventoryParticlesRenderer extends TickElement {
 	}
 
 	private void spawnHoveredSlotParticles(int inventoryX, int inventoryY) {
-		if (false) {
-			return;
-		}
 		Slot hoveredSlot = this.cursor.getHoveredSlot();
 		if (hoveredSlot == null) {
 			return;
@@ -151,9 +144,6 @@ public class InventoryParticlesRenderer extends TickElement {
 	}
 
 	private void spawnAllSlotsParticles(ScreenHandler handler, int inventoryX, int inventoryY) {
-		if (false) {
-			return;
-		}
 		for (Slot slot : handler.slots) {
 			if (this.cursor.getHoveredSlot() != null && this.cursor.getHoveredSlot().id == slot.id) {
 				continue;
@@ -166,7 +156,7 @@ public class InventoryParticlesRenderer extends TickElement {
 			if (particleSpawners == null) {
 				continue;
 			}
-			ParticleSpawnContext context = ParticleSpawnContext.slot(slot, inventoryX, inventoryY);
+			ParticleSpawnContext context = ParticleSpawnContext.slots(slot, inventoryX, inventoryY);
 			for (IParticleSpawner spawner : particleSpawners) {
 				for (InventoryParticle particle : spawner.tickAndSpawn(context)) {
 					this.spawnParticle(particle);
@@ -176,12 +166,12 @@ public class InventoryParticlesRenderer extends TickElement {
 	}
 
 	private void spawnCursorParticles() {
-		if (false) {
+		ItemStack stack = this.cursor.getCurrentStack();
+		if (stack.isEmpty()) {
 			return;
 		}
-		Item currentItem = this.cursor.getCurrentStack().getItem();
-		List<IParticleSpawner> particleSpawners = ResourcePackParticleConfigsManager.getPerItemParticleSpawners().get(currentItem);
-		if (currentItem != Items.AIR && particleSpawners != null) {
+		List<IParticleSpawner> particleSpawners = ResourcePackParticleConfigsManager.getPerItemParticleSpawners().get(stack.getItem());
+		if (particleSpawners != null) {
 			List<InventoryParticle> particles = new ArrayList<>();
 
 			for (IParticleSpawner spawner : particleSpawners) {
@@ -193,7 +183,7 @@ public class InventoryParticlesRenderer extends TickElement {
 		}
 	}
 
-	private void spawnParticle(InventoryParticle particle) {
+	public void spawnParticle(IParticle particle) {
 		InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
 		int difference = (this.screenParticles.size() + 1) - config.getParticleConfig().getMaxParticles();
 		if (difference > 0) {
@@ -205,7 +195,7 @@ public class InventoryParticlesRenderer extends TickElement {
 	private void clearParticlesForNewOnes(int difference, ParticleDeletionMode mode) {
 		switch (mode) {
 			case OLDEST -> {
-				if (!(this.screenParticles instanceof ArrayDeque<InventoryParticle> deque)) {
+				if (!(this.screenParticles instanceof ArrayDeque<IParticle> deque)) {
 					return;
 				}
 				for (int i = 0; i < difference; i++) {
@@ -213,7 +203,7 @@ public class InventoryParticlesRenderer extends TickElement {
 				}
 			}
 			case RANDOM -> {
-				if (!(this.screenParticles instanceof ArrayList<InventoryParticle> list)) {
+				if (!(this.screenParticles instanceof ArrayList<IParticle> list)) {
 					return;
 				}
 				for (int i = 0; i < difference; i++) {
@@ -241,7 +231,7 @@ public class InventoryParticlesRenderer extends TickElement {
 			return;
 		}
 
-		if (!this.isStopTicking()) {
+		if (!this.isStoppedTicking()) {
 			return;
 		}
 
@@ -266,11 +256,11 @@ public class InventoryParticlesRenderer extends TickElement {
 	}
 
 	public void updateParticlesPositions(float xCoefficient, float yCoefficient) {
-		for (InventoryParticle particle : this.screenParticles) {
+		for (IParticle particle : this.screenParticles) {
 			particle.setX(particle.getX() * xCoefficient);
 			particle.setY(particle.getY() * yCoefficient);
 		}
-		for (InventoryParticle particle : this.pendingParticles) {
+		for (IParticle particle : this.pendingParticles) {
 			particle.setX(particle.getX() * xCoefficient);
 			particle.setY(particle.getY() * yCoefficient);
 		}
@@ -316,7 +306,7 @@ public class InventoryParticlesRenderer extends TickElement {
 		}, "put_in_slot");
 	}
 
-	private static @NotNull Collection<InventoryParticle> getScreenParticlesList() {
+	private static @NotNull Collection<IParticle> getScreenParticlesList() {
 		return switch (InventoryParticlesConfig.getInstance().getParticleConfig().getParticleDeletionMode()) {
 			case OLDEST -> new ArrayDeque<>();
 			case RANDOM -> new ArrayList<>();

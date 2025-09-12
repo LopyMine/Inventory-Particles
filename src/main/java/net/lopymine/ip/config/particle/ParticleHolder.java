@@ -10,7 +10,7 @@ import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.color.*;
 import net.lopymine.ip.color.advanced.AdvancedParticleColorType;
 import net.lopymine.ip.color.advanced.mode.AdvancedParticleColorTypeRandomStaticMode;
-import net.lopymine.ip.config.CachedItem;
+import net.lopymine.ip.config.misc.CachedItem;
 import net.lopymine.ip.config.range.IntegerRange;
 import net.lopymine.ip.element.*;
 import net.lopymine.ip.predicate.nbt.*;
@@ -21,6 +21,7 @@ import net.minecraft.util.math.random.Random;
 import static net.lopymine.ip.utils.CodecUtils.option;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public class ParticleHolder {
 

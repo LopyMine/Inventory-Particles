@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 import static net.lopymine.ip.utils.CodecUtils.option;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public class ParticleConfig {
 

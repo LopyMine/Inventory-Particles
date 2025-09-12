@@ -1,4 +1,4 @@
-package net.lopymine.ip.config.misc;
+package net.lopymine.ip.config.i2o;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -6,11 +6,12 @@ import lombok.*;
 import static net.lopymine.ip.utils.CodecUtils.option;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public abstract class Integer2Object<O> {
 
-	private final int index;
-	private final O object;
+	private int index;
+	private O object;
 
 	public static <A, C extends Integer2Object<A>> Codec<C> getCodec(String resultName, A standardValue, Codec<A> codec, Factory<C, A> factory) {
 		return RecordCodecBuilder.create((instance) -> instance.group(

@@ -1,12 +1,15 @@
 package net.lopymine.ip.controller.color;
 
+import lombok.*;
 import net.lopymine.ip.color.IParticleColorType;
 import net.lopymine.ip.controller.IController;
 import net.lopymine.ip.element.base.*;
 
+@Getter
+@Setter
 public class ColorController<I extends IRepaintable & IRandomizable> implements IController<I> {
 
-	private final IParticleColorType colorType;
+	private IParticleColorType colorType;
 
 	public ColorController(IParticleColorType colorType) {
 		this.colorType = colorType;

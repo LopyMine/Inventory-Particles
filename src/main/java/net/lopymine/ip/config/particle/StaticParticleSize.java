@@ -5,8 +5,8 @@ import lombok.*;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 public class StaticParticleSize {
 

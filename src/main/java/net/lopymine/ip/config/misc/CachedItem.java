@@ -1,4 +1,4 @@
-package net.lopymine.ip.config;
+package net.lopymine.ip.config.misc;
 
 import com.mojang.serialization.Codec;
 import lombok.*;
@@ -15,7 +15,7 @@ public class CachedItem {
 
 	public static final Codec<CachedItem> CODEC = Identifier.CODEC.xmap(CachedItem::new, CachedItem::getId);
 
-	private final Identifier id;
+	private Identifier id;
 	@Nullable
 	private Item item;
 

@@ -12,7 +12,7 @@ import net.lopymine.ip.controller.speed.*;
 import net.lopymine.ip.debug.HideInDebugRender;
 import net.lopymine.ip.element.base.*;
 import net.lopymine.ip.extension.DrawContextExtension;
-import net.lopymine.ip.renderer.InventoryParticlesRenderer;
+import net.lopymine.ip.renderer.*;
 import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.lopymine.ip.texture.IParticleTextureProvider;
 import net.lopymine.ip.utils.*;
@@ -26,27 +26,28 @@ import org.jetbrains.annotations.*;
 
 @Setter
 @Getter
+@AllArgsConstructor
 @ExtensionMethod(DrawContextExtension.class)
-public class InventoryParticle extends TickElement implements ISelectableElement, IHoverableElement, IMovableElement, IRotatableElement, IRepaintable, IRandomizable, IResizableElement {
+public class InventoryParticle extends TickElement implements IParticle, IRotatableElement, IRepaintable, IRandomizable, IResizableElement {
 
 	@HideInDebugRender
 	private final Random random = Random.create();
 
-	private final int lifeTimeTicks;
-	private final float standardParticleAngle;
-	private final float standardTextureAngle;
-	private final IParticleTextureProvider textureProvider;
+	private int lifeTimeTicks;
+	private float standardParticleAngle;
+	private float standardTextureAngle;
+	private IParticleTextureProvider textureProvider;
 
 	@Nullable
 	private ColorController<InventoryParticle> colorController;
 
-	private final DynamicSizeController<InventoryParticle> dynamicSizeController;
+	private DynamicSizeController<InventoryParticle> dynamicSizeController;
 
-	private final SpeedController<InventoryParticle> xSpeedController;
-	private final SpeedController<InventoryParticle> ySpeedController;
+	private SpeedController<InventoryParticle> xSpeedController;
+	private SpeedController<InventoryParticle> ySpeedController;
 
-	private final RotationSpeedController<InventoryParticle> particleRotationSpeedController;
-	private final RotationSpeedController<InventoryParticle> textureRotationSpeedController;
+	private RotationSpeedController<InventoryParticle> particleRotationSpeedController;
+	private RotationSpeedController<InventoryParticle> textureRotationSpeedController;
 
 	@NotNull
 	private Sprite texture;
@@ -165,19 +166,14 @@ public class InventoryParticle extends TickElement implements ISelectableElement
 		}
 	}
 
-	public void render(DrawContext context, InventoryCursor cursor, float tickProgress) {
-		InventoryParticlesRenderer renderer = InventoryParticlesRenderer.getInstance();
-
-		float delta = (this.ticks + tickProgress) / this.lifeTimeTicks;
-		float renderWidth = renderer.isStopTicking() ? this.width : MathHelper.lerp(delta, this.lastWidth, this.width);
-		float renderHeight = renderer.isStopTicking() ? this.height : MathHelper.lerp(delta, this.lastHeight, this.height);
-
-		float x = renderer.isStopTicking() ? this.x : MathHelper.lerp(delta, this.lastX, this.x);
-		float y = renderer.isStopTicking() ? this.y : MathHelper.lerp(delta, this.lastY, this.y);
+	public void render(DrawContext context, InventoryCursor cursor, float tickProgress, boolean stoppedTicking) {
+		float renderWidth = stoppedTicking ? this.width : MathHelper.lerp(tickProgress, this.lastWidth, this.width);
+		float renderHeight = stoppedTicking ? this.height : MathHelper.lerp(tickProgress, this.lastHeight, this.height);
+		float x = stoppedTicking ? this.x : (float) MathHelper.lerp((double) tickProgress, this.lastX, this.x);
+		float y = stoppedTicking ? this.y : (float) MathHelper.lerp((double) tickProgress, this.lastY, this.y);
 
 		this.updateHovered(cursor, x, y, this.width, this.height);
-
-		boolean bl = (renderer.isStopTicking() && this.isHovered()) || this.isSelected();
+		boolean bl = (stoppedTicking && this.isHovered()) || this.isSelected();
 
 		int m = bl ? 2 : 1;
 		

@@ -19,13 +19,13 @@ public abstract class AbstractSpeedController<C extends AbstractSpeedController<
 	private List<ISpeedControllerModifier<? super C, ? super E>> modifiers = new ArrayList<>();
 
 	@HideInDebugRender
-	protected final Random random;
-	private final float acceleration;
-	private final boolean accelerationBidirectional;
-	private final FloatRange maxAcceleration;
-	private final FloatRange max;
-	private final float braking;
-	private final FloatRange turbulence;
+	protected Random random;
+	private float acceleration;
+	private boolean accelerationBidirectional;
+	private FloatRange maxAcceleration;
+	private FloatRange max;
+	private float braking;
+	private FloatRange turbulence;
 
 	protected float lastSpeed;
 	protected float speed;

@@ -1,16 +1,19 @@
 package net.lopymine.ip.controller.size;
 
 import java.util.List;
-import net.lopymine.ip.config.misc.Integer2DynamicParticleSize;
+import lombok.*;
+import net.lopymine.ip.config.i2o.Integer2DynamicParticleSize;
 import net.lopymine.ip.config.particle.*;
 import net.lopymine.ip.config.particle.DynamicParticleSizeInterpolation;
 import net.lopymine.ip.controller.IController;
 import net.lopymine.ip.element.base.*;
 import org.jetbrains.annotations.*;
 
+@Getter
+@Setter
 public class DynamicSizeController<E extends IResizableElement & IMovableElement & ITickElement> implements IController<E> {
 
-	private final DynamicParticleSizes dynamicParticleSizes;
+	private DynamicParticleSizes dynamicParticleSizes;
 
 	private Integer2DynamicParticleSize lastSize;
 	private int nextSizeIndex = 0;

@@ -37,7 +37,7 @@ public class HandledScreenMixin<T extends ScreenHandler> extends Screen {
 			}
 			ButtonWidget stopTickingButton = this.addDrawableChild(ButtonWidget.builder(Text.of("Stop Ticking"), (button) -> {
 				InventoryParticlesRenderer renderer = InventoryParticlesRenderer.getInstance();
-				renderer.setStopTicking(!renderer.isStopTicking());
+				renderer.setStoppedTicking(!renderer.isStoppedTicking());
 			}).position(5, this.height - 25).build());
 			TextFieldWidget ticksPerTickField = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, stopTickingButton.getX(), stopTickingButton.getY() - 25, stopTickingButton.getWidth(), 20, Text.literal("Ticks Per Tick"));
 			ticksPerTickField.setChangedListener((s) -> {

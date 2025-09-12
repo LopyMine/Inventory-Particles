@@ -1,11 +1,12 @@
 package net.lopymine.ip.color.advanced.mode;
 
-import lombok.Getter;
+import lombok.*;
 import net.lopymine.ip.utils.ArgbUtils;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
 
 @Getter
+@Setter
 public class AdvancedParticleColorTypeMixedMode implements IAdvancedParticleColorTypeMode {
 
 	@Nullable

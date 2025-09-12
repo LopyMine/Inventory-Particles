@@ -10,6 +10,7 @@ import net.minecraft.util.math.random.Random;
 import static net.lopymine.ip.utils.CodecUtils.option;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public class SpeedConfig {
 

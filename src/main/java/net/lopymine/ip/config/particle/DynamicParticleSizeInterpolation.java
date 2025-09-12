@@ -12,6 +12,8 @@ import net.lopymine.ip.debug.HideInDebugRender;
 import net.lopymine.ip.utils.Easing;
 import net.minecraft.util.math.MathHelper;
 
+@Getter
+@Setter
 @AllArgsConstructor
 public class DynamicParticleSizeInterpolation {
 
@@ -22,9 +24,9 @@ public class DynamicParticleSizeInterpolation {
 	public static final DynamicParticleSizeInterpolation LINEAR_INTERPOLATION = new DynamicParticleSizeInterpolation("linear", LINEAR_FUNCTION);
 	public static final Codec<DynamicParticleSizeInterpolation> CODEC;
 
-	private final String id;
+	private String id;
 	@HideInDebugRender
-	private final Function<Float, Float> function;
+	private Function<Float, Float> function;
 
 	private static void register(String id, Function<Float, Float> function) {
 		REGISTERED_INTERPOLATIONS.put(id, function);
@@ -76,3 +78,6 @@ public class DynamicParticleSizeInterpolation {
 	}
 
 }
+
+
+

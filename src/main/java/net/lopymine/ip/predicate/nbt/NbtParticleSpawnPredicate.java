@@ -2,7 +2,7 @@ package net.lopymine.ip.predicate.nbt;
 
 import java.util.*;
 import java.util.stream.Stream;
-import lombok.AllArgsConstructor;
+import lombok.*;
 import net.fabricmc.loader.api.FabricLoader;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
@@ -14,12 +14,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 import org.jetbrains.annotations.*;
 
+@Getter
+@Setter
 @AllArgsConstructor
 public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 
-	private final String particleName;
-	private final HashSet<NbtNode> nodes;
-	private final NbtNodeMatch match;
+	private String particleName;
+	private HashSet<NbtNode> nodes;
+	private NbtNodeMatch match;
 
 	@Override
 	public boolean test(ItemStack stack) {
