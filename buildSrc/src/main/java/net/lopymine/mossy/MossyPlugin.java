@@ -1,6 +1,7 @@
 package net.lopymine.mossy;
 
 import dev.kikugie.stonecutter.build.StonecutterBuildExtension;
+import dev.kikugie.stonecutter.data.StonecutterProject;
 import lombok.Getter;
 import me.modmuss50.mpp.ModPublishExtension;
 import net.lopymine.mossy.manager.*;
@@ -92,7 +93,7 @@ public class MossyPlugin implements Plugin<Project> {
 			task.delete(getRootFile(project, ".idea/runConfigurations/Minecraft_Server___%s__%s.xml".formatted(version.replace(".", "_"), version)));
 			task.finalizedBy("ideaSyncTask");
 		});
-		project.getTasks().register("rebuildLibs", Delete.class, task -> {
+		project.getTasks().register("rebuildLibs", Delete.class, (task) -> {
 			task.setGroup("build");
 			String modName = getProperty(project, "data.mod_name").replace(" ", "");
 			String version = project.getVersion().toString();
@@ -104,15 +105,27 @@ public class MossyPlugin implements Plugin<Project> {
 			task.delete(project.getLayout().getBuildDirectory().file(jarFileName));
 			task.delete(project.getLayout().getBuildDirectory().file(sourcesJarFileName));
 		});
-		project.getTasks().named("build", task -> {
+		project.getTasks().named("build", (task) -> {
 			task.mustRunAfter("rebuildLibs");
 		});
-		project.getTasks().register("buildAndCollect", Copy.class, task -> {
+		project.getTasks().register("buildAndCollect", Copy.class, (task) -> {
 			task.setGroup("build");
 			task.dependsOn("rebuildLibs", "build");
 			task.from(((RemapJarTask) project.getTasks().getByName("remapJar")).getArchiveFile().get());
 			task.into(getRootFile(project, "libs/"));
 		});
+		for (String publishTask : List.of("publishModrinth", "publishCurseforge")) {
+			project.getTasks().named(publishTask).configure((task) -> {
+				task.doLast((t) -> {
+					try {
+						Thread.sleep(1000L);
+					} catch (Exception e) {
+						MossyPlugin.LOGGER.log("Failed to wait before publishing!");
+						e.printStackTrace();
+					}
+				});
+			});
+		}
 	}
 
 	private static void configureProject(@NotNull Project project, MossyPlugin plugin) {

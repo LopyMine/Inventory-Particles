@@ -8,6 +8,7 @@ import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.sub.InventoryParticlesMainConfig;
 import net.lopymine.ip.renderer.InventoryParticlesRenderer;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.*;
@@ -38,7 +39,15 @@ public class ScreenMixin {
 			InventoryParticlesRenderer.getInstance().updateCursor(mouseY, mouseX, handledScreen.getScreenHandler().getCursorStack(), handledScreen.focusedSlot);
 		}
 
-		InventoryParticlesRenderer.getInstance().render(context, delta);
+
+		//? if >=1.21.5 {
+		float tickProgress = MinecraftClient.getInstance().getRenderTickCounter().getTickProgress(true);
+		//?} elif >=1.21 && <=1.21.4 {
+		/*float tickProgress = MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(true);
+		*///?} else {
+		/*float tickProgress = MinecraftClient.getInstance().getTickDelta();
+		*///?}
+		InventoryParticlesRenderer.getInstance().render(context, tickProgress);
 		if (!config.isDebugModeEnabled()) {
 			return;
 		}

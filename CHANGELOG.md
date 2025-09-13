@@ -1,3 +1,2 @@
-- Ported to versions below (<1.21.8)
-- Fixed some bugs with nbt predicates
-- Added more configurable particle spawn action
+- Fixed particle frame rate issue, now they are smoother
+- Little bit reworked mod API for more flexibility
