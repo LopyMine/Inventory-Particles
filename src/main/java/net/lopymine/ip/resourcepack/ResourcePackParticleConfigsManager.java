@@ -11,12 +11,13 @@ import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.particle.*;
 import net.lopymine.ip.spawner.*;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.item.Item;
+import net.minecraft.item.*;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 
 public class ResourcePackParticleConfigsManager {
 
+	private static final Map<ParticleHolder, RegisteredConfig> REGISTERED_CONFIGS = new HashMap<>();
 	private static final Map<Item, List<IParticleSpawner>> PER_ITEM_PARTICLE_SPAWNERS = new HashMap<>();
 
 	public static void reload() {
@@ -35,7 +36,7 @@ public class ResourcePackParticleConfigsManager {
 				for (ParticleHolder holder : config.getHolders()) {
 					Item item = holder.getItem().getItem();
 					ParticleSpawner spawner = holder.create(config::createParticle);
-					registerItemSpawner(item, spawner);
+					registerItemSpawner(id, item, holder, spawner);
 				}
 				InventoryParticlesClient.LOGGER.debug("Registered config at \"{}\"", id);
 				registeredConfigs.getAndIncrement();
@@ -48,11 +49,18 @@ public class ResourcePackParticleConfigsManager {
 		InventoryParticlesClient.LOGGER.info("Registering finished, found: {}, registered: {}", foundConfigs.get(), registeredConfigs.get());
 	}
 
-	public static void registerItemSpawner(Item item, IParticleSpawner spawner) {
+	public static void registerItemSpawner(Identifier location, Item item, ParticleHolder holder, IParticleSpawner spawner) {
 		PER_ITEM_PARTICLE_SPAWNERS.computeIfAbsent(item, (i) -> new ArrayList<>()).add(spawner);
+		REGISTERED_CONFIGS.put(holder, new RegisteredConfig(location, spawner));
+	}
+
+	public static Map<ParticleHolder, RegisteredConfig> getRegisteredConfigs() {
+		return REGISTERED_CONFIGS;
 	}
 
 	public static Map<Item, List<IParticleSpawner>> getPerItemParticleSpawners() {
 		return PER_ITEM_PARTICLE_SPAWNERS;
 	}
+
+	public record RegisteredConfig(Identifier id, IParticleSpawner spawner) {}
 }

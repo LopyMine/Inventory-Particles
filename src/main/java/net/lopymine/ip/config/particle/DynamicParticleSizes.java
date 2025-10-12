@@ -7,7 +7,8 @@ import lombok.*;
 import net.lopymine.ip.config.i2o.Integer2DynamicParticleSize;
 import net.lopymine.ip.debug.IDebugRenderable;
 import static com.mojang.serialization.codecs.RecordCodecBuilder.create;
-import static net.lopymine.ip.utils.CodecUtils.option;
+import net.lopymine.mossylib.utils.CodecUtils;
+import static net.lopymine.mossylib.utils.CodecUtils.option;
 
 @Getter
 @Setter

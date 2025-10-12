@@ -1,9 +1,11 @@
 package net.lopymine.ip.atlas;
 
+import java.util.Set;
 import java.util.concurrent.*;
 import net.lopymine.ip.InventoryParticles;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.*;
+import net.minecraft.client.texture.SpriteLoader.StitchResult;
 import net.minecraft.resource.*;
 import net.minecraft.util.Identifier;
 
@@ -27,11 +29,18 @@ public class InventoryParticlesAtlasManager {
 	}
 
 	public void reload(ResourceReloader.Synchronizer synchronizer, ResourceManager resourceManager, Executor prepareExecutor, Executor applyExecutor) {
+		//? if >=1.21.9 {
 		SpriteLoader.fromAtlas(this.atlas)
+				.load(resourceManager, FOLDER_ID, 0, prepareExecutor, Set.of())
+				.thenCompose(synchronizer::whenPrepared)
+				.thenAcceptAsync(this.atlas::upload, applyExecutor);
+		//?} else {
+		/*SpriteLoader.fromAtlas(this.atlas)
 				.load(resourceManager, FOLDER_ID, 0, prepareExecutor)
 				.thenCompose(SpriteLoader.StitchResult::whenComplete)
 				.thenCompose(synchronizer::whenPrepared)
 				.thenAcceptAsync(this.atlas::upload, applyExecutor);
+		*///?}
 	}
 
 	public void close() {

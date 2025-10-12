@@ -13,6 +13,6 @@ public class MissingSpriteUtils {
 		image.copyRect(nativeImage, 0, 0, 1, 1, 6, 6, false,false);
 		image.close();
 
-		return new SpriteContents(MissingSprite.getMissingSpriteId(), new SpriteDimensions(8, 8), nativeImage, /*? if >=1.21 {*/ ResourceMetadata.NONE /*?} else {*/ /*AnimationResourceMetadata.EMPTY *//*?}*/);
+		return new SpriteContents(MissingSprite.getMissingSpriteId(), new SpriteDimensions(8, 8), nativeImage /*? if >=1.21 && <=1.21.8 {*//*,ResourceMetadata.NONE *//*?} elif <=1.21.8 {*/ /*,AnimationResourceMetadata.EMPTY *//*?}*/);
 	}
 }

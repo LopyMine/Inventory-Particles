@@ -1,0 +1,20 @@
+{
+	"required": true,
+	"package": "net.lopymine.ip.mixin",
+	"refmap": "${mod_id}.refmap.json",
+	"compatibilityLevel": "JAVA_${java}",
+	"mixins": [],
+	"client": [
+		"AtlasLoaderMixin",
+		"HandledScreenMixin",
+		"MinecraftClientMixin",
+		"ScreenHandlerMixin",
+		"ScreenMixin",
+		"DrawContextMixin",
+		"ScrollableWidgetMixin",
+		"EntryListWidgetMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

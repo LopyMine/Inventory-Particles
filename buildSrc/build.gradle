@@ -19,7 +19,7 @@ repositories {
 	gradlePluginPortal()
 	maven {
 		name "Fabric"
-		url "https://maven.fabricmc.net/"
+		url "https://maven2.fabricmc.net/"
 	}
 	maven {
 		name "Kiku Snapshots"

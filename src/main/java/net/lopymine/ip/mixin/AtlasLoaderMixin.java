@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.function.*;
 import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.utils.MissingSpriteUtils;
-import net.lopymine.ip.yacl.mixin.IAtlasLoaderMixin;
+import net.lopymine.ip.utils.mixin.IAtlasLoaderMixin;
 import net.minecraft.client.texture.*;
 import net.minecraft.client.texture.atlas.*;
 import net.minecraft.client.texture.atlas.AtlasSource.SpriteRegion;

@@ -2,7 +2,7 @@ package net.lopymine.ip.config.optimization;
 
 import com.mojang.serialization.Codec;
 import net.lopymine.ip.InventoryParticles;
-import net.lopymine.ip.yacl.utils.EnumWithText;
+import net.lopymine.mossylib.yacl.utils.EnumWithText;
 import net.minecraft.text.Text;
 import net.minecraft.util.StringIdentifiable;
 

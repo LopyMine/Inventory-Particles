@@ -2,7 +2,7 @@ package net.lopymine.ip.client.renderer;
 
 import net.lopymine.ip.element.InventoryParticle;
 import net.lopymine.ip.renderer.*;
-import net.lopymine.ip.utils.ArgbUtils;
+import net.lopymine.ip.utils.ArgbUtils2;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -15,10 +15,10 @@ public class DebugParticleInfoRenderer extends AbstractDebugInfoRenderer {
 				return;
 			}
 			consumer.accept("Raw Color", color);
-			consumer.accept("Color Alpha", ArgbUtils.getAlpha(color));
-			consumer.accept("Color Red", ArgbUtils.getRed(color));
-			consumer.accept("Color Green", ArgbUtils.getGreen(color));
-			consumer.accept("Color Blue", ArgbUtils.getBlue(color));
+			consumer.accept("Color Alpha", ArgbUtils2.getAlpha(color));
+			consumer.accept("Color Red", ArgbUtils2.getRed(color));
+			consumer.accept("Color Green", ArgbUtils2.getGreen(color));
+			consumer.accept("Color Blue", ArgbUtils2.getBlue(color));
 		});
 	}
 

@@ -8,7 +8,8 @@ import lombok.*;
 import net.lopymine.ip.element.*;
 import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.minecraft.util.Identifier;
-import static net.lopymine.ip.utils.CodecUtils.option;
+import net.lopymine.mossylib.utils.CodecUtils;
+import static net.lopymine.mossylib.utils.CodecUtils.option;
 
 @Getter
 @Setter

@@ -12,7 +12,7 @@ import net.lopymine.ip.element.base.TickElement;
 import net.lopymine.ip.resourcepack.ResourcePackParticleConfigsManager;
 import net.lopymine.ip.spawner.*;
 import net.lopymine.ip.spawner.context.ParticleSpawnContext;
-import net.lopymine.ip.utils.DrawUtils;
+import net.lopymine.ip.utils.ParticleDrawUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -59,7 +59,7 @@ public class InventoryParticlesRenderer extends TickElement {
 			return;
 		}
 		this.runSoft(() -> {
-			DrawUtils.prepareParticlesBuffer();
+			ParticleDrawUtils.prepareParticlesBuffer();
 			for (IParticle particle : this.screenParticles) {
 				if (particle == null) {
 					continue;
@@ -69,18 +69,18 @@ public class InventoryParticlesRenderer extends TickElement {
 					this.hoveredParticle = particle;
 				}
 			}
-			DrawUtils.endParticlesBuffer();
+			ParticleDrawUtils.endParticlesBuffer();
 		}, "rendering_particle");
 	}
 
-	public void updateCursor(int mouseY, int mouseX, ItemStack item, Slot focusedSlot) {
+	public void updateCursor(int mouseY, int mouseX, ItemStack item, @Nullable Slot focusedSlot) {
 		this.cursor.setMouseY(mouseY);
 		this.cursor.setMouseX(mouseX);
 		this.cursor.setCurrentStack(item);
 		this.cursor.setHoveredSlot(focusedSlot);
 	}
 
-	public void tick(ScreenHandler handler, int inventoryX, int inventoryY) {
+	public void tick(@Nullable ScreenHandler handler, @Nullable Integer inventoryX, @Nullable Integer inventoryY) {
 		if (this.stoppedTicking || this.stoppedByInitializationReason) {
 			return;
 		}
@@ -94,10 +94,10 @@ public class InventoryParticlesRenderer extends TickElement {
 			this.cursor.tick();
 
 			InventoryParticleConfig config = InventoryParticlesConfig.getInstance().getParticleConfig();
-			if (config.isGuiSlotsSpawnEnabled()) {
+			if (config.isGuiSlotsSpawnEnabled() && inventoryX != null && inventoryY != null && handler != null) {
 				this.spawnAllSlotsParticles(handler, inventoryX, inventoryY);
 			}
-			if (config.isHoveredSlotSpawnEnabled()) {
+			if (config.isHoveredSlotSpawnEnabled() && inventoryX != null && inventoryY != null) {
 				this.spawnHoveredSlotParticles(inventoryX, inventoryY);
 			}
 			if (config.isCursorSpawnEnabled()) {

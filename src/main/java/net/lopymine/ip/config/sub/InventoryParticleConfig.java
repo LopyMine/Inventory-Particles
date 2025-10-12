@@ -6,8 +6,8 @@ import java.util.function.Supplier;
 import lombok.*;
 import net.lopymine.ip.config.optimization.ParticleDeletionMode;
 
-import net.lopymine.ip.utils.CodecUtils;
-import static net.lopymine.ip.utils.CodecUtils.option;
+import net.lopymine.mossylib.utils.CodecUtils;
+import static net.lopymine.mossylib.utils.CodecUtils.option;
 
 @Getter
 @Setter

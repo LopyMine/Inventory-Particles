@@ -5,6 +5,7 @@ import java.util.function.*;
 import lombok.*;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.color.IParticleColorType;
+import net.lopymine.ip.config.particle.*;
 import net.lopymine.ip.config.range.IntegerRange;
 import net.lopymine.ip.controller.color.ColorController;
 import net.lopymine.ip.element.*;
@@ -24,13 +25,13 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 	private final Random random = Random.create();
 
 	@Nullable
-	private final ParticleSpawnArea spawnArea;
-	private final IntegerRange countRange;
-	private final IntegerRange frequencyRange;
-	private final double speedCoefficient;
-	private final IParticleColorType colorType;
-	private final IParticleSpawnPredicate spawnCondition;
-	private final Function<ParticleSpawnContext, InventoryParticle> function;
+	private ParticleSpawnArea spawnArea;
+	private IntegerRange countRange;
+	private IntegerRange frequencyRange;
+	private double speedCoefficient;
+	private IParticleColorType colorType;
+	private IParticleSpawnPredicate spawnCondition;
+	private Function<ParticleSpawnContext, InventoryParticle> function;
 	private int nextSpawnTicks = 0;
 
 	public ParticleSpawner(Identifier spawnArea, IntegerRange countRange, IntegerRange frequencyRange, double speedCoefficient, IParticleColorType colorType, IParticleSpawnPredicate spawnCondition, Function<ParticleSpawnContext, InventoryParticle> function) {
@@ -127,4 +128,14 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 		particle.setLastY(particle.getY());
 	}
 
+	@Override
+	public void bump(ParticleHolder holder) {
+		this.spawnArea        = ParticleSpawnArea.readFromTexture(holder.getSpawnArea());
+		this.countRange       = holder.getSpawnCount();
+		this.frequencyRange   = holder.getSpawnFrequency();
+		this.speedCoefficient = holder.getSpeedCoefficient();
+		this.colorType        = holder.getColor();
+		this.spawnCondition   = holder.getSpawnCondition();
+		this.nextSpawnTicks   = 0;
+	}
 }

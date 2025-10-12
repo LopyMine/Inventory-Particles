@@ -6,3 +6,5 @@ accessible field net/minecraft/client/gui/screen/ingame/HandledScreen focusedSlo
 
 accessible field net/minecraft/client/gui/screen/ingame/HandledScreen x I
 accessible field net/minecraft/client/gui/screen/ingame/HandledScreen y I
+
+accessible field net/minecraft/client/gui/widget/EntryListWidget renderHeader Z

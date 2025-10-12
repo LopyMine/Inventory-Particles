@@ -2,6 +2,22 @@ plugins {
 	id("net.lopymine.mossy-plugin")
 }
 
+repositories {
+	mavenLocal()
+}
+
+dependencies {
+	modImplementation("net.lopymine:mossylib:1.0.0+1.21.10-+") {
+		changing = true
+	}
+}
+
+configurations.forEach {
+	it.resolutionStrategy {
+		cacheChangingModulesFor(0, 'seconds')
+	}
+}
+
 mossyDependencies {
 	minecraft = stonecutter.current.version.toString()
 	mappings = prop("build.yarn")

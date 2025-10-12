@@ -11,7 +11,8 @@ import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
 import static com.mojang.serialization.Codec.INT;
 import static com.mojang.serialization.codecs.RecordCodecBuilder.create;
-import static net.lopymine.ip.utils.CodecUtils.option;
+import net.lopymine.mossylib.utils.CodecUtils;
+import static net.lopymine.mossylib.utils.CodecUtils.option;
 
 @Getter
 @Setter

@@ -2,7 +2,7 @@ package net.lopymine.ip.color.advanced.mode;
 
 import lombok.*;
 import net.lopymine.ip.element.base.TickElement;
-import net.lopymine.ip.utils.ArgbUtils;
+import net.lopymine.ip.utils.ArgbUtils2;
 import net.minecraft.util.math.random.Random;
 
 @Getter
@@ -48,7 +48,7 @@ public class AdvancedParticleColorTypeGradientMode extends TickElement implement
 		int first = compiledColors[segmentIndex];
 		int second = compiledColors[segmentIndex + 1];
 
-		return ArgbUtils.lerp(currentSegmentProgress, first, second);
+		return ArgbUtils2.lerp(currentSegmentProgress, first, second);
 	}
 
 	@Override

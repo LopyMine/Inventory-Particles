@@ -11,11 +11,11 @@ import net.lopymine.ip.controller.size.DynamicSizeController;
 import net.lopymine.ip.controller.speed.*;
 import net.lopymine.ip.debug.HideInDebugRender;
 import net.lopymine.ip.element.base.*;
-import net.lopymine.ip.extension.DrawContextExtension;
 import net.lopymine.ip.renderer.*;
 import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.lopymine.ip.texture.IParticleTextureProvider;
 import net.lopymine.ip.utils.*;
+import net.lopymine.mossylib.extension.DrawContextExtension;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -192,17 +192,17 @@ public class InventoryParticle extends TickElement implements IParticle, IRotata
 		context.translate(halfWidth, halfHeight, 0F);
 		context.rotateZ((float) (this.standardTextureAngle + this.textureAngle) % 360F);
 		context.translate(-halfWidth , -halfHeight, 0F);
-		DrawUtils.drawParticleSprite(context, this.texture, 0, 0, width, height, this.getRenderColor());
+		ParticleDrawUtils.drawParticleSprite(context, this.texture, 0, 0, width, height, this.getRenderColor());
 		context.pop();
 	}
 
 	private int getRenderColor() {
-		int alpha = ArgbUtils.getAlpha(this.color);
+		int alpha = ArgbUtils2.getAlpha(this.color);
 		int configAlpha = (int) (InventoryParticlesConfig.getInstance().getParticleConfig().getParticleTransparency() * 255F);
 		if (alpha <= configAlpha) {
 			return this.color;
 		}
-		return ArgbUtils.getArgb(configAlpha, ArgbUtils.getRed(this.color), ArgbUtils.getGreen(this.color), ArgbUtils.getBlue(this.color));
+		return ArgbUtils2.getArgb(configAlpha, ArgbUtils2.getRed(this.color), ArgbUtils2.getGreen(this.color), ArgbUtils2.getBlue(this.color));
 	}
 
 	public double getAngle() {

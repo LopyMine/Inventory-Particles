@@ -1,7 +1,7 @@
 package net.lopymine.ip.color.advanced.mode;
 
 import lombok.*;
-import net.lopymine.ip.utils.ArgbUtils;
+import net.lopymine.ip.utils.ArgbUtils2;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,7 +20,7 @@ public class AdvancedParticleColorTypeMixedMode implements IAdvancedParticleColo
 	@Override
 	public int tickResolve(Integer[] compiledColors, Random random) {
 		if (this.mixedColor == null) {
-			this.mixedColor = ArgbUtils.mix(compiledColors);
+			this.mixedColor = ArgbUtils2.mix(compiledColors);
 		}
 		return this.mixedColor;
 	}

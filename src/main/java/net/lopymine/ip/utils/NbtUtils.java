@@ -189,9 +189,9 @@ public class NbtUtils {
 	*///?}
 
 	private static int notZeroAlpha(int color) {
-		int alpha = ArgbUtils.getAlpha(color);
+		int alpha = ArgbUtils2.getAlpha(color);
 		if (alpha == 0) {
-			return ArgbUtils.fullAlpha(color);
+			return ArgbUtils2.fullAlpha(color);
 		}
 		return color;
 	}

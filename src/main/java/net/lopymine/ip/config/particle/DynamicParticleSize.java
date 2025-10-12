@@ -2,7 +2,8 @@ package net.lopymine.ip.config.particle;
 
 import com.mojang.serialization.Codec;
 import lombok.*;
-import static net.lopymine.ip.utils.CodecUtils.option;
+import net.lopymine.mossylib.utils.CodecUtils;
+import static net.lopymine.mossylib.utils.CodecUtils.option;
 
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 

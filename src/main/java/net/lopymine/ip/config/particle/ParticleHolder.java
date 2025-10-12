@@ -13,12 +13,14 @@ import net.lopymine.ip.color.advanced.mode.AdvancedParticleColorTypeRandomStatic
 import net.lopymine.ip.config.misc.CachedItem;
 import net.lopymine.ip.config.range.IntegerRange;
 import net.lopymine.ip.element.*;
+import net.lopymine.ip.predicate.IParticleSpawnPredicate;
 import net.lopymine.ip.predicate.nbt.*;
 import net.lopymine.ip.spawner.ParticleSpawner;
 import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.minecraft.util.*;
 import net.minecraft.util.math.random.Random;
-import static net.lopymine.ip.utils.CodecUtils.option;
+import net.lopymine.mossylib.utils.CodecUtils;
+import static net.lopymine.mossylib.utils.CodecUtils.option;
 
 @Getter
 @Setter
@@ -93,9 +95,12 @@ public class ParticleHolder {
 				this.spawnFrequency,
 				this.speedCoefficient,
 				this.color,
-				new NbtParticleSpawnPredicate(this.name, this.nbtCondition, this.match),
+				this.getSpawnCondition(),
 				function
 		);
 	}
 
+	public IParticleSpawnPredicate getSpawnCondition() {
+		return new NbtParticleSpawnPredicate(this.name, this.nbtCondition, this.match);
+	}
 }

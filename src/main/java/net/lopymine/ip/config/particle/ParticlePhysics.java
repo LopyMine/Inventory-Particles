@@ -5,8 +5,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.*;
 import net.lopymine.ip.config.range.DoubleRange;
 import net.lopymine.ip.config.speed.*;
-import net.lopymine.ip.utils.CodecUtils;
-import static net.lopymine.ip.utils.CodecUtils.option;
+import net.lopymine.mossylib.utils.CodecUtils;
+import static net.lopymine.mossylib.utils.CodecUtils.option;
 
 @Getter
 @Setter

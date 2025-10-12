@@ -3,6 +3,7 @@ package net.lopymine.ip.config;
 import lombok.*;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.config.sub.*;
+import net.lopymine.mossylib.utils.*;
 import org.slf4j.*;
 
 import com.mojang.serialization.*;
@@ -14,7 +15,8 @@ import net.lopymine.ip.utils.*;
 import java.io.*;
 import java.util.concurrent.CompletableFuture;
 
-import static net.lopymine.ip.utils.CodecUtils.option;
+import net.lopymine.mossylib.utils.CodecUtils;
+import static net.lopymine.mossylib.utils.CodecUtils.option;
 
 @Getter
 @Setter

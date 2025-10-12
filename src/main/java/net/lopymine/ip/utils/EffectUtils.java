@@ -16,9 +16,9 @@ public class EffectUtils {
 			if (statusEffectInstance.shouldShowParticles()) {
 				int m = statusEffectInstance.getEffectType().getColor();
 				int n = statusEffectInstance.getAmplifier() + 1;
-				i += n * ArgbUtils.getRed(m);
-				j += n * ArgbUtils.getGreen(m);
-				k += n * ArgbUtils.getBlue(m);
+				i += n * ArgbUtils2.getRed(m);
+				j += n * ArgbUtils2.getGreen(m);
+				k += n * ArgbUtils2.getBlue(m);
 				l += n;
 			}
 		}
@@ -26,7 +26,7 @@ public class EffectUtils {
 		if (l == 0) {
 			return Optional.empty();
 		} else {
-			return Optional.of(ArgbUtils.getArgb(255, i / l, j / l, k / l));
+			return Optional.of(ArgbUtils2.getArgb(255, i / l, j / l, k / l));
 		}
 	}
 	*///?}

@@ -6,7 +6,7 @@ import net.lopymine.ip.client.InventoryParticlesClient;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.*;
 
 @Getter
 @Setter
@@ -27,7 +27,7 @@ public class CachedItem {
 		this.id = Registries.ITEM.getId(Items.AIR);
 	}
 
-	public @Nullable Item getItem() {
+	public @NotNull Item getItem() {
 		if (this.item == null) {
 			this.item = Registries.ITEM.get(this.id);
 			if (this.item == Items.AIR && !this.id.toString().equals("minecraft:air")) {

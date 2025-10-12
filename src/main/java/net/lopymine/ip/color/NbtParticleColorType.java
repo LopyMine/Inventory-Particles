@@ -28,7 +28,7 @@ public class NbtParticleColorType implements IParticleColorType {
 	}
 
 	private static int getColorFromStack(ItemStack stack) {
-		return NbtUtils.getColorsFromStack(stack).map(ArgbUtils::mix).orElse(NO_COLOR);
+		return NbtUtils.getColorsFromStack(stack).map(ArgbUtils2::mix).orElse(NO_COLOR);
 	}
 
 	@Override
