@@ -1,2 +1,3 @@
-- Fixed particle frame rate issue, now they are smoother
-- Little bit reworked mod API for more flexibility
+- Mainly updated to 1.21.9+
+- Updated mod icon
+- Updated theme for configuration screen
