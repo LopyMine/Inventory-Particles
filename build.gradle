@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-	modImplementation("net.lopymine:mossylib:1.0.0")
+	modImplementation("net.lopymine:mossylib:1.0.0-${stonecutter.current.project}")
 }
 
 processResources {
