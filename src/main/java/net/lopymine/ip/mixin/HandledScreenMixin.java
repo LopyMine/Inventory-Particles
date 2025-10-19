@@ -7,7 +7,6 @@ import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.sub.InventoryParticlesMainConfig;
 import net.lopymine.ip.renderer.InventoryParticlesRenderer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.*;
 import net.minecraft.client.gui.widget.*;
@@ -16,6 +15,10 @@ import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.*;
+
+//? if >=1.21.9 {
+/*import net.minecraft.client.gui.Click;
+*///?}
 
 @Mixin(HandledScreen.class)
 public class HandledScreenMixin<T extends ScreenHandler> extends Screen {
@@ -63,17 +66,17 @@ public class HandledScreenMixin<T extends ScreenHandler> extends Screen {
 	}
 
 	//? if >=1.21.9 {
-	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;mouseClicked(Lnet/minecraft/client/gui/Click;Z)Z"), method = "mouseClicked")
+	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;mouseClicked(Lnet/minecraft/client/gui/Click;Z)Z"), method = "mouseClicked")
 	private boolean addParticleFocusing(HandledScreen<?> instance, Click click, boolean b, Operation<Boolean> original) {
 		boolean bl = original.call(instance, click, b);
 		double x = click.x();
 		double y = click.y();
 		int button = click.button();
-		//?} else {
-	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;mouseClicked(DDI)Z"), method = "mouseClicked")
+		*///?} else {
+	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;mouseClicked(DDI)Z"), method = "mouseClicked")
 	private boolean addParticleFocusing(HandledScreen<?> instance, double x, double y, int button, Operation<Boolean> original) {
-			boolean bl = original.call(instance, click, b);
-	*///?}
+			boolean bl = original.call(instance, x, y, button);
+	//?}
 		InventoryParticlesMainConfig config = InventoryParticlesConfig.getInstance().getMainConfig();
 		if (!config.isDebugModeEnabled() || !config.isModEnabled()) {
 			return bl;

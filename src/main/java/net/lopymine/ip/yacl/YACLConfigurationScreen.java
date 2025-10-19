@@ -1,8 +1,6 @@
 package net.lopymine.ip.yacl;
 
 import dev.isxander.yacl3.api.Option;
-import dev.isxander.yacl3.gui.YACLScreen;
-import java.util.List;
 import java.util.function.Function;
 import lombok.experimental.ExtensionMethod;
 import net.lopymine.ip.InventoryParticles;
@@ -10,11 +8,9 @@ import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.optimization.ParticleDeletionMode;
 import net.lopymine.ip.config.sub.*;
 import net.lopymine.ip.config.sub.InventoryParticlesCoefficientsConfig.ParticleCoefficientConfig;
-import net.lopymine.ip.gui.screen.ConfigEditorMenu;
 import net.lopymine.mossylib.utils.ModMenuUtils;
 import net.lopymine.mossylib.yacl.api.*;
 import net.lopymine.mossylib.yacl.extension.SimpleOptionExtension;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 
@@ -55,10 +51,7 @@ public class YACLConfigurationScreen {
 				SimpleOption.<Boolean>startBuilder("nbt_debug_mode_enabled")
 						.withBinding(defConfig.isNbtDebugModeEnabled(), config::isNbtDebugModeEnabled, config::setNbtDebugModeEnabled, false)
 						.withController(ENABLED_OR_DISABLE_FORMATTER)
-						.withDescription(SimpleContent.NONE),
-				SimpleOption.startButtonBuilder("test", (screen, option) -> {
-					MinecraftClient.getInstance().setScreen(new ConfigEditorMenu());
-				})
+						.withDescription(SimpleContent.NONE)
 		);
 	}
 

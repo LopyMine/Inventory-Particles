@@ -9,10 +9,7 @@
 		"HandledScreenMixin",
 		"MinecraftClientMixin",
 		"ScreenHandlerMixin",
-		"ScreenMixin",
-		"DrawContextMixin",
-		"ScrollableWidgetMixin",
-		"EntryListWidgetMixin"
+		"ScreenMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

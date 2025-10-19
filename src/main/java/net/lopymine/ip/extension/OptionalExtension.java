@@ -1,14 +1,14 @@
 package net.lopymine.ip.extension;
 
 //? if <=1.20.1 {
-/*import java.util.Optional;
+import java.util.Optional;
 import net.minecraft.nbt.*;
-*///?}
+//?}
 
 public class OptionalExtension {
 
 	//? if <=1.20.1 {
-	/*public static <T extends NbtElement> Optional<T> to(Optional<NbtCompound> optional, String id, Class<T> clazz) {
+	public static <T extends NbtElement> Optional<T> to(Optional<NbtCompound> optional, String id, Class<T> clazz) {
 		return to(to(optional, id), clazz);
 	}
 
@@ -31,6 +31,6 @@ public class OptionalExtension {
 	public static Optional<NbtElement> toFirst(Optional<NbtList> optional) {
 		return optional.map((l) -> l.get(0));
 	}
-	*///?}
+	//?}
 
 }

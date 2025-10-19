@@ -88,7 +88,7 @@
 			"speed_coefficient": 0.1,
 			"color": "",
 			//? if >=1.21 {
-			"nbt_conditions_match": "any",
+			/*"nbt_conditions_match": "any",
 			"nbt_conditions": [
 				{
 					"this_name": "components",
@@ -111,8 +111,8 @@
 					}
 				}
 			]
-			//?} else {
-			/*"nbt_conditions_match": "any",
+			*///?} else {
+			"nbt_conditions_match": "any",
 			"nbt_conditions": [
 				{
 					"this_name": "tag",
@@ -135,7 +135,7 @@
 					}
 				}
 			]
-			*///?}
+			//?}
 		},
 		
 		

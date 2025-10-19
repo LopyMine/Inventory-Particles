@@ -1,0 +1,120 @@
+{
+	"life_time": 20,
+	"animation_type": "random_static",
+	"animation_speed": 1.0,
+	
+	"size": {
+		"width": 8,
+		"height": 8
+	},
+
+	"textures": [
+		"inventory-particles:vanilla/flame/soul_fire_flame.png"
+	],
+	
+	"holders": [
+		{
+			"item": "minecraft:soul_torch",
+			"spawn_area": "soul_torch_soul_fire_flame.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.15,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 20
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:soul_lantern",
+			"spawn_area": "soul_lantern_soul_fire_flame.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.15,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 20
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:soul_campfire",
+			"spawn_area": "soul_campfire_soul_fire_flame.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.15,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 20
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"physics": {
+		"base": {
+			"x_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.25
+			},
+			"y_speed": {
+				"impulse": [-0.5, -0.5],
+				"impulse_bidirectional": false,
+				"acceleration": -0.1,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-1.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.25
+			},
+			"angle_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0]
+			}
+		},
+		"rotation": {
+			"particle": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			},
+			"texture": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": true,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			}
+		}
+	}
+}

@@ -37,14 +37,14 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 			}
 
 			//? if >=1.21 {
-			NbtElement nbt = ItemStack.CODEC.encodeStart(player.getRegistryManager().getOps(NbtOps.INSTANCE), stack).getOrThrow();
+			/*NbtElement nbt = ItemStack.CODEC.encodeStart(player.getRegistryManager().getOps(NbtOps.INSTANCE), stack).getOrThrow();
 			if (!(nbt instanceof NbtCompound root)) {
 				this.debugLog(null, DebugLogReason.ENCODED_WRONG_ROOT, stack.getItem().getName());
 				return false;
 			}
-			//?} else {
-			/*NbtCompound root = stack.writeNbt(new NbtCompound());
-			*///?}
+			*///?} else {
+			NbtCompound root = stack.writeNbt(new NbtCompound());
+			//?}
 
 			int success = 0;
 
@@ -87,7 +87,7 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 		if (checkValues.isEmpty() && nodes.isEmpty()) {
 			boolean rightType = switch (node.getType()) {
 				case OBJECT -> element instanceof NbtCompound;
-				case LIST -> element instanceof AbstractNbtList /*? if <=1.21.4 {*//*<?>*//*?}*/;
+				case LIST -> element instanceof AbstractNbtList /*? if <=1.21.4 {*/<?>/*?}*/;
 				case STRING -> element instanceof NbtString;
 				case INT -> element instanceof AbstractNbtNumber;
 			};
@@ -107,17 +107,17 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 					String value = null;
 					if (element instanceof NbtString) {
 						//? if <=1.21.4 {
-						/*value = element.asString();
-						 *///?} else {
-						value = element.asString().orElse(null);
-						//?}
+						value = element.asString();
+						 //?} else {
+						/*value = element.asString().orElse(null);
+						*///?}
 					}
 					if (element instanceof AbstractNbtNumber number) {
 						//? if <=1.21.4 {
-						/*value = String.valueOf(number.intValue());
-						 *///?} else {
-						value = number.asInt().map(Object::toString).orElse(null);
-						//?}
+						value = String.valueOf(number.intValue());
+						 //?} else {
+						/*value = number.asInt().map(Object::toString).orElse(null);
+						*///?}
 					}
 					if (value == null) {
 						this.debugLog(debugNbtPath, DebugLogReason.NO_VALUE, node.getName());
@@ -134,7 +134,7 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 				case OBJECT, LIST -> {
 					if (node.getType() == NbtNodeType.LIST) {
 						if (checkValues.size() == 1) {
-							if (element instanceof AbstractNbtList /*? if <=1.21.4 {*//*<?>*//*?}*/ list) {
+							if (element instanceof AbstractNbtList /*? if <=1.21.4 {*/<?>/*?}*/ list) {
 								List<String> values = List.of("EMPTY_LIST", "NOT_EMPTY_LIST");
 
 								boolean empty = checkValues.get(0).equals(values.get(0));
@@ -183,7 +183,7 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 					return ReadResult.FAILED;
 				}
 				case LIST -> {
-					if (element instanceof AbstractNbtList/*? if <=1.21.4 {*//*<?>*//*?}*/ list) {
+					if (element instanceof AbstractNbtList/*? if <=1.21.4 {*/<?>/*?}*/ list) {
 						for (NbtElement nbtElement : list) {
 							if (this.readElementByType(nbtElement, nextNode, debugNbtPath) == ReadResult.SUCCESS) {
 								return ReadResult.SUCCESS;

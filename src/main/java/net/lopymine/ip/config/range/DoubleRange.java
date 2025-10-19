@@ -10,7 +10,7 @@ import net.minecraft.util.math.random.Random;
 @AllArgsConstructor
 public class DoubleRange {
 
-	public static final Codec<DoubleRange> CODEC = Codec.DOUBLE.listOf(/*? if >=1.21 {*/ 2, 2 /*?}*/).xmap(DoubleRange::new, DoubleRange::toList);
+	public static final Codec<DoubleRange> CODEC = Codec.DOUBLE.listOf(/*? if >=1.21 {*/ /*2, 2 *//*?}*/).xmap(DoubleRange::new, DoubleRange::toList);
 
 	private double min;
 	private double max;

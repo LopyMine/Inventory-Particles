@@ -1,15 +1,21 @@
 plugins {
-	id("net.lopymine.mossy-plugin")
+	id "net.lopymine.mossy-plugin-core" version "$mossy_plugin_version"
 }
 
 repositories {
 	mavenLocal()
+	maven {
+		name "mossyprojects"
+		url "https://maven.lopymine.net/releases"
+	}
 }
 
 dependencies {
-	modImplementation("net.lopymine:mossylib:1.0.0+1.21.10-+") {
-		changing = true
-	}
+	modImplementation("net.lopymine:mossylib:1.0.0")
+}
+
+processResources {
+	fletchingTable.relocate(it, "assets/${prop("data.mod_id")}/spawn_areas_1_21_9/*.png -> ../spawn_areas")
 }
 
 configurations.forEach {
