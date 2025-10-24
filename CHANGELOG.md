@@ -1,3 +1,3 @@
-- Mainly updated to 1.21.9+
+- Updated to 1.21.9+
 - Updated mod icon
 - Updated theme for configuration screen
