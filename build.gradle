@@ -2,6 +2,24 @@ plugins {
 	id "net.lopymine.mossy-plugin-core" version "$mossy_plugin_version"
 }
 
+mossyDependencies {
+	minecraft = stonecutter.current.version.toString()
+	mappings = "official"
+	lombok = prop("base.lombok_version")
+
+	fabricApi = prop("build.fabric_api")
+	fabricLoader = prop("build.fabric_loader")
+
+	forge = prop("build.forge")
+
+	neoForge = prop("build.neoforge")
+	parchment = prop("build.parchment")
+
+	additional {
+		//override("modCompileOnly", "yacl")
+	}
+}
+
 repositories {
 	mavenLocal()
 	maven {
@@ -11,11 +29,18 @@ repositories {
 }
 
 dependencies {
-	include(modImplementation("net.lopymine:mossylib:1.0.1-${stonecutter.current.project}"))
+	def project = stonecutter.current.project
+	if (project.contains("neoforge")) {
+		jarJar(implementation("net.lopymine:mossylib:1.0.2-${stonecutter.current.project}"))
+	} else if (project.contains("forge")) {
+		jarJar(modImplementation("net.lopymine:mossylib:1.0.2-${stonecutter.current.project}"))
+	} else {
+		include(modImplementation("net.lopymine:mossylib:1.0.2-${stonecutter.current.project}"))
+	}
 }
 
 processResources {
-	if (stonecutter.compare(stonecutter.current.project, "1.21.9") >= 0) {
+	if (stonecutter.compare(stonecutter.current.version, "1.21.9") >= 0) {
 		fletchingTable.relocate(it, "assets/${prop("data.mod_id")}/spawn_areas_1_21_9/*.png -> ../spawn_areas")
 	} else {
 		exclude("assets/${prop("data.mod_id")}/spawn_areas_1_21_9/")
@@ -26,33 +51,6 @@ configurations.forEach {
 	it.resolutionStrategy {
 		cacheChangingModulesFor(0, 'seconds')
 	}
-}
-
-mossyDependencies {
-	minecraft = stonecutter.current.version.toString()
-	mappings = prop("build.yarn")
-	lombok = prop("base.lombok_version")
-	fabricApi = prop("build.fabric_api")
-	fabricLoader = prop("build.fabric_loader")
-
-	additional {
-	    // - By default, every additional project dependency ("dep.modId" from gradle.properties) will use
-	    // - Modrinth Maven and "modImplementation" configuration name
-	    // - If you want to override mod configuration name, you can do this:
-
-		//override("modCompileOnly", "just_mod_id")
-
-		// - It will do this:
-		// - modImplementation("maven.modrinth:modId:version") -> modCompileOnly("maven.modrinth:modId:version")
-
-	    // - Or if you want to disable it and handle by yourself, just disable it auto handling:
-
-		//disable("just_mod_id")
-	}
-}
-
-mossyResources {
-	//expandFiles = ["custom", "file", "patterns", "here"]
 }
 
 String prop(String key) {
