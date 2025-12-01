@@ -41,28 +41,28 @@ public class ScreenMixin {
 
 
 		//? if >=1.21.5 {
-		/*float tickProgress = MinecraftClient.getInstance().getRenderTickCounter().getTickProgress(true);
-		*///?} elif >=1.21 && <=1.21.4 {
+		float tickProgress = MinecraftClient.getInstance().getRenderTickCounter().getTickProgress(true);
+		//?} elif >=1.21 && <=1.21.4 {
 		/*float tickProgress = MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(true);
 		*///?} else {
-		float tickProgress = MinecraftClient.getInstance().getTickDelta();
-		//?}
+		/*float tickProgress = MinecraftClient.getInstance().getTickDelta();
+		*///?}
 		InventoryParticlesRenderer.getInstance().render(context, tickProgress);
 		if (!config.isDebugModeEnabled()) {
 			return;
 		}
 		//? if >=1.21.6 {
-		/*context.createNewRootLayer();
-		*///?}
+		context.createNewRootLayer();
+		//?}
 		InventoryParticlesClient.DEBUG_CURSOR_INFO_RENDERER.render(context);
 		InventoryParticlesClient.DEBUG_PARTICLE_INFO_RENDERER.render(context);
 		//? if >=1.21.6 {
-		/*context.createNewRootLayer();
-		*///?}
+		context.createNewRootLayer();
+		//?}
 	}
 
 	//? if <=1.21.4 {
-	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTooltip(Lnet/minecraft/client/font/TextRenderer;Ljava/util/List;Lnet/minecraft/client/gui/tooltip/TooltipPositioner;II)V"), method = "renderWithTooltip")
+	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTooltip(Lnet/minecraft/client/font/TextRenderer;Ljava/util/List;Lnet/minecraft/client/gui/tooltip/TooltipPositioner;II)V"), method = "renderWithTooltip")
 	private void fixTooltip(DrawContext instance, TextRenderer textRenderer, List<OrderedText> text, TooltipPositioner positioner, int x, int y, Operation<Void> original) {
 		boolean bl = InventoryParticlesConfig.getInstance().getMainConfig().isModEnabled();
 		if (bl) {
@@ -73,5 +73,5 @@ public class ScreenMixin {
 			RenderSystem.enableDepthTest();
 		}
 	}
-	//?}
+	*///?}
 }

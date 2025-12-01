@@ -23,7 +23,7 @@
 			"speed_coefficient": 0.25,
 			"color": "nbt",
 			//? if >=1.21 {
-			/*"nbt_conditions_match": "any",
+			"nbt_conditions_match": "any",
 			"nbt_conditions": [
 				{
 					"this_name": "components",
@@ -34,8 +34,8 @@
 					}
 				}
 			]
-			*///?} else {
-			"nbt_conditions_match": "any",
+			//?} else {
+			/*"nbt_conditions_match": "any",
 			"nbt_conditions": [
 				{
 					"this_name": "tag",
@@ -50,7 +50,7 @@
 					}
 				}
 			]
-			//?}
+			*///?}
 		},
 		{
 			"item": "minecraft:leather_chestplate",
@@ -60,7 +60,7 @@
 			"speed_coefficient": 0.25,
 			"color": "nbt",
 			//? if >=1.21 {
-			/*"nbt_conditions_match": "any",
+			"nbt_conditions_match": "any",
 			"nbt_conditions": [
 				{
 					"this_name": "components",
@@ -71,8 +71,8 @@
 					}
 				}
 			]
-			*///?} else {
-			"nbt_conditions_match": "any",
+			//?} else {
+			/*"nbt_conditions_match": "any",
 			"nbt_conditions": [
 				{
 					"this_name": "tag",
@@ -87,7 +87,7 @@
 					}
 				}
 			]
-			//?}
+			*///?}
 		},
 		{
 			"item": "minecraft:leather_leggings",
@@ -97,7 +97,7 @@
 			"speed_coefficient": 0.25,
 			"color": "nbt",
 			//? if >=1.21 {
-			/*"nbt_conditions_match": "any",
+			"nbt_conditions_match": "any",
 			"nbt_conditions": [
 				{
 					"this_name": "components",
@@ -108,8 +108,8 @@
 					}
 				}
 			]
-			*///?} else {
-			"nbt_conditions_match": "any",
+			//?} else {
+			/*"nbt_conditions_match": "any",
 			"nbt_conditions": [
 				{
 					"this_name": "tag",
@@ -124,7 +124,7 @@
 					}
 				}
 			]
-			//?}
+			*///?}
 		},
 		{
 			"item": "minecraft:leather_boots",
@@ -134,7 +134,7 @@
 			"speed_coefficient": 0.25,
 			"color": "nbt",
 			//? if >=1.21 {
-			/*"nbt_conditions_match": "any",
+			"nbt_conditions_match": "any",
 			"nbt_conditions": [
 				{
 					"this_name": "components",
@@ -145,8 +145,8 @@
 					}
 				}
 			]
-			*///?} else {
-			"nbt_conditions_match": "any",
+			//?} else {
+			/*"nbt_conditions_match": "any",
 			"nbt_conditions": [
 				{
 					"this_name": "tag",
@@ -161,7 +161,7 @@
 					}
 				}
 			]
-			//?}
+			*///?}
 		},
 		
 		
@@ -176,7 +176,7 @@
 			"speed_coefficient": 0.25,
 			"color": "nbt",
 			//? if >=1.21 {
-			/*"nbt_conditions_match": "any",
+			"nbt_conditions_match": "any",
 			"nbt_conditions": [
 				{
 					"this_name": "components",
@@ -187,8 +187,8 @@
 					}
 				}
 			]
-			*///?} else {
-			"nbt_conditions_match": "any",
+			//?} else {
+			/*"nbt_conditions_match": "any",
 			"nbt_conditions": [
 				{
 					"this_name": "tag",
@@ -203,7 +203,7 @@
 					}
 				}
 			]
-			//?}
+			*///?}
 		},
 		{
 			"item": "minecraft:leather_horse_armor",
@@ -213,7 +213,7 @@
 			"speed_coefficient": 0.25,
 			"color": "nbt",
 			//? if >=1.21 {
-			/*"nbt_conditions_match": "any",
+			"nbt_conditions_match": "any",
 			"nbt_conditions": [
 				{
 					"this_name": "components",
@@ -224,8 +224,8 @@
 					}
 				}
 			]
-			*///?} else {
-			"nbt_conditions_match": "any",
+			//?} else {
+			/*"nbt_conditions_match": "any",
 			"nbt_conditions": [
 				{
 					"this_name": "tag",
@@ -240,7 +240,7 @@
 					}
 				}
 			]
-			//?}
+			*///?}
 		},
 		
 		
@@ -255,7 +255,7 @@
 			"speed_coefficient": 0.2,
 			"color": "nbt",
 			//? if >=1.21 {
-			/*"nbt_conditions_match": "any",
+			"nbt_conditions_match": "any",
 			"nbt_conditions": [
 				{
 					"this_name": "components",
@@ -266,8 +266,8 @@
 					}
 				}
 			]
-			*///?} else {
-			"nbt_conditions_match": "any",
+			//?} else {
+			/*"nbt_conditions_match": "any",
 			"nbt_conditions": [
 				{
 					"this_name": "tag",
@@ -282,7 +282,7 @@
 					}
 				}
 			]
-			//?}
+			*///?}
 		}
 	],
 	"physics": {

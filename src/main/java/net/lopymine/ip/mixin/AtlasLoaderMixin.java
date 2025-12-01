@@ -26,7 +26,7 @@ public class AtlasLoaderMixin implements IAtlasLoaderMixin {
 	private boolean marked;
 
 	//? if >=1.21 {
-	/*@Inject(at = @At(value = "INVOKE", target = "Ljava/util/List;forEach(Ljava/util/function/Consumer;)V", shift = Shift.AFTER), method = "loadSources", cancellable = true)
+	@Inject(at = @At(value = "INVOKE", target = "Ljava/util/List;forEach(Ljava/util/function/Consumer;)V", shift = Shift.AFTER), method = "loadSources", cancellable = true)
 	private void swapMissingTexture(ResourceManager resourceManager, CallbackInfoReturnable<List<Function<SpriteOpener, SpriteContents>>> cir, @Local Map<Identifier, SpriteRegion> map) {
 		if (!this.marked) {
 			return;
@@ -36,8 +36,8 @@ public class AtlasLoaderMixin implements IAtlasLoaderMixin {
 		builder.addAll(map.values());
 		cir.setReturnValue(builder.build());
 	}
-	*///?} else {
-	@Inject(at = @At(value = "INVOKE", target = "Ljava/util/List;forEach(Ljava/util/function/Consumer;)V", shift = Shift.AFTER), method = "loadSources", cancellable = true)
+	//?} else {
+	/*@Inject(at = @At(value = "INVOKE", target = "Ljava/util/List;forEach(Ljava/util/function/Consumer;)V", shift = Shift.AFTER), method = "loadSources", cancellable = true)
 	private void swapMissingTexture(ResourceManager resourceManager, CallbackInfoReturnable<List<Supplier<SpriteContents>>> cir, @Local Map<Identifier, SpriteRegion> map) {
 		if (!this.marked) {
 			return;
@@ -47,7 +47,7 @@ public class AtlasLoaderMixin implements IAtlasLoaderMixin {
 		builder.addAll(map.values());
 		cir.setReturnValue(builder.build());
 	}
-	//?}
+	*///?}
 
 	@Override
 	public void inventoryParticles$mark() {

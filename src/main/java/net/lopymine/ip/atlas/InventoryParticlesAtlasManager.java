@@ -30,17 +30,17 @@ public class InventoryParticlesAtlasManager {
 
 	public void reload(ResourceReloader.Synchronizer synchronizer, ResourceManager resourceManager, Executor prepareExecutor, Executor applyExecutor) {
 		//? if >=1.21.9 {
-		/*SpriteLoader.fromAtlas(this.atlas)
+		SpriteLoader.fromAtlas(this.atlas)
 				.load(resourceManager, FOLDER_ID, 0, prepareExecutor, Set.of())
 				.thenCompose(synchronizer::whenPrepared)
 				.thenAcceptAsync(this.atlas::upload, applyExecutor);
-		*///?} else {
-		SpriteLoader.fromAtlas(this.atlas)
+		//?} else {
+		/*SpriteLoader.fromAtlas(this.atlas)
 				.load(resourceManager, FOLDER_ID, 0, prepareExecutor)
 				.thenCompose(SpriteLoader.StitchResult::whenComplete)
 				.thenCompose(synchronizer::whenPrepared)
 				.thenAcceptAsync(this.atlas::upload, applyExecutor);
-		//?}
+		*///?}
 	}
 
 	public void close() {
@@ -52,6 +52,6 @@ public class InventoryParticlesAtlasManager {
 	}
 
 	public Sprite getMissingSprite() {
-		return /*? if >=1.21 {*/ /*this.atlas.missingSprite *//*?} else {*/ this.getSprite(MissingSprite.getMissingSpriteId()) /*?}*/;
+		return /*? if >=1.21 {*/ this.atlas.missingSprite /*?} else {*/ /*this.getSprite(MissingSprite.getMissingSpriteId()) *//*?}*/;
 	}
 }

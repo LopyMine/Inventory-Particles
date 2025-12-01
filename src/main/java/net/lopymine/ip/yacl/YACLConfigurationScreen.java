@@ -68,12 +68,12 @@ public class YACLConfigurationScreen {
 		Option<?>[] guiActionOptions = {
 				SimpleOption.<Double>startBuilder("gui_action_count_coefficient")
 						.withBinding(defCoefficientConfig.getGuiActionConfig().getCountCoefficient(), coefficientConfig.getGuiActionConfig()::getCountCoefficient, coefficientConfig.getGuiActionConfig()::setCountCoefficient, true)
-						.withController(0.0D, 50D, 0.1D)
+						.withController(0.0D, 50D, 0.1D, false)
 						.withDescription(SimpleContent.NONE)
 						.build(InventoryParticles.MOD_ID),
 				SimpleOption.<Double>startBuilder("gui_action_spawn_chance")
 						.withBinding(defCoefficientConfig.getGuiActionConfig().getCooldownCoefficient(), coefficientConfig.getGuiActionConfig()::getCooldownCoefficient, coefficientConfig.getGuiActionConfig()::setCooldownCoefficient, true)
-						.withController(0.0D, 100D, 0.1D)
+						.withController(0.0D, 100D, 0.1D, false)
 						.withDescription(SimpleContent.NONE)
 						.build(InventoryParticles.MOD_ID)
 		};
@@ -173,12 +173,12 @@ public class YACLConfigurationScreen {
 		Option<?>[] options = new Option[]{
 				SimpleOption.<Double>startBuilder(id + "_count_coefficient")
 						.withBinding(defConfig.getCountCoefficient(), config::getCountCoefficient, config::setCountCoefficient, true)
-						.withController(0.0D, 50D, 0.1D)
+						.withController(0.0D, 50D, 0.1D, false)
 						.withDescription(SimpleContent.NONE)
 						.build(InventoryParticles.MOD_ID),
 				SimpleOption.<Double>startBuilder(id + "_cooldown_coefficient")
 						.withBinding(defConfig.getCooldownCoefficient(), config::getCooldownCoefficient, config::setCooldownCoefficient, true)
-						.withController(0.0D, 50D, 0.1D)
+						.withController(0.0D, 50D, 0.1D, false)
 						.withDescription(SimpleContent.NONE)
 						.build(InventoryParticles.MOD_ID)
 

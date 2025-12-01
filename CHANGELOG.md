@@ -1,3 +1,3 @@
-- Updated to 1.21.9+
-- Updated mod icon
-- Updated theme for configuration screen
+- Fixed some config options for spawn count/frequency coefficient
+- Fixed issue when particles wouldn't load on some systems
+- Other little fixes

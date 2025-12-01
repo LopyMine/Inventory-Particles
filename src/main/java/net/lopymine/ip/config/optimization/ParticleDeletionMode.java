@@ -1,6 +1,7 @@
 package net.lopymine.ip.config.optimization;
 
 import com.mojang.serialization.Codec;
+import java.util.Locale;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.mossylib.yacl.utils.EnumWithText;
 import net.minecraft.text.Text;
@@ -15,7 +16,7 @@ public enum ParticleDeletionMode implements StringIdentifiable, EnumWithText {
 
 	@Override
 	public String asString() {
-		return this.name().toLowerCase();
+		return this.name().toLowerCase(Locale.ROOT);
 	}
 
 	@Override

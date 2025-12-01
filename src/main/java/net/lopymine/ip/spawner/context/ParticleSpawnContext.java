@@ -14,22 +14,22 @@ import org.jetbrains.annotations.NotNull;
 @Setter
 public class ParticleSpawnContext {
 
-	private static final ParticleSpawnContext CURSOR_CONTEXT = new ParticleSpawnContext(
+	public static final ParticleSpawnContext CURSOR_CONTEXT = new ParticleSpawnContext(
 			InventoryParticleConfig::isCursorSpawnEnabled,
 			InventoryParticlesCoefficientsConfig::getCursorConfig
 	);
 
-	private static final ParticleSpawnContext HOVERED_SLOT_CONTEXT = new ParticleSpawnContext(
+	public static final ParticleSpawnContext HOVERED_SLOT_CONTEXT = new ParticleSpawnContext(
 			InventoryParticleConfig::isHoveredSlotSpawnEnabled,
 			InventoryParticlesCoefficientsConfig::getHoveredSlotConfig
 	);
 
-	private static final ParticleSpawnContext ALL_SLOTS_CONTEXT = new ParticleSpawnContext(
+	public static final ParticleSpawnContext ALL_SLOTS_CONTEXT = new ParticleSpawnContext(
 			InventoryParticleConfig::isGuiSlotsSpawnEnabled,
 			InventoryParticlesCoefficientsConfig::getAllSlotsConfig
 	);
 
-	private static final ParticleSpawnContext GUI_ACTION_SLOT = new ParticleSpawnContext(
+	public static final ParticleSpawnContext GUI_ACTION_SLOT = new ParticleSpawnContext(
 			InventoryParticleConfig::isGuiActionSpawnEnabled,
 			InventoryParticlesCoefficientsConfig::getGuiActionConfig,
 			ParticleCoefficientConfig::getCountCoefficient,

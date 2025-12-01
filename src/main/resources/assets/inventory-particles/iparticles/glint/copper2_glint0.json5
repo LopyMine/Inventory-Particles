@@ -250,7 +250,7 @@
 
 
 		//? if >=1.21.9 {
-		/*{
+		{
 			"item": "minecraft:weathered_lightning_rod",
 			"spawn_area": "lightning_rod.png",
 			"spawn_count": [0, 2],
@@ -375,7 +375,7 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		},
-		*///?}
+		//?}
 
 
 		{

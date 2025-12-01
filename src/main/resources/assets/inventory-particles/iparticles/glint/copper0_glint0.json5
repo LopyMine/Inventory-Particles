@@ -84,7 +84,7 @@
 		},
 
 		//? if >=1.21.9 {
-		/*{
+		{
 			"item": "minecraft:copper_nugget",
 			"spawn_area": "copper_nugget_glint.png",
 			"spawn_count": [0, 1],
@@ -94,7 +94,7 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		},
-		*///?}
+		//?}
 
 		
 		
@@ -293,7 +293,7 @@
 
 
 		//? if >=1.21.9 {
-		/*{
+		{
 			"item": "minecraft:copper_chain",
 			"spawn_area": "copper_chain_glint.png",
 			"spawn_count": [0, 2],
@@ -448,7 +448,7 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		},
-		*///?}
+		//?}
 		
 		
 		
@@ -507,7 +507,7 @@
 
 
 		//? if >=1.21.9 {
-		/*{
+		{
 			"item": "minecraft:waxed_lightning_rod",
 			"spawn_area": "lightning_rod.png",
 			"spawn_count": [0, 2],
@@ -577,7 +577,7 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		},
-		*///?}
+		//?}
 		
 		
 		

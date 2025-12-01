@@ -92,6 +92,10 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 			return List.of();
 		}
 
+		if (spawnCount == 0 && context == ParticleSpawnContext.GUI_ACTION_SLOT) {
+			spawnCount = 1;
+		}
+
 		float count = (float) ((((float) spawnCount) * context.getCountCoefficient()) * InventoryParticlesConfig.getInstance().getCoefficientsConfig().getGlobalConfig().getCountCoefficient());
 		int countOfParticles = count > 0.0F && count < 1.0F ? 1 : (int) count;
 

@@ -286,8 +286,9 @@ public class InventoryParticlesRenderer extends TickElement {
 		if (stack.isEmpty() && !slot.hasStack()){
 			return;
 		}
-		int chanceOfSpawn = (int) (InventoryParticlesConfig.getInstance().getCoefficientsConfig().getGuiActionConfig().getCooldownCoefficient() * 100F);
-		if (this.random.nextBetween(0, 100) > chanceOfSpawn) {
+		int chanceOfSpawn = 100 - (int) Math.ceil(InventoryParticlesConfig.getInstance().getCoefficientsConfig().getGuiActionConfig().getCooldownCoefficient());
+		int r = this.random.nextBetween(0, 100);
+		if (r < chanceOfSpawn) {
 			return;
 		}
 		this.runSoft(() -> {

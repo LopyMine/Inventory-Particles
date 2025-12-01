@@ -27,7 +27,7 @@ public class Texture2ObjectsManager {
 			int height = image.getHeight();
 			for (int x = 0; x < width; x++) {
 				for (int y = 0; y < height; y++) {
-					int color = image./*? if <=1.21.1 {*/ getColor /*?} else {*/ /*getColorArgb *//*?}*/(x, y);
+					int color = image./*? if <=1.21.1 {*/ /*getColor *//*?} else {*/ getColorArgb /*?}*/(x, y);
 					if (Boolean.FALSE.equals(filter.getFilter().accept(x, y, width, height, color))) {
 						continue;
 					}

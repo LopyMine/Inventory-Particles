@@ -1,7 +1,7 @@
 package net.lopymine.ip.predicate.nbt;
 
 import com.mojang.serialization.Codec;
-import java.util.Set;
+import java.util.*;
 import lombok.Getter;
 import net.minecraft.util.StringIdentifiable;
 
@@ -25,6 +25,6 @@ public enum NbtNodeType implements StringIdentifiable {
 
 	@Override
 	public String asString() {
-		return this.name().toLowerCase();
+		return this.name().toLowerCase(Locale.ROOT);
 	}
 }

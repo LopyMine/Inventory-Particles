@@ -7,9 +7,9 @@ import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
 
 //? if >=1.21 {
-/*import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.*;
-*///?}
+//?}
 
 @Getter
 @Setter

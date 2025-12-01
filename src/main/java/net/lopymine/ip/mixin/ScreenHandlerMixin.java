@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.*;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -24,6 +25,14 @@ public abstract class ScreenHandlerMixin {
 
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/screen/ScreenHandler;internalOnSlotClick(IILnet/minecraft/screen/slot/SlotActionType;Lnet/minecraft/entity/player/PlayerEntity;)V"), method = "onSlotClick")
 	private void spawnParticlesWhenPuttedInSlot(int slotIndex, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
+		//? if >=1.21.9 {
+		World world = player.getEntityWorld();
+		//?} else {
+		/*World world = player.getWorld();
+		*///?}
+		if (!world.isClient()) {
+			return;
+		}
 		InventoryParticleConfig config = InventoryParticlesConfig.getInstance().getParticleConfig();
 		if (slotIndex >= 0 && slotIndex < this.slots.size() && config.isGuiActionSpawnEnabled()) {
 			boolean isTake = actionType == SlotActionType.PICKUP && this.getCursorStack().isEmpty();

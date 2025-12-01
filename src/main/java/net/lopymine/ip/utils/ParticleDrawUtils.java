@@ -1,12 +1,12 @@
 package net.lopymine.ip.utils;
 
 //? if <=1.21.1 {
-import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
+/*import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.VertexFormat.DrawMode;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
-//?}
+*///?}
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.texture.Sprite;
@@ -29,8 +29,8 @@ public class ParticleDrawUtils {
 		*///?}
 
 		//? if >=1.21.2 {
-		/*context.drawSpriteStretched(
-				/^? if >=1.21.6 {^/ /^net.minecraft.client.gl.RenderPipelines.GUI_TEXTURED, ^//^?} elif >=1.21.2 {^/ /^net.minecraft.client.render.RenderLayer::getGuiTextured,^//^?}^/
+		context.drawSpriteStretched(
+				/*? if >=1.21.6 {*/ net.minecraft.client.gl.RenderPipelines.GUI_TEXTURED, /*?} elif >=1.21.2 {*/ /*net.minecraft.client.render.RenderLayer::getGuiTextured,*//*?}*/
 				sprite,
 				x,
 				y,
@@ -38,8 +38,8 @@ public class ParticleDrawUtils {
 				(int) height,
 				color
 		);
-		*///?} else {
-		if (PARTICLES_BUFFER == null) {
+		//?} else {
+		/*if (PARTICLES_BUFFER == null) {
 			return;
 		}
 
@@ -52,11 +52,11 @@ public class ParticleDrawUtils {
 		float v2 = sprite.getMaxV();
 
 		Matrix4f matrix4f = context.getMatrices().peek().getPositionMatrix();
-		PARTICLES_BUFFER.vertex(matrix4f, (float) x, (float) y, z).texture(u1, v1).color(color)/*? if <=1.20.1 {*/.next()/*?}*/;
-		PARTICLES_BUFFER.vertex(matrix4f, (float) x, y2, z).texture(u1, v2).color(color)/*? if <=1.20.1 {*/.next()/*?}*/;
-		PARTICLES_BUFFER.vertex(matrix4f, x2, y2, z).texture(u2, v2).color(color)/*? if <=1.20.1 {*/.next()/*?}*/;
-		PARTICLES_BUFFER.vertex(matrix4f, x2, (float) y, z).texture(u2, v1).color(color)/*? if <=1.20.1 {*/.next()/*?}*/;
-		//?}
+		PARTICLES_BUFFER.vertex(matrix4f, (float) x, (float) y, z).texture(u1, v1).color(color)/^? if <=1.20.1 {^//^.next()^//^?}^/;
+		PARTICLES_BUFFER.vertex(matrix4f, (float) x, y2, z).texture(u1, v2).color(color)/^? if <=1.20.1 {^//^.next()^//^?}^/;
+		PARTICLES_BUFFER.vertex(matrix4f, x2, y2, z).texture(u2, v2).color(color)/^? if <=1.20.1 {^//^.next()^//^?}^/;
+		PARTICLES_BUFFER.vertex(matrix4f, x2, (float) y, z).texture(u2, v1).color(color)/^? if <=1.20.1 {^//^.next()^//^?}^/;
+		*///?}
 
 		//? if >=1.21.2 && <=1.21.4 {
 		/*//com.mojang.blaze3d.systems.RenderSystem.disableDepthTest();
@@ -65,7 +65,7 @@ public class ParticleDrawUtils {
 	}
 
 	//? if <=1.21.1 {
-	@Nullable
+	/*@Nullable
 	private static BufferBuilder PARTICLES_BUFFER = null;
 
 	public static void prepareParticlesBuffer() {
@@ -77,12 +77,12 @@ public class ParticleDrawUtils {
 		com.mojang.blaze3d.systems.RenderSystem.setShaderTexture(0, InventoryParticlesAtlasManager.ATLAS_ID);
 		com.mojang.blaze3d.systems.RenderSystem.setShader(GameRenderer::getPositionTexColorProgram);
 		//? if >=1.21 {
-		/*PARTICLES_BUFFER = Tessellator.getInstance().begin(DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
-		*///?} else {
-		BufferBuilder buffer = Tessellator.getInstance().getBuffer();
+		PARTICLES_BUFFER = Tessellator.getInstance().begin(DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
+		//?} else {
+		/^BufferBuilder buffer = Tessellator.getInstance().getBuffer();
 		buffer.begin(DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
 		PARTICLES_BUFFER = buffer;
-		//?}
+		^///?}
 	}
 
 	public static void endParticlesBuffer() {
@@ -94,8 +94,8 @@ public class ParticleDrawUtils {
 		com.mojang.blaze3d.systems.RenderSystem.enableDepthTest();
 		PARTICLES_BUFFER = null;
 	}
-	//?} else {
-	/*public static void prepareParticlesBuffer() {}
+	*///?} else {
+	public static void prepareParticlesBuffer() {}
 	public static void endParticlesBuffer() {}
-	*///?}
+	//?}
 }
