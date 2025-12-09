@@ -2,7 +2,7 @@ package net.lopymine.ip.color.advanced.mode;
 
 import java.util.Map;
 import net.lopymine.ip.debug.*;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.NotNull;
 
 public interface IAdvancedParticleColorTypeMode extends IDebugRenderable {
@@ -18,7 +18,7 @@ public interface IAdvancedParticleColorTypeMode extends IDebugRenderable {
 			"mixed", (s, speed) -> new AdvancedParticleColorTypeMixedMode()
 	);
 
-	int tickResolve(Integer[] compiledColors, Random random);
+	int tickResolve(Integer[] compiledColors, RandomSource random);
 
 	String asString();
 

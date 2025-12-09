@@ -8,7 +8,7 @@ import net.lopymine.ip.controller.IController;
 import net.lopymine.ip.controller.modifier.speed.ISpeedControllerModifier;
 import net.lopymine.ip.debug.HideInDebugRender;
 import net.lopymine.ip.element.base.IMovableElement;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 
 @Getter
@@ -18,7 +18,7 @@ public abstract class AbstractSpeedController<C extends AbstractSpeedController<
 	private List<ISpeedControllerModifier<? super C, ? super E>> modifiers = new ArrayList<>();
 
 	@HideInDebugRender
-	protected Random random;
+	protected RandomSource random;
 	private double acceleration;
 	private boolean accelerationBidirectional;
 	private DoubleRange maxAcceleration;
@@ -29,11 +29,11 @@ public abstract class AbstractSpeedController<C extends AbstractSpeedController<
 	protected double lastSpeed;
 	protected double speed;
 
-	public AbstractSpeedController(SpeedConfig config, Random random, double impulse) {
+	public AbstractSpeedController(SpeedConfig config, RandomSource random, double impulse) {
 		this(random, config.getAcceleration(), config.isAccelerationBidirectional(), config.getMaxAcceleration(), config.getMax(), config.getBraking(), config.getTurbulence(), impulse + config.getImpulseBidirectional(random));
 	}
 
-	public AbstractSpeedController(Random random, double acceleration, boolean accelerationBidirectional, DoubleRange maxAcceleration, DoubleRange max, double braking, DoubleRange turbulence, double impulse) {
+	public AbstractSpeedController(RandomSource random, double acceleration, boolean accelerationBidirectional, DoubleRange maxAcceleration, DoubleRange max, double braking, DoubleRange turbulence, double impulse) {
 		this.random                    = random;
 		this.acceleration              = acceleration;
 		this.accelerationBidirectional = accelerationBidirectional && random.nextBoolean();

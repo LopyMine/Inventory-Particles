@@ -17,8 +17,9 @@ import net.lopymine.ip.predicate.IParticleSpawnPredicate;
 import net.lopymine.ip.predicate.nbt.*;
 import net.lopymine.ip.spawner.ParticleSpawner;
 import net.lopymine.ip.spawner.context.ParticleSpawnContext;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.*;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.RandomSource;
 import net.lopymine.mossylib.utils.CodecUtils;
 import static net.lopymine.mossylib.utils.CodecUtils.option;
 
@@ -27,7 +28,7 @@ import static net.lopymine.mossylib.utils.CodecUtils.option;
 @AllArgsConstructor
 public class ParticleHolder {
 
-	public static final Identifier STANDARD_SPAWN_AREA = InventoryParticles.id("spawn_areas/standard.png");
+	public static final ResourceLocation STANDARD_SPAWN_AREA = InventoryParticles.id("spawn_areas/standard.png");
 
 	public static final Codec<IParticleColorType> STANDARD_AND_LIST_COLOR_TYPE_CODEC = Codec.either(IParticleColorType.CODEC, IParticleColorType.CODEC.listOf())
 			.xmap((either) -> {
@@ -59,16 +60,16 @@ public class ParticleHolder {
 				return Either.right(type);
 			});
 
-	public static final Codec<Identifier> SPAWN_AREA_CODEC = Codec.STRING.comapFlatMap((s) -> {
+	public static final Codec<ResourceLocation> SPAWN_AREA_CODEC = Codec.STRING.comapFlatMap((s) -> {
 		if (s.contains(":")) {
-			return Identifier.validate(s);
+			return ResourceLocation.read(s);
 		}
 		String path = s.endsWith(".png") ? s : s + ".png";
 		return DataResult.success(InventoryParticles.id("spawn_areas/" + path));
-	}, Identifier::toString);
+	}, ResourceLocation::toString);
 
 	public static final Codec<ParticleHolder> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-			option("name", (Supplier<String>) () -> "UnknownParticle@" + Random.create().nextBetween(0, 100000), Codec.STRING, ParticleHolder::getName),
+			option("name", (Supplier<String>) () -> "UnknownParticle@" + RandomSource.create().nextIntBetweenInclusive(0, 100000), Codec.STRING, ParticleHolder::getName),
 			option("item", new CachedItem(), CachedItem.CODEC, ParticleHolder::getItem),
 			option("nbt_conditions_match", NbtNodeMatch.ANY, NbtNodeMatch.CODEC, ParticleHolder::getMatch),
 			option("nbt_conditions", new HashSet<>(), NbtNode.CODEC, ParticleHolder::getNbtCondition),
@@ -83,7 +84,7 @@ public class ParticleHolder {
 	private CachedItem item;
 	private NbtNodeMatch match;
 	private HashSet<NbtNode> nbtCondition;
-	private Identifier spawnArea;
+	private ResourceLocation spawnArea;
 	private IntegerRange spawnCount;
 	private IntegerRange spawnFrequency;
 	private IParticleColorType color;

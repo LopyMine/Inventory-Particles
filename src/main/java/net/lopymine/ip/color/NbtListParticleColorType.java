@@ -2,14 +2,9 @@ package net.lopymine.ip.color;
 
 import lombok.*;
 import net.lopymine.ip.utils.*;
-import net.minecraft.item.*;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
-
-//? if >=1.21 {
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.*;
-//?}
 
 @Getter
 @Setter
@@ -30,14 +25,14 @@ public class NbtListParticleColorType implements IParticleColorType, IListPartic
 	}
 
 	@Override
-	public int tick(Random random) {
+	public int tick(RandomSource random) {
 		if (this.currentColor != null) {
 			return this.currentColor;
 		}
 		if (this.colors.length == 0) {
 			return -1;
 		}
-		return this.currentColor = this.colors[random.nextBetween(0, this.colors.length - 1)];
+		return this.currentColor = this.colors[random.nextIntBetweenInclusive(0, this.colors.length - 1)];
 	}
 
 	@Override
@@ -46,7 +41,7 @@ public class NbtListParticleColorType implements IParticleColorType, IListPartic
 	}
 
 	@Override
-	public void compile(ItemStack stack, Random random) {
+	public void compile(ItemStack stack, RandomSource random) {
 		this.colors = getColorFromStack(stack);
 	}
 

@@ -6,8 +6,8 @@ import lombok.*;
 import net.lopymine.ip.color.*;
 import net.lopymine.ip.color.advanced.mode.IAdvancedParticleColorTypeMode;
 import net.lopymine.ip.debug.HideInDebugRender;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 import static com.mojang.serialization.Codec.INT;
 import static com.mojang.serialization.codecs.RecordCodecBuilder.create;
@@ -49,7 +49,7 @@ public class AdvancedParticleColorType implements IParticleColorType {
 	}
 
 	@Override
-	public int tick(Random random) {
+	public int tick(RandomSource random) {
 		if (this.compiledValues.length == 0) {
 			return -1;
 		}
@@ -57,7 +57,7 @@ public class AdvancedParticleColorType implements IParticleColorType {
 	}
 
 	@Override
-	public void compile(ItemStack stack, Random random) {
+	public void compile(ItemStack stack, RandomSource random) {
 		List<Integer> compiledColors = new ArrayList<>();
 		for (IParticleColorType type : this.values) {
 			type.compile(stack, random);

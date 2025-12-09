@@ -56,6 +56,6 @@ public class DebugNbtPath {
 	}
 
 	public String asString() {
-		return "%s[%s]".formatted(this.name, this.type.asString());
+		return "%s[%s]".formatted(this.name, this.type.getSerializedName());
 	}
 }

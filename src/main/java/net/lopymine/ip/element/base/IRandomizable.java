@@ -1,9 +1,9 @@
 package net.lopymine.ip.element.base;
 
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.RandomSource;
 
 public interface IRandomizable {
 
-	Random getRandom();
+	RandomSource getRandom();
 
 }

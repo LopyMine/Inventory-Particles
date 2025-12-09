@@ -7,7 +7,7 @@ import java.util.*;
 import lombok.*;
 import net.lopymine.ip.element.*;
 import net.lopymine.ip.spawner.context.ParticleSpawnContext;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.lopymine.mossylib.utils.CodecUtils;
 import static net.lopymine.mossylib.utils.CodecUtils.option;
 
@@ -21,10 +21,16 @@ public class ParticleConfig {
 				return either.right().orElseGet(() -> either.left().map(DynamicParticleSizes::fromStatic).orElse(null));
 			}, Either::right);
 
-	public static final Codec<Identifier> TEXTURES_CODEC = Identifier.CODEC.xmap((id) -> {
+	public static final Codec<ResourceLocation> TEXTURES_CODEC = ResourceLocation.CODEC.xmap((id) -> {
 		if (id.getPath().endsWith(".png")) {
 			String path = id.getPath();
-			return Identifier.of(id.getNamespace(), path.substring(0, path.length() - 4));
+			String i = id.getNamespace();
+			String s = path.substring(0, path.length() - 4);
+			//? if >=1.21 {
+			return ResourceLocation.fromNamespaceAndPath(i, s);
+			//?} else {
+			/*return ResourceLocation.tryBuild(i, s);
+			 *///?}
 		}
 		return id;
 	}, (id) -> id);
@@ -43,7 +49,7 @@ public class ParticleConfig {
 	private ParticleAnimationType animationType;
 	private double animationSpeed;
 	private DynamicParticleSizes size;
-	private ArrayList<Identifier> textures;
+	private ArrayList<ResourceLocation> textures;
 	private HashSet<ParticleHolder> holders;
 	private ParticlePhysics physics;
 

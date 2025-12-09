@@ -10,10 +10,10 @@ import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.particle.*;
 import net.lopymine.ip.spawner.*;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.item.*;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 
 public class ResourcePackParticleConfigsManager {
 
@@ -24,14 +24,14 @@ public class ResourcePackParticleConfigsManager {
 		PER_ITEM_PARTICLE_SPAWNERS.clear();
 
 		InventoryParticlesClient.LOGGER.info("Started registering particle configs from resources...");
-		ResourceManager resourceManager = MinecraftClient.getInstance().getResourceManager();
+		ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
 
 		AtomicInteger foundConfigs = new AtomicInteger();
 		AtomicInteger registeredConfigs = new AtomicInteger();
 
-		resourceManager.findResources(InventoryParticlesAtlasManager.FOLDER_ID.getPath(), (id) -> id.getPath().endsWith(".json5") || id.getPath().endsWith("json")).forEach((id, resource) -> {
+		resourceManager.listResources(InventoryParticlesAtlasManager.FOLDER_ID.getPath(), (id) -> id.getPath().endsWith(".json5") || id.getPath().endsWith("json")).forEach((id, resource) -> {
 			foundConfigs.getAndIncrement();
-			try (InputStream inputStream = resource.getInputStream(); BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+			try (InputStream inputStream = resource.open(); BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
 				ParticleConfig config = ParticleConfig.CODEC.decode(JsonOps.INSTANCE, JsonParser.parseReader(reader))/*? if >=1.20.5 {*/.getOrThrow()/*?} else {*//*.getOrThrow(false, InventoryParticlesClient.LOGGER::error)*//*?}*/.getFirst();
 				for (ParticleHolder holder : config.getHolders()) {
 					Item item = holder.getItem().getItem();
@@ -49,7 +49,7 @@ public class ResourcePackParticleConfigsManager {
 		InventoryParticlesClient.LOGGER.info("Registering finished, found: {}, registered: {}", foundConfigs.get(), registeredConfigs.get());
 	}
 
-	public static void registerItemSpawner(Identifier location, Item item, ParticleHolder holder, IParticleSpawner spawner) {
+	public static void registerItemSpawner(ResourceLocation location, Item item, ParticleHolder holder, IParticleSpawner spawner) {
 		PER_ITEM_PARTICLE_SPAWNERS.computeIfAbsent(item, (i) -> new ArrayList<>()).add(spawner);
 		REGISTERED_CONFIGS.put(holder, new RegisteredConfig(location, spawner));
 	}
@@ -62,5 +62,5 @@ public class ResourcePackParticleConfigsManager {
 		return PER_ITEM_PARTICLE_SPAWNERS;
 	}
 
-	public record RegisteredConfig(Identifier id, IParticleSpawner spawner) {}
+	public record RegisteredConfig(ResourceLocation id, IParticleSpawner spawner) {}
 }

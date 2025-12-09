@@ -8,11 +8,11 @@ import java.util.stream.Stream.Builder;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.debug.*;
 import net.lopymine.ip.utils.ArgbUtils2;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.Formatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.ChatFormatting;
 
 public abstract class AbstractDebugInfoRenderer {
 
@@ -25,7 +25,7 @@ public abstract class AbstractDebugInfoRenderer {
 		this.specialFieldRenderers.put(name, renderable);
 	}
 
-	public void render(DrawContext context, Class<?> clazz, Object clazzInstance) {
+	public void render(GuiGraphics context, Class<?> clazz, Object clazzInstance) {
 		this.yOffset = 5;
 		this.xOffset = 5;
 		this.renderDecoration(context, "[" + this.getRendererName() + "]");
@@ -38,7 +38,7 @@ public abstract class AbstractDebugInfoRenderer {
 		);
 	}
 
-	private void renderClassFields(DrawContext context, Class<?> clazz, Object clazzInstance, BiConsumer<String, Object> renderFieldData, Consumer<String> renderDecoration) {
+	private void renderClassFields(GuiGraphics context, Class<?> clazz, Object clazzInstance, BiConsumer<String, Object> renderFieldData, Consumer<String> renderDecoration) {
 		Builder<Field> builder = Stream.builder();
 
 		Class<?> c = clazz;
@@ -101,31 +101,31 @@ public abstract class AbstractDebugInfoRenderer {
 		});
 	}
 
-	protected void renderFieldData(DrawContext context, String name, Object text) {
+	protected void renderFieldData(GuiGraphics context, String name, Object text) {
 		String string = name + ": " + (text == null ? "NULL" : text.toString());
-		this.renderLabel(context, string, Formatting.WHITE);
+		this.renderLabel(context, string, ChatFormatting.WHITE);
 	}
 
-	protected void renderDecoration(DrawContext context, String label) {
-		this.renderLabel(context, label, Formatting.GRAY);
+	protected void renderDecoration(GuiGraphics context, String label) {
+		this.renderLabel(context, label, ChatFormatting.GRAY);
 	}
 
-	protected void renderLabel(DrawContext context, String label, Formatting color) {
-		TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
-		Screen screen = MinecraftClient.getInstance().currentScreen;
+	protected void renderLabel(GuiGraphics context, String label, ChatFormatting color) {
+		Font textRenderer = Minecraft.getInstance().font;
+		Screen screen = Minecraft.getInstance().screen;
 		if (screen == null) {
 			return;
 		}
-		context.drawText(
+		context.drawString(
 				textRenderer,
 				label,
 				this.getTextX(screen, textRenderer, label),
 				this.getTextY(),
-				color.getColorValue() == null ? -1 : ArgbUtils2.fullAlpha(color.getColorValue()),
+				color.getColor() == null ? -1 : ArgbUtils2.fullAlpha(color.getColor()),
 				true
 		);
 
-		this.yOffset += textRenderer.fontHeight + 1;
+		this.yOffset += textRenderer.lineHeight + 1;
 	}
 
 	protected int getTextXOffset() {
@@ -136,11 +136,11 @@ public abstract class AbstractDebugInfoRenderer {
 		return this.yOffset;
 	}
 
-	protected int getTextX(Screen screen, TextRenderer textRenderer, String string) {
+	protected int getTextX(Screen screen, Font textRenderer, String string) {
 		return this.xOffset;
 	}
 
 	protected abstract String getRendererName();
 
-	public abstract void render(DrawContext context);
+	public abstract void render(GuiGraphics context);
 }

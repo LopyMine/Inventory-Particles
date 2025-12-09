@@ -5,7 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.*;
 import net.lopymine.ip.config.range.DoubleRange;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.RandomSource;
 import net.lopymine.mossylib.utils.CodecUtils;
 import static net.lopymine.mossylib.utils.CodecUtils.option;
 
@@ -43,11 +43,11 @@ public class SpeedConfig {
 		return CodecUtils.parseNewInstanceHacky(CODEC);
 	}
 
-	public double getImpulseBidirectional(Random random) {
+	public double getImpulseBidirectional(RandomSource random) {
 		return this.impulse.getRandom(random) * (this.impulseBidirectional && random.nextBoolean() ? -1 : 1);
 	}
 
-	public double getAccelerationBidirectional(Random random) {
+	public double getAccelerationBidirectional(RandomSource random) {
 		return this.acceleration * (this.accelerationBidirectional && random.nextBoolean() ? -1 : 1);
 	}
 }

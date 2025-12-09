@@ -3,17 +3,17 @@ package net.lopymine.ip.client.renderer;
 import java.util.*;
 import net.lopymine.ip.element.*;
 import net.lopymine.ip.renderer.*;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 
 public class DebugCursorInfoRenderer extends AbstractDebugInfoRenderer {
 
 	@Override
-	public void render(DrawContext context) {
+	public void render(GuiGraphics context) {
 		this.render(context, InventoryCursor.class, InventoryParticlesRenderer.getInstance().getCursor());
 	}
 
 	@Override
-	public void render(DrawContext context, Class<?> clazz, Object clazzInstance) {
+	public void render(GuiGraphics context, Class<?> clazz, Object clazzInstance) {
 		super.render(context, clazz, clazzInstance);
 		Collection<IParticle> screenParticles = InventoryParticlesRenderer.getInstance().getScreenParticles();
 		this.renderDecoration(context, "Misc");

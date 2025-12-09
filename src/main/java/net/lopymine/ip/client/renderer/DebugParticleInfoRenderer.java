@@ -3,9 +3,9 @@ package net.lopymine.ip.client.renderer;
 import net.lopymine.ip.element.InventoryParticle;
 import net.lopymine.ip.renderer.*;
 import net.lopymine.ip.utils.ArgbUtils2;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 
 public class DebugParticleInfoRenderer extends AbstractDebugInfoRenderer {
 
@@ -23,7 +23,7 @@ public class DebugParticleInfoRenderer extends AbstractDebugInfoRenderer {
 	}
 
 	@Override
-	public void render(DrawContext context) {
+	public void render(GuiGraphics context) {
 		InventoryParticlesRenderer renderer = InventoryParticlesRenderer.getInstance();
 		IParticle selectedParticle = renderer.getSelectedParticle();
 		if (!(selectedParticle instanceof InventoryParticle inventoryParticle)) {
@@ -33,8 +33,8 @@ public class DebugParticleInfoRenderer extends AbstractDebugInfoRenderer {
 	}
 
 	@Override
-	protected int getTextX(Screen screen, TextRenderer textRenderer, String string) {
-		return screen.width - textRenderer.getWidth(string) - this.xOffset;
+	protected int getTextX(Screen screen, Font textRenderer, String string) {
+		return screen.width - textRenderer.width(string) - this.xOffset;
 	}
 
 	@Override

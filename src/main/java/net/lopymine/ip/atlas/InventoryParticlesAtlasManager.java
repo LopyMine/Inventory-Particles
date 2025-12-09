@@ -3,22 +3,22 @@ package net.lopymine.ip.atlas;
 import java.util.Set;
 import java.util.concurrent.*;
 import net.lopymine.ip.InventoryParticles;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.texture.*;
-import net.minecraft.client.texture.SpriteLoader.StitchResult;
-import net.minecraft.resource.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.*;
+import net.minecraft.client.renderer.texture.SpriteLoader.Preparations;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.*;
 
 public class InventoryParticlesAtlasManager {
 
-	public static final Identifier ATLAS_ID = InventoryParticles.id("textures/atlas/iparticles");
-	public static final Identifier FOLDER_ID = InventoryParticles.id("iparticles");
+	public static final ResourceLocation ATLAS_ID = InventoryParticles.id("textures/atlas/iparticles");
+	public static final ResourceLocation FOLDER_ID = InventoryParticles.id("iparticles");
 	private static InventoryParticlesAtlasManager INSTANCE;
-	private final SpriteAtlasTexture atlas;
+	private final TextureAtlas atlas;
 
 	public InventoryParticlesAtlasManager() {
-		this.atlas = new SpriteAtlasTexture(ATLAS_ID);
-		MinecraftClient.getInstance().getTextureManager().registerTexture(ATLAS_ID, this.atlas);
+		this.atlas = new TextureAtlas(ATLAS_ID);
+		Minecraft.getInstance().getTextureManager().register(ATLAS_ID, this.atlas);
 	}
 
 	public static InventoryParticlesAtlasManager getInstance() {
@@ -28,17 +28,17 @@ public class InventoryParticlesAtlasManager {
 		return INSTANCE;
 	}
 
-	public void reload(ResourceReloader.Synchronizer synchronizer, ResourceManager resourceManager, Executor prepareExecutor, Executor applyExecutor) {
+	public void reload(PreparableReloadListener.PreparationBarrier synchronizer, ResourceManager resourceManager, Executor prepareExecutor, Executor applyExecutor) {
 		//? if >=1.21.9 {
-		SpriteLoader.fromAtlas(this.atlas)
-				.load(resourceManager, FOLDER_ID, 0, prepareExecutor, Set.of())
-				.thenCompose(synchronizer::whenPrepared)
+		SpriteLoader.create(this.atlas)
+				.loadAndStitch(resourceManager, FOLDER_ID, 0, prepareExecutor, Set.of())
+				.thenCompose(synchronizer::wait)
 				.thenAcceptAsync(this.atlas::upload, applyExecutor);
 		//?} else {
-		/*SpriteLoader.fromAtlas(this.atlas)
-				.load(resourceManager, FOLDER_ID, 0, prepareExecutor)
-				.thenCompose(SpriteLoader.StitchResult::whenComplete)
-				.thenCompose(synchronizer::whenPrepared)
+		/*SpriteLoader.create(this.atlas)
+				.loadAndStitch(resourceManager, FOLDER_ID, 0, prepareExecutor)
+				.thenCompose(SpriteLoader.Preparations::waitForUpload)
+				.thenCompose(synchronizer::wait)
 				.thenAcceptAsync(this.atlas::upload, applyExecutor);
 		*///?}
 	}
@@ -47,11 +47,11 @@ public class InventoryParticlesAtlasManager {
 		this.atlas.close();
 	}
 
-	public Sprite getSprite(Identifier id) {
+	public TextureAtlasSprite getSprite(ResourceLocation id) {
 		return this.atlas.getSprite(id);
 	}
 
-	public Sprite getMissingSprite() {
-		return /*? if >=1.21 {*/ this.atlas.missingSprite /*?} else {*/ /*this.getSprite(MissingSprite.getMissingSpriteId()) *//*?}*/;
+	public TextureAtlasSprite getMissingSprite() {
+		return /*? if >=1.21 {*/ this.atlas.missingSprite /*?} else {*/ /*this.getSprite(MissingTextureAtlasSprite.getLocation()) *//*?}*/;
 	}
 }

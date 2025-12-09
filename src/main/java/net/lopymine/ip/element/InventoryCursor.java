@@ -2,15 +2,15 @@ package net.lopymine.ip.element;
 
 import lombok.*;
 import net.lopymine.ip.element.base.TickElement;
-import net.minecraft.item.*;
-import net.minecraft.screen.slot.Slot;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.*;
 import org.jetbrains.annotations.Nullable;
 
 @Setter
 @Getter
 public class InventoryCursor extends TickElement {
 
-	private ItemStack currentStack = Items.AIR.getDefaultStack();
+	private ItemStack currentStack = Items.AIR.getDefaultInstance();
 	@Nullable
 	private Slot hoveredSlot = null;
 
@@ -27,7 +27,7 @@ public class InventoryCursor extends TickElement {
 	private int mouseY = 0;
 
 	public void setCurrentStack(@Nullable ItemStack currentStack) {
-		this.currentStack = currentStack == null || currentStack == ItemStack.EMPTY ? Items.AIR.getDefaultStack() : currentStack;
+		this.currentStack = currentStack == null || currentStack == ItemStack.EMPTY ? Items.AIR.getDefaultInstance() : currentStack;
 	}
 
 	public void setX(int x) {

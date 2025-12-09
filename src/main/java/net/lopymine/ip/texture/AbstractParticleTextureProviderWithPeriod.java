@@ -2,7 +2,7 @@ package net.lopymine.ip.texture;
 
 import java.util.List;
 import lombok.*;
-import net.minecraft.client.texture.Sprite;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 
 @Setter
 @Getter
@@ -11,7 +11,7 @@ public abstract class AbstractParticleTextureProviderWithPeriod extends Abstract
 	protected int changeTextureTickPeriod;
 	protected double changeTextureTick;
 
-	public AbstractParticleTextureProviderWithPeriod(List<Sprite> textures, double animationSpeed, int lifeTime) {
+	public AbstractParticleTextureProviderWithPeriod(List<TextureAtlasSprite> textures, double animationSpeed, int lifeTime) {
 		super(textures, animationSpeed, lifeTime);
 		this.changeTextureTickPeriod = !textures.isEmpty() ? lifeTime / textures.size() : 1;
 		this.updateChangeTextureTick();

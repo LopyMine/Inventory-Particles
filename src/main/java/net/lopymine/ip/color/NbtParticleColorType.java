@@ -2,8 +2,8 @@ package net.lopymine.ip.color;
 
 import lombok.*;
 import net.lopymine.ip.utils.*;
-import net.minecraft.item.*;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemStack;
 
 @Getter
 @Setter
@@ -13,7 +13,7 @@ public class NbtParticleColorType implements IParticleColorType {
 	private int color;
 
 	@Override
-	public int tick(Random random) {
+	public int tick(RandomSource random) {
 		return this.color;
 	}
 
@@ -23,7 +23,7 @@ public class NbtParticleColorType implements IParticleColorType {
 	}
 
 	@Override
-	public void compile(ItemStack stack, Random random) {
+	public void compile(ItemStack stack, RandomSource random) {
 		this.color = getColorFromStack(stack);
 	}
 

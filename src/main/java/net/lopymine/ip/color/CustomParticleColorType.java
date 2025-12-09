@@ -2,8 +2,8 @@ package net.lopymine.ip.color;
 
 import lombok.*;
 import net.lopymine.ip.client.InventoryParticlesClient;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.util.RandomSource;
 
 @Getter
 @Setter
@@ -22,12 +22,12 @@ public class CustomParticleColorType implements IParticleColorType {
 	}
 
 	@Override
-	public int tick(Random random) {
+	public int tick(RandomSource random) {
 		return this.color;
 	}
 
 	@Override
-	public void compile(ItemStack stack, Random random) {
+	public void compile(ItemStack stack, RandomSource random) {
 		try {
 			String color = this.original.substring(1);
 			if (color.length() == 6) {

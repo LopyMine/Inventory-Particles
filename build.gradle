@@ -20,25 +20,6 @@ mossyDependencies {
 	}
 }
 
-repositories {
-	mavenLocal()
-	maven {
-		name "Mossy Projects"
-		url "https://maven.lopymine.net/releases"
-	}
-}
-
-dependencies {
-	def project = stonecutter.current.project
-	if (project.contains("neoforge")) {
-		jarJar(implementation("net.lopymine:mossylib:1.0.2-${stonecutter.current.project}"))
-	} else if (project.contains("forge")) {
-		jarJar(modImplementation("net.lopymine:mossylib:1.0.2-${stonecutter.current.project}"))
-	} else {
-		include(modImplementation("net.lopymine:mossylib:1.0.2-${stonecutter.current.project}"))
-	}
-}
-
 processResources {
 	if (stonecutter.compare(stonecutter.current.version, "1.21.9") >= 0) {
 		fletchingTable.relocate(it, "assets/${prop("data.mod_id")}/spawn_areas_1_21_9/*.png -> ../spawn_areas")

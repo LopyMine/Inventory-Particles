@@ -2,58 +2,58 @@ package net.lopymine.ip.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import java.util.function.Supplier;
-import net.fabricmc.loader.api.FabricLoader;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.sub.InventoryParticlesMainConfig;
 import net.lopymine.ip.renderer.InventoryParticlesRenderer;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.*;
-import net.minecraft.client.gui.widget.*;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
+import net.lopymine.mossylib.loader.MossyLoader;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.*;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.*;
 
 //? if >=1.21.9 {
-import net.minecraft.client.gui.Click;
+import net.minecraft.client.input.MouseButtonEvent;
 //?}
 
-@Mixin(HandledScreen.class)
-public class HandledScreenMixin<T extends ScreenHandler> extends Screen {
+@Mixin(AbstractContainerScreen.class)
+public class HandledScreenMixin<T extends AbstractContainerMenu> extends Screen {
 
-	@Shadow @Final protected T handler;
+	@Shadow @Final protected T menu;
 
-	@Shadow protected int x;
+	@Shadow protected int leftPos;
 
-	@Shadow protected int y;
+	@Shadow protected int topPos;
 
-	protected HandledScreenMixin(Text title) {
+	protected HandledScreenMixin(Component title) {
 		super(title);
 	}
 
 	@Inject(at = @At("TAIL"), method = "init")
 	private void addDebugButton(CallbackInfo ci) {
-		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
-			InventoryParticlesMainConfig config = InventoryParticlesConfig.getInstance().getMainConfig();
-			if (!config.isDebugModeEnabled() || !config.isModEnabled()) {
-				return;
-			}
-			ButtonWidget stopTickingButton = this.addDrawableChild(ButtonWidget.builder(Text.of("Stop Ticking"), (button) -> {
-				InventoryParticlesRenderer renderer = InventoryParticlesRenderer.getInstance();
-				renderer.setStoppedTicking(!renderer.isStoppedTicking());
-			}).position(5, this.height - 25).build());
-			TextFieldWidget ticksPerTickField = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, stopTickingButton.getX(), stopTickingButton.getY() - 25, stopTickingButton.getWidth(), 20, Text.literal("Ticks Per Tick"));
-			ticksPerTickField.setChangedListener((s) -> {
-				try {
-					InventoryParticlesRenderer.getInstance().setTicksPerTick(Integer.parseInt(s));
-				} catch (Exception ignored) {
-				}
-			});
-			ticksPerTickField.setPlaceholder(Text.of("1"));
-			this.addDrawableChild(ticksPerTickField);
-		}
+//		if (false) {
+//			InventoryParticlesMainConfig config = InventoryParticlesConfig.getInstance().getMainConfig();
+//			if (!config.isDebugModeEnabled() || !config.isModEnabled()) {
+//				return;
+//			}
+//			Button stopTickingButton = this.addRenderableWidget(Button.builder(Component.nullToEmpty("Stop Ticking"), (button) -> {
+//				InventoryParticlesRenderer renderer = InventoryParticlesRenderer.getInstance();
+//				renderer.setStoppedTicking(!renderer.isStoppedTicking());
+//			}).pos(5, this.height - 25).build());
+//			EditBox ticksPerTickField = new EditBox(Minecraft.getInstance().font, stopTickingButton.getX(), stopTickingButton.getY() - 25, stopTickingButton.getWidth(), 20, Component.literal("Ticks Per Tick"));
+//			ticksPerTickField.setResponder((s) -> {
+//				try {
+//					InventoryParticlesRenderer.getInstance().setTicksPerTick(Integer.parseInt(s));
+//				} catch (Exception ignored) {
+//				}
+//			});
+//			ticksPerTickField.setHint(Component.nullToEmpty("1"));
+//			this.addRenderableWidget(ticksPerTickField);
+//		}
 	}
 
 	@Inject(at = @At("HEAD"), method = "tick")
@@ -62,19 +62,19 @@ public class HandledScreenMixin<T extends ScreenHandler> extends Screen {
 		if (!config.isModEnabled()) {
 			return;
 		}
-		InventoryParticlesRenderer.getInstance().tick(this.handler, this.x, this.y);
+		InventoryParticlesRenderer.getInstance().tick(this.menu, this.leftPos, this.topPos);
 	}
 
 	//? if >=1.21.9 {
-	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;mouseClicked(Lnet/minecraft/client/gui/Click;Z)Z"), method = "mouseClicked")
-	private boolean addParticleFocusing(HandledScreen<?> instance, Click click, boolean b, Operation<Boolean> original) {
+	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;mouseClicked(Lnet/minecraft/client/input/MouseButtonEvent;Z)Z"), method = "mouseClicked")
+	private boolean addParticleFocusing(AbstractContainerScreen<?> instance, MouseButtonEvent click, boolean b, Operation<Boolean> original) {
 		boolean bl = original.call(instance, click, b);
 		double x = click.x();
 		double y = click.y();
 		int button = click.button();
 		//?} else {
-	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;mouseClicked(DDI)Z"), method = "mouseClicked")
-	private boolean addParticleFocusing(HandledScreen<?> instance, double x, double y, int button, Operation<Boolean> original) {
+	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;mouseClicked(DDI)Z"), method = "mouseClicked")
+	private boolean addParticleFocusing(AbstractContainerScreen<?> instance, double x, double y, int button, Operation<Boolean> original) {
 			boolean bl = original.call(instance, x, y, button);
 	*///?}
 		InventoryParticlesMainConfig config = InventoryParticlesConfig.getInstance().getMainConfig();

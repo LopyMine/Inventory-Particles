@@ -3,20 +3,22 @@ package net.lopymine.ip.predicate.nbt;
 import java.util.*;
 import java.util.stream.Stream;
 import lombok.*;
-import net.fabricmc.loader.api.FabricLoader;
+import lombok.experimental.ExtensionMethod;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
+import net.lopymine.ip.extension.ItemExtension;
 import net.lopymine.ip.predicate.IParticleSpawnPredicate;
 import net.lopymine.ip.predicate.nbt.debug.DebugNbtPath;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.*;
 import org.jetbrains.annotations.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@ExtensionMethod(ItemExtension.class)
 public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 
 	private String particleName;
@@ -30,26 +32,26 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 		}
 		
 		try {
-			MinecraftClient client = MinecraftClient.getInstance();
-			ClientPlayerEntity player = client.player;
+			Minecraft client = Minecraft.getInstance();
+			LocalPlayer player = client.player;
 			if (player == null) {
 				return false;
 			}
 
 			//? if >=1.21 {
-			NbtElement nbt = ItemStack.CODEC.encodeStart(player.getRegistryManager().getOps(NbtOps.INSTANCE), stack).getOrThrow();
-			if (!(nbt instanceof NbtCompound root)) {
-				this.debugLog(null, DebugLogReason.ENCODED_WRONG_ROOT, stack.getItem().getName());
+			Tag nbt = ItemStack.CODEC.encodeStart(player.registryAccess().createSerializationContext(NbtOps.INSTANCE), stack).getOrThrow();
+			if (!(nbt instanceof CompoundTag root)) {
+				this.debugLog(null, DebugLogReason.ENCODED_WRONG_ROOT, stack.getItem().getStringName());
 				return false;
 			}
 			//?} else {
-			/*NbtCompound root = stack.writeNbt(new NbtCompound());
+			/*CompoundTag root = stack.save(new CompoundTag());
 			*///?}
 
 			int success = 0;
 
 			for (NbtNode node : this.nodes) {
-				NbtElement element = root.get(node.getName());
+				Tag element = root.get(node.getName());
 				if (element == null) {
 					this.debugLog(null, DebugLogReason.NO_SUCH_ELEMENT_IN_ROOT, node.getName());
 					continue;
@@ -72,13 +74,13 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 				case NONE -> success == 0;
 			};
 		} catch (Exception e) {
-			InventoryParticlesClient.LOGGER.error("Failed to read nbt from item \"{}\" for NbtParticleSpawnPredicate! Reason:", stack.getItem().getName().getString(), e);
+			InventoryParticlesClient.LOGGER.error("Failed to read nbt from item \"{}\" for NbtParticleSpawnPredicate! Reason:", stack.getItem().getStringName(), e);
 		}
 
 		return true;
 	}
 
-	private ReadResult readElementByType(NbtElement element, NbtNode node, @NotNull DebugNbtPath debugNbtPath) {
+	private ReadResult readElementByType(Tag element, NbtNode node, @NotNull DebugNbtPath debugNbtPath) {
 		boolean debugLog = InventoryParticlesConfig.getInstance().getMainConfig().isDebugModeEnabled();
 
 		List<String> checkValues = node.getCheckValue().orElse(new ArrayList<>());
@@ -86,15 +88,15 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 
 		if (checkValues.isEmpty() && nodes.isEmpty()) {
 			boolean rightType = switch (node.getType()) {
-				case OBJECT -> element instanceof NbtCompound;
-				case LIST -> element instanceof AbstractNbtList /*? if <=1.21.4 {*//*<?>*//*?}*/;
-				case STRING -> element instanceof NbtString;
-				case INT -> element instanceof AbstractNbtNumber;
+				case OBJECT -> element instanceof CompoundTag;
+				case LIST -> element instanceof CollectionTag /*? if <=1.21.4 {*//*<?>*//*?}*/;
+				case STRING -> element instanceof StringTag;
+				case INT -> element instanceof NumericTag;
 			};
 			if (rightType) {
 				return ReadResult.SUCCESS;
 			} else if (debugLog) {
-				this.debugLog(debugNbtPath, DebugLogReason.TYPE_MISMATCH, node.getName(), element.getType(), node.getType().getId());
+				this.debugLog(debugNbtPath, DebugLogReason.TYPE_MISMATCH, node.getName(), element.getId(), node.getType().getId());
 			}
 			return ReadResult.FAILED;
 		}
@@ -105,16 +107,16 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 			valueCheckedIfPresent = switch (node.getType()) {
 				case STRING, INT -> {
 					String value = null;
-					if (element instanceof NbtString) {
+					if (element instanceof StringTag) {
 						//? if <=1.21.4 {
-						/*value = element.asString();
+						/*value = element.getAsString();
 						 *///?} else {
 						value = element.asString().orElse(null);
 						//?}
 					}
-					if (element instanceof AbstractNbtNumber number) {
+					if (element instanceof NumericTag number) {
 						//? if <=1.21.4 {
-						/*value = String.valueOf(number.intValue());
+						/*value = String.valueOf(number.getAsInt());
 						 *///?} else {
 						value = number.asInt().map(Object::toString).orElse(null);
 						//?}
@@ -134,7 +136,7 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 				case OBJECT, LIST -> {
 					if (node.getType() == NbtNodeType.LIST) {
 						if (checkValues.size() == 1) {
-							if (element instanceof AbstractNbtList /*? if <=1.21.4 {*//*<?>*//*?}*/ list) {
+							if (element instanceof CollectionTag /*? if <=1.21.4 {*//*<?>*//*?}*/ list) {
 								List<String> values = List.of("EMPTY_LIST", "NOT_EMPTY_LIST");
 
 								boolean empty = checkValues.get(0).equals(values.get(0));
@@ -171,10 +173,15 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 			debugNbtPath.next(nextNode);
 			switch (node.getType()) {
 				case OBJECT -> {
-					if (element instanceof NbtCompound nbt) {
-						NbtElement nextElement = nbt.get(nextNode.getName());
+					if (element instanceof CompoundTag nbt) {
+						Tag nextElement = nbt.get(nextNode.getName());
 						if (nextElement == null) {
-							this.debugLog(debugNbtPath, DebugLogReason.NODE_NOT_FOUND, nextNode.getName(), nbt.getKeys());
+							//? if >=1.21.5 {
+							Set<String> set = nbt.keySet();
+							//?} else {
+							/*Set<String> set = nbt.getAllKeys();
+							*///?}
+							this.debugLog(debugNbtPath, DebugLogReason.NODE_NOT_FOUND, nextNode.getName(), set);
 							return ReadResult.FAILED;
 						}
 						return this.readElementByType(nextElement, nextNode, debugNbtPath);
@@ -183,8 +190,8 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 					return ReadResult.FAILED;
 				}
 				case LIST -> {
-					if (element instanceof AbstractNbtList/*? if <=1.21.4 {*//*<?>*//*?}*/ list) {
-						for (NbtElement nbtElement : list) {
+					if (element instanceof CollectionTag/*? if <=1.21.4 {*//*<?>*//*?}*/ list) {
+						for (Tag nbtElement : list) {
 							if (this.readElementByType(nbtElement, nextNode, debugNbtPath) == ReadResult.SUCCESS) {
 								return ReadResult.SUCCESS;
 							}

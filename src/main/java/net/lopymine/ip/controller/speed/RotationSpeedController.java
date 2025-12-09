@@ -3,7 +3,7 @@ package net.lopymine.ip.controller.speed;
 import lombok.*;
 import net.lopymine.ip.config.particle.ParticlePhysics.RotationSpeedPhysics.RotationConfig;
 import net.lopymine.ip.element.base.*;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.RandomSource;
 
 @Getter
 @Setter
@@ -12,7 +12,7 @@ public class RotationSpeedController<T extends IRotatableElement & IMovableEleme
 	private boolean rotateInMovementDirection;
 	private double rotation;
 
-	public RotationSpeedController(RotationConfig config, Random random) {
+	public RotationSpeedController(RotationConfig config, RandomSource random) {
 		super(config.getSpeedConfig(), random, 0.0D);
 		this.rotateInMovementDirection = config.isRotateInMovementDirection();
 	}

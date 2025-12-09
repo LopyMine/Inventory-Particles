@@ -16,12 +16,11 @@ import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.lopymine.ip.texture.IParticleTextureProvider;
 import net.lopymine.ip.utils.*;
 import net.lopymine.mossylib.extension.DrawContextExtension;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.util.math.*;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.*;
 import org.jetbrains.annotations.*;
 
 @Setter
@@ -31,7 +30,7 @@ import org.jetbrains.annotations.*;
 public class InventoryParticle extends TickElement implements IParticle, IRotatableElement, IRepaintable, IRandomizable, IResizableElement {
 
 	@HideInDebugRender
-	private final Random random = Random.create();
+	private final RandomSource random = RandomSource.create();
 
 	private int lifeTimeTicks;
 	private double standardParticleAngle;
@@ -50,7 +49,7 @@ public class InventoryParticle extends TickElement implements IParticle, IRotata
 	private RotationSpeedController<InventoryParticle> textureRotationSpeedController;
 
 	@NotNull
-	private Sprite texture;
+	private TextureAtlasSprite texture;
 	private int color = -1;
 
 	private double lastWidth = StaticParticleSize.STANDARD_SIZE.getWidth();
@@ -154,7 +153,7 @@ public class InventoryParticle extends TickElement implements IParticle, IRotata
 		this.lastY = this.y;
 		this.y += this.speedY;
 
-		Screen currentScreen = MinecraftClient.getInstance().currentScreen;
+		Screen currentScreen = Minecraft.getInstance().screen;
 		if (currentScreen != null) {
 			int width = currentScreen.width;
 			int height = currentScreen.height;
@@ -166,11 +165,11 @@ public class InventoryParticle extends TickElement implements IParticle, IRotata
 		}
 	}
 
-	public void render(DrawContext context, InventoryCursor cursor, float tickProgress, boolean stoppedTicking) {
-		float renderWidth = stoppedTicking ? (float) this.width : (float) MathHelper.lerp(tickProgress, this.lastWidth, this.width);
-		float renderHeight = stoppedTicking ? (float) this.height : (float)  MathHelper.lerp(tickProgress, this.lastHeight, this.height);
-		float x = stoppedTicking ? (float) this.x : (float) MathHelper.lerp(tickProgress, this.lastX, this.x);
-		float y = stoppedTicking ? (float) this.y : (float) MathHelper.lerp(tickProgress, this.lastY, this.y);
+	public void render(GuiGraphics context, InventoryCursor cursor, float tickProgress, boolean stoppedTicking) {
+		float renderWidth = stoppedTicking ? (float) this.width : (float) Mth.lerp(tickProgress, this.lastWidth, this.width);
+		float renderHeight = stoppedTicking ? (float) this.height : (float)  Mth.lerp(tickProgress, this.lastHeight, this.height);
+		float x = stoppedTicking ? (float) this.x : (float) Mth.lerp(tickProgress, this.lastX, this.x);
+		float y = stoppedTicking ? (float) this.y : (float) Mth.lerp(tickProgress, this.lastY, this.y);
 
 		this.updateHovered(cursor, x, y, renderWidth, renderHeight);
 		boolean bl = (stoppedTicking && this.isHovered()) || this.isSelected();

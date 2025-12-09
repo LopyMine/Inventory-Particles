@@ -10,7 +10,7 @@ import lombok.*;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.debug.HideInDebugRender;
 import net.lopymine.ip.utils.Easing;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Mth;
 
 @Getter
 @Setter
@@ -33,7 +33,7 @@ public class DynamicParticleSizeInterpolation {
 	}
 
 	public double getInterpolated(double first, double second, double progress) {
-		return MathHelper.lerp(this.function.apply(progress), first, second);
+		return Mth.lerp(this.function.apply(progress), first, second);
 	}
 
 	static {

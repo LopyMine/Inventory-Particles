@@ -3,22 +3,22 @@ package net.lopymine.ip.t2o;
 import java.io.InputStream;
 import java.util.*;
 import net.lopymine.ip.client.InventoryParticlesClient;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.texture.NativeImage;
-import net.minecraft.resource.Resource;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import com.mojang.blaze3d.platform.NativeImage;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.resources.ResourceLocation;
 
 public class Texture2ObjectsManager {
 
-	public static <T> List<T> readFromTexture(Identifier id, String objectName, Texture2ObjectPixelFilter filter, Texture2Object<T> texture2Object) {
+	public static <T> List<T> readFromTexture(ResourceLocation id, String objectName, Texture2ObjectPixelFilter filter, Texture2Object<T> texture2Object) {
 		try {
-			Optional<Resource> optional = MinecraftClient.getInstance().getResourceManager().getResource(id);
+			Optional<Resource> optional = Minecraft.getInstance().getResourceManager().getResource(id);
 			if (optional.isEmpty()) {
 				InventoryParticlesClient.LOGGER.error("Failed to find texture from \"{}\" to create {} from texture!", id, objectName);
 				return List.of();
 			}
 			Resource resource = optional.get();
-			InputStream inputStream = resource.getInputStream();
+			InputStream inputStream = resource.open();
 			NativeImage image = NativeImage.read(inputStream);
 
 			List<T> list = new ArrayList<>();
@@ -27,7 +27,7 @@ public class Texture2ObjectsManager {
 			int height = image.getHeight();
 			for (int x = 0; x < width; x++) {
 				for (int y = 0; y < height; y++) {
-					int color = image./*? if <=1.21.1 {*/ /*getColor *//*?} else {*/ getColorArgb /*?}*/(x, y);
+					int color = image./*? if <=1.21.1 {*/ /*getPixelRGBA *//*?} else {*/ getPixel /*?}*/(x, y);
 					if (Boolean.FALSE.equals(filter.getFilter().accept(x, y, width, height, color))) {
 						continue;
 					}

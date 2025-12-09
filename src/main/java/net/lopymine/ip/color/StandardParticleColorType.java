@@ -1,11 +1,11 @@
 package net.lopymine.ip.color;
 
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.RandomSource;
 
 public class StandardParticleColorType implements IParticleColorType {
 
 	@Override
-	public int tick(Random random) {
+	public int tick(RandomSource random) {
 		return -1;
 	}
 

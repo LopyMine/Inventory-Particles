@@ -1,15 +1,15 @@
 package net.lopymine.ip.utils;
 
-import net.minecraft.util.Colors;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.CommonColors;
+import net.minecraft.util.Mth;
 
 public class ArgbUtils2 {
 
 	public static int lerp(float progress, int first, int second) {
-		int alpha = MathHelper.lerp(progress, getAlpha(first), getAlpha(second));
-		int red = MathHelper.lerp(progress, getRed(first), getRed(second));
-		int green = MathHelper.lerp(progress, getGreen(first), getGreen(second));
-		int blue = MathHelper.lerp(progress, getBlue(first), getBlue(second));
+		int alpha = Mth.lerpInt(progress, getAlpha(first), getAlpha(second));
+		int red = Mth.lerpInt(progress, getRed(first), getRed(second));
+		int green = Mth.lerpInt(progress, getGreen(first), getGreen(second));
+		int blue = Mth.lerpInt(progress, getBlue(first), getBlue(second));
 		return getArgb(alpha, red, green, blue);
 	}
 
@@ -54,7 +54,7 @@ public class ArgbUtils2 {
 	}
 
 	public static int fullAlpha(int argb) {
-		return argb | Colors.BLACK;
+		return argb | CommonColors.BLACK;
 	}
 
 }

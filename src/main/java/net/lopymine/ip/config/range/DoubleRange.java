@@ -3,7 +3,7 @@ package net.lopymine.ip.config.range;
 import com.mojang.serialization.Codec;
 import java.util.List;
 import lombok.*;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.RandomSource;
 
 @Setter
 @Getter
@@ -25,7 +25,7 @@ public class DoubleRange {
 		this.max = 0;
 	}
 
-	public double getRandom(Random random) {
+	public double getRandom(RandomSource random) {
 		return this.min + ((this.max - this.min) * random.nextDouble());
 	}
 

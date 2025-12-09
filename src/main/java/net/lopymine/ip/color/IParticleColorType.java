@@ -3,8 +3,8 @@ package net.lopymine.ip.color;
 import com.mojang.serialization.Codec;
 import java.util.*;
 import net.lopymine.ip.debug.*;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.NotNull;
 
 public interface IParticleColorType extends IDebugRenderable {
@@ -18,9 +18,9 @@ public interface IParticleColorType extends IDebugRenderable {
 	@HideInDebugRender
 	Codec<IParticleColorType> CODEC = Codec.STRING.xmap(IParticleColorType::parse, IParticleColorType::asString);
 
-	default void compile(ItemStack stack, Random random) { }
+	default void compile(ItemStack stack, RandomSource random) { }
 
-	int tick(Random random);
+	int tick(RandomSource random);
 
 	String asString();
 

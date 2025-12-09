@@ -5,21 +5,21 @@ import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.config.particle.ParticleConfig;
 import net.lopymine.ip.debug.IDebugRenderable;
 import net.lopymine.ip.element.base.ITickElement;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 
 public interface IParticleTextureProvider extends ITickElement, IDebugRenderable {
 
-	Map<ParticleConfig, List<Sprite>> CACHED_SPRITES = new HashMap<>();
+	Map<ParticleConfig, List<TextureAtlasSprite>> CACHED_SPRITES = new HashMap<>();
 
 	static void clear() {
 		CACHED_SPRITES.clear();
 	}
 
 	static IParticleTextureProvider getTextureProvider(ParticleConfig config) {
-		List<Sprite> sprites = CACHED_SPRITES.computeIfAbsent(config, (cfg) -> {
-			ArrayList<Identifier> textures = config.getTextures();
+		List<TextureAtlasSprite> sprites = CACHED_SPRITES.computeIfAbsent(config, (cfg) -> {
+			ArrayList<ResourceLocation> textures = config.getTextures();
 			return textures.stream().map(InventoryParticlesAtlasManager.getInstance()::getSprite).toList();
 		});
 
@@ -34,9 +34,9 @@ public interface IParticleTextureProvider extends ITickElement, IDebugRenderable
 		};
 	}
 
-	Sprite getInitializationTexture(Random random);
+	TextureAtlasSprite getInitializationTexture(RandomSource random);
 
-	Sprite getTexture(Random random);
+	TextureAtlasSprite getTexture(RandomSource random);
 
 	boolean isShouldDead();
 }

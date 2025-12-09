@@ -2,9 +2,9 @@ package net.lopymine.ip.texture;
 
 import java.util.List;
 import lombok.*;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 
 @Getter
@@ -12,28 +12,28 @@ import org.jetbrains.annotations.Nullable;
 public class RandomParticleTextureProvider extends AbstractParticleTextureProviderWithPeriod {
 
 	@Nullable
-	private Sprite currentTexture;
+	private TextureAtlasSprite currentTexture;
 
-	public RandomParticleTextureProvider(List<Sprite> textures, double animationSpeed, int lifeTime) {
+	public RandomParticleTextureProvider(List<TextureAtlasSprite> textures, double animationSpeed, int lifeTime) {
 		super(textures, animationSpeed, lifeTime);
 	}
 
 	@Override
-	protected Sprite getInitializationTextureFromNotEmptyTextures(Random random) {
+	protected TextureAtlasSprite getInitializationTextureFromNotEmptyTextures(RandomSource random) {
 		if (this.currentTexture == null) {
-			return this.textures.get(random.nextBetween(0, this.textures.size() - 1));
+			return this.textures.get(random.nextIntBetweenInclusive(0, this.textures.size() - 1));
 		}
 		return this.currentTexture;
 	}
 
 	@Override
-	protected Sprite getTextureFromNotEmptyTextures(Random random) {
+	protected TextureAtlasSprite getTextureFromNotEmptyTextures(RandomSource random) {
 		if (this.currentTexture != null && this.ticks < this.changeTextureTick) {
 			return this.currentTexture;
 		}
 
 		this.updateChangeTextureTick();
 
-		return this.currentTexture = this.textures.get(random.nextBetween(0, this.textures.size() - 1));
+		return this.currentTexture = this.textures.get(random.nextIntBetweenInclusive(0, this.textures.size() - 1));
 	}
 }

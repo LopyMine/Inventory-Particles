@@ -3,7 +3,7 @@ package net.lopymine.ip.color.advanced.mode;
 import lombok.*;
 import net.lopymine.ip.element.base.TickElement;
 import net.lopymine.ip.utils.ArgbUtils2;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.RandomSource;
 
 @Getter
 @Setter
@@ -21,7 +21,7 @@ public class AdvancedParticleColorTypeGradientLoopMode extends TickElement imple
 	}
 
 	@Override
-	public int tickResolve(Integer[] compiledColors, Random random) {
+	public int tickResolve(Integer[] compiledColors, RandomSource random) {
 		if (compiledColors.length == 1) {
 			return compiledColors[0];
 		}

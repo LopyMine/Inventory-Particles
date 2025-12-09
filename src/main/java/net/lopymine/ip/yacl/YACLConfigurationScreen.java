@@ -11,13 +11,13 @@ import net.lopymine.ip.config.sub.InventoryParticlesCoefficientsConfig.ParticleC
 import net.lopymine.mossylib.utils.ModMenuUtils;
 import net.lopymine.mossylib.yacl.api.*;
 import net.lopymine.mossylib.yacl.extension.SimpleOptionExtension;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 
 @ExtensionMethod(SimpleOptionExtension.class)
 public class YACLConfigurationScreen {
 
-	private static final Function<Boolean, Text> ENABLED_OR_DISABLE_FORMATTER = ModMenuUtils.getEnabledOrDisabledFormatter();
+	private static final Function<Boolean, Component> ENABLED_OR_DISABLE_FORMATTER = ModMenuUtils.getEnabledOrDisabledFormatter();
 
 	private YACLConfigurationScreen() {
 		throw new IllegalStateException("Screen class");

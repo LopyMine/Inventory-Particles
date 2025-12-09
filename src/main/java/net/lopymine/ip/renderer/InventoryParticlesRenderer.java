@@ -13,17 +13,17 @@ import net.lopymine.ip.resourcepack.ResourcePackParticleConfigsManager;
 import net.lopymine.ip.spawner.*;
 import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.lopymine.ip.utils.ParticleDrawUtils;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.item.*;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.*;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.network.chat.*;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.ChatFormatting;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.*;
 import org.jetbrains.annotations.*;
 
 @Getter
@@ -35,7 +35,7 @@ public class InventoryParticlesRenderer extends TickElement {
 	@Getter
 	private final Collection<IParticle> screenParticles = getScreenParticlesList();
 	private final List<IParticle> pendingParticles = new ArrayList<>();
-	private final Random random = Random.create();
+	private final RandomSource random = RandomSource.create();
 
 	private InventoryCursor cursor = new InventoryCursor();
 	private boolean stoppedByInitializationReason;
@@ -53,7 +53,7 @@ public class InventoryParticlesRenderer extends TickElement {
 		return INSTANCE;
 	}
 
-	public void render(DrawContext context, float tickProgress) {
+	public void render(GuiGraphics context, float tickProgress) {
 		this.hoveredParticle = null;
 		if (this.screenParticles.isEmpty()) {
 			return;
@@ -80,7 +80,7 @@ public class InventoryParticlesRenderer extends TickElement {
 		this.cursor.setHoveredSlot(focusedSlot);
 	}
 
-	public void tick(@Nullable ScreenHandler handler, @Nullable Integer inventoryX, @Nullable Integer inventoryY) {
+	public void tick(@Nullable AbstractContainerMenu handler, @Nullable Integer inventoryX, @Nullable Integer inventoryY) {
 		if (this.stoppedTicking || this.stoppedByInitializationReason) {
 			return;
 		}
@@ -126,7 +126,7 @@ public class InventoryParticlesRenderer extends TickElement {
 		if (hoveredSlot == null) {
 			return;
 		}
-		ItemStack stack = hoveredSlot.getStack();
+		ItemStack stack = hoveredSlot.getItem();
 		if (stack.isEmpty()) {
 			return;
 		}
@@ -143,12 +143,12 @@ public class InventoryParticlesRenderer extends TickElement {
 		}
 	}
 
-	private void spawnAllSlotsParticles(ScreenHandler handler, int inventoryX, int inventoryY) {
+	private void spawnAllSlotsParticles(AbstractContainerMenu handler, int inventoryX, int inventoryY) {
 		for (Slot slot : handler.slots) {
-			if (this.cursor.getHoveredSlot() != null && this.cursor.getHoveredSlot().id == slot.id) {
+			if (this.cursor.getHoveredSlot() != null && this.cursor.getHoveredSlot().index == slot.index) {
 				continue;
 			}
-			ItemStack stack = slot.getStack();
+			ItemStack stack = slot.getItem();
 			if (stack.isEmpty()) {
 				continue;
 			}
@@ -207,7 +207,7 @@ public class InventoryParticlesRenderer extends TickElement {
 					return;
 				}
 				for (int i = 0; i < difference; i++) {
-					list.remove(this.random.nextBetween(0, list.size() - 1));
+					list.remove(this.random.nextIntBetweenInclusive(0, list.size() - 1));
 				}
 			}
 		}
@@ -252,7 +252,7 @@ public class InventoryParticlesRenderer extends TickElement {
 	}
 
 	private void playClickSound() {
-		MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+		Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 	}
 
 	public void updateParticlesPositions(double xCoefficient, double yCoefficient) {
@@ -270,10 +270,10 @@ public class InventoryParticlesRenderer extends TickElement {
 		try {
 			runnable.run();
 		} catch (Exception e) {
-			ClientPlayerEntity player = MinecraftClient.getInstance().player;
+			LocalPlayer player = Minecraft.getInstance().player;
 			if (player != null) {
-				MutableText text = Text.literal("[%s] ".formatted(InventoryParticles.MOD_NAME)).append(Text.literal("Unexpected error with id \"%s\", please report this issue with your game logs! Mod was automatically disabled to prevent spamming ^^".formatted(action)).formatted(Formatting.RED));
-				player.sendMessage(text, false);
+				MutableComponent text = Component.literal("[%s] ".formatted(InventoryParticles.MOD_NAME)).append(Component.literal("Unexpected error with id \"%s\", please report this issue with your game logs! Mod was automatically disabled to prevent spamming ^^".formatted(action)).withStyle(ChatFormatting.RED));
+				player.displayClientMessage(text, false);
 			}
 			InventoryParticlesClient.LOGGER.error("[{}] Failed to process inventory particles!", action, e);
 			InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
@@ -283,16 +283,16 @@ public class InventoryParticlesRenderer extends TickElement {
 	}
 
 	public void onPutInSlot(Slot slot, ItemStack stack, int inventoryX, int inventoryY) {
-		if (stack.isEmpty() && !slot.hasStack()){
+		if (stack.isEmpty() && !slot.hasItem()){
 			return;
 		}
 		int chanceOfSpawn = 100 - (int) Math.ceil(InventoryParticlesConfig.getInstance().getCoefficientsConfig().getGuiActionConfig().getCooldownCoefficient());
-		int r = this.random.nextBetween(0, 100);
+		int r = this.random.nextIntBetweenInclusive(0, 100);
 		if (r < chanceOfSpawn) {
 			return;
 		}
 		this.runSoft(() -> {
-			List<IParticleSpawner> spawners = ResourcePackParticleConfigsManager.getPerItemParticleSpawners().get(stack.isEmpty() ? slot.getStack().getItem() : stack.getItem());
+			List<IParticleSpawner> spawners = ResourcePackParticleConfigsManager.getPerItemParticleSpawners().get(stack.isEmpty() ? slot.getItem().getItem() : stack.getItem());
 			if (spawners != null) {
 				ParticleSpawnContext context = ParticleSpawnContext.guiActionSlot(slot, inventoryX, inventoryY);
 				if (context.getStack().isEmpty()) {

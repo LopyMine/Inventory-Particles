@@ -1,3 +1,2 @@
-- Fixed some config options for spawn count/frequency coefficient
-- Fixed issue when particles wouldn't load on some systems
-- Other little fixes
+- (Neo)Forge support
+- Little fixes with rendering

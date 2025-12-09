@@ -3,12 +3,12 @@ package net.lopymine.ip.config;
 import lombok.*;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.config.sub.*;
+import net.lopymine.mossylib.loader.MossyLoader;
 import net.lopymine.mossylib.utils.*;
 import org.slf4j.*;
 
 import com.mojang.serialization.*;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.fabricmc.loader.api.FabricLoader;
 
 import net.lopymine.ip.utils.*;
 
@@ -29,7 +29,7 @@ public class InventoryParticlesConfig {
 			option("coefficients", InventoryParticlesCoefficientsConfig.getNewInstance(), InventoryParticlesCoefficientsConfig.CODEC, InventoryParticlesConfig::getCoefficientsConfig)
 	).apply(instance, InventoryParticlesConfig::new));
 
-	private static final File CONFIG_FILE = FabricLoader.getInstance().getConfigDir().resolve(InventoryParticles.MOD_ID + ".json5").toFile();
+	private static final File CONFIG_FILE = MossyLoader.getConfigDir().resolve(InventoryParticles.MOD_ID + ".json5").toFile();
 	private static final Logger LOGGER = LoggerFactory.getLogger(InventoryParticles.MOD_NAME + "/Config");
 	private static InventoryParticlesConfig INSTANCE;
 

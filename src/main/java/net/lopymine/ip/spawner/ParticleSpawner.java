@@ -12,9 +12,10 @@ import net.lopymine.ip.element.*;
 import net.lopymine.ip.element.base.TickElement;
 import net.lopymine.ip.predicate.IParticleSpawnPredicate;
 import net.lopymine.ip.spawner.context.ParticleSpawnContext;
-import net.minecraft.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.util.*;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 
 @Getter
@@ -22,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 @AllArgsConstructor
 public class ParticleSpawner extends TickElement implements IParticleSpawner {
 
-	private final Random random = Random.create();
+	private final RandomSource random = RandomSource.create();
 
 	@Nullable
 	private ParticleSpawnArea spawnArea;
@@ -34,7 +35,7 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 	private Function<ParticleSpawnContext, InventoryParticle> function;
 	private int nextSpawnTicks = 0;
 
-	public ParticleSpawner(Identifier spawnArea, IntegerRange countRange, IntegerRange frequencyRange, double speedCoefficient, IParticleColorType colorType, IParticleSpawnPredicate spawnCondition, Function<ParticleSpawnContext, InventoryParticle> function) {
+	public ParticleSpawner(ResourceLocation spawnArea, IntegerRange countRange, IntegerRange frequencyRange, double speedCoefficient, IParticleColorType colorType, IParticleSpawnPredicate spawnCondition, Function<ParticleSpawnContext, InventoryParticle> function) {
 		this.spawnArea        = ParticleSpawnArea.readFromTexture(spawnArea);
 		this.countRange       = countRange;
 		this.frequencyRange   = frequencyRange;
@@ -45,26 +46,26 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 	}
 
 	public List<InventoryParticle> spawnFromCursor(InventoryCursor cursor) {
-		int spawnCount = (int) (this.random.nextBetween(this.countRange.getMin(), this.countRange.getMax()) * this.speedCoefficient * (Math.sqrt(cursor.getSpeed()) * 1.0F));
+		int spawnCount = (int) (this.random.nextIntBetweenInclusive(this.countRange.getMin(), this.countRange.getMax()) * this.speedCoefficient * (Math.sqrt(cursor.getSpeed()) * 1.0F));
 		return this.createParticles(spawnCount, cursor, (particle) -> this.spawnParticleAtCursorDeltaPath(particle, cursor));
 	}
 
 	private void spawnParticleAtCursorDeltaPath(InventoryParticle particle, InventoryCursor cursor) {
-		Random random = particle.getRandom();
+		RandomSource random = particle.getRandom();
 		int deltaX = cursor.getX() - cursor.getLastX();
 		int deltaY = cursor.getY() - cursor.getLastY();
-		float progress = random.nextBetween(0, 100) / 100F;
+		float progress = random.nextIntBetweenInclusive(0, 100) / 100F;
 		int pathX = (int) (deltaX * progress);
 		int pathY = (int) (deltaY * progress);
-		particle.setX(particle.getX() - pathX + random.nextBetween(0, 2));
-		particle.setY(particle.getY() - pathY + random.nextBetween(0, 2));
+		particle.setX(particle.getX() - pathX + random.nextIntBetweenInclusive(0, 2));
+		particle.setY(particle.getY() - pathY + random.nextIntBetweenInclusive(0, 2));
 	}
 
 	public List<InventoryParticle> tickAndSpawn(ParticleSpawnContext context) {
 		this.tick();
 
 		if (this.nextSpawnTicks == 0) {
-			int ticks = this.random.nextBetween(this.frequencyRange.getMin(), this.frequencyRange.getMax());
+			int ticks = this.random.nextIntBetweenInclusive(this.frequencyRange.getMin(), this.frequencyRange.getMax());
 			int ticksToWaitForNextSpawn = (int) ((((float) ticks) * context.getCooldownCoefficient()) * InventoryParticlesConfig.getInstance().getCoefficientsConfig().getGlobalConfig().getCooldownCoefficient());
 			this.nextSpawnTicks = this.ticks + ticksToWaitForNextSpawn;
 		}
@@ -80,7 +81,7 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 
 	@Override
 	public List<InventoryParticle> spawn(ParticleSpawnContext context) {
-		return this.createParticles(this.random.nextBetween(this.countRange.getMin(), this.countRange.getMax()), context, (particle) -> {});
+		return this.createParticles(this.random.nextIntBetweenInclusive(this.countRange.getMin(), this.countRange.getMax()), context, (particle) -> {});
 	}
 
 	private List<InventoryParticle> createParticles(int spawnCount, InventoryCursor cursor, Consumer<InventoryParticle> consumer) {

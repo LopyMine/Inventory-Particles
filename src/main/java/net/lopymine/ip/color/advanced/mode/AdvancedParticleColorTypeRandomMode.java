@@ -1,7 +1,7 @@
 package net.lopymine.ip.color.advanced.mode;
 
 import lombok.*;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 
 @Getter
@@ -21,7 +21,7 @@ public class AdvancedParticleColorTypeRandomMode extends AbstractAdvancedParticl
 	}
 
 	@Override
-	public int tickResolve(Integer[] compiledColors, Random random) {
+	public int tickResolve(Integer[] compiledColors, RandomSource random) {
 		this.tick();
 
 		if (this.currentColor != null && this.ticks < this.changeColorTick) {
@@ -30,7 +30,7 @@ public class AdvancedParticleColorTypeRandomMode extends AbstractAdvancedParticl
 
 		this.updateChangeColorTick();
 
-		return this.currentColor = compiledColors[random.nextBetween(0, compiledColors.length - 1)];
+		return this.currentColor = compiledColors[random.nextIntBetweenInclusive(0, compiledColors.length - 1)];
 	}
 
 	@Override

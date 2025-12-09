@@ -1,10 +1,10 @@
 package net.lopymine.ip.spawner;
 
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 
 public interface IParticleSpawnArea {
 
-	@Nullable IParticleSpawnPos getRandomPos(Random random);
+	@Nullable IParticleSpawnPos getRandomPos(RandomSource random);
 
 }

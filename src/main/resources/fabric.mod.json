@@ -16,10 +16,10 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-	        "net.lopymine.ip.InventoryParticles"
+	        "net.lopymine.ip.entrypoint.IPFabricEntrypoint"
         ],
         "client": [
-            "net.lopymine.ip.client.InventoryParticlesClient"
+            "net.lopymine.ip.entrypoint.IPFabricClientEntrypoint"
         ],
         "modmenu": [
             "net.lopymine.ip.modmenu.ModMenuIntegration"
@@ -32,8 +32,8 @@
         "java": ">=${java}",
         "${fabric_api_id}": "*"
     },
-    "accessWidener": "aws/${minecraft}.accesswidener",
-    "mixins": [
-        "${mod_id}.mixins.json"
-    ]
+	"accessWidener": "aws/fabric-${minecraft}.accesswidener",
+	"mixins": [
+		"${fabric_trick_mixin_configs}"
+	]
 }

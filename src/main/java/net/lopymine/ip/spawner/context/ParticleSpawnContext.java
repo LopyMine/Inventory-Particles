@@ -6,8 +6,8 @@ import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.sub.*;
 import net.lopymine.ip.config.sub.InventoryParticlesCoefficientsConfig.ParticleCoefficientConfig;
 import net.lopymine.ip.element.InventoryCursor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.slot.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.inventory.Slot;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
@@ -77,7 +77,7 @@ public class ParticleSpawnContext {
 	}
 
 	private static @NotNull ParticleSpawnContext slot(ParticleSpawnContext context, Slot slot, int inventoryX, int inventoryY) {
-		context.setStack(slot.getStack());
+		context.setStack(slot.getItem());
 		context.setX(inventoryX + slot.x + 8);
 		context.setY(inventoryY + slot.y + 8);
 		context.setImpulseX(0F);

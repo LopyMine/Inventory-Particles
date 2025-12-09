@@ -1,6 +1,6 @@
 package net.lopymine.ip.predicate;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public interface IParticleSpawnPredicate {
 
