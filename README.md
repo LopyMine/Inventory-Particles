@@ -4,7 +4,7 @@
 
 !["Description" Title](https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/image2.webp?raw=true)
 
-**Inventory Particles** — Visual Fabric mod which adds a lot of new particles for your inventory items! With it you can make your inventory a little more lively and dynamic! Of course, completely client-side.
+**Inventory Particles** — Visual mod which adds a lot of new particles for your inventory items! With it you can make your inventory a little more lively and dynamic! Of course, completely client-side.
 
 ![Ingame Showcase](https://github.com/LopyMine/Profile/blob/main/files/Template%20Resource%20Pack/ima222ge.webp?raw=true)
 
