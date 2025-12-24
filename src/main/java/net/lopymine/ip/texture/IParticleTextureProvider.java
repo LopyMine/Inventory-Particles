@@ -6,7 +6,7 @@ import net.lopymine.ip.config.particle.ParticleConfig;
 import net.lopymine.ip.debug.IDebugRenderable;
 import net.lopymine.ip.element.base.ITickElement;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 
 public interface IParticleTextureProvider extends ITickElement, IDebugRenderable {
@@ -19,7 +19,7 @@ public interface IParticleTextureProvider extends ITickElement, IDebugRenderable
 
 	static IParticleTextureProvider getTextureProvider(ParticleConfig config) {
 		List<TextureAtlasSprite> sprites = CACHED_SPRITES.computeIfAbsent(config, (cfg) -> {
-			ArrayList<ResourceLocation> textures = config.getTextures();
+			ArrayList<Identifier> textures = config.getTextures();
 			return textures.stream().map(InventoryParticlesAtlasManager.getInstance()::getSprite).toList();
 		});
 

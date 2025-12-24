@@ -1,2 +1,1 @@
-- (Neo)Forge support
-- Little fixes with rendering
+- Added support for 1.21.11, but without particles for new items, they will be in the next update ^^

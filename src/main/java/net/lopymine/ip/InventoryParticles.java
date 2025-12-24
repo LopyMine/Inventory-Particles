@@ -1,7 +1,7 @@
 package net.lopymine.ip;
 
 import net.minecraft.network.chat.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.slf4j.*;
 
 public class InventoryParticles {
@@ -10,9 +10,9 @@ public class InventoryParticles {
 	public static final String MOD_ID = /*$ mod_id*/ "inventory_particles";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
 
-	public static ResourceLocation id(String path) {
+	public static Identifier id(String path) {
 		//? if >=1.21 {
-		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+		return Identifier.fromNamespaceAndPath(MOD_ID, path);
 		//?} else {
 		/*return ResourceLocation.tryBuild(MOD_ID, path);
 		 *///?}

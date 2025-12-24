@@ -12,7 +12,7 @@ import net.lopymine.ip.config.particle.*;
 import net.lopymine.ip.spawner.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 
 public class ResourcePackParticleConfigsManager {
@@ -49,7 +49,7 @@ public class ResourcePackParticleConfigsManager {
 		InventoryParticlesClient.LOGGER.info("Registering finished, found: {}, registered: {}", foundConfigs.get(), registeredConfigs.get());
 	}
 
-	public static void registerItemSpawner(ResourceLocation location, Item item, ParticleHolder holder, IParticleSpawner spawner) {
+	public static void registerItemSpawner(Identifier location, Item item, ParticleHolder holder, IParticleSpawner spawner) {
 		PER_ITEM_PARTICLE_SPAWNERS.computeIfAbsent(item, (i) -> new ArrayList<>()).add(spawner);
 		REGISTERED_CONFIGS.put(holder, new RegisteredConfig(location, spawner));
 	}
@@ -62,5 +62,5 @@ public class ResourcePackParticleConfigsManager {
 		return PER_ITEM_PARTICLE_SPAWNERS;
 	}
 
-	public record RegisteredConfig(ResourceLocation id, IParticleSpawner spawner) {}
+	public record RegisteredConfig(Identifier id, IParticleSpawner spawner) {}
 }

@@ -6,13 +6,13 @@ import net.lopymine.ip.InventoryParticles;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.*;
 import net.minecraft.client.renderer.texture.SpriteLoader.Preparations;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.*;
 
 public class InventoryParticlesAtlasManager {
 
-	public static final ResourceLocation ATLAS_ID = InventoryParticles.id("textures/atlas/iparticles");
-	public static final ResourceLocation FOLDER_ID = InventoryParticles.id("iparticles");
+	public static final Identifier ATLAS_ID = InventoryParticles.id("textures/atlas/iparticles");
+	public static final Identifier FOLDER_ID = InventoryParticles.id("iparticles");
 	private static InventoryParticlesAtlasManager INSTANCE;
 	private final TextureAtlas atlas;
 
@@ -47,7 +47,7 @@ public class InventoryParticlesAtlasManager {
 		this.atlas.close();
 	}
 
-	public TextureAtlasSprite getSprite(ResourceLocation id) {
+	public TextureAtlasSprite getSprite(Identifier id) {
 		return this.atlas.getSprite(id);
 	}
 

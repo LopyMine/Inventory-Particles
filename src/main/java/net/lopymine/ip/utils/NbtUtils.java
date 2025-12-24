@@ -4,7 +4,7 @@ import java.util.*;
 import lombok.experimental.ExtensionMethod;
 import net.lopymine.ip.extension.OptionalExtension;
 import net.minecraft.core.registries.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectInstance;
 
 //? if >=1.21 {

@@ -3,14 +3,14 @@ package net.lopymine.ip.spawner;
 import java.util.*;
 import net.lopymine.ip.config.particle.ParticleHolder;
 import net.lopymine.ip.t2o.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.*;
 
 public record ParticleSpawnArea(IParticleSpawnPos[] positions) implements IParticleSpawnArea {
 
 	@Nullable
-	public static ParticleSpawnArea readFromTexture(ResourceLocation id) {
+	public static ParticleSpawnArea readFromTexture(Identifier id) {
 		if (ParticleHolder.STANDARD_SPAWN_AREA.equals(id)) {
 			return null;
 		}

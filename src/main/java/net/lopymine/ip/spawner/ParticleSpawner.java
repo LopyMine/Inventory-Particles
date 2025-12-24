@@ -12,7 +12,7 @@ import net.lopymine.ip.element.*;
 import net.lopymine.ip.element.base.TickElement;
 import net.lopymine.ip.predicate.IParticleSpawnPredicate;
 import net.lopymine.ip.spawner.context.ParticleSpawnContext;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.RandomSource;
@@ -35,7 +35,7 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 	private Function<ParticleSpawnContext, InventoryParticle> function;
 	private int nextSpawnTicks = 0;
 
-	public ParticleSpawner(ResourceLocation spawnArea, IntegerRange countRange, IntegerRange frequencyRange, double speedCoefficient, IParticleColorType colorType, IParticleSpawnPredicate spawnCondition, Function<ParticleSpawnContext, InventoryParticle> function) {
+	public ParticleSpawner(Identifier spawnArea, IntegerRange countRange, IntegerRange frequencyRange, double speedCoefficient, IParticleColorType colorType, IParticleSpawnPredicate spawnCondition, Function<ParticleSpawnContext, InventoryParticle> function) {
 		this.spawnArea        = ParticleSpawnArea.readFromTexture(spawnArea);
 		this.countRange       = countRange;
 		this.frequencyRange   = frequencyRange;

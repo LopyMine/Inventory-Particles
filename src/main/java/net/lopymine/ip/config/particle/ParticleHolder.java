@@ -17,7 +17,7 @@ import net.lopymine.ip.predicate.IParticleSpawnPredicate;
 import net.lopymine.ip.predicate.nbt.*;
 import net.lopymine.ip.spawner.ParticleSpawner;
 import net.lopymine.ip.spawner.context.ParticleSpawnContext;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.*;
 import net.minecraft.util.RandomSource;
 import net.lopymine.mossylib.utils.CodecUtils;
@@ -28,7 +28,7 @@ import static net.lopymine.mossylib.utils.CodecUtils.option;
 @AllArgsConstructor
 public class ParticleHolder {
 
-	public static final ResourceLocation STANDARD_SPAWN_AREA = InventoryParticles.id("spawn_areas/standard.png");
+	public static final Identifier STANDARD_SPAWN_AREA = InventoryParticles.id("spawn_areas/standard.png");
 
 	public static final Codec<IParticleColorType> STANDARD_AND_LIST_COLOR_TYPE_CODEC = Codec.either(IParticleColorType.CODEC, IParticleColorType.CODEC.listOf())
 			.xmap((either) -> {
@@ -60,13 +60,13 @@ public class ParticleHolder {
 				return Either.right(type);
 			});
 
-	public static final Codec<ResourceLocation> SPAWN_AREA_CODEC = Codec.STRING.comapFlatMap((s) -> {
+	public static final Codec<Identifier> SPAWN_AREA_CODEC = Codec.STRING.comapFlatMap((s) -> {
 		if (s.contains(":")) {
-			return ResourceLocation.read(s);
+			return Identifier.read(s);
 		}
 		String path = s.endsWith(".png") ? s : s + ".png";
 		return DataResult.success(InventoryParticles.id("spawn_areas/" + path));
-	}, ResourceLocation::toString);
+	}, Identifier::toString);
 
 	public static final Codec<ParticleHolder> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			option("name", (Supplier<String>) () -> "UnknownParticle@" + RandomSource.create().nextIntBetweenInclusive(0, 100000), Codec.STRING, ParticleHolder::getName),
@@ -84,7 +84,7 @@ public class ParticleHolder {
 	private CachedItem item;
 	private NbtNodeMatch match;
 	private HashSet<NbtNode> nbtCondition;
-	private ResourceLocation spawnArea;
+	private Identifier spawnArea;
 	private IntegerRange spawnCount;
 	private IntegerRange spawnFrequency;
 	private IParticleColorType color;

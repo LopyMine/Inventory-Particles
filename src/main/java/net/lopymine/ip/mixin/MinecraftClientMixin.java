@@ -28,8 +28,30 @@ public class MinecraftClientMixin {
 		InventoryParticlesRenderer.getInstance().clear();
 	}
 
-	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;init(Lnet/minecraft/client/Minecraft;II)V", shift = Shift.AFTER), method = "setScreen")
+	//? if >=1.21.11 {
+	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;init(II)V", shift = Shift.AFTER), method = "setScreen")
 	private void initRendererWhenInitScreen(Screen screen, CallbackInfo ci) {
+		this.initRenderer();
+	}
+
+	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;resize(II)V"), method = "resizeDisplay")
+	private void updateParticlesPositions(CallbackInfo ci) {
+		this.updateParticlesPositions();
+	}
+	//?} else {
+	/*@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;init(Lnet/minecraft/client/Minecraft;II)V", shift = Shift.AFTER), method = "setScreen")
+	private void initRendererWhenInitScreen(Screen screen, CallbackInfo ci) {
+		this.initRenderer();
+	}
+
+	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;resize(Lnet/minecraft/client/Minecraft;II)V"), method = "resizeDisplay")
+	private void updateParticlesPositions(CallbackInfo ci) {
+		this.updateParticlesPositions();
+	}
+	*///?}
+
+	@Unique
+	private void initRenderer() {
 		InventoryParticlesMainConfig config = InventoryParticlesConfig.getInstance().getMainConfig();
 		if (!config.isModEnabled()) {
 			return;
@@ -37,8 +59,8 @@ public class MinecraftClientMixin {
 		InventoryParticlesRenderer.getInstance().init();
 	}
 
-	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;resize(Lnet/minecraft/client/Minecraft;II)V"), method = "resizeDisplay")
-	private void updateParticlesPositions(CallbackInfo ci) {
+	@Unique
+	private void updateParticlesPositions() {
 		Screen screen = this.screen;
 		if (screen == null) {
 			return;

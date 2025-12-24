@@ -11,7 +11,7 @@ import net.lopymine.ip.utils.MissingSpriteUtils;
 import net.lopymine.ip.utils.mixin.IAtlasLoaderMixin;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.atlas.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
@@ -28,21 +28,44 @@ public class AtlasLoaderMixin implements IAtlasLoaderMixin {
 	@Unique
 	private boolean inventoryParticles$marked;
 
-	//? if >=1.21 {
+	//? if >=1.21.11 {
 	@Inject(
 			at = @At(
 					value = "INVOKE",
 					target = "Ljava/util/List;forEach(Ljava/util/function/Consumer;)V",
 					shift = Shift.AFTER
 			),
-			//? if neoforge && >=1.21.10 {
+			//? if neoforge {
 			/*method = "list(Lnet/minecraft/server/packs/resources/ResourceManager;Ljava/util/Set;)Ljava/util/List;",
 			*///?} else {
 			method = "list",
 			//?}
 			cancellable = true
 	)
-	private void swapMissingTexture(CallbackInfoReturnable<List<Function<SpriteResourceLoader, SpriteContents>>> cir, @Local Map<ResourceLocation, SpriteSource.SpriteSupplier> map) {
+	private void swapMissingTexture(CallbackInfoReturnable<List<SpriteSource.Loader>> cir, @Local Map<Identifier, SpriteSource.DiscardableLoader> map) {
+		if (!this.inventoryParticles$marked) {
+			return;
+		}
+		Builder<SpriteSource.Loader> builder = ImmutableList.builder();
+		builder.add((opener) -> MissingSpriteUtils.getMissingParticle());
+		builder.addAll(map.values());
+		cir.setReturnValue(builder.build());
+	}
+	//?} elif >=1.21 {
+	/*@Inject(
+			at = @At(
+					value = "INVOKE",
+					target = "Ljava/util/List;forEach(Ljava/util/function/Consumer;)V",
+					shift = Shift.AFTER
+			),
+			//? if neoforge && >=1.21.10 {
+			/^method = "list(Lnet/minecraft/server/packs/resources/ResourceManager;Ljava/util/Set;)Ljava/util/List;",
+			^///?} else {
+			method = "list",
+			//?}
+			cancellable = true
+	)
+	private void swapMissingTexture(CallbackInfoReturnable<List<Function<SpriteResourceLoader, SpriteContents>>> cir, @Local Map<Identifier, SpriteSource.SpriteSupplier> map) {
 		if (!this.inventoryParticles$marked) {
 			return;
 		}
@@ -51,7 +74,7 @@ public class AtlasLoaderMixin implements IAtlasLoaderMixin {
 		builder.addAll(map.values());
 		cir.setReturnValue(builder.build());
 	}
-	//?} else {
+	*///?} else {
 	/*@Inject(at = @At(value = "INVOKE", target = "Ljava/util/List;forEach(Ljava/util/function/Consumer;)V", shift = Shift.AFTER), method = "list", cancellable = true)
 	private void swapMissingTexture(ResourceManager resourceManager, CallbackInfoReturnable<List<Supplier<SpriteContents>>> cir, @Local Map<ResourceLocation, SpriteSource.SpriteSupplier> map) {
 		if (!this.inventoryParticles$marked) {
@@ -71,7 +94,7 @@ public class AtlasLoaderMixin implements IAtlasLoaderMixin {
 
 	//? if >=1.21 {
 	@WrapOperation(at = @At(value = "NEW", target = "(Ljava/util/List;)Lnet/minecraft/client/renderer/texture/atlas/SpriteSourceList;"), method = "load")
-	private static SpriteSourceList markAtlas(List<SpriteSourceList> sources, Operation<SpriteSourceList> original, @Local(argsOnly = true) ResourceLocation path) {
+	private static SpriteSourceList markAtlas(List<SpriteSourceList> sources, Operation<SpriteSourceList> original, @Local(argsOnly = true) Identifier path) {
 		SpriteSourceList loader = original.call(sources);
 		if (InventoryParticlesAtlasManager.FOLDER_ID.equals(path)) {
 			((IAtlasLoaderMixin) loader).inventoryParticles$mark();

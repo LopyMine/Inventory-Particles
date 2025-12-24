@@ -4,7 +4,7 @@ import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.renderer.texture.*;
 import net.minecraft.client.resources.metadata.animation.*;
 import net.minecraft.server.packs.resources.ResourceMetadata;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class MissingSpriteUtils {
 

@@ -7,7 +7,7 @@ import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.debug.HideInDebugRender;
 import net.lopymine.ip.element.base.TickElement;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 
 @Setter

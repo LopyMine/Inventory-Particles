@@ -4,7 +4,7 @@ import java.util.concurrent.*;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.texture.IParticleTextureProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.*;
 import net.minecraft.server.packs.resources.PreparableReloadListener.PreparationBarrier;
@@ -21,12 +21,12 @@ public class InventoryParticlesClientReloadListener implements /*? if >=1.21.9 |
 	//? if <=1.21.8 {
 	/*@Override
 	*///?}
-	public /*? if >=1.21.9 {*/ static /*?}*/ ResourceLocation getFabricId() {
+	public /*? if >=1.21.9 {*/ static /*?}*/ Identifier getFabricId() {
 		return getId();
 	}
 	//?}
 
-	public static ResourceLocation getId() {
+	public static Identifier getId() {
 		return InventoryParticles.id("%s-reload-listener".formatted(InventoryParticles.MOD_ID));
 	}
 

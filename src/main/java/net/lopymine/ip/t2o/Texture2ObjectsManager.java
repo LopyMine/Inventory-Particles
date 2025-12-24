@@ -6,11 +6,11 @@ import net.lopymine.ip.client.InventoryParticlesClient;
 import net.minecraft.client.Minecraft;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.server.packs.resources.Resource;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class Texture2ObjectsManager {
 
-	public static <T> List<T> readFromTexture(ResourceLocation id, String objectName, Texture2ObjectPixelFilter filter, Texture2Object<T> texture2Object) {
+	public static <T> List<T> readFromTexture(Identifier id, String objectName, Texture2ObjectPixelFilter filter, Texture2Object<T> texture2Object) {
 		try {
 			Optional<Resource> optional = Minecraft.getInstance().getResourceManager().getResource(id);
 			if (optional.isEmpty()) {

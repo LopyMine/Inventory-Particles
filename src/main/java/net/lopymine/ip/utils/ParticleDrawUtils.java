@@ -11,7 +11,7 @@ import org.joml.Matrix4f;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class ParticleDrawUtils {
 

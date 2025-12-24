@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import lombok.*;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.*;
 import org.jetbrains.annotations.*;
 
@@ -13,13 +13,13 @@ import org.jetbrains.annotations.*;
 @AllArgsConstructor
 public class CachedItem {
 
-	public static final Codec<CachedItem> CODEC = ResourceLocation.CODEC.xmap(CachedItem::new, CachedItem::getId);
+	public static final Codec<CachedItem> CODEC = Identifier.CODEC.xmap(CachedItem::new, CachedItem::getId);
 
-	private ResourceLocation id;
+	private Identifier id;
 	@Nullable
 	private Item item;
 
-	public CachedItem(ResourceLocation id) {
+	public CachedItem(Identifier id) {
 		this.id = id;
 	}
 

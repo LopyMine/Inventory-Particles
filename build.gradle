@@ -16,7 +16,36 @@ mossyDependencies {
 	parchment = prop("build.parchment")
 
 	additional {
+//		if (stonecutter.compare(stonecutter.current.version, "1.21.11") >= 0) {
+//			disable("mossylib")
+//		}
 		//override("modCompileOnly", "yacl")
+	}
+}
+
+repositories {
+	mavenLocal()
+//	maven {
+//		name "Mossy Projects"
+//		url "https://maven.lopymine.net/releases"
+//	}
+}
+
+//dependencies {
+//	if (stonecutter.compare(stonecutter.current.version, "1.21.11") >= 0) {
+//		def project = stonecutter.current.project
+//		if (project.contains("neoforge")) {
+//			jarJar(implementation("net.lopymine:mossylib:1.0.5-${project}"))
+//		} else {
+//			include(modImplementation("net.lopymine:mossylib:1.0.5-${project}"))
+//		}
+//	}
+//}
+
+stonecutter {
+	replacements.string(current.parsed >= "1.21.11") {
+		replace("ResourceLocation", "Identifier")
+		replace(".location()", ".identifier()")
 	}
 }
 
