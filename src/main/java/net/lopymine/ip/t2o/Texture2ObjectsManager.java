@@ -3,6 +3,8 @@ package net.lopymine.ip.t2o;
 import java.io.InputStream;
 import java.util.*;
 import net.lopymine.ip.client.InventoryParticlesClient;
+import net.lopymine.ip.config.InventoryParticlesConfig;
+import net.lopymine.mossylib.loader.MossyLoader;
 import net.minecraft.client.Minecraft;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.server.packs.resources.Resource;
@@ -14,7 +16,9 @@ public class Texture2ObjectsManager {
 		try {
 			Optional<Resource> optional = Minecraft.getInstance().getResourceManager().getResource(id);
 			if (optional.isEmpty()) {
-				InventoryParticlesClient.LOGGER.error("Failed to find texture from \"{}\" to create {} from texture!", id, objectName);
+				if (InventoryParticlesConfig.getInstance().getMainConfig().isDebugModeEnabled() || MossyLoader.isDevelopmentEnvironment()) {
+					InventoryParticlesClient.LOGGER.error("Failed to find texture from \"{}\" to create {} from texture!", id, objectName);
+				}
 				return List.of();
 			}
 			Resource resource = optional.get();

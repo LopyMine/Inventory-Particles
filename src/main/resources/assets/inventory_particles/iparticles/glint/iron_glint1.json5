@@ -207,6 +207,51 @@
 		
 		
 		
+		//? if >=1.21.11 {
+		{
+			"item": "minecraft:iron_spear",
+			"spawn_area": "iron_spear_glint.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		//?}
+
+
+
+
+
+		//? if <=1.21.4 {
+		/*{
+			"item": "minecraft:iron_golem_spawn_egg",
+			"spawn_area": "spawn_egg.png",
+			"spawn_count": [0, 3],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		*///?} else {
+		{
+			"item": "minecraft:iron_golem_spawn_egg",
+			"spawn_area": "iron_golem_spawn_egg_glint.png",
+			"spawn_count": [0, 3],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		//?}
+		
+		
+		
+		
+		
 		{
 			"item": "minecraft:shield",
 			"spawn_area": "shield_glint.png",
@@ -485,6 +530,23 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		},
+		
+		
+		
+		
+		
+		//? if >=1.21.11 {
+		{
+			"item": "minecraft:iron_nautilus_armor",
+			"spawn_area": "iron_nautilus_armor_glint.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		//?}
 		
 		
 		

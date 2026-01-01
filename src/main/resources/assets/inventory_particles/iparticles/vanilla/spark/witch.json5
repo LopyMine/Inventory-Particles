@@ -1,0 +1,115 @@
+{
+	"life_time": 50,
+	"animation_type": "onetime",
+	"animation_speed": 6.0,
+	
+	"size": {
+		"width": 8,
+		"height": 8
+	},
+
+	"textures": [
+		"inventory_particles:vanilla/spark/spark_2.png",
+		"inventory_particles:vanilla/spark/spark_1.png",
+		"inventory_particles:vanilla/spark/spark_0.png"
+	],
+	
+	"holders": [
+		//? if <=1.21.4 {
+		/*{
+			"item": "minecraft:witch_spawn_egg",
+			"spawn_area": "spawn_egg.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#B025C8", "#D045E8"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+		*///?} else {
+		{
+			"item": "minecraft:witch_spawn_egg",
+			"spawn_area": "witch_spawn_egg_witch.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [1, 5],
+			"speed_coefficient": 0.3,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#B025C8", "#D045E8"],
+				"speed": 5
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+		//?}
+		
+		
+		
+		
+	],
+	"physics": {
+		"base": {
+			"x_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.05,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.5
+			},
+			"y_speed": {
+				"impulse": [-0.5, -1.0],
+				"impulse_bidirectional": false,
+				"acceleration": -0.1,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.5
+			},
+			"angle_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0]
+			}
+		},
+		"rotation": {
+			"particle": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			},
+			"texture": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": true,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			}
+		}
+	}
+}

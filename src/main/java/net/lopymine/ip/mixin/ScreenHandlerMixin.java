@@ -32,7 +32,11 @@ public abstract class ScreenHandlerMixin {
 		if (slotIndex >= 0 && slotIndex < this.slots.size() && config.isGuiActionSpawnEnabled()) {
 			boolean isTake = actionType == ClickType.PICKUP && this.getCarried().isEmpty();
 			boolean isPut = actionType == ClickType.PICKUP && !this.getCarried().isEmpty();
-			if (!(config.isGuiActionTakeSpawnEnabled() && isTake) && !(config.isGuiActionPutSpawnEnabled() && isPut)) {
+			boolean isQuickMove = actionType == ClickType.QUICK_MOVE;
+			if (!(config.isGuiActionTakeSpawnEnabled() && isTake)
+					&& !(config.isGuiActionPutSpawnEnabled() && isPut)
+					&& !(config.isGuiActionQuickMoveSpawnEnabled() && isQuickMove)
+			) {
 				return;
 			}
 
@@ -41,7 +45,9 @@ public abstract class ScreenHandlerMixin {
 				return;
 			}
 			Slot slot = handledScreen.getMenu().slots.get(slotIndex);
-			InventoryParticlesRenderer.getInstance().onPutInSlot(slot, this.getCarried(), handledScreen.leftPos, handledScreen.topPos);
+			ItemStack stack = isTake || isPut ? this.getCarried() : slot.getItem();
+
+			InventoryParticlesRenderer.getInstance().onGuiAction(slot, stack, handledScreen.leftPos, handledScreen.topPos);
 		}
 	}
 

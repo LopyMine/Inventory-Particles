@@ -3,6 +3,8 @@ package net.lopymine.ip.config.misc;
 import com.mojang.serialization.Codec;
 import lombok.*;
 import net.lopymine.ip.client.InventoryParticlesClient;
+import net.lopymine.ip.config.InventoryParticlesConfig;
+import net.lopymine.mossylib.loader.MossyLoader;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.*;
@@ -35,7 +37,9 @@ public class CachedItem {
 			/*this.item = BuiltInRegistries.ITEM.get(this.id);
 			*///?}
 			if (this.item == Items.AIR && !this.id.toString().equals("minecraft:air")) {
-				InventoryParticlesClient.LOGGER.error("Failed to find item with id \"{}\"", id);
+				if (InventoryParticlesConfig.getInstance().getMainConfig().isDebugModeEnabled() || MossyLoader.isDevelopmentEnvironment()) {
+					InventoryParticlesClient.LOGGER.error("Failed to find item with id \"{}\"", id);
+				}
 			}
 			return this.item;
 		}

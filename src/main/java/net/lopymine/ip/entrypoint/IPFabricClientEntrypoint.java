@@ -29,6 +29,8 @@ public class IPFabricClientEntrypoint implements ClientModInitializer {
 		//?} else {
 		/*ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new InventoryParticlesClientReloadListener());
 		*///?}
+
+
 	}
 }
 

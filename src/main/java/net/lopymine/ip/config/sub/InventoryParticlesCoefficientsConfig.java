@@ -27,7 +27,11 @@ public class InventoryParticlesCoefficientsConfig {
 	private ParticleCoefficientConfig guiActionConfig;
 
 	public static Supplier<InventoryParticlesCoefficientsConfig> getNewInstance() {
-		return () -> parseNewInstanceHacky(CODEC);
+		return () -> {
+			InventoryParticlesCoefficientsConfig instance = parseNewInstanceHacky(CODEC);
+			instance.getGuiActionConfig().setCooldownCoefficient(100);
+			return instance;
+		};
 	}
 	
 	@Getter

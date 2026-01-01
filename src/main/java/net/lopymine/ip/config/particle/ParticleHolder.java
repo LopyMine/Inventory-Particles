@@ -18,9 +18,7 @@ import net.lopymine.ip.predicate.nbt.*;
 import net.lopymine.ip.spawner.ParticleSpawner;
 import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.*;
 import net.minecraft.util.RandomSource;
-import net.lopymine.mossylib.utils.CodecUtils;
 import static net.lopymine.mossylib.utils.CodecUtils.option;
 
 @Getter
@@ -68,9 +66,11 @@ public class ParticleHolder {
 		return DataResult.success(InventoryParticles.id("spawn_areas/" + path));
 	}, Identifier::toString);
 
+	//public static final Codec<Either<CachedItem, Identifier>> ITEM_OR_TAG_CODEC;
+
 	public static final Codec<ParticleHolder> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			option("name", (Supplier<String>) () -> "UnknownParticle@" + RandomSource.create().nextIntBetweenInclusive(0, 100000), Codec.STRING, ParticleHolder::getName),
-			option("item", new CachedItem(), CachedItem.CODEC, ParticleHolder::getItem),
+			option("item", new CachedItem(), CachedItem.CODEC, ParticleHolder::getItemOrTag),
 			option("nbt_conditions_match", NbtNodeMatch.ANY, NbtNodeMatch.CODEC, ParticleHolder::getMatch),
 			option("nbt_conditions", new HashSet<>(), NbtNode.CODEC, ParticleHolder::getNbtCondition),
 			option("spawn_area", STANDARD_SPAWN_AREA, SPAWN_AREA_CODEC, ParticleHolder::getSpawnArea),
@@ -81,7 +81,7 @@ public class ParticleHolder {
 	).apply(instance, ParticleHolder::new));
 
 	private String name;
-	private CachedItem item;
+	private Either<CachedItem, Identifier> itemOrTag;
 	private NbtNodeMatch match;
 	private HashSet<NbtNode> nbtCondition;
 	private Identifier spawnArea;

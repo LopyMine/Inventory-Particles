@@ -80,6 +80,34 @@
 		
 		
 		
+		//? if <=1.21.4 {
+		/*{
+			"item": "minecraft:creeper_spawn_egg",
+			"spawn_area": "spawn_egg.png",
+			"spawn_count": [2, 4],
+			"spawn_frequency": [10, 20],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		*///?} else {
+		{
+			"item": "minecraft:creeper_spawn_egg",
+			"spawn_area": "creeper_spawn_egg_dust.png",
+			"spawn_count": [2, 4],
+			"spawn_frequency": [10, 20],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		//?}
+		
+		
+		
+		
+		
 		{
 			"item": "minecraft:crossbow",
 			"spawn_area": "crossbow_firework_dust.png",

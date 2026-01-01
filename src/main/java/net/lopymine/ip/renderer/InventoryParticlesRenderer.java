@@ -282,7 +282,7 @@ public class InventoryParticlesRenderer extends TickElement {
 		}
 	}
 
-	public void onPutInSlot(Slot slot, ItemStack stack, int inventoryX, int inventoryY) {
+	public void onGuiAction(Slot slot, ItemStack stack, int inventoryX, int inventoryY) {
 		if (stack.isEmpty() && !slot.hasItem()){
 			return;
 		}

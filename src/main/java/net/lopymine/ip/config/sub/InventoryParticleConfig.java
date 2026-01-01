@@ -18,9 +18,10 @@ public class InventoryParticleConfig {
 			option("cursor_spawn_enabled", true, Codec.BOOL, InventoryParticleConfig::isCursorSpawnEnabled),
 			option("hovered_slot_spawn_enabled", false, Codec.BOOL, InventoryParticleConfig::isHoveredSlotSpawnEnabled),
 			option("all_slots_spawn_enabled", false, Codec.BOOL, InventoryParticleConfig::isGuiSlotsSpawnEnabled),
-			option("gui_action_spawn_enabled", false, Codec.BOOL, InventoryParticleConfig::isGuiActionSpawnEnabled),
-			option("gui_action_take_spawn_enabled", false, Codec.BOOL, InventoryParticleConfig::isGuiActionTakeSpawnEnabled),
-			option("gui_action_put_spawn_enabled", false, Codec.BOOL, InventoryParticleConfig::isGuiActionPutSpawnEnabled),
+			option("gui_action_spawn_enabled", true, Codec.BOOL, InventoryParticleConfig::isGuiActionSpawnEnabled),
+			option("gui_action_take_spawn_enabled", true, Codec.BOOL, InventoryParticleConfig::isGuiActionTakeSpawnEnabled),
+			option("gui_action_put_spawn_enabled", true, Codec.BOOL, InventoryParticleConfig::isGuiActionPutSpawnEnabled),
+			option("gui_action_quick_move_spawn_enabled", true, Codec.BOOL, InventoryParticleConfig::isGuiActionPutSpawnEnabled),
 			option("particle_deletion_type", ParticleDeletionMode.OLDEST, ParticleDeletionMode.CODEC, InventoryParticleConfig::getParticleDeletionMode),
 			option("max_particles", 5000, Codec.INT, InventoryParticleConfig::getMaxParticles),
 			option("particle_transparency", 1.0D, Codec.DOUBLE, InventoryParticleConfig::getParticleTransparency)
@@ -32,6 +33,7 @@ public class InventoryParticleConfig {
 	private boolean guiActionSpawnEnabled;
 	private boolean guiActionTakeSpawnEnabled;
 	private boolean guiActionPutSpawnEnabled;
+	private boolean guiActionQuickMoveSpawnEnabled;
 	private ParticleDeletionMode particleDeletionMode;
 	private int maxParticles;
 	private double particleTransparency;

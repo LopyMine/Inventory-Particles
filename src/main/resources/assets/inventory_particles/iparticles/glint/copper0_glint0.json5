@@ -453,6 +453,24 @@
 		
 		
 		
+		
+		//? if >=1.21.11 {
+		{
+			"item": "minecraft:copper_spear",
+			"spawn_area": "copper_spear_glint.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		//?}
+		
+		
+		
+		
+		
 		{
 			"item": "minecraft:brush",
 			"spawn_area": "brush_glint.png",
@@ -570,6 +588,39 @@
 		{
 			"item": "minecraft:copper_horse_armor",
 			"spawn_area": "copper_horse_armor_glint_0.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		//?}
+		
+		
+		
+		
+		
+		//? if >=1.21.11 {
+		{
+			"item": "minecraft:copper_nautilus_armor",
+			"spawn_area": "copper_nautilus_armor_glint.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:copper_golem_spawn_egg",
+			"spawn_area": "copper_golem_spawn_egg_glint.png",
 			"spawn_count": [0, 2],
 			"spawn_frequency": [10, 40],
 			"speed_coefficient": 0.1,

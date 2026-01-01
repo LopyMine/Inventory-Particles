@@ -89,12 +89,15 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 	}
 
 	private List<InventoryParticle> createParticles(int spawnCount, ParticleSpawnContext context, Consumer<InventoryParticle> consumer) {
-		if (spawnCount != 0 && !this.spawnCondition.test(context.getStack())) {
-			return List.of();
+		if (spawnCount == 0) {
+			if (context == ParticleSpawnContext.GUI_ACTION_SLOT) {
+				spawnCount = 1;
+			} else {
+				return List.of();
+			}
 		}
-
-		if (spawnCount == 0 && context == ParticleSpawnContext.GUI_ACTION_SLOT) {
-			spawnCount = 1;
+		if (!this.spawnCondition.test(context.getStack())) {
+			return List.of();
 		}
 
 		float count = (float) ((((float) spawnCount) * context.getCountCoefficient()) * InventoryParticlesConfig.getInstance().getCoefficientsConfig().getGlobalConfig().getCountCoefficient());

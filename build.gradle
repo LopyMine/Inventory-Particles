@@ -50,10 +50,10 @@ stonecutter {
 }
 
 processResources {
-	if (stonecutter.compare(stonecutter.current.version, "1.21.9") >= 0) {
-		fletchingTable.relocate(it, "assets/${prop("data.mod_id")}/spawn_areas_1_21_9/*.png -> ../spawn_areas")
+	if (stonecutter.compare(stonecutter.current.version, "1.21.8") <= 0) {
+		fletchingTable.relocate(it, "assets/${prop("data.mod_id")}/spawn_areas_1_21_8/*.png -> ../spawn_areas")
 	} else {
-		exclude("assets/${prop("data.mod_id")}/spawn_areas_1_21_9/")
+		exclude("assets/${prop("data.mod_id")}/spawn_areas_1_21_8/")
 	}
 }
 

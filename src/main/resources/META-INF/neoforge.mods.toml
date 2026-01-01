@@ -33,6 +33,6 @@ side = "BOTH"
 [[dependencies.${mod_id}]]
 modId = "mossylib"
 type = "required"
-versionRange = "${mossylib}"
+versionRange = "[1.0.5,)"
 ordering = "NONE"
 side = "BOTH"

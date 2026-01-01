@@ -39,6 +39,9 @@
 	"${mod_id}.modmenu.option.gui_action_put_spawn_enabled.name": "Появление при помещении предмета в слот",
 	"${mod_id}.modmenu.option.gui_action_put_spawn_enabled.description": "Если включено, частицы будут появляться при помещении предмета в слот; если отключено, не будут.",
 
+	"${mod_id}.modmenu.option.gui_action_quick_move_spawn_enabled.name": "Появление при быстром помещении предмета",
+	"${mod_id}.modmenu.option.gui_action_quick_move_spawn_enabled.description": "Если включёно, частицы будут появляться при быстром перемещении предмета из одного слота в другой (через Shift + ЛКМ); если отключено, не будут.",
+
 	"${mod_id}.modmenu.option.particle_deletion_mode.name": "Режим удаления частиц",
 	"${mod_id}.modmenu.option.particle_deletion_mode.description": "Определяет, какие частицы будут удалены для появления новых, если достигнут лимит частиц.",
 

@@ -349,6 +349,49 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		},
+		//? if <=1.21.4 {
+		/*{
+			"item": "minecraft:cave_spider_spawn_egg",
+			"spawn_area": "spawn_egg.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": "#87A363",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:pufferfish_spawn_egg",
+			"spawn_area": "spawn_egg.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": "#87A363",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		*///?} else {
+		{
+			"item": "minecraft:cave_spider_spawn_egg",
+			"spawn_area": "cave_spider_spawn_egg_potion.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": "#87A363",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:pufferfish_spawn_egg",
+			"spawn_area": "pufferfish_spawn_egg_potion.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [5, 20],
+			"speed_coefficient": 0.2,
+			"color": "#87A363",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		//?}
 		
 		
 		

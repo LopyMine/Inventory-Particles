@@ -49,6 +49,7 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 			*///?}
 
 			int success = 0;
+			List<DebugNbtPath> successPaths = new ArrayList<>();
 
 			for (NbtNode node : this.nodes) {
 				Tag element = root.get(node.getName());
@@ -61,18 +62,26 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 				ReadResult readResult = this.readElementByType(element, node, debugNbtPath);
 				if (readResult == ReadResult.SUCCESS) {
 					if (this.match == NbtNodeMatch.ANY) {
+						this.debugLog(debugNbtPath, DebugLogReason.MATCH);
 						return true;
 					} else {
 						success++;
+						successPaths.add(debugNbtPath);
 					}
 				}
 			}
 
-			return switch (this.match) {
+			boolean bl = switch (this.match) {
 				case ANY -> false;
 				case ALL -> success == this.nodes.size();
 				case NONE -> success == 0;
 			};
+			if (bl) {
+				for (DebugNbtPath debugNbtPath : successPaths) {
+					this.debugLog(debugNbtPath, DebugLogReason.MATCH);
+				}
+			}
+			return bl;
 		} catch (Exception e) {
 			InventoryParticlesClient.LOGGER.error("Failed to read nbt from item \"{}\" for NbtParticleSpawnPredicate! Reason:", stack.getItem().getStringName(), e);
 		}
@@ -225,6 +234,8 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 
 	private enum DebugLogReason {
 
+		MATCH("Successful NBT Predicate match."),
+
 		ENCODED_WRONG_ROOT("Encoded invalid root NBT for item \"{}\"."),
 		NO_SUCH_ELEMENT_IN_ROOT("Missing NBT element \"{}\" in root NBT."),
 		TYPE_MISMATCH("NBT node \"{}\" has wrong type. Found type: \"{}\", Expected type: \"{}\"."),
@@ -251,7 +262,11 @@ public class NbtParticleSpawnPredicate implements IParticleSpawnPredicate {
 			if (path != null) {
 				path.back();
 			}
-			InventoryParticlesClient.LOGGER.error("[%s] %s".formatted(particleName, string), objects);
+			if (this == MATCH) {
+				InventoryParticlesClient.LOGGER.info("[%s] %s".formatted(particleName, string), objects);
+			} else {
+				InventoryParticlesClient.LOGGER.error("[%s] %s".formatted(particleName, string), objects);
+			}
 		}
 	}
 

@@ -93,6 +93,11 @@ public class YACLConfigurationScreen {
 				.withController()
 				.withDescription(SimpleContent.NONE)
 				.build(InventoryParticles.MOD_ID);
+		Option<Boolean> guiActionQuickMoveSpawnEnabled = SimpleOption.<Boolean>startBuilder("gui_action_quick_move_spawn_enabled")
+				.withBinding(defParticleConfig.isGuiActionQuickMoveSpawnEnabled(), particleConfig::isGuiActionQuickMoveSpawnEnabled, particleConfig::setGuiActionQuickMoveSpawnEnabled, true)
+				.withController()
+				.withDescription(SimpleContent.NONE)
+				.build(InventoryParticles.MOD_ID);
 
 		//
 		SimpleGroup particlesGroup = SimpleGroup.startBuilder("particles").options(
@@ -141,10 +146,12 @@ public class YACLConfigurationScreen {
 								}
 								guiActionTakeSpawnEnabled.setAvailable(value);
 								guiActionPutSpawnEnabled.setAvailable(value);
+								guiActionQuickMoveSpawnEnabled.setAvailable(value);
 
 								if (!value) {
 									guiActionTakeSpawnEnabled.requestSet(false);
 									guiActionPutSpawnEnabled.requestSet(false);
+									guiActionQuickMoveSpawnEnabled.requestSet(false);
 								}
 							});
 						}),
@@ -164,7 +171,8 @@ public class YACLConfigurationScreen {
 						.withDescription(SimpleContent.NONE)
 
 		);
-		coefficientsGroup.options(guiActionTakeSpawnEnabled, guiActionPutSpawnEnabled);
+
+		coefficientsGroup.options(guiActionTakeSpawnEnabled, guiActionPutSpawnEnabled, guiActionQuickMoveSpawnEnabled);
 
 		return new SimpleGroup[]{particlesGroup, coefficientsGroup};
 	}

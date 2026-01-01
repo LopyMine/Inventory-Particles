@@ -1,0 +1,221 @@
+{
+	"life_time": 20,
+	"animation_type": "onetime",
+	"animation_speed": 2.0,
+	
+	"size": {
+		"width": 8,
+		"height": 8
+	},
+
+	"textures": [
+		"inventory_particles:glint/emerald_glint0_0.png",
+		"inventory_particles:glint/emerald_glint0_1.png",
+		"inventory_particles:glint/emerald_glint0_2.png",
+		"inventory_particles:glint/emerald_glint0_3.png",
+		"inventory_particles:glint/emerald_glint0_4.png"
+	],
+	
+	"holders": [
+		{
+			"item": "minecraft:emerald_ore",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:deepslate_emerald_ore",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:emerald",
+			"spawn_area": "emerald_glint.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:emerald_block",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:totem_of_undying",
+			"spawn_area": "totem_of_undying_glint_emerald.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		
+		
+		
+		
+		
+
+		//? if <=1.21.4 {
+		/*{
+			"item": "minecraft:villager_spawn_egg",
+			"spawn_area": "spawn_egg.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:zombie_villager_spawn_egg",
+			"spawn_area": "spawn_egg.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:wandering_trader_spawn_egg",
+			"spawn_area": "spawn_egg.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		*///?} else {
+		{
+			"item": "minecraft:villager_spawn_egg",
+			"spawn_area": "villager_spawn_egg_glint.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:zombie_villager_spawn_egg",
+			"spawn_area": "zombie_villager_spawn_egg_glint.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:wandering_trader_spawn_egg",
+			"spawn_area": "wandering_trader_spawn_egg_glint_0.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		//?}
+		
+		
+		
+		
+		
+		{
+			"item": "minecraft:friend_pottery_sherd",
+			"spawn_area": "friend_pottery_sherd_glint.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [20, 60],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"physics": {
+		"base": {
+			"x_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.0
+			},
+			"y_speed": {
+				"impulse": [0.0, 0.0],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.0,
+				"turbulence": [0.0, 0.0],
+				"cursor_impulse_inherit_coefficient": 0.0
+			},
+			"angle_speed": {
+				"impulse": [0.0, 1.5],
+				"impulse_bidirectional": false,
+				"acceleration": 0.0,
+				"acceleration_bidirectional": false,
+				"max_acceleration": [-100.0, 100.0],
+				"braking": 0.1,
+				"turbulence": [0.0, 0.0]
+			}
+		},
+		"rotation": {
+			"particle": {
+				"spawn_angle": [0.0, 360.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			},
+			"texture": {
+				"spawn_angle": [0.0, 0.0],
+				"rotate_in_movement_direction": false,
+				"speed": {
+					"impulse": [0.0, 0.0],
+					"impulse_bidirectional": false,
+					"acceleration": 0.0,
+					"acceleration_bidirectional": false,
+					"max_acceleration": 0.0,
+					"braking": 0.0,
+					"turbulence": [0.0, 0.0]
+				}
+			}
+		}
+	}
+}

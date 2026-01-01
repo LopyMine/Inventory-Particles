@@ -26,7 +26,7 @@
         ]
     },
     "depends": {
-	    "mossylib": "*",
+	    "mossylib": ">=${mossylib}",
         "fabricloader": ">=${fabric_loader}",
         "minecraft": ">=${minecraft}",
         "java": ">=${java}",

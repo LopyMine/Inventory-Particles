@@ -24,6 +24,7 @@ import static net.lopymine.mossylib.utils.CodecUtils.option;
 public class InventoryParticlesConfig {
 
 	public static final Codec<InventoryParticlesConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+			option("test_1_2_2", false, Codec.BOOL, InventoryParticlesConfig::isTest122),
 			option("main", InventoryParticlesMainConfig.getNewInstance(), InventoryParticlesMainConfig.CODEC, InventoryParticlesConfig::getMainConfig),
 			option("particle", InventoryParticleConfig.getNewInstance(), InventoryParticleConfig.CODEC, InventoryParticlesConfig::getParticleConfig),
 			option("coefficients", InventoryParticlesCoefficientsConfig.getNewInstance(), InventoryParticlesCoefficientsConfig.CODEC, InventoryParticlesConfig::getCoefficientsConfig)
@@ -33,6 +34,7 @@ public class InventoryParticlesConfig {
 	private static final Logger LOGGER = LoggerFactory.getLogger(InventoryParticles.MOD_NAME + "/Config");
 	private static InventoryParticlesConfig INSTANCE;
 
+	private boolean test122;
 	private InventoryParticlesMainConfig mainConfig;
 	private InventoryParticleConfig particleConfig;
 	private InventoryParticlesCoefficientsConfig coefficientsConfig;
@@ -54,7 +56,18 @@ public class InventoryParticlesConfig {
 	}
 
 	private static InventoryParticlesConfig read() {
-		return ConfigUtils.readConfig(CODEC, CONFIG_FILE, LOGGER);
+		InventoryParticlesConfig config = ConfigUtils.readConfig(CODEC, CONFIG_FILE, LOGGER);
+		if (!config.isTest122()) {
+			config.setTest122(true);
+			InventoryParticleConfig particleConfig = config.getParticleConfig();
+			particleConfig.setGuiActionSpawnEnabled(true);
+			particleConfig.setGuiActionPutSpawnEnabled(true);
+			particleConfig.setGuiActionTakeSpawnEnabled(true);
+			particleConfig.setGuiActionQuickMoveSpawnEnabled(true);
+			config.getCoefficientsConfig().getGuiActionConfig().setCooldownCoefficient(100);
+			config.saveAsync();
+		}
+		return config;
 	}
 
 	public void saveAsync() {

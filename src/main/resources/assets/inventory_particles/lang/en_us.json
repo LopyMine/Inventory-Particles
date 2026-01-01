@@ -39,6 +39,9 @@
 	"${mod_id}.modmenu.option.gui_action_put_spawn_enabled.name": "Spawn On Put Action",
 	"${mod_id}.modmenu.option.gui_action_put_spawn_enabled.description": "If enabled, particles will be spawned when putting items into slots; if disabled, won't.",
 
+	"${mod_id}.modmenu.option.gui_action_quick_move_spawn_enabled.name": "Spawn On Quick Move Action",
+	"${mod_id}.modmenu.option.gui_action_quick_move_spawn_enabled.description": "If enabled, particles will be spawned when quick moving items (with Shift + LMB); if disabled, won't.",
+
 	"${mod_id}.modmenu.option.particle_deletion_mode.name": "Particle Deletion Mode",
 	"${mod_id}.modmenu.option.particle_deletion_mode.description": "Controls which particles will be removed for spawn new particles if the maximum particle limit has been reached.",
 

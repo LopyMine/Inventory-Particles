@@ -1,1 +1,3 @@
-- Added support for 1.21.11, but without particles for new items, they will be in the next update ^^
+- Added new particles for items in 1.21.11
+- Added new particles for spawn egg items
+- Added new config option "Spawn On Quick Move Action"

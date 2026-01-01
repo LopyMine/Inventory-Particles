@@ -16,6 +16,7 @@ import net.minecraft.world.item.component.*;
 /*import net.minecraft.nbt.*;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.Potion;
+import org.jetbrains.annotations.Nullable;
 *///?}
 
 @ExtensionMethod(OptionalExtension.class)
@@ -47,7 +48,13 @@ public class NbtUtils {
 					.toEmpty(false)
 					.toFirst(CompoundTag.class)
 					.to("tag", CompoundTag.class)
-					.map(NbtUtils::getColorFromPotionNbt)
+					.map((tag) -> {
+						Optional<Integer[]> a = NbtUtils.getColorFromFirework(tag);
+						if (a.isPresent()) {
+							return a;
+						}
+						return NbtUtils.getColorFromPotionNbt(tag);
+					})
 					.filter(Optional::isPresent)
 					.map(Optional::get);
 			*///?}
@@ -68,8 +75,8 @@ public class NbtUtils {
 		return Optional.empty();
 	}
 
+	//? if >=1.21 {
 	public static Optional<Integer[]> getColorFromFirework(ItemStack stack) {
-		//? if >=1.21 {
 		return Optional.ofNullable(stack.getComponents().get(DataComponents.FIREWORKS))
 				.map(Fireworks::explosions)
 				.map((c) -> c.stream()
@@ -77,8 +84,14 @@ public class NbtUtils {
 						.flatMap((o) -> o.intStream().boxed())
 						.toArray(Integer[]::new)
 				);
-		//?} else {
-		/*return Optional.ofNullable(stack.getTag())
+	}
+	//?} else {
+	/*public static Optional<Integer[]> getColorFromFirework(ItemStack stack) {
+		return getColorFromFirework(stack.getTag());
+	}
+
+	public static Optional<Integer[]> getColorFromFirework(@Nullable CompoundTag tag) {
+		return Optional.ofNullable(tag)
 				.to("Fireworks", CompoundTag.class)
 				.to("Explosions", ListTag.class)
 				.toEmpty(false)
@@ -87,9 +100,8 @@ public class NbtUtils {
 						.flatMap((o) -> o.stream().flatMap(Arrays::stream))
 						.toArray(Integer[]::new)
 				);
-
-		*///?}
 	}
+	*///?}
 
 	public static Optional<Integer[]> getColorFromFireworkExplosionStack(ItemStack stack) {
 		//? if >=1.21 {
