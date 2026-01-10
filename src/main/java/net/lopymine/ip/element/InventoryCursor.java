@@ -1,14 +1,14 @@
 package net.lopymine.ip.element;
 
 import lombok.*;
-import net.lopymine.ip.element.base.TickElement;
+import net.lopymine.ip.element.base.*;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.*;
 import org.jetbrains.annotations.Nullable;
 
 @Setter
 @Getter
-public class InventoryCursor extends TickElement {
+public class InventoryCursor extends TickElement implements IMovableElement {
 
 	private ItemStack currentStack = Items.AIR.getDefaultInstance();
 	@Nullable
@@ -17,25 +17,31 @@ public class InventoryCursor extends TickElement {
 	private double lastSpeed = 0.0D;
 	private double speed = 0.0D;
 
-	private int lastX = 0;
-	private int x = 0;
+	private double lastSpeedX = 0.0D;
+	private double speedX = 0.0D;
 
-	private int lastY = 0;
-	private int y = 0;
+	private double lastSpeedY = 0.0D;
+	private double speedY = 0.0D;
 
-	private int mouseX = 0;
-	private int mouseY = 0;
+	private double lastX = 0;
+	private double x = 0;
 
-	public void setCurrentStack(@Nullable ItemStack currentStack) {
+	private double lastY = 0;
+	private double y = 0;
+
+	private double mouseX = 0;
+	private double mouseY = 0;
+
+	public void setStack(@Nullable ItemStack currentStack) {
 		this.currentStack = currentStack == null || currentStack == ItemStack.EMPTY ? Items.AIR.getDefaultInstance() : currentStack;
 	}
 
-	public void setX(int x) {
+	public void setX(double x) {
 		this.lastX = this.x;
 		this.x = x;
 	}
 
-	public void setY(int y) {
+	public void setY(double y) {
 		this.lastY = this.y;
 		this.y = y;
 	}
@@ -45,11 +51,21 @@ public class InventoryCursor extends TickElement {
 		this.speed = speed;
 	}
 
-	public int getDeltaX() {
+	public void setSpeedX(double speedX) {
+		this.lastSpeedX = this.speedX;
+		this.speedX = speedX;
+	}
+
+	public void setSpeedY(double speedY) {
+		this.lastSpeedY = this.speedY;
+		this.speedY = speedY;
+	}
+
+	public double getDeltaX() {
 		return Math.abs(this.x - this.lastX);
 	}
 
-	public int getDeltaY() {
+	public double getDeltaY() {
 		return Math.abs(this.y - this.lastY);
 	}
 
@@ -77,6 +93,15 @@ public class InventoryCursor extends TickElement {
 			this.setX(this.getMouseX());
 			this.setY(this.getMouseY());
 		}
+
+		double rawCursorSpeedX = this.x - this.lastX;
+		int directionalX = rawCursorSpeedX < 0 ? -1 : 1;
+		this.setSpeedX((Math.sqrt(Math.abs(rawCursorSpeedX)) * directionalX));
+
+		double rawCursorSpeedY = this.y - this.lastY;
+		int directionalY = rawCursorSpeedY < 0 ? -1 : 1;
+		this.setSpeedY(Math.sqrt(Math.abs(rawCursorSpeedY)) * directionalY);
+
 		double speed = Math.sqrt(Math.pow(this.getDeltaX(), 2) + Math.pow(this.getDeltaY(), 2));
 		this.setSpeed(speed);
 	}

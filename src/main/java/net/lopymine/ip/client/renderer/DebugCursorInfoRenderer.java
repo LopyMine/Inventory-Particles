@@ -2,6 +2,7 @@ package net.lopymine.ip.client.renderer;
 
 import java.util.*;
 import net.lopymine.ip.element.*;
+import net.lopymine.ip.element.base.IParticle;
 import net.lopymine.ip.renderer.*;
 import net.minecraft.client.gui.GuiGraphics;
 

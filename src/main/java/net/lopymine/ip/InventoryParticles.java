@@ -1,5 +1,6 @@
 package net.lopymine.ip;
 
+import net.lopymine.mossylib.logger.MossyLogger;
 import net.minecraft.network.chat.*;
 import net.minecraft.resources.Identifier;
 import org.slf4j.*;
@@ -8,13 +9,13 @@ public class InventoryParticles {
 
 	public static final String MOD_NAME = /*$ mod_name*/ "Inventory Particles";
 	public static final String MOD_ID = /*$ mod_id*/ "inventory_particles";
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
+	public static final MossyLogger LOGGER = new MossyLogger(MOD_NAME);
 
 	public static Identifier id(String path) {
 		//? if >=1.21 {
 		return Identifier.fromNamespaceAndPath(MOD_ID, path);
 		//?} else {
-		/*return ResourceLocation.tryBuild(MOD_ID, path);
+		/*return Identifier.tryBuild(MOD_ID, path);
 		 *///?}
 	}
 

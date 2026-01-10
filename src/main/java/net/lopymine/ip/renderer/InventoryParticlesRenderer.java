@@ -8,8 +8,8 @@ import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.optimization.ParticleDeletionMode;
 import net.lopymine.ip.config.sub.InventoryParticleConfig;
 import net.lopymine.ip.element.*;
-import net.lopymine.ip.element.base.TickElement;
-import net.lopymine.ip.resourcepack.ResourcePackParticleConfigsManager;
+import net.lopymine.ip.element.base.*;
+import net.lopymine.ip.particles.ParticlesConfigsManager;
 import net.lopymine.ip.spawner.*;
 import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.lopymine.ip.utils.ParticleDrawUtils;
@@ -73,17 +73,11 @@ public class InventoryParticlesRenderer extends TickElement {
 		}, "rendering_particle");
 	}
 
-	public void updateCursor(int mouseY, int mouseX, ItemStack item, @Nullable Slot focusedSlot) {
-		this.cursor.setMouseY(mouseY);
-		this.cursor.setMouseX(mouseX);
-		this.cursor.setCurrentStack(item);
-		this.cursor.setHoveredSlot(focusedSlot);
-	}
-
 	public void tick(@Nullable AbstractContainerMenu handler, @Nullable Integer inventoryX, @Nullable Integer inventoryY) {
 		if (this.stoppedTicking || this.stoppedByInitializationReason) {
 			return;
 		}
+
 		super.tick();
 		if (this.ticks < this.nextTick) {
 			return;
@@ -108,6 +102,7 @@ public class InventoryParticlesRenderer extends TickElement {
 
 			this.screenParticles.removeIf((particle) -> {
 				if (particle == null) {
+
 					return true;
 				}
 				particle.tick();
@@ -131,7 +126,7 @@ public class InventoryParticlesRenderer extends TickElement {
 			return;
 		}
 		Item item = stack.getItem();
-		List<IParticleSpawner> spawners = ResourcePackParticleConfigsManager.getPerItemParticleSpawners().get(item);
+		List<IParticleSpawner> spawners = ParticlesConfigsManager.getSpawnersForItem(item);
 		if (spawners == null) {
 			return;
 		}
@@ -152,7 +147,7 @@ public class InventoryParticlesRenderer extends TickElement {
 			if (stack.isEmpty()) {
 				continue;
 			}
-			List<IParticleSpawner> particleSpawners = ResourcePackParticleConfigsManager.getPerItemParticleSpawners().get(stack.getItem());
+			List<IParticleSpawner> particleSpawners = ParticlesConfigsManager.getSpawnersForItem(stack.getItem());
 			if (particleSpawners == null) {
 				continue;
 			}
@@ -170,7 +165,7 @@ public class InventoryParticlesRenderer extends TickElement {
 		if (stack.isEmpty()) {
 			return;
 		}
-		List<IParticleSpawner> particleSpawners = ResourcePackParticleConfigsManager.getPerItemParticleSpawners().get(stack.getItem());
+		List<IParticleSpawner> particleSpawners = ParticlesConfigsManager.getSpawnersForItem(stack.getItem());
 		if (particleSpawners != null) {
 			List<InventoryParticle> particles = new ArrayList<>();
 
@@ -292,7 +287,7 @@ public class InventoryParticlesRenderer extends TickElement {
 			return;
 		}
 		this.runSoft(() -> {
-			List<IParticleSpawner> spawners = ResourcePackParticleConfigsManager.getPerItemParticleSpawners().get(stack.isEmpty() ? slot.getItem().getItem() : stack.getItem());
+			List<IParticleSpawner> spawners = ParticlesConfigsManager.getSpawnersForItem(stack.isEmpty() ? slot.getItem().getItem() : stack.getItem());
 			if (spawners != null) {
 				ParticleSpawnContext context = ParticleSpawnContext.guiActionSlot(slot, inventoryX, inventoryY);
 				if (context.getStack().isEmpty()) {

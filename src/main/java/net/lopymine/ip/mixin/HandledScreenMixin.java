@@ -12,6 +12,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.*;
@@ -33,35 +34,15 @@ public class HandledScreenMixin<T extends AbstractContainerMenu> extends Screen 
 		super(title);
 	}
 
-	@Inject(at = @At("TAIL"), method = "init")
-	private void addDebugButton(CallbackInfo ci) {
-//		if (false) {
-//			InventoryParticlesMainConfig config = InventoryParticlesConfig.getInstance().getMainConfig();
-//			if (!config.isDebugModeEnabled() || !config.isModEnabled()) {
-//				return;
-//			}
-//			Button stopTickingButton = this.addRenderableWidget(Button.builder(Component.nullToEmpty("Stop Ticking"), (button) -> {
-//				InventoryParticlesRenderer renderer = InventoryParticlesRenderer.getInstance();
-//				renderer.setStoppedTicking(!renderer.isStoppedTicking());
-//			}).pos(5, this.height - 25).build());
-//			EditBox ticksPerTickField = new EditBox(Minecraft.getInstance().font, stopTickingButton.getX(), stopTickingButton.getY() - 25, stopTickingButton.getWidth(), 20, Component.literal("Ticks Per Tick"));
-//			ticksPerTickField.setResponder((s) -> {
-//				try {
-//					InventoryParticlesRenderer.getInstance().setTicksPerTick(Integer.parseInt(s));
-//				} catch (Exception ignored) {
-//				}
-//			});
-//			ticksPerTickField.setHint(Component.nullToEmpty("1"));
-//			this.addRenderableWidget(ticksPerTickField);
-//		}
-	}
-
 	@Inject(at = @At("HEAD"), method = "tick")
 	private void tickInventoryParticles(CallbackInfo ci) {
 		InventoryParticlesMainConfig config = InventoryParticlesConfig.getInstance().getMainConfig();
 		if (!config.isModEnabled()) {
 			return;
 		}
+
+		InventoryParticlesRenderer.getInstance().getCursor().setCurrentStack(this.menu.getCarried());
+
 		InventoryParticlesRenderer.getInstance().tick(this.menu, this.leftPos, this.topPos);
 	}
 
@@ -69,8 +50,6 @@ public class HandledScreenMixin<T extends AbstractContainerMenu> extends Screen 
 	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;mouseClicked(Lnet/minecraft/client/input/MouseButtonEvent;Z)Z"), method = "mouseClicked")
 	private boolean addParticleFocusing(AbstractContainerScreen<?> instance, MouseButtonEvent click, boolean b, Operation<Boolean> original) {
 		boolean bl = original.call(instance, click, b);
-		double x = click.x();
-		double y = click.y();
 		int button = click.button();
 		//?} else {
 	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;mouseClicked(DDI)Z"), method = "mouseClicked")

@@ -1,6 +1,7 @@
 package net.lopymine.ip.client.renderer;
 
 import net.lopymine.ip.element.InventoryParticle;
+import net.lopymine.ip.element.base.IParticle;
 import net.lopymine.ip.renderer.*;
 import net.lopymine.ip.utils.ArgbUtils2;
 import net.minecraft.client.gui.Font;

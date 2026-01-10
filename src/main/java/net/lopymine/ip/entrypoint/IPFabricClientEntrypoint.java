@@ -3,11 +3,15 @@ package net.lopymine.ip.entrypoint;
 //? if fabric {
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.client.InventoryParticlesClient;
-import net.lopymine.ip.resourcepack.InventoryParticlesClientReloadListener;
+import net.lopymine.ip.client.command.InventoryParticlesCommandManager;
+import net.lopymine.ip.particles.ParticlesConfigsManager;
+import net.lopymine.ip.resourcepack.*;
+import net.lopymine.mossylib.loader.MossyLoader;
 import net.minecraft.server.packs.PackType;
 
 //? if >=1.21.9 {
@@ -24,12 +28,13 @@ public class IPFabricClientEntrypoint implements ClientModInitializer {
 		ClientLifecycleEvents.CLIENT_STOPPING.register((client) -> {
 			InventoryParticlesAtlasManager.getInstance().close();
 		});
-		//? if >=1.21.9 {
-		ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloader(InventoryParticlesClientReloadListener.getFabricId(), new InventoryParticlesClientReloadListener());
-		//?} else {
-		/*ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new InventoryParticlesClientReloadListener());
-		*///?}
 
+		MossyLoader.registerReloadListener(new InventoryParticlesClientReloadListener());
+		MossyLoader.registerCommands(InventoryParticlesCommandManager::register);
+
+		ClientPlayConnectionEvents.JOIN.register((aa, bb, vv) -> {
+			ParticlesConfigsManager.updateCombinedMap();
+		});
 
 	}
 }

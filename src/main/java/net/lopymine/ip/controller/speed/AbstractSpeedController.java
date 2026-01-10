@@ -25,15 +25,16 @@ public abstract class AbstractSpeedController<C extends AbstractSpeedController<
 	private DoubleRange max;
 	private double braking;
 	private DoubleRange turbulence;
+	private double cursorImpulseInheritCoefficient;
 
 	protected double lastSpeed;
 	protected double speed;
 
 	public AbstractSpeedController(SpeedConfig config, RandomSource random, double impulse) {
-		this(random, config.getAcceleration(), config.isAccelerationBidirectional(), config.getMaxAcceleration(), config.getMax(), config.getBraking(), config.getTurbulence(), impulse + config.getImpulseBidirectional(random));
+		this(random, config.getAcceleration(), config.isAccelerationBidirectional(), config.getMaxAcceleration(), config.getMax(), config.getBraking(), config.getTurbulence(), impulse + config.getImpulseBidirectional(random), config.getCursorImpulseInheritCoefficient());
 	}
 
-	public AbstractSpeedController(RandomSource random, double acceleration, boolean accelerationBidirectional, DoubleRange maxAcceleration, DoubleRange max, double braking, DoubleRange turbulence, double impulse) {
+	public AbstractSpeedController(RandomSource random, double acceleration, boolean accelerationBidirectional, DoubleRange maxAcceleration, DoubleRange max, double braking, DoubleRange turbulence, double impulse, double cursorImpulseInheritCoefficient) {
 		this.random                    = random;
 		this.acceleration              = acceleration;
 		this.accelerationBidirectional = accelerationBidirectional && random.nextBoolean();
@@ -42,6 +43,7 @@ public abstract class AbstractSpeedController<C extends AbstractSpeedController<
 		this.braking                   = braking;
 		this.turbulence                = turbulence;
 		this.speed                     = impulse;
+		this.cursorImpulseInheritCoefficient = cursorImpulseInheritCoefficient;
 	}
 
 	@Override

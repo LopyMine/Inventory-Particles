@@ -29,7 +29,7 @@ public class ParticleConfig {
 			//? if >=1.21 {
 			return Identifier.fromNamespaceAndPath(i, s);
 			//?} else {
-			/*return ResourceLocation.tryBuild(i, s);
+			/*return Identifier.tryBuild(i, s);
 			 *///?}
 		}
 		return id;

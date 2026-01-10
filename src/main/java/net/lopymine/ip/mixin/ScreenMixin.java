@@ -7,6 +7,7 @@ import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.sub.InventoryParticlesMainConfig;
+import net.lopymine.ip.element.InventoryCursor;
 import net.lopymine.ip.renderer.InventoryParticlesRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -47,9 +48,9 @@ public class ScreenMixin {
 
 		Screen screen = (Screen) (Object) this;
 		if (screen instanceof AbstractContainerScreen<?> handledScreen) {
-			InventoryParticlesRenderer.getInstance().updateCursor(mouseY, mouseX, handledScreen.getMenu().getCarried(), handledScreen.hoveredSlot);
+			InventoryCursor cursor = InventoryParticlesRenderer.getInstance().getCursor();
+			cursor.setHoveredSlot(handledScreen.hoveredSlot);
 		}
-
 
 		//? if >=1.21.5 {
 		float tickProgress = Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(true);

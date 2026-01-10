@@ -189,7 +189,7 @@ public class NbtUtils {
 		Optional<List<MobEffectInstance>> optional = Optional.ofNullable(compound.get("Potion"))
 				.to(StringTag.class)
 				.map(Tag::getAsString)
-				.map(ResourceLocation::new)
+				.map(Identifier::new)
 				.map(BuiltInRegistries.POTION::get)
 				.map(Potion::getEffects);
 		return optional.isPresent() && optional.get().isEmpty() ? NO_EFFECTS_COLOR : optional

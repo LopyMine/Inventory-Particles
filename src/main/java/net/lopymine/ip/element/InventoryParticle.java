@@ -11,11 +11,11 @@ import net.lopymine.ip.controller.size.DynamicSizeController;
 import net.lopymine.ip.controller.speed.*;
 import net.lopymine.ip.debug.HideInDebugRender;
 import net.lopymine.ip.element.base.*;
-import net.lopymine.ip.renderer.*;
 import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.lopymine.ip.texture.IParticleTextureProvider;
 import net.lopymine.ip.utils.*;
 import net.lopymine.mossylib.extension.DrawContextExtension;
+import net.lopymine.mossylib.utils.ArgbUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -196,7 +196,7 @@ public class InventoryParticle extends TickElement implements IParticle, IRotata
 	}
 
 	private int getRenderColor() {
-		int alpha = ArgbUtils2.getAlpha(this.color);
+		int alpha = ArgbUtils.getAlpha(this.color);
 		int configAlpha = (int) (InventoryParticlesConfig.getInstance().getParticleConfig().getParticleTransparency() * 255F);
 		if (alpha <= configAlpha) {
 			return this.color;

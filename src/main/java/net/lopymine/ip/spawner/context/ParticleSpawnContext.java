@@ -37,7 +37,7 @@ public class ParticleSpawnContext {
 	);
 
 	private ItemStack stack;
-	private int x, y;
+	private double x, y;
 	private double impulseX, impulseY;
 	private Function<InventoryParticleConfig, Boolean> enabledFunction;
 	private Function<InventoryParticlesCoefficientsConfig, ParticleCoefficientConfig> configFunction;
@@ -78,10 +78,10 @@ public class ParticleSpawnContext {
 
 	private static @NotNull ParticleSpawnContext slot(ParticleSpawnContext context, Slot slot, int inventoryX, int inventoryY) {
 		context.setStack(slot.getItem());
-		context.setX(inventoryX + slot.x + 8);
-		context.setY(inventoryY + slot.y + 8);
-		context.setImpulseX(0F);
-		context.setImpulseY(0F);
+		context.setX(inventoryX + slot.x + 8D);
+		context.setY(inventoryY + slot.y + 8D);
+		context.setImpulseX(0D);
+		context.setImpulseY(0D);
 		return context;
 	}
 
@@ -89,7 +89,7 @@ public class ParticleSpawnContext {
 		InventoryParticleConfig config = InventoryParticlesConfig.getInstance().getParticleConfig();
 		Boolean enabled = this.enabledFunction.apply(config);
 		if (!enabled) {
-			return 1.0F;
+			return 1.0D;
 		}
 		return this.countFunction.apply(this.configFunction.apply(InventoryParticlesConfig.getInstance().getCoefficientsConfig()));
 	}
@@ -97,7 +97,7 @@ public class ParticleSpawnContext {
 	public double getCooldownCoefficient() {
 		Boolean enabled = this.enabledFunction.apply(InventoryParticlesConfig.getInstance().getParticleConfig());
 		if (!enabled) {
-			return 1.0F;
+			return 1.0D;
 		}
 		return this.cooldownFunction.apply(this.configFunction.apply(InventoryParticlesConfig.getInstance().getCoefficientsConfig()));
 	}

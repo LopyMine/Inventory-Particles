@@ -66,11 +66,16 @@ public class ParticleHolder {
 		return DataResult.success(InventoryParticles.id("spawn_areas/" + path));
 	}, Identifier::toString);
 
-	//public static final Codec<Either<CachedItem, Identifier>> ITEM_OR_TAG_CODEC;
+	public static final Codec<Identifier> TAG_CODEC = Codec.STRING.comapFlatMap((s) -> {
+		if (s.startsWith("#")) {
+			return Identifier.read(s.substring(1));
+		}
+		return DataResult.error(() -> "Failed to resolve and item, and tag from string \"%s\"".formatted(s));
+	}, Identifier::toString);
 
 	public static final Codec<ParticleHolder> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			option("name", (Supplier<String>) () -> "UnknownParticle@" + RandomSource.create().nextIntBetweenInclusive(0, 100000), Codec.STRING, ParticleHolder::getName),
-			option("item", new CachedItem(), CachedItem.CODEC, ParticleHolder::getItemOrTag),
+			option("item", Either.left(new CachedItem()), Codec.either(CachedItem.CODEC, TAG_CODEC), ParticleHolder::getItemOrTag),
 			option("nbt_conditions_match", NbtNodeMatch.ANY, NbtNodeMatch.CODEC, ParticleHolder::getMatch),
 			option("nbt_conditions", new HashSet<>(), NbtNode.CODEC, ParticleHolder::getNbtCondition),
 			option("spawn_area", STANDARD_SPAWN_AREA, SPAWN_AREA_CODEC, ParticleHolder::getSpawnArea),

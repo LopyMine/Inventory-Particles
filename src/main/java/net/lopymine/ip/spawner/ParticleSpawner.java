@@ -52,8 +52,8 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 
 	private void spawnParticleAtCursorDeltaPath(InventoryParticle particle, InventoryCursor cursor) {
 		RandomSource random = particle.getRandom();
-		int deltaX = cursor.getX() - cursor.getLastX();
-		int deltaY = cursor.getY() - cursor.getLastY();
+		double deltaX = cursor.getX() - cursor.getLastX();
+		double deltaY = cursor.getY() - cursor.getLastY();
 		float progress = random.nextIntBetweenInclusive(0, 100) / 100F;
 		int pathX = (int) (deltaX * progress);
 		int pathY = (int) (deltaY * progress);

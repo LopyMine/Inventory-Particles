@@ -9,7 +9,8 @@
 		"HandledScreenMixin",
 		"MinecraftClientMixin",
 		"ScreenHandlerMixin",
-		"ScreenMixin"
+		"ScreenMixin",
+		"MouseMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

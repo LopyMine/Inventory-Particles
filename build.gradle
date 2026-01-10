@@ -44,8 +44,7 @@ repositories {
 
 stonecutter {
 	replacements.string(current.parsed >= "1.21.11") {
-		replace("ResourceLocation", "Identifier")
-		replace(".location()", ".identifier()")
+		replace("TagKey::location", "TagKey::location")
 	}
 }
 
@@ -54,6 +53,21 @@ processResources {
 		fletchingTable.relocate(it, "assets/${prop("data.mod_id")}/spawn_areas_1_21_8/*.png -> ../spawn_areas")
 	} else {
 		exclude("assets/${prop("data.mod_id")}/spawn_areas_1_21_8/")
+	}
+}
+
+publishing {
+	repositories {
+		mavenLocal()
+	}
+
+	publications {
+		mossyPlugin(MavenPublication) {
+			groupId = "${prop("data.mod_maven_group")}"
+			artifactId = prop("data.mod_id")
+			version = "${prop("data.mod_version")}-${stonecutter.current.project}"
+			from components.java
+		}
 	}
 }
 

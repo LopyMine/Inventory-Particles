@@ -1,3 +1,1 @@
-- Added new particles for items in 1.21.11
-- Added new particles for spawn egg items
-- Added new config option "Spawn On Quick Move Action"
+- Hotfix for forge
