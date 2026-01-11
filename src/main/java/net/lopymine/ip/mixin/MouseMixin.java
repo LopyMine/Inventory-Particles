@@ -26,7 +26,7 @@ public abstract class MouseMixin {
 
 	@Inject(
 			at = @At("TAIL"),
-			//? if (=1.20.1 || >=1.21.9) && !forge {
+			//? if >=1.21.9 {
 			method = "onButton"
 			//?} else {
 			/*method = "onPress"

@@ -13,7 +13,7 @@ import net.lopymine.ip.particles.ParticlesConfigsManager;
 import net.lopymine.ip.spawner.*;
 import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.lopymine.ip.utils.ParticleDrawUtils;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.*;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -218,6 +218,17 @@ public class InventoryParticlesRenderer extends TickElement {
 
 	public void init() {
 		this.cursor = new InventoryCursor();
+		double mouseX = Minecraft.getInstance().mouseHandler.xpos() * Minecraft.getInstance().getWindow().getGuiScaledWidth() / Minecraft.getInstance().getWindow().getScreenWidth();
+		double mouseY = Minecraft.getInstance().mouseHandler.ypos() * Minecraft.getInstance().getWindow().getGuiScaledHeight() / Minecraft.getInstance().getWindow().getScreenHeight();
+
+		this.cursor.setMouseX(mouseX);
+		this.cursor.setX(mouseX);
+		this.cursor.setLastX(mouseX);
+
+		this.cursor.setMouseY(mouseY);
+		this.cursor.setY(mouseY);
+		this.cursor.setLastY(mouseY);
+
 		this.stoppedByInitializationReason = false;
 	}
 

@@ -1,1 +1,2 @@
-- Hotfix for forge
+- Fixed mixin issue
+- Fixed particle spawn position after opening inventory
