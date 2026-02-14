@@ -1,7 +1,6 @@
 {
 	"modmenu.descriptionTranslation.${mod_id}": "${mod_description}",
 	"${mod_id}.modmenu.title": "§l${mod_name} Configuration",
-	"${mod_id}.modmenu.no_config_library_screen.message": "You need to install §6§lYet Another Config Lib [YACL]§f to open ${mod_name} Configuration Screen\n\n§a§lOpen §6§lYACL §a§lModrinth page?",
 
 	"${mod_id}.modmenu.category.general.name": "General",
 
@@ -12,7 +11,7 @@
 	"${mod_id}.modmenu.option.mod_enabled.description": "If enabled, you will see particles in your inventory from cursor with an item; if disabled, won't.",
 
 	"${mod_id}.modmenu.option.debug_mode_enabled.name": "Debug Mode Enabled",
-	"${mod_id}.modmenu.option.debug_mode_enabled.description": "If enabled, you will some debug info; if disabled, won't.",
+	"${mod_id}.modmenu.option.debug_mode_enabled.description": "If enabled, you will see some debug info; if disabled, won't.",
 
 	"${mod_id}.modmenu.option.nbt_debug_mode_enabled.name": "Nbt Debug Mode Enabled",
 	"${mod_id}.modmenu.option.nbt_debug_mode_enabled.description": "If enabled, you will some debug info about item nbt in game logs; if disabled, won't.",
