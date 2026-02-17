@@ -5,10 +5,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.*;
 import lombok.*;
+import net.lopymine.ip.config.misc.CachedItem;
 import net.lopymine.ip.element.*;
+import net.lopymine.ip.element.inventory.texture.AtlasInventoryElementTexture;
 import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.minecraft.resources.Identifier;
-import net.lopymine.mossylib.utils.CodecUtils;
 import static net.lopymine.mossylib.utils.CodecUtils.option;
 
 @Getter
@@ -21,32 +22,18 @@ public class ParticleConfig {
 				return either.right().orElseGet(() -> either.left().map(DynamicParticleSizes::fromStatic).orElse(null));
 			}, Either::right);
 
-	public static final Codec<Identifier> TEXTURES_CODEC = Identifier.CODEC.xmap((id) -> {
-		if (id.getPath().endsWith(".png")) {
-			String path = id.getPath();
-			String i = id.getNamespace();
-			String s = path.substring(0, path.length() - 4);
-			//? if >=1.21 {
-			return Identifier.fromNamespaceAndPath(i, s);
-			//?} else {
-			/*return Identifier.tryBuild(i, s);
-			 *///?}
-		}
-		return id;
-	}, (id) -> id);
-
 	public static final Codec<ParticleConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			option("life_time", 0, Codec.INT, ParticleConfig::getLifeTimeTicks),
-			option("animation_type", ParticleAnimationType.RANDOM, ParticleAnimationType.CODEC, ParticleConfig::getAnimationType),
+			option("animation_type", InventoryElementTextureAnimationType.RANDOM, InventoryElementTextureAnimationType.CODEC, ParticleConfig::getAnimationType),
 			option("animation_speed", 1.0D, Codec.DOUBLE, ParticleConfig::getAnimationSpeed),
 			option("size", DynamicParticleSizes.STANDARD, DYNAMIC_PARTICLE_SIZE_CODEC, ParticleConfig::getSize),
-			option("textures", new ArrayList<>(), TEXTURES_CODEC, ParticleConfig::getTextures),
+			option("textures", new ArrayList<>(), Identifier.CODEC, ParticleConfig::getTextures),
 			option("holders", new HashSet<>(), ParticleHolder.CODEC, ParticleConfig::getHolders),
 			option("physics", ParticlePhysics.getNewInstance(), ParticlePhysics.CODEC, ParticleConfig::getPhysics)
 	).apply(instance, ParticleConfig::new));
 
 	private int lifeTimeTicks;
-	private ParticleAnimationType animationType;
+	private InventoryElementTextureAnimationType animationType;
 	private double animationSpeed;
 	private DynamicParticleSizes size;
 	private ArrayList<Identifier> textures;
@@ -54,7 +41,7 @@ public class ParticleConfig {
 	private ParticlePhysics physics;
 
 	public InventoryParticle createParticle(ParticleSpawnContext context) {
-		return new InventoryParticle(this, context);
+		return InventoryParticle.create(this, context);
 	}
 
 }

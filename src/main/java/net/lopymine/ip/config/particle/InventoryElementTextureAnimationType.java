@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import java.util.Locale;
 import net.minecraft.util.*;
 
-public enum ParticleAnimationType implements StringRepresentable {
+public enum InventoryElementTextureAnimationType implements StringRepresentable {
 
 	STRETCH,
 	ONETIME,
@@ -12,7 +12,7 @@ public enum ParticleAnimationType implements StringRepresentable {
 	RANDOM,
 	RANDOM_STATIC;
 
-	public static final Codec<ParticleAnimationType> CODEC = StringRepresentable.fromEnum(ParticleAnimationType::values);
+	public static final Codec<InventoryElementTextureAnimationType> CODEC = StringRepresentable.fromEnum(InventoryElementTextureAnimationType::values);
 
 	@Override
 	public String getSerializedName() {

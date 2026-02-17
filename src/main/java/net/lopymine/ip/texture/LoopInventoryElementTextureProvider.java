@@ -1,12 +1,11 @@
 package net.lopymine.ip.texture;
 
 import java.util.*;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.resources.Identifier;
+import net.lopymine.ip.element.inventory.texture.IInventoryElementTexture;
 
-public class LoopParticleTextureProvider extends StretchParticleTextureProvider {
+public class LoopInventoryElementTextureProvider extends StretchInventoryElementTextureProvider {
 
-	public LoopParticleTextureProvider(List<TextureAtlasSprite> textures, double animationSpeed, int lifeTime) {
+	public LoopInventoryElementTextureProvider(List<IInventoryElementTexture> textures, double animationSpeed, int lifeTime) {
 		super(textures, animationSpeed, lifeTime);
 	}
 

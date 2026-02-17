@@ -36,4 +36,9 @@ public class RotationSpeedController<T extends IRotatableElement & IMovableEleme
 		double rotationDegrees = Math.toDegrees(movementRotationRad) - 90F;
 		this.rotation = rotationDegrees % 360F;
 	}
+
+	@Override
+	protected RotationSpeedController<T> getController() {
+		return this;
+	}
 }

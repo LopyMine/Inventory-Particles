@@ -71,7 +71,7 @@ public class MinecraftClientMixin {
 		int height = this.window.getGuiScaledHeight();
 		double x = (double) width / (double) oldWidth;
 		double y = (double) height / (double) oldHeight;
-		InventoryParticlesRenderer.getInstance().updateParticlesPositions(x, y);
+		InventoryParticlesRenderer.getInstance().updateElementsPositions(x, y);
 	}
 
 }

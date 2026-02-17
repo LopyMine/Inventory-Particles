@@ -50,6 +50,10 @@ public abstract class AbstractSpeedController<C extends AbstractSpeedController<
 	public void tick(E element) {
 		this.lastSpeed = this.speed;
 
+		for (ISpeedControllerModifier<? super C, ? super E> modifier : this.modifiers) {
+			modifier.tick(element);
+		}
+
 		double acceleration = this.getAcceleration() * (this.isAccelerationBidirectional() ? -1 : 1);
 		for (ISpeedControllerModifier<? super C, ? super E> m : this.modifiers) {
 			acceleration += m.getAcceleration(element);
@@ -93,6 +97,10 @@ public abstract class AbstractSpeedController<C extends AbstractSpeedController<
 		}
 		this.speed += turbulence;
 
+		for (ISpeedControllerModifier<? super C, ? super E> modifier : this.modifiers) {
+			modifier.modify(this.getController(), element);
+		}
+
 		DoubleRange max = this.getMax();
 		if (this.speed < max.getMin()) {
 			this.speed = max.getMin();
@@ -101,6 +109,8 @@ public abstract class AbstractSpeedController<C extends AbstractSpeedController<
 			this.speed = max.getMax();
 		}
 	}
+
+	protected abstract C getController();
 
 	@SuppressWarnings("unused")
 	public <M extends ISpeedControllerModifier<? super C, ? super E>> void registerModifier(M modifier) {
