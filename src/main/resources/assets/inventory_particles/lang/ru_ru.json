@@ -1,93 +1,83 @@
 {
-	"modmenu.descriptionTranslation.${mod_id}": "Необычные частицы для ваших вещей в инвентаре! Сделайте свой инвентарь немного живее и динамичнее!",
+	"modmenu.descriptionTranslation.${mod_id}": "${mod_description}",
 	"${mod_id}.modmenu.title": "§l${mod_name} Конфигурация",
-	"${mod_id}.modmenu.no_config_library_screen.message": "Вам необходимо установить §6§lYet Another Config Lib [YACL]§f, чтобы открыть экран конфигурации ${mod_name} \n\n§a§lОткрыть страницу §6§lYACL §a§lна Modrinth?",
 
 	"${mod_id}.modmenu.category.general.name": "Основное",
 
 	"${mod_id}.modmenu.group.main.name": "Главное",
-	"${mod_id}.modmenu.group.main.description": "Главные настройки.",
+	"${mod_id}.modmenu.group.main.description": "Главные настройки мода.",
 
 	"${mod_id}.modmenu.option.mod_enabled.name": "Включить мод",
-	"${mod_id}.modmenu.option.mod_enabled.description": "Если включено, вы увидите различные частицы, исходящие от курсора с предметов в вашем инвентаре; если отключено, не увидите.",
+	"${mod_id}.modmenu.option.mod_enabled.description": "Если включено, вы увидите частицы в инвентаре от курсора с предметом; если отключено — не увидите.",
 
 	"${mod_id}.modmenu.option.debug_mode_enabled.name": "Включить режим отладки",
-	"${mod_id}.modmenu.option.debug_mode_enabled.description": "Если включено, вы сможете увидеть некоторую информацию для отладки мода; если отключено, не сможете.",
+	"${mod_id}.modmenu.option.debug_mode_enabled.description": "Если включено, вы увидите некоторую информацию для отладки; если отключено — не увидите.",
 
 	"${mod_id}.modmenu.option.nbt_debug_mode_enabled.name": "Включить режим отладки NBT",
-	"${mod_id}.modmenu.option.nbt_debug_mode_enabled.description": "Если включено, вы сможете увидеть некоторую информацию для отладки NBT в консоли игры; если отключено, не сможете.",
+	"${mod_id}.modmenu.option.nbt_debug_mode_enabled.description": "Если включено, вы увидите некоторую информацию о NBT предметов в логах игры; если отключено — не увидите.",
 
-	
 	"${mod_id}.modmenu.group.particles.name": "Настройки частиц",
-	"${mod_id}.modmenu.group.particles.description": "Просто настройки частиц.",
+	"${mod_id}.modmenu.group.particles.description": "Настройки поведения и внешнего вида частиц.",
 
-	"${mod_id}.modmenu.option.cursor_spawn_enabled.name": "Появление вокруг курсора",
-	"${mod_id}.modmenu.option.cursor_spawn_enabled.description": "Если включено, частицы будут появляться вокруг курсора (если захвачен предмет); если отключено, не будут.",
+	"${mod_id}.modmenu.category.particles_spawn.name": "Появление частиц",
 
-	"${mod_id}.modmenu.option.hovered_slot_spawn_enabled.name": "Появление на наведённом слоте",
-	"${mod_id}.modmenu.option.hovered_slot_spawn_enabled.description": "Если включено, частицы будут появляться вокруг наведённого слота; если отключено, не будут.",
+	"${mod_id}.modmenu.group.global_section.name": "[Глобально]",
+	"${mod_id}.modmenu.group.global_section.description": "Глобальные настройки для всех контекстов. Они будут применяться дополнительно к специфичным для контекста настройкам.",
 
-	"${mod_id}.modmenu.option.gui_slots_spawn_enabled.name": "Появление на слотах в меню",
-	"${mod_id}.modmenu.option.gui_slots_spawn_enabled.description": "Если включено, частицы будут появляться вокруг всех слотов в меню; если отключено, не будут.",
+	"${mod_id}.modmenu.group.cursor_section.name": "[Курсор]",
+	"${mod_id}.modmenu.group.cursor_section.description": "Частицы, которые будут появляться вокруг курсора, когда предмет удерживается.",
 
-	"${mod_id}.modmenu.option.gui_action_spawn_enabled.name": "Появление при действиях в меню",
-	"${mod_id}.modmenu.option.gui_action_spawn_enabled.description": "Если включено, частицы будут появляться после некоторых действий в меню (например, взять/положить предметы); если отключено, не будут.",
+	"${mod_id}.modmenu.group.hovered_slot_section.name": "[Выделенный слот]",
+	"${mod_id}.modmenu.group.hovered_slot_section.description": "Частицы, которые будут появляться вокруг слота, над которым в данный момент находится курсор.",
 
-	"${mod_id}.modmenu.option.gui_action_take_spawn_enabled.name": "Появление при взятии предмета из слота",
-	"${mod_id}.modmenu.option.gui_action_take_spawn_enabled.description": "Если включено, частицы будут появляться при взятии предмета из слота; если отключено, не будут.",
+	"${mod_id}.modmenu.group.gui_slots_section.name": "[Слоты в меню]",
+	"${mod_id}.modmenu.group.gui_slots_section.description": "Частицы, которые будут появляться в каждом слоте, содержащем предметы.",
 
-	"${mod_id}.modmenu.option.gui_action_put_spawn_enabled.name": "Появление при помещении предмета в слот",
-	"${mod_id}.modmenu.option.gui_action_put_spawn_enabled.description": "Если включено, частицы будут появляться при помещении предмета в слот; если отключено, не будут.",
+	"${mod_id}.modmenu.group.gui_actions_section.name": "[Действия в меню]",
+	"${mod_id}.modmenu.group.gui_actions_section.description": "Частицы, которые будут появляться после действий в меню (например: взять, положить, быстро переместить и т.д.).",
 
-	"${mod_id}.modmenu.option.gui_action_quick_move_spawn_enabled.name": "Появление при быстром помещении предмета",
-	"${mod_id}.modmenu.option.gui_action_quick_move_spawn_enabled.description": "Если включёно, частицы будут появляться при быстром перемещении предмета из одного слота в другой (через Shift + ЛКМ); если отключено, не будут.",
+	"${mod_id}.modmenu.option.spawn_enabled.name": "Включить появление",
+	"${mod_id}.modmenu.option.spawn_enabled.description": "Если включено, для этого контекста будут создаваться частицы; если отключено — не будут.",
+
+	"${mod_id}.modmenu.option.gui_action_take_spawn_enabled.name": "[Взятие] Включить появление",
+	"${mod_id}.modmenu.option.gui_action_take_spawn_enabled.description": "Если включено, частицы будут появляться при взятии предметов из слотов; если отключено — не будут.",
+
+	"${mod_id}.modmenu.option.gui_action_put_spawn_enabled.name": "[Положить] Включить появление",
+	"${mod_id}.modmenu.option.gui_action_put_spawn_enabled.description": "Если включено, частицы будут появляться при помещении предметов в слоты; если отключено — не будут.",
+
+	"${mod_id}.modmenu.option.gui_action_quick_move_spawn_enabled.name": "[Быстрое перемещение] Включить появление",
+	"${mod_id}.modmenu.option.gui_action_quick_move_spawn_enabled.description": "Если включено, частицы будут появляться при быстром перемещении предметов (Shift + ЛКМ); если отключено — не будут.",
 
 	"${mod_id}.modmenu.option.particle_deletion_mode.name": "Режим удаления частиц",
-	"${mod_id}.modmenu.option.particle_deletion_mode.description": "Определяет, какие частицы будут удалены для появления новых, если достигнут лимит частиц.",
+	"${mod_id}.modmenu.option.particle_deletion_mode.description": "Определяет, какие частицы будут удаляться для появления новых, если достигнут максимальный лимит частиц.",
 
 	"${mod_id}.modmenu.option.particle_deletion_mode.random": "Случайные",
 	"${mod_id}.modmenu.option.particle_deletion_mode.oldest": "Самые старые",
 
 	"${mod_id}.modmenu.option.max_particles.name": "Максимальное количество частиц",
-	"${mod_id}.modmenu.option.max_particles.description": "Максимальное количество частиц, которое может существовать на экране.",
+	"${mod_id}.modmenu.option.max_particles.description": "Контролирует, сколько частиц может существовать на экране одновременно.",
 
 	"${mod_id}.modmenu.option.particle_transparency.name": "Прозрачность частиц",
-	"${mod_id}.modmenu.option.particle_transparency.description": "Определяет прозрачность всех частиц на экране.",
+	"${mod_id}.modmenu.option.particle_transparency.description": "Контролирует прозрачность всех частиц на экране.",
 
+	"${mod_id}.modmenu.option.count_coefficient.name": "Коэффициент количества",
+	"${mod_id}.modmenu.option.count_coefficient.description": "Множитель для количества частиц, которые могут появиться в этом контексте.",
 
-	"${mod_id}.modmenu.group.coefficients.name": "Коэффициенты появления частиц",
-	"${mod_id}.modmenu.group.coefficients.description": "Коэффициенты появления частиц для разных ситуаций.",
+	"${mod_id}.modmenu.option.cooldown_coefficient.name": "Коэффициент частоты",
+	"${mod_id}.modmenu.option.cooldown_coefficient.description": "Множитель для времени между появлениями частиц в этом контексте.",
 
-	"${mod_id}.modmenu.option.global_count_coefficient.name": "[Глобально] Коэффициент количества частиц",
-	"${mod_id}.modmenu.option.global_count_coefficient.description": "Глобальный множитель количества частиц, которые могут появиться. Применяется дополнительно поверх других коэффициентов.",
+	"${mod_id}.modmenu.option.spawn_chance.name": "Шанс появления",
+	"${mod_id}.modmenu.option.spawn_chance.description": "Шанс (не частота) появления частиц после некоторых действий в меню (например: взять/положить).",
 
-	"${mod_id}.modmenu.option.global_cooldown_coefficient.name": "[Глобально] Коэффициент частоты появления частиц",
-	"${mod_id}.modmenu.option.global_cooldown_coefficient.description": "Глобальный множитель частоты появления частиц после появления частиц. Применяется дополнительно поверх других коэффициентов.",
+	"${mod_id}.modmenu.option.whitelist_mode.disabled": "Отключено",
+	"${mod_id}.modmenu.option.whitelist_mode.whitelist": "Белый список",
+	"${mod_id}.modmenu.option.whitelist_mode.blacklist": "Чёрный список",
 
-	"${mod_id}.modmenu.option.cursor_count_coefficient.name": "[Курсор] Коэффициент количества частиц",
-	"${mod_id}.modmenu.option.cursor_count_coefficient.description": "Множитель количества частиц, которые могут появиться вокруг курсора.",
+	"${mod_id}.modmenu.option.whitelist_mode.name": "Режим белого списка",
+	"${mod_id}.modmenu.option.whitelist_mode.description": "Определяет, как будет применён белый список. Белый список — только предметы из списка будут создавать частицы; Чёрный список — предметы из списка не будут создавать частицы.",
 
-	"${mod_id}.modmenu.option.cursor_cooldown_coefficient.name": "[Курсор] Коэффициент частоты появления частиц",
-	"${mod_id}.modmenu.option.cursor_cooldown_coefficient.description": "Множитель частоты появления частиц после появления частиц вокруг курсора.",
-
-	"${mod_id}.modmenu.option.hovered_slot_count_coefficient.name": "[Выделенный слот] Коэффициент количества частиц",
-	"${mod_id}.modmenu.option.hovered_slot_count_coefficient.description": "Множитель количества частиц, которые могут появиться на выделенном слоте.",
-
-	"${mod_id}.modmenu.option.hovered_slot_cooldown_coefficient.name": "[Выделенный слот] Коэффициент частоты появления частиц",
-	"${mod_id}.modmenu.option.hovered_slot_cooldown_coefficient.description": "Множитель частоты появления частиц после появления частиц на выделенном слоте.",
-
-	"${mod_id}.modmenu.option.gui_slots_count_coefficient.name": "[Меню слоты] Коэффициент количества частиц",
-	"${mod_id}.modmenu.option.gui_slots_count_coefficient.description": "Множитель количества частиц, которые могут появиться вокруг всех слотов в открытом GUI.",
-
-	"${mod_id}.modmenu.option.gui_slots_cooldown_coefficient.name": "[Меню слоты] Коэффициент частоты появления частиц",
-	"${mod_id}.modmenu.option.gui_slots_cooldown_coefficient.description": "Множитель частоты появления частиц после появления частиц вокруг всех слотов в открытом GUI.",
-
-	"${mod_id}.modmenu.option.gui_action_count_coefficient.name": "[Действия в меню] Коэффициент количества частиц",
-	"${mod_id}.modmenu.option.gui_action_count_coefficient.description": "Множитель количества частиц, которые могут появиться во время каких-то действий в открытом меню.",
-
-	"${mod_id}.modmenu.option.gui_action_spawn_chance.name": "[Действия в меню] Шанс появления частиц",
-	"${mod_id}.modmenu.option.gui_action_spawn_chance.description": "Шанс (не частота) появления частиц во время каких-то действий в открытом меню. (например, взять/положить предметы).",
-
+	"${mod_id}.modmenu.option.whitelist_items.name": "Предметы белого списка",
+	"${mod_id}.modmenu.option.whitelist_items.description": "Указывайте здесь айди предметов через пробел. Их можно взять из подсказки предмета (F3 + H).",
 
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.true": "Включено",
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.false": "Выключено"

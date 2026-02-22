@@ -16,14 +16,14 @@ public class InventoryParticlesCoefficientsConfig {
 			option("global_config", ParticleCoefficientConfig.getNewInstance(), ParticleCoefficientConfig.CODEC, InventoryParticlesCoefficientsConfig::getGlobalConfig),
 			option("cursor_config", ParticleCoefficientConfig.getNewInstance(), ParticleCoefficientConfig.CODEC, InventoryParticlesCoefficientsConfig::getCursorConfig),
 			option("hovered_slot_config", ParticleCoefficientConfig.getNewInstance(), ParticleCoefficientConfig.CODEC, InventoryParticlesCoefficientsConfig::getHoveredSlotConfig),
-			option("all_slots_config", ParticleCoefficientConfig.getNewInstance(), ParticleCoefficientConfig.CODEC, InventoryParticlesCoefficientsConfig::getAllSlotsConfig),
+			option("all_slots_config", ParticleCoefficientConfig.getNewInstance(), ParticleCoefficientConfig.CODEC, InventoryParticlesCoefficientsConfig::getGuiSlotsConfig),
 			option("gui_action_config", ParticleCoefficientConfig.getNewInstance(), ParticleCoefficientConfig.CODEC, InventoryParticlesCoefficientsConfig::getGuiActionConfig)
 	).apply(instance, InventoryParticlesCoefficientsConfig::new));
 
 	private ParticleCoefficientConfig globalConfig;
 	private ParticleCoefficientConfig cursorConfig;
 	private ParticleCoefficientConfig hoveredSlotConfig;
-	private ParticleCoefficientConfig allSlotsConfig;
+	private ParticleCoefficientConfig guiSlotsConfig;
 	private ParticleCoefficientConfig guiActionConfig;
 
 	public static Supplier<InventoryParticlesCoefficientsConfig> getNewInstance() {

@@ -18,7 +18,7 @@ public class InventoryParticleConfig {
 			option("cursor_spawn_enabled", true, Codec.BOOL, InventoryParticleConfig::isCursorSpawnEnabled),
 			option("hovered_slot_spawn_enabled", false, Codec.BOOL, InventoryParticleConfig::isHoveredSlotSpawnEnabled),
 			option("all_slots_spawn_enabled", false, Codec.BOOL, InventoryParticleConfig::isGuiSlotsSpawnEnabled),
-			option("gui_action_spawn_enabled", true, Codec.BOOL, InventoryParticleConfig::isGuiActionSpawnEnabled),
+			option("gui_action_spawn_enabled", true, Codec.BOOL, InventoryParticleConfig::isGuiActionsSpawnEnabled),
 			option("gui_action_take_spawn_enabled", true, Codec.BOOL, InventoryParticleConfig::isGuiActionTakeSpawnEnabled),
 			option("gui_action_put_spawn_enabled", true, Codec.BOOL, InventoryParticleConfig::isGuiActionPutSpawnEnabled),
 			option("gui_action_quick_move_spawn_enabled", true, Codec.BOOL, InventoryParticleConfig::isGuiActionPutSpawnEnabled),
@@ -30,7 +30,7 @@ public class InventoryParticleConfig {
 	private boolean cursorSpawnEnabled;
 	private boolean hoveredSlotSpawnEnabled;
 	private boolean guiSlotsSpawnEnabled;
-	private boolean guiActionSpawnEnabled;
+	private boolean guiActionsSpawnEnabled;
 	private boolean guiActionTakeSpawnEnabled;
 	private boolean guiActionPutSpawnEnabled;
 	private boolean guiActionQuickMoveSpawnEnabled;

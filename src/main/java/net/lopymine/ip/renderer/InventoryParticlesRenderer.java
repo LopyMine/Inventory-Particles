@@ -7,6 +7,7 @@ import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.optimization.ParticleDeletionMode;
 import net.lopymine.ip.config.sub.InventoryParticleConfig;
+import net.lopymine.ip.config.sub.InventoryParticlesItemWhitelistsConfig.ParticlesItemWhitelistConfig;
 import net.lopymine.ip.element.*;
 import net.lopymine.ip.element.base.*;
 import net.lopymine.ip.particles.ParticlesConfigsManager;
@@ -88,11 +89,13 @@ public class InventoryParticlesRenderer extends TickElement {
 			this.cursor.tick();
 
 			InventoryParticleConfig config = InventoryParticlesConfig.getInstance().getParticleConfig();
-			if (config.isGuiSlotsSpawnEnabled() && inventoryX != null && inventoryY != null && handler != null) {
-				this.spawnAllSlotsParticles(handler, inventoryX, inventoryY);
-			}
-			if (config.isHoveredSlotSpawnEnabled() && inventoryX != null && inventoryY != null) {
-				this.spawnHoveredSlotParticles(inventoryX, inventoryY);
+			if (config.isGuiActionsSpawnEnabled()) {
+				if (config.isGuiSlotsSpawnEnabled() && inventoryX != null && inventoryY != null && handler != null) {
+					this.spawnGuiSlotsParticles(handler, inventoryX, inventoryY);
+				}
+				if (config.isHoveredSlotSpawnEnabled() && inventoryX != null && inventoryY != null) {
+					this.spawnHoveredSlotParticles(inventoryX, inventoryY);
+				}
 			}
 			if (config.isCursorSpawnEnabled()) {
 				this.spawnCursorParticles();
@@ -126,6 +129,10 @@ public class InventoryParticlesRenderer extends TickElement {
 			return;
 		}
 		Item item = stack.getItem();
+		ParticlesItemWhitelistConfig config = InventoryParticlesConfig.getInstance().getWhitelistsConfig().getHoveredSlotConfig();
+		if (config.cannotProcess(item)) {
+			return;
+		}
 		List<IParticleSpawner> spawners = ParticlesConfigsManager.getSpawnersForItem(item);
 		if (spawners == null) {
 			return;
@@ -138,7 +145,7 @@ public class InventoryParticlesRenderer extends TickElement {
 		}
 	}
 
-	private void spawnAllSlotsParticles(AbstractContainerMenu handler, int inventoryX, int inventoryY) {
+	private void spawnGuiSlotsParticles(AbstractContainerMenu handler, int inventoryX, int inventoryY) {
 		for (Slot slot : handler.slots) {
 			if (this.cursor.getHoveredSlot() != null && this.cursor.getHoveredSlot().index == slot.index) {
 				continue;
@@ -147,10 +154,19 @@ public class InventoryParticlesRenderer extends TickElement {
 			if (stack.isEmpty()) {
 				continue;
 			}
-			List<IParticleSpawner> particleSpawners = ParticlesConfigsManager.getSpawnersForItem(stack.getItem());
+
+			Item item = stack.getItem();
+			ParticlesItemWhitelistConfig config = InventoryParticlesConfig.getInstance().getWhitelistsConfig().getGuiSlotsConfig();
+			if (config.cannotProcess(item)) {
+				continue;
+			}
+
+			List<IParticleSpawner> particleSpawners = ParticlesConfigsManager.getSpawnersForItem(item);
 			if (particleSpawners == null) {
 				continue;
 			}
+
+
 			ParticleSpawnContext context = ParticleSpawnContext.slots(slot, inventoryX, inventoryY);
 			for (IParticleSpawner spawner : particleSpawners) {
 				for (InventoryParticle particle : spawner.tickAndSpawn(context)) {
@@ -165,7 +181,12 @@ public class InventoryParticlesRenderer extends TickElement {
 		if (stack.isEmpty()) {
 			return;
 		}
-		List<IParticleSpawner> particleSpawners = ParticlesConfigsManager.getSpawnersForItem(stack.getItem());
+		Item item = stack.getItem();
+		ParticlesItemWhitelistConfig config = InventoryParticlesConfig.getInstance().getWhitelistsConfig().getCursorConfig();
+		if (config.cannotProcess(item)) {
+			return;
+		}
+		List<IParticleSpawner> particleSpawners = ParticlesConfigsManager.getSpawnersForItem(item);
 		if (particleSpawners != null) {
 			List<InventoryParticle> particles = new ArrayList<>();
 
@@ -292,13 +313,18 @@ public class InventoryParticlesRenderer extends TickElement {
 		if (stack.isEmpty() && !slot.hasItem()){
 			return;
 		}
+		Item item = stack.isEmpty() ? slot.getItem().getItem() : stack.getItem();
+		ParticlesItemWhitelistConfig config = InventoryParticlesConfig.getInstance().getWhitelistsConfig().getGuiSlotsConfig();
+		if (config.cannotProcess(item)) {
+			return;
+		}
 		int chanceOfSpawn = 100 - (int) Math.ceil(InventoryParticlesConfig.getInstance().getCoefficientsConfig().getGuiActionConfig().getCooldownCoefficient());
 		int r = this.random.nextIntBetweenInclusive(0, 100);
 		if (r < chanceOfSpawn) {
 			return;
 		}
 		this.runSoft(() -> {
-			List<IParticleSpawner> spawners = ParticlesConfigsManager.getSpawnersForItem(stack.isEmpty() ? slot.getItem().getItem() : stack.getItem());
+			List<IParticleSpawner> spawners = ParticlesConfigsManager.getSpawnersForItem(item);
 			if (spawners != null) {
 				ParticleSpawnContext context = ParticleSpawnContext.guiActionSlot(slot, inventoryX, inventoryY);
 				if (context.getStack().isEmpty()) {

@@ -8,8 +8,8 @@
         "${mod_authors}"
     ],
     "contact": {
-        "homepage": "https://modrinth.com/mod/${mod_id}",
-        "issues": "https://github.com/LopyMine/${mod_id}"
+        "homepage": "https://modrinth.com/mod/inventory-particles",
+        "issues": "https://github.com/LopyMine/Inventory-Particles/issues"
     },
     "license": "${mod_license}",
     "icon": "icon/icon.png",

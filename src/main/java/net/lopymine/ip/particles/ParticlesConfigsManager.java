@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.client.InventoryParticlesClient;
+import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.misc.CachedItem;
 import net.lopymine.ip.config.particle.*;
 import net.lopymine.ip.spawner.*;
@@ -78,6 +79,8 @@ public class ParticlesConfigsManager {
 
 	@SuppressWarnings("deprecation")
 	public static void updateCombinedMap() {
+		InventoryParticlesConfig.getInstance().getWhitelistsConfig().recompileAll();
+
 		COMBINED_MAP.clear();
 
 		for (Entry<ResourceKey<Item>, Item> entry : BuiltInRegistries.ITEM.entrySet()) {

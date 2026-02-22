@@ -10,8 +10,6 @@ import org.slf4j.*;
 import com.mojang.serialization.*;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.lopymine.ip.utils.*;
-
 import java.io.*;
 import java.util.concurrent.CompletableFuture;
 
@@ -27,7 +25,8 @@ public class InventoryParticlesConfig {
 			option("test_1_2_2", false, Codec.BOOL, InventoryParticlesConfig::isTest122),
 			option("main", InventoryParticlesMainConfig.getNewInstance(), InventoryParticlesMainConfig.CODEC, InventoryParticlesConfig::getMainConfig),
 			option("particle", InventoryParticleConfig.getNewInstance(), InventoryParticleConfig.CODEC, InventoryParticlesConfig::getParticleConfig),
-			option("coefficients", InventoryParticlesCoefficientsConfig.getNewInstance(), InventoryParticlesCoefficientsConfig.CODEC, InventoryParticlesConfig::getCoefficientsConfig)
+			option("coefficients", InventoryParticlesCoefficientsConfig.getNewInstance(), InventoryParticlesCoefficientsConfig.CODEC, InventoryParticlesConfig::getCoefficientsConfig),
+			option("whitelists", InventoryParticlesItemWhitelistsConfig.getNewInstance(), InventoryParticlesItemWhitelistsConfig.CODEC, InventoryParticlesConfig::getWhitelistsConfig)
 	).apply(instance, InventoryParticlesConfig::new));
 
 	private static final File CONFIG_FILE = MossyLoader.getConfigDir().resolve(InventoryParticles.MOD_ID + ".json5").toFile();
@@ -38,6 +37,7 @@ public class InventoryParticlesConfig {
 	private InventoryParticlesMainConfig mainConfig;
 	private InventoryParticleConfig particleConfig;
 	private InventoryParticlesCoefficientsConfig coefficientsConfig;
+	private InventoryParticlesItemWhitelistsConfig whitelistsConfig;
 
 	private InventoryParticlesConfig() {
 		throw new IllegalArgumentException();
@@ -60,7 +60,7 @@ public class InventoryParticlesConfig {
 		if (!config.isTest122()) {
 			config.setTest122(true);
 			InventoryParticleConfig particleConfig = config.getParticleConfig();
-			particleConfig.setGuiActionSpawnEnabled(true);
+			particleConfig.setGuiActionsSpawnEnabled(true);
 			particleConfig.setGuiActionPutSpawnEnabled(true);
 			particleConfig.setGuiActionTakeSpawnEnabled(true);
 			particleConfig.setGuiActionQuickMoveSpawnEnabled(true);

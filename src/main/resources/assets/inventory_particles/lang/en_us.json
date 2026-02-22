@@ -5,7 +5,7 @@
 	"${mod_id}.modmenu.category.general.name": "General",
 
 	"${mod_id}.modmenu.group.main.name": "Main",
-	"${mod_id}.modmenu.group.main.description": "Main settings.",
+	"${mod_id}.modmenu.group.main.description": "Main settings for the mod.",
 
 	"${mod_id}.modmenu.option.mod_enabled.name": "Mod Enabled",
 	"${mod_id}.modmenu.option.mod_enabled.description": "If enabled, you will see particles in your inventory from cursor with an item; if disabled, won't.",
@@ -16,29 +16,36 @@
 	"${mod_id}.modmenu.option.nbt_debug_mode_enabled.name": "Nbt Debug Mode Enabled",
 	"${mod_id}.modmenu.option.nbt_debug_mode_enabled.description": "If enabled, you will some debug info about item nbt in game logs; if disabled, won't.",
 
+	"${mod_id}.modmenu.group.particles.name": "Particles",
+	"${mod_id}.modmenu.group.particles.description": "Settings for particle behavior and appearance.",
 
-	"${mod_id}.modmenu.group.particles.name": "Particle Settings",
-	"${mod_id}.modmenu.group.particles.description": "Some particle settings.",
+	"${mod_id}.modmenu.category.particles_spawn.name": "Particles Spawn",
 
-	"${mod_id}.modmenu.option.cursor_spawn_enabled.name": "Spawn In Cursor",
-	"${mod_id}.modmenu.option.cursor_spawn_enabled.description": "If enabled, particles will be spawned around cursor (if any item was grabbed); if disabled, won't.",
+	"${mod_id}.modmenu.group.global_section.name": "[Global]",
+	"${mod_id}.modmenu.group.global_section.description": "Global settings for all contexts. They will be applied additionally to context-specific settings.",
 
-	"${mod_id}.modmenu.option.hovered_slot_spawn_enabled.name": "Spawn On Hovered Slot",
-	"${mod_id}.modmenu.option.hovered_slot_spawn_enabled.description": "If enabled, particles will be spawned around the hovered slot; if disabled, won't.",
+	"${mod_id}.modmenu.group.cursor_section.name": "[Cursor]",
+	"${mod_id}.modmenu.group.cursor_section.description": "Particles that will be spawned around the cursor when an item is held.",
 
-	"${mod_id}.modmenu.option.gui_slots_spawn_enabled.name": "Spawn On GUI Slots",
-	"${mod_id}.modmenu.option.gui_slots_spawn_enabled.description": "If enabled, particles will be spawned around all slots in opened GUI; if disabled, won't.",
+	"${mod_id}.modmenu.group.hovered_slot_section.name": "[Hovered Slot]",
+	"${mod_id}.modmenu.group.hovered_slot_section.description": "Particles that will be spawned around the slot currently under the cursor.",
 
-	"${mod_id}.modmenu.option.gui_action_spawn_enabled.name": "GUI Actions Spawn",
-	"${mod_id}.modmenu.option.gui_action_spawn_enabled.description": "If enabled, particles will be spawned after some GUI actions (e.g. take/put items); if disabled, won't.",
+	"${mod_id}.modmenu.group.gui_slots_section.name": "[GUI Slots]",
+	"${mod_id}.modmenu.group.gui_slots_section.description": "Particles that will be spawned in every GUI slots with items.",
 
-	"${mod_id}.modmenu.option.gui_action_take_spawn_enabled.name": "Spawn On Take Action",
+	"${mod_id}.modmenu.group.gui_actions_section.name": "[GUI Actions]",
+	"${mod_id}.modmenu.group.gui_actions_section.description": "Particles that will be spawned after any GUI actions (e.g. take, put, quick-move, etc).",
+
+	"${mod_id}.modmenu.option.spawn_enabled.name": "Spawn Enabled",
+	"${mod_id}.modmenu.option.spawn_enabled.description": "If enabled, particles will be spawned for this context; if disabled, won't.",
+
+	"${mod_id}.modmenu.option.gui_action_take_spawn_enabled.name": "[Take] Spawn Enabled",
 	"${mod_id}.modmenu.option.gui_action_take_spawn_enabled.description": "If enabled, particles will be spawned when taking items from slots; if disabled, won't.",
 
-	"${mod_id}.modmenu.option.gui_action_put_spawn_enabled.name": "Spawn On Put Action",
+	"${mod_id}.modmenu.option.gui_action_put_spawn_enabled.name": "[Put] Spawn Enabled",
 	"${mod_id}.modmenu.option.gui_action_put_spawn_enabled.description": "If enabled, particles will be spawned when putting items into slots; if disabled, won't.",
 
-	"${mod_id}.modmenu.option.gui_action_quick_move_spawn_enabled.name": "Spawn On Quick Move Action",
+	"${mod_id}.modmenu.option.gui_action_quick_move_spawn_enabled.name": "[Quick Move] Spawn Enabled",
 	"${mod_id}.modmenu.option.gui_action_quick_move_spawn_enabled.description": "If enabled, particles will be spawned when quick moving items (with Shift + LMB); if disabled, won't.",
 
 	"${mod_id}.modmenu.option.particle_deletion_mode.name": "Particle Deletion Mode",
@@ -53,40 +60,24 @@
 	"${mod_id}.modmenu.option.particle_transparency.name": "Particle Transparency",
 	"${mod_id}.modmenu.option.particle_transparency.description": "Controls transparency of all particles on the screen.",
 
+	"${mod_id}.modmenu.option.count_coefficient.name": "Count Coefficient",
+	"${mod_id}.modmenu.option.count_coefficient.description": "Multiplier for the count of particles that can be spawned in this context.",
 
-	"${mod_id}.modmenu.group.coefficients.name": "Particle Spawn Coefficients",
-	"${mod_id}.modmenu.group.coefficients.description": "Particle spawn coefficients for different contexts.",
+	"${mod_id}.modmenu.option.cooldown_coefficient.name": "Cooldown Coefficient",
+	"${mod_id}.modmenu.option.cooldown_coefficient.description": "Multiplier for the cooldown between particles spawns in this context.",
 
-	"${mod_id}.modmenu.option.global_count_coefficient.name": "[Global] Count Coefficient",
-	"${mod_id}.modmenu.option.global_count_coefficient.description": "Global multiplier for the count of particles that can be spawned. Applies additionally to all contexts.",
+	"${mod_id}.modmenu.option.spawn_chance.name": "Spawn Chance",
+	"${mod_id}.modmenu.option.spawn_chance.description": "Chance (not cooldown) of particles spawning after some GUI actions (e.g. take/put).",
 
-	"${mod_id}.modmenu.option.global_cooldown_coefficient.name": "[Global] Cooldown Coefficient",
-	"${mod_id}.modmenu.option.global_cooldown_coefficient.description": "Global multiplier for the cooldown after particles spawn. Applies additionally to all contexts.",
+	"${mod_id}.modmenu.option.whitelist_mode.disabled": "Disabled",
+	"${mod_id}.modmenu.option.whitelist_mode.whitelist": "Whitelist",
+	"${mod_id}.modmenu.option.whitelist_mode.blacklist": "Blacklist",
 
-	"${mod_id}.modmenu.option.cursor_count_coefficient.name": "[Cursor] Count Coefficient",
-	"${mod_id}.modmenu.option.cursor_count_coefficient.description": "Multiplier for the count of particles that can be spawned around the cursor.",
+	"${mod_id}.modmenu.option.whitelist_mode.name": "Whitelist Mode",
+	"${mod_id}.modmenu.option.whitelist_mode.description": "Controls how the whitelist will be applied. Whitelist — only items in the whitelist will spawn particles; Blacklist — items in the whitelist won't spawn particles.",
 
-	"${mod_id}.modmenu.option.cursor_cooldown_coefficient.name": "[Cursor] Cooldown Coefficient",
-	"${mod_id}.modmenu.option.cursor_cooldown_coefficient.description": "Multiplier for the cooldown after particles spawn around the cursor.",
-
-	"${mod_id}.modmenu.option.hovered_slot_count_coefficient.name": "[Hovered Slot] Count Coefficient",
-	"${mod_id}.modmenu.option.hovered_slot_count_coefficient.description": "Multiplier for the count of particles that can be spawned on the hovered slot.",
-
-	"${mod_id}.modmenu.option.hovered_slot_cooldown_coefficient.name": "[Hovered Slot] Cooldown Coefficient",
-	"${mod_id}.modmenu.option.hovered_slot_cooldown_coefficient.description": "Multiplier for the cooldown after particles spawn on the hovered slot.",
-
-	"${mod_id}.modmenu.option.gui_slots_count_coefficient.name": "[GUI Slots] Count Coefficient",
-	"${mod_id}.modmenu.option.gui_slots_count_coefficient.description": "Multiplier for the count of particles that can be spawned around all slots in opened GUI;",
-
-	"${mod_id}.modmenu.option.gui_slots_cooldown_coefficient.name": "[GUI Slots] Cooldown Coefficient",
-	"${mod_id}.modmenu.option.gui_slots_cooldown_coefficient.description": "Multiplier for the cooldown after particles spawn around all slots in opened GUI;",
-
-	"${mod_id}.modmenu.option.gui_action_count_coefficient.name": "[GUI Action] Count Coefficient",
-	"${mod_id}.modmenu.option.gui_action_count_coefficient.description": "Multiplier for the count of particles that can be spawned after some GUI actions (e.g. take/put).",
-
-	"${mod_id}.modmenu.option.gui_action_spawn_chance.name": "[GUI Action] Spawn Chance",
-	"${mod_id}.modmenu.option.gui_action_spawn_chance.description": "Chance (not cooldown) of particles spawning after some GUI actions (e.g. take/put).",
-
+	"${mod_id}.modmenu.option.whitelist_items.name": "Whitelist Items",
+	"${mod_id}.modmenu.option.whitelist_items.description": "Write item ids here. You can take it from item's tooltip (with F3 + H enabled). Use space to separate ids.",
 
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.true": "Enabled",
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.false": "Disabled"

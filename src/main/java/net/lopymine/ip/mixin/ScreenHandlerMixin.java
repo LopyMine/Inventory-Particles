@@ -29,7 +29,7 @@ public abstract class ScreenHandlerMixin {
 			return;
 		}
 		InventoryParticleConfig config = InventoryParticlesConfig.getInstance().getParticleConfig();
-		if (slotIndex >= 0 && slotIndex < this.slots.size() && config.isGuiActionSpawnEnabled()) {
+		if (slotIndex >= 0 && slotIndex < this.slots.size() && config.isGuiActionsSpawnEnabled()) {
 			boolean isTake = actionType == ClickType.PICKUP && this.getCarried().isEmpty();
 			boolean isPut = actionType == ClickType.PICKUP && !this.getCarried().isEmpty();
 			boolean isQuickMove = actionType == ClickType.QUICK_MOVE;

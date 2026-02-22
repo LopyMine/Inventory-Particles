@@ -1,23 +1,15 @@
 package net.lopymine.ip.yacl;
 
-import dev.isxander.yacl3.api.Option;
-import java.util.function.Function;
 import lombok.experimental.ExtensionMethod;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.config.InventoryParticlesConfig;
-import net.lopymine.ip.config.optimization.ParticleDeletionMode;
-import net.lopymine.ip.config.sub.*;
-import net.lopymine.ip.config.sub.InventoryParticlesCoefficientsConfig.ParticleCoefficientConfig;
-import net.lopymine.mossylib.utils.ModMenuUtils;
+import net.lopymine.ip.yacl.category.*;
 import net.lopymine.mossylib.yacl.api.*;
 import net.lopymine.mossylib.yacl.extension.SimpleOptionExtension;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
 
 @ExtensionMethod(SimpleOptionExtension.class)
 public class YACLConfigurationScreen {
-
-	private static final Function<Boolean, Component> ENABLED_OR_DISABLE_FORMATTER = ModMenuUtils.getEnabledOrDisabledFormatter();
 
 	private YACLConfigurationScreen() {
 		throw new IllegalStateException("Screen class");
@@ -27,174 +19,13 @@ public class YACLConfigurationScreen {
 		InventoryParticlesConfig defConfig = InventoryParticlesConfig.getNewInstance();
 		InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
 
-		return SimpleYACLScreen.startBuilder(InventoryParticles.MOD_ID, parent, config::saveAsync)
-				.categories(getGeneralCategory(defConfig, config))
+		Runnable onSave = () -> {
+			config.getWhitelistsConfig().recompileAll();
+			config.saveAsync();
+		};
+		return SimpleYACLScreen.startBuilder(InventoryParticles.MOD_ID, parent, onSave).categories(GeneralCategory.get(defConfig, config))
+				.categories(ParticlesSpawnCategory.get(defConfig, config))
 				.build();
 	}
 
-	private static SimpleCategory getGeneralCategory(InventoryParticlesConfig defConfig, InventoryParticlesConfig config) {
-		return SimpleCategory.startBuilder("general")
-				.groups(getMainGroup(defConfig.getMainConfig(), config.getMainConfig()))
-				.groups(getParticlesGroups(defConfig, config));
-	}
-
-	private static SimpleGroup getMainGroup(InventoryParticlesMainConfig defConfig, InventoryParticlesMainConfig config) {
-		return SimpleGroup.startBuilder("main").options(
-				SimpleOption.<Boolean>startBuilder("mod_enabled")
-						.withBinding(defConfig.isModEnabled(), config::isModEnabled, config::setModEnabled, false)
-						.withController(ENABLED_OR_DISABLE_FORMATTER)
-						.withDescription(SimpleContent.NONE),
-				SimpleOption.<Boolean>startBuilder("debug_mode_enabled")
-						.withBinding(defConfig.isDebugModeEnabled(), config::isDebugModeEnabled, config::setDebugModeEnabled, false)
-						.withController(ENABLED_OR_DISABLE_FORMATTER)
-						.withDescription(SimpleContent.NONE),
-				SimpleOption.<Boolean>startBuilder("nbt_debug_mode_enabled")
-						.withBinding(defConfig.isNbtDebugModeEnabled(), config::isNbtDebugModeEnabled, config::setNbtDebugModeEnabled, false)
-						.withController(ENABLED_OR_DISABLE_FORMATTER)
-						.withDescription(SimpleContent.NONE)
-		);
-	}
-
-	private static SimpleGroup[] getParticlesGroups(InventoryParticlesConfig defModConfig, InventoryParticlesConfig modConfig) {
-		InventoryParticlesCoefficientsConfig defCoefficientConfig = defModConfig.getCoefficientsConfig();
-		InventoryParticlesCoefficientsConfig coefficientConfig = modConfig.getCoefficientsConfig();
-
-		// Coefficients Group
-		SimpleGroup coefficientsGroup = SimpleGroup.startBuilder("coefficients");
-		createCoefficientsConfig(coefficientsGroup, "global", defCoefficientConfig.getGlobalConfig(), coefficientConfig.getGlobalConfig());
-		Option<?>[] cursorOptions = createCoefficientsConfig(coefficientsGroup, "cursor", defCoefficientConfig.getCursorConfig(), coefficientConfig.getCursorConfig());
-		Option<?>[] hoveredSlotOptions = createCoefficientsConfig(coefficientsGroup, "hovered_slot", defCoefficientConfig.getHoveredSlotConfig(), coefficientConfig.getHoveredSlotConfig());
-		Option<?>[] guiSlotsOptions = createCoefficientsConfig(coefficientsGroup, "gui_slots", defCoefficientConfig.getAllSlotsConfig(), coefficientConfig.getAllSlotsConfig());
-		Option<?>[] guiActionOptions = {
-				SimpleOption.<Double>startBuilder("gui_action_count_coefficient")
-						.withBinding(defCoefficientConfig.getGuiActionConfig().getCountCoefficient(), coefficientConfig.getGuiActionConfig()::getCountCoefficient, coefficientConfig.getGuiActionConfig()::setCountCoefficient, true)
-						.withController(0.0D, 50D, 0.1D, false)
-						.withDescription(SimpleContent.NONE)
-						.build(InventoryParticles.MOD_ID),
-				SimpleOption.<Double>startBuilder("gui_action_spawn_chance")
-						.withBinding(defCoefficientConfig.getGuiActionConfig().getCooldownCoefficient(), coefficientConfig.getGuiActionConfig()::getCooldownCoefficient, coefficientConfig.getGuiActionConfig()::setCooldownCoefficient, true)
-						.withController(0.0D, 100D, 0.1D, false)
-						.withDescription(SimpleContent.NONE)
-						.build(InventoryParticles.MOD_ID)
-		};
-		coefficientsGroup.options(guiActionOptions);
-
-		//
-		InventoryParticleConfig defParticleConfig = defModConfig.getParticleConfig();
-		InventoryParticleConfig particleConfig = modConfig.getParticleConfig();
-
-		Option<Boolean> guiActionTakeSpawnEnabled = SimpleOption.<Boolean>startBuilder("gui_action_take_spawn_enabled")
-				.withBinding(defParticleConfig.isGuiActionTakeSpawnEnabled(), particleConfig::isGuiActionTakeSpawnEnabled, particleConfig::setGuiActionTakeSpawnEnabled, true)
-				.withController()
-				.withDescription(SimpleContent.NONE)
-				.build(InventoryParticles.MOD_ID);
-		Option<Boolean> guiActionPutSpawnEnabled = SimpleOption.<Boolean>startBuilder("gui_action_put_spawn_enabled")
-				.withBinding(defParticleConfig.isGuiActionPutSpawnEnabled(), particleConfig::isGuiActionPutSpawnEnabled, particleConfig::setGuiActionPutSpawnEnabled, true)
-				.withController()
-				.withDescription(SimpleContent.NONE)
-				.build(InventoryParticles.MOD_ID);
-		Option<Boolean> guiActionQuickMoveSpawnEnabled = SimpleOption.<Boolean>startBuilder("gui_action_quick_move_spawn_enabled")
-				.withBinding(defParticleConfig.isGuiActionQuickMoveSpawnEnabled(), particleConfig::isGuiActionQuickMoveSpawnEnabled, particleConfig::setGuiActionQuickMoveSpawnEnabled, true)
-				.withController()
-				.withDescription(SimpleContent.NONE)
-				.build(InventoryParticles.MOD_ID);
-
-		//
-		SimpleGroup particlesGroup = SimpleGroup.startBuilder("particles").options(
-				SimpleOption.<Boolean>startBuilder("cursor_spawn_enabled")
-						.withBinding(defParticleConfig.isCursorSpawnEnabled(), particleConfig::isCursorSpawnEnabled, particleConfig::setCursorSpawnEnabled, true)
-						.withController()
-						.withDescription(SimpleContent.NONE)
-						.custom((builder) -> {
-							builder.addListener((o, e) -> {
-								for (Option<?> option : cursorOptions) {
-									option.setAvailable(o.pendingValue());
-								}
-							});
-						}),
-				SimpleOption.<Boolean>startBuilder("hovered_slot_spawn_enabled")
-						.withBinding(defParticleConfig.isHoveredSlotSpawnEnabled(), particleConfig::isHoveredSlotSpawnEnabled, particleConfig::setHoveredSlotSpawnEnabled, true)
-						.withController()
-						.withDescription(SimpleContent.NONE)
-						.custom((builder) -> {
-							builder.addListener((o, e) -> {
-								for (Option<?> option : hoveredSlotOptions) {
-									option.setAvailable(o.pendingValue());
-								}
-							});
-						}),
-				SimpleOption.<Boolean>startBuilder("gui_slots_spawn_enabled")
-						.withBinding(defParticleConfig.isGuiSlotsSpawnEnabled(), particleConfig::isGuiSlotsSpawnEnabled, particleConfig::setGuiSlotsSpawnEnabled, true)
-						.withController()
-						.withDescription(SimpleContent.NONE)
-						.custom((builder) -> {
-							builder.addListener((o, e) -> {
-								for (Option<?> option : guiSlotsOptions) {
-									option.setAvailable(o.pendingValue());
-								}
-							});
-						}),
-				SimpleOption.<Boolean>startBuilder("gui_action_spawn_enabled")
-						.withBinding(defParticleConfig.isGuiActionSpawnEnabled(), particleConfig::isGuiActionSpawnEnabled, particleConfig::setGuiActionSpawnEnabled, true)
-						.withController()
-						.withDescription(SimpleContent.NONE)
-						.custom((builder) -> {
-							builder.addListener((o, e) -> {
-								boolean value = o.pendingValue();
-								for (Option<?> option : guiActionOptions) {
-									option.setAvailable(value);
-								}
-								guiActionTakeSpawnEnabled.setAvailable(value);
-								guiActionPutSpawnEnabled.setAvailable(value);
-								guiActionQuickMoveSpawnEnabled.setAvailable(value);
-
-								if (!value) {
-									guiActionTakeSpawnEnabled.requestSet(false);
-									guiActionPutSpawnEnabled.requestSet(false);
-									guiActionQuickMoveSpawnEnabled.requestSet(false);
-								}
-							});
-						}),
-				SimpleOption.<ParticleDeletionMode>startBuilder("particle_deletion_mode")
-						.withBinding(defParticleConfig.getParticleDeletionMode(), particleConfig::getParticleDeletionMode, particleConfig::setParticleDeletionMode, true)
-						.withController(ParticleDeletionMode.class)
-						.withDescription(SimpleContent.NONE)
-				,
-				SimpleOption.<Integer>startBuilder("max_particles")
-						.withBinding(defParticleConfig.getMaxParticles(), particleConfig::getMaxParticles, particleConfig::setMaxParticles, true)
-						.withController(0, Integer.MAX_VALUE, 1, false)
-						.withDescription(SimpleContent.NONE)
-				,
-				SimpleOption.<Double>startBuilder("particle_transparency")
-						.withBinding(defParticleConfig.getParticleTransparency(), particleConfig::getParticleTransparency, particleConfig::setParticleTransparency, true)
-						.withController(0.0D, 1.0D, 0.05D)
-						.withDescription(SimpleContent.NONE)
-
-		);
-
-		coefficientsGroup.options(guiActionTakeSpawnEnabled, guiActionPutSpawnEnabled, guiActionQuickMoveSpawnEnabled);
-
-		return new SimpleGroup[]{particlesGroup, coefficientsGroup};
-	}
-
-	private static Option<?>[] createCoefficientsConfig(SimpleGroup group, String id, ParticleCoefficientConfig defConfig, ParticleCoefficientConfig config) {
-		Option<?>[] options = new Option[]{
-				SimpleOption.<Double>startBuilder(id + "_count_coefficient")
-						.withBinding(defConfig.getCountCoefficient(), config::getCountCoefficient, config::setCountCoefficient, true)
-						.withController(0.0D, 50D, 0.1D, false)
-						.withDescription(SimpleContent.NONE)
-						.build(InventoryParticles.MOD_ID),
-				SimpleOption.<Double>startBuilder(id + "_cooldown_coefficient")
-						.withBinding(defConfig.getCooldownCoefficient(), config::getCooldownCoefficient, config::setCooldownCoefficient, true)
-						.withController(0.0D, 50D, 0.1D, false)
-						.withDescription(SimpleContent.NONE)
-						.build(InventoryParticles.MOD_ID)
-
-		};
-		group.options(options);
-		return options;
-	}
-
 }
-
-

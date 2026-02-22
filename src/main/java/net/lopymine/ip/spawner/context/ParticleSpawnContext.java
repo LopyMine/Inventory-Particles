@@ -26,11 +26,11 @@ public class ParticleSpawnContext {
 
 	public static final ParticleSpawnContext ALL_SLOTS_CONTEXT = new ParticleSpawnContext(
 			InventoryParticleConfig::isGuiSlotsSpawnEnabled,
-			InventoryParticlesCoefficientsConfig::getAllSlotsConfig
+			InventoryParticlesCoefficientsConfig::getGuiSlotsConfig
 	);
 
 	public static final ParticleSpawnContext GUI_ACTION_SLOT = new ParticleSpawnContext(
-			InventoryParticleConfig::isGuiActionSpawnEnabled,
+			InventoryParticleConfig::isGuiActionsSpawnEnabled,
 			InventoryParticlesCoefficientsConfig::getGuiActionConfig,
 			ParticleCoefficientConfig::getCountCoefficient,
 			(config) -> 1.0D
