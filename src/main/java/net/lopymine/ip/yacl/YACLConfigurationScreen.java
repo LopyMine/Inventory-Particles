@@ -23,7 +23,8 @@ public class YACLConfigurationScreen {
 			config.getWhitelistsConfig().recompileAll();
 			config.saveAsync();
 		};
-		return SimpleYACLScreen.startBuilder(InventoryParticles.MOD_ID, parent, onSave).categories(GeneralCategory.get(defConfig, config))
+		return SimpleYACLScreen.startBuilder(InventoryParticles.MOD_ID, parent, onSave)
+				.categories(GeneralCategory.get(defConfig, config))
 				.categories(ParticlesSpawnCategory.get(defConfig, config))
 				.build();
 	}

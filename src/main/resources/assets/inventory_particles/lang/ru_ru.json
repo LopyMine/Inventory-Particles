@@ -16,9 +16,6 @@
 	"${mod_id}.modmenu.option.nbt_debug_mode_enabled.name": "Включить режим отладки NBT",
 	"${mod_id}.modmenu.option.nbt_debug_mode_enabled.description": "Если включено, вы увидите некоторую информацию о NBT предметов в логах игры; если отключено — не увидите.",
 
-	"${mod_id}.modmenu.group.particles.name": "Настройки частиц",
-	"${mod_id}.modmenu.group.particles.description": "Настройки поведения и внешнего вида частиц.",
-
 	"${mod_id}.modmenu.category.particles_spawn.name": "Появление частиц",
 
 	"${mod_id}.modmenu.group.global_section.name": "[Глобально]",
@@ -48,18 +45,6 @@
 	"${mod_id}.modmenu.option.gui_action_quick_move_spawn_enabled.name": "[Быстрое перемещение] Включить появление",
 	"${mod_id}.modmenu.option.gui_action_quick_move_spawn_enabled.description": "Если включено, частицы будут появляться при быстром перемещении предметов (Shift + ЛКМ); если отключено — не будут.",
 
-	"${mod_id}.modmenu.option.particle_deletion_mode.name": "Режим удаления частиц",
-	"${mod_id}.modmenu.option.particle_deletion_mode.description": "Определяет, какие частицы будут удаляться для появления новых, если достигнут максимальный лимит частиц.",
-
-	"${mod_id}.modmenu.option.particle_deletion_mode.random": "Случайные",
-	"${mod_id}.modmenu.option.particle_deletion_mode.oldest": "Самые старые",
-
-	"${mod_id}.modmenu.option.max_particles.name": "Максимальное количество частиц",
-	"${mod_id}.modmenu.option.max_particles.description": "Контролирует, сколько частиц может существовать на экране одновременно.",
-
-	"${mod_id}.modmenu.option.particle_transparency.name": "Прозрачность частиц",
-	"${mod_id}.modmenu.option.particle_transparency.description": "Контролирует прозрачность всех частиц на экране.",
-
 	"${mod_id}.modmenu.option.count_coefficient.name": "Коэффициент количества",
 	"${mod_id}.modmenu.option.count_coefficient.description": "Множитель для количества частиц, которые могут появиться в этом контексте.",
 
@@ -78,6 +63,24 @@
 
 	"${mod_id}.modmenu.option.whitelist_items.name": "Предметы белого списка",
 	"${mod_id}.modmenu.option.whitelist_items.description": "Указывайте здесь айди предметов через пробел. Их можно взять из подсказки предмета (F3 + H).",
+
+	"${mod_id}.modmenu.group.visual.name": "Визуальное",
+	"${mod_id}.modmenu.group.visual.description": "Настройки внешнего вида частиц.",
+
+	"${mod_id}.modmenu.option.particles_deletion_mode.name": "Режим удаления частиц",
+	"${mod_id}.modmenu.option.particles_deletion_mode.description": "Определяет, какие частицы будут удаляться для появления новых, если достигнут максимальный лимит частиц.",
+
+	"${mod_id}.modmenu.option.particles_deletion_mode.random": "Случайные",
+	"${mod_id}.modmenu.option.particles_deletion_mode.oldest": "Самые старые",
+
+	"${mod_id}.modmenu.option.particles_count_limit.name": "Максимальное количество частиц",
+	"${mod_id}.modmenu.option.particles_count_limit.description": "Контролирует, сколько частиц может существовать на экране одновременно.",
+
+	"${mod_id}.modmenu.option.particles_transparency.name": "Прозрачность частиц",
+	"${mod_id}.modmenu.option.particles_transparency.description": "Контролирует прозрачность всех частиц на экране.",
+
+	"${mod_id}.modmenu.option.fade_out_duration.name": "Длительность исчезновения",
+	"${mod_id}.modmenu.option.fade_out_duration.description": "Длительность в тиках для эффекта плавного исчезновения частиц (при использовании режима удаления 'Плавное исчезновение').",
 
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.true": "Включено",
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.false": "Выключено"

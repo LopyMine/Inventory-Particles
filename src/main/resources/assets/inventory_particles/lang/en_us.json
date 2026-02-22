@@ -16,9 +16,6 @@
 	"${mod_id}.modmenu.option.nbt_debug_mode_enabled.name": "Nbt Debug Mode Enabled",
 	"${mod_id}.modmenu.option.nbt_debug_mode_enabled.description": "If enabled, you will some debug info about item nbt in game logs; if disabled, won't.",
 
-	"${mod_id}.modmenu.group.particles.name": "Particles",
-	"${mod_id}.modmenu.group.particles.description": "Settings for particle behavior and appearance.",
-
 	"${mod_id}.modmenu.category.particles_spawn.name": "Particles Spawn",
 
 	"${mod_id}.modmenu.group.global_section.name": "[Global]",
@@ -48,18 +45,6 @@
 	"${mod_id}.modmenu.option.gui_action_quick_move_spawn_enabled.name": "[Quick Move] Spawn Enabled",
 	"${mod_id}.modmenu.option.gui_action_quick_move_spawn_enabled.description": "If enabled, particles will be spawned when quick moving items (with Shift + LMB); if disabled, won't.",
 
-	"${mod_id}.modmenu.option.particle_deletion_mode.name": "Particle Deletion Mode",
-	"${mod_id}.modmenu.option.particle_deletion_mode.description": "Controls which particles will be removed for spawn new particles if the maximum particle limit has been reached.",
-
-	"${mod_id}.modmenu.option.particle_deletion_mode.random": "Random",
-	"${mod_id}.modmenu.option.particle_deletion_mode.oldest": "Oldest",
-
-	"${mod_id}.modmenu.option.max_particles.name": "Maximum Particles",
-	"${mod_id}.modmenu.option.max_particles.description": "Controls how many particles can exits on the screen.",
-
-	"${mod_id}.modmenu.option.particle_transparency.name": "Particle Transparency",
-	"${mod_id}.modmenu.option.particle_transparency.description": "Controls transparency of all particles on the screen.",
-
 	"${mod_id}.modmenu.option.count_coefficient.name": "Count Coefficient",
 	"${mod_id}.modmenu.option.count_coefficient.description": "Multiplier for the count of particles that can be spawned in this context.",
 
@@ -78,6 +63,24 @@
 
 	"${mod_id}.modmenu.option.whitelist_items.name": "Whitelist Items",
 	"${mod_id}.modmenu.option.whitelist_items.description": "Write item ids here. You can take it from item's tooltip (with F3 + H enabled). Use space to separate ids.",
+
+	"${mod_id}.modmenu.group.visual.name": "Visual",
+	"${mod_id}.modmenu.group.visual.description": "Settings for particles appearance.",
+
+	"${mod_id}.modmenu.option.particles_deletion_mode.name": "Particles Deletion Mode",
+	"${mod_id}.modmenu.option.particles_deletion_mode.description": "Controls which particles will be removed for spawn new particles if the maximum particle limit has been reached.",
+
+	"${mod_id}.modmenu.option.particles_deletion_mode.random": "Random",
+	"${mod_id}.modmenu.option.particles_deletion_mode.oldest": "Oldest",
+
+	"${mod_id}.modmenu.option.particles_count_limit.name": "Particles Count Limit",
+	"${mod_id}.modmenu.option.particles_count_limit.description": "Controls how many particles can exits on the screen.",
+
+	"${mod_id}.modmenu.option.particles_transparency.name": "Particles Transparency",
+	"${mod_id}.modmenu.option.particles_transparency.description": "Controls transparency of all particles on the screen.",
+
+	"${mod_id}.modmenu.option.fade_out_duration.name": "Fade Out Duration",
+	"${mod_id}.modmenu.option.fade_out_duration.description": "Duration in ticks for smooth particle fade out effect after their death.",
 
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.true": "Enabled",
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.false": "Disabled"

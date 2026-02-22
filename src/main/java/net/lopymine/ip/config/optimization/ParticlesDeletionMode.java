@@ -6,21 +6,22 @@ import net.lopymine.ip.InventoryParticles;
 import net.lopymine.mossylib.yacl.utils.EnumWithText;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
+import org.jetbrains.annotations.NotNull;
 
-public enum ParticleDeletionMode implements StringRepresentable, EnumWithText {
+public enum ParticlesDeletionMode implements StringRepresentable, EnumWithText {
 
 	RANDOM,
 	OLDEST;
 
-	public static final Codec<ParticleDeletionMode> CODEC = StringRepresentable.fromEnum(ParticleDeletionMode::values);
+	public static final Codec<ParticlesDeletionMode> CODEC = StringRepresentable.fromEnum(ParticlesDeletionMode::values);
 
 	@Override
-	public String getSerializedName() {
+	public @NotNull String getSerializedName() {
 		return this.name().toLowerCase(Locale.ROOT);
 	}
 
 	@Override
 	public Component getText() {
-		return InventoryParticles.text("modmenu.option.particle_deletion_mode." + this.getSerializedName());
+		return InventoryParticles.text("modmenu.option.particles_deletion_mode." + this.getSerializedName());
 	}
 }

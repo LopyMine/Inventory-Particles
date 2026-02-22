@@ -5,7 +5,7 @@ import lombok.*;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
-import net.lopymine.ip.config.optimization.ParticleDeletionMode;
+import net.lopymine.ip.config.optimization.ParticlesDeletionMode;
 import net.lopymine.ip.config.sub.InventoryParticleConfig;
 import net.lopymine.ip.config.sub.InventoryParticlesItemWhitelistsConfig.ParticlesItemWhitelistConfig;
 import net.lopymine.ip.element.*;
@@ -34,7 +34,7 @@ public class InventoryParticlesRenderer extends TickElement {
 	private static final InventoryParticlesRenderer INSTANCE = new InventoryParticlesRenderer();
 
 	@Getter
-	private final Collection<IParticle> screenParticles = getScreenParticlesList();
+	private Collection<IParticle> screenParticles = getScreenParticlesList();
 	private final List<IParticle> pendingParticles = new ArrayList<>();
 	private final RandomSource random = RandomSource.create();
 
@@ -56,12 +56,13 @@ public class InventoryParticlesRenderer extends TickElement {
 
 	public void render(GuiGraphics context, float tickProgress) {
 		this.hoveredParticle = null;
-		if (this.screenParticles.isEmpty()) {
+		Collection<IParticle> screenParticles = this.screenParticles;
+		if (screenParticles.isEmpty()) {
 			return;
 		}
 		this.runSoft(() -> {
 			ParticleDrawUtils.prepareParticlesBuffer();
-			for (IParticle particle : this.screenParticles) {
+			for (IParticle particle : screenParticles) {
 				if (particle == null) {
 					continue;
 				}
@@ -105,7 +106,6 @@ public class InventoryParticlesRenderer extends TickElement {
 
 			this.screenParticles.removeIf((particle) -> {
 				if (particle == null) {
-
 					return true;
 				}
 				particle.tick();
@@ -201,29 +201,64 @@ public class InventoryParticlesRenderer extends TickElement {
 
 	public void spawnParticle(IParticle particle) {
 		InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
-		int difference = (this.screenParticles.size() + 1) - config.getParticleConfig().getMaxParticles();
+		int difference = (this.screenParticles.size() + 1) - config.getParticleConfig().getParticlesCountLimit();
 		if (difference > 0) {
-			this.clearParticlesForNewOnes(difference, config.getParticleConfig().getParticleDeletionMode());
+			this.clearParticlesForNewOnes(difference, config.getParticleConfig().getParticlesDeletionMode());
 		}
 		this.pendingParticles.add(particle);
 	}
 
-	private void clearParticlesForNewOnes(int difference, ParticleDeletionMode mode) {
+	private void clearParticlesForNewOnes(int difference, ParticlesDeletionMode mode) {
+		int fadeOutDurationTicks = InventoryParticlesConfig.getInstance().getParticleConfig().getFadeOutDurationTicks();
+
 		switch (mode) {
 			case OLDEST -> {
 				if (!(this.screenParticles instanceof ArrayDeque<IParticle> deque)) {
 					return;
 				}
-				for (int i = 0; i < difference; i++) {
-					deque.pollFirst();
+				if (deque.isEmpty()) {
+					return;
+				}
+				ArrayDeque<IParticle> particles = new ArrayDeque<>(deque);
+				Iterator<IParticle> iterator = particles.iterator();
+				for (int i = 0; i < difference && iterator.hasNext(); i++) {
+					IParticle particle = iterator.next();
+					if (fadeOutDurationTicks == 0) {
+						iterator.remove();
+					} else {
+						if (particle instanceof InventoryParticle inventoryParticle && !inventoryParticle.isFadingOut()) {
+							inventoryParticle.startFadeOut();
+						}
+					}
+				}
+				if (fadeOutDurationTicks == 0) {
+					this.screenParticles = particles;
 				}
 			}
 			case RANDOM -> {
 				if (!(this.screenParticles instanceof ArrayList<IParticle> list)) {
 					return;
 				}
+				if (list.isEmpty()) {
+					return;
+				}
+				ArrayList<IParticle> particles = new ArrayList<>(list);
 				for (int i = 0; i < difference; i++) {
-					list.remove(this.random.nextIntBetweenInclusive(0, list.size() - 1));
+					if (particles.isEmpty()) {
+						break;
+					}
+					int index = this.random.nextIntBetweenInclusive(0, particles.size() - 1);
+					if (fadeOutDurationTicks == 0) {
+						particles.remove(index);
+					} else {
+						IParticle particle = particles.get(index);
+						if (particle instanceof InventoryParticle inventoryParticle && !inventoryParticle.isFadingOut()) {
+							inventoryParticle.startFadeOut();
+						}
+					}
+				}
+				if (fadeOutDurationTicks == 0) {
+					this.screenParticles = particles;
 				}
 			}
 		}
@@ -340,7 +375,7 @@ public class InventoryParticlesRenderer extends TickElement {
 	}
 
 	private static @NotNull Collection<IParticle> getScreenParticlesList() {
-		return switch (InventoryParticlesConfig.getInstance().getParticleConfig().getParticleDeletionMode()) {
+		return switch (InventoryParticlesConfig.getInstance().getParticleConfig().getParticlesDeletionMode()) {
 			case OLDEST -> new ArrayDeque<>();
 			case RANDOM -> new ArrayList<>();
 		};

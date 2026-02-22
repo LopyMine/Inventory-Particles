@@ -58,6 +58,10 @@ public class InventoryParticle extends TickElement implements IParticle, IRotata
 	private double width = StaticParticleSize.STANDARD_SIZE.getWidth();
 	private double height = StaticParticleSize.STANDARD_SIZE.getHeight();
 
+	private boolean fadingOut = false;
+	private int fadeOutTicks = 0;
+	private final int fadeOutDuration;
+
 	private double lastX;
 	private double lastY;
 	private double x;
@@ -105,6 +109,8 @@ public class InventoryParticle extends TickElement implements IParticle, IRotata
 
 		this.particleRotationSpeedController = new RotationSpeedController<>(rotation.getParticleRotationConfig(), this.random);
 		this.textureRotationSpeedController = new RotationSpeedController<>(rotation.getTextureRotationConfig(), this.random);
+
+		this.fadeOutDuration = InventoryParticlesConfig.getInstance().getParticleConfig().getFadeOutDurationTicks();
 	}
 
 	public void tick() {
@@ -115,9 +121,10 @@ public class InventoryParticle extends TickElement implements IParticle, IRotata
 		super.tick();
 		this.textureProvider.tick();
 		this.texture = this.textureProvider.getTexture(this.random);
-		if (this.textureProvider.isShouldDead() || this.ticks > this.getLifeTimeTicks()) {
-			this.dead = true;
-			return;
+		if ((this.textureProvider.isShouldDead() || this.ticks > this.getLifeTimeTicks()) && !this.isFadingOut()) {
+			this.startFadeOut();
+		} else {
+			this.tickFadeOut();
 		}
 
 		if (this.colorController != null) {
@@ -198,10 +205,12 @@ public class InventoryParticle extends TickElement implements IParticle, IRotata
 	private int getRenderColor() {
 		int alpha = ArgbUtils.getAlpha(this.color);
 		int configAlpha = (int) (InventoryParticlesConfig.getInstance().getParticleConfig().getParticleTransparency() * 255F);
-		if (alpha <= configAlpha) {
-			return this.color;
+
+		if (alpha > configAlpha) {
+			alpha = configAlpha;
 		}
-		return ArgbUtils2.getArgb(configAlpha, ArgbUtils2.getRed(this.color), ArgbUtils2.getGreen(this.color), ArgbUtils2.getBlue(this.color));
+
+		return ArgbUtils2.getArgb((int) (alpha * this.getFadeOutAlpha()), ArgbUtils2.getRed(this.color), ArgbUtils2.getGreen(this.color), ArgbUtils2.getBlue(this.color));
 	}
 
 	public double getAngle() {
@@ -224,4 +233,32 @@ public class InventoryParticle extends TickElement implements IParticle, IRotata
 		this.lastHeight = this.height;
 		this.height = height;
 	}
+
+	public void startFadeOut() {
+		if (this.fadeOutDuration == 0) {
+			this.dead = true;
+			return;
+		}
+		this.fadingOut = true;
+		this.fadeOutTicks = 0;
+	}
+
+	public float getFadeOutAlpha() {
+		if (!this.fadingOut || this.fadeOutDuration <= 0) {
+			return 1.0F;
+		}
+		return Math.max(0.0F, 1.0F - ((float) this.fadeOutTicks / (float) this.fadeOutDuration));
+	}
+
+	public void tickFadeOut() {
+		if (this.fadingOut) {
+			this.fadeOutTicks++;
+			if (this.fadeOutTicks >= this.fadeOutDuration) {
+				this.dead = true;
+				this.fadingOut = false;
+			}
+		}
+	}
 }
+
+
