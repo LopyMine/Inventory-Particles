@@ -79,8 +79,8 @@
 	"${mod_id}.modmenu.option.particles_transparency.name": "Particles Transparency",
 	"${mod_id}.modmenu.option.particles_transparency.description": "Controls transparency of all particles on the screen.",
 
-	"${mod_id}.modmenu.option.fade_out_duration.name": "Fade Out Duration",
-	"${mod_id}.modmenu.option.fade_out_duration.description": "Duration in ticks for smooth particle fade out effect after their death.",
+	"${mod_id}.modmenu.option.fade_out_duration.name": "Particle Deletion Fade Out Duration",
+	"${mod_id}.modmenu.option.fade_out_duration.description": "Duration in ticks for smooth particle fade out effect after reaching the maximum particle limit. If set to 0, particles will be removed immediately without fading.",
 
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.true": "Enabled",
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.false": "Disabled"

@@ -4,14 +4,11 @@ import java.io.InputStream;
 import java.util.*;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
-import net.lopymine.ip.utils.ArgbUtils2;
 import net.lopymine.mossylib.loader.MossyLoader;
-import net.lopymine.mossylib.utils.*;
 import net.minecraft.client.Minecraft;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.ARGB;
 
 public class Texture2ObjectsManager {
 
@@ -34,7 +31,7 @@ public class Texture2ObjectsManager {
 			int height = image.getHeight();
 			for (int x = 0; x < width; x++) {
 				for (int y = 0; y < height; y++) {
-					int color = /*? if <=1.21.1 {*/ /*ARGB.fromABGR(image.getPixelRGBA(x, y)); *//*?} else {*/ image.getPixel(x, y); /*?}*/
+					int color = /*? if <=1.21.1 {*/ /*toABGR(image.getPixelRGBA(x, y)); *//*?} else {*/ image.getPixel(x, y); /*?}*/
 					if (Boolean.FALSE.equals(filter.getFilter().accept(x, y, width, height, color))) {
 						continue;
 					}
@@ -51,5 +48,11 @@ public class Texture2ObjectsManager {
 		}
 		return List.of();
 	}
+
+	//? if <=1.21.1 {
+	/*public static int toABGR(int i) {
+		return i & -16711936 | (i & 16711680) >> 16 | (i & 255) << 16;
+	}
+	*///?}
 
 }

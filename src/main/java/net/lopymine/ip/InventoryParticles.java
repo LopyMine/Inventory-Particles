@@ -19,6 +19,14 @@ public class InventoryParticles {
 		 *///?}
 	}
 
+	public static Identifier parseId(String path) {
+		//? if >=1.21 {
+		return Identifier.parse(path);
+		//?} else {
+		/*return new Identifier(path);
+		 *///?}
+	}
+
 	public static MutableComponent text(String path, Object... args) {
 		return Component.translatable(String.format("%s.%s", MOD_ID, path), args);
 	}

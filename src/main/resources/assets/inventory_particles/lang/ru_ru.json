@@ -79,8 +79,8 @@
 	"${mod_id}.modmenu.option.particles_transparency.name": "Прозрачность частиц",
 	"${mod_id}.modmenu.option.particles_transparency.description": "Контролирует прозрачность всех частиц на экране.",
 
-	"${mod_id}.modmenu.option.fade_out_duration.name": "Длительность исчезновения",
-	"${mod_id}.modmenu.option.fade_out_duration.description": "Длительность в тиках для эффекта плавного исчезновения частиц (при использовании режима удаления 'Плавное исчезновение').",
+	"${mod_id}.modmenu.option.fade_out_duration.name": "Длительность исчезновения после удаления частиц",
+	"${mod_id}.modmenu.option.fade_out_duration.description": "Длительность в тиках для эффекта плавного исчезновения частиц после её удаления при достижении лимита частиц. Если 0, эффект отключён.",
 
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.true": "Включено",
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.false": "Выключено"

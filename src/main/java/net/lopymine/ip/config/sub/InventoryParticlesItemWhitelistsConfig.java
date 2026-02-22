@@ -86,13 +86,17 @@ public class InventoryParticlesItemWhitelistsConfig {
 
 			for (String item : this.items.split(" ")) {
 				try {
-					Identifier itemId = Identifier.parse(item);
+					Identifier itemId = InventoryParticles.parseId(item);
+					//? if >=1.21.2 {
 					Optional<Reference<Item>> optional = BuiltInRegistries.ITEM.get(itemId);
 					if (optional.isEmpty()) {
 						InventoryParticlesClient.LOGGER.warn("Invalid item in whitelist: " + item);
 						continue;
 					}
 					int id = BuiltInRegistries.ITEM.getId(optional.get().value());
+					//?} else {
+					/*int id = BuiltInRegistries.ITEM.getId(BuiltInRegistries.ITEM.get(itemId));
+					*///?}
 					if (id == -1) {
 						InventoryParticlesClient.LOGGER.warn("Failed to find item in whitelist: " + item);
 						continue;

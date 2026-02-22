@@ -31,6 +31,20 @@
 			},
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:target",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [40, 50],
+			"speed_coefficient": 0.02,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#AA9539", "#CAB559"],
+				"speed": 5.0
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
 		}
 	],
 	"physics": {

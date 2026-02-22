@@ -122,10 +122,11 @@ public class InventoryParticle extends TickElement implements IParticle, IRotata
 		this.textureProvider.tick();
 		this.texture = this.textureProvider.getTexture(this.random);
 		if ((this.textureProvider.isShouldDead() || this.ticks > this.getLifeTimeTicks()) && !this.isFadingOut()) {
-			this.startFadeOut();
-		} else {
-			this.tickFadeOut();
+			this.dead = true;
+			return;
 		}
+
+		this.tickFadeOut();
 
 		if (this.colorController != null) {
 			this.colorController.tick(this);

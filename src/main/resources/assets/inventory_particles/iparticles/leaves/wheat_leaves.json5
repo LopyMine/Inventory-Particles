@@ -33,7 +33,16 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		},
-		
+		{
+			"item": "minecraft:target",
+			"spawn_area": "block.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [40, 50],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
 		
 		
 		
