@@ -64,6 +64,10 @@ public class ParticlesConfigsManager {
 
 		});
 
+		if (Minecraft.getInstance().level != null) {
+			updateCombinedMap();
+		}
+
 		InventoryParticlesClient.LOGGER.info("Registering finished, found: {}, registered: {}", foundConfigs.get(), registeredConfigs.get());
 	}
 

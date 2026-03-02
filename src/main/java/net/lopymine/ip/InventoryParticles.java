@@ -3,7 +3,6 @@ package net.lopymine.ip;
 import net.lopymine.mossylib.logger.MossyLogger;
 import net.minecraft.network.chat.*;
 import net.minecraft.resources.Identifier;
-import org.slf4j.*;
 
 public class InventoryParticles {
 
