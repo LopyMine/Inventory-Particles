@@ -5,9 +5,9 @@ import java.util.concurrent.*;
 import net.lopymine.ip.InventoryParticles;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.*;
-import net.minecraft.client.renderer.texture.SpriteLoader.Preparations;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.*;
+import org.jetbrains.annotations.Nullable;
 
 public class InventoryParticlesAtlasManager {
 
@@ -47,11 +47,17 @@ public class InventoryParticlesAtlasManager {
 		this.atlas.close();
 	}
 
-	public TextureAtlasSprite getSprite(Identifier id) {
-		return this.atlas.getSprite(id);
+	public TextureAtlasSprite getSprite(@Nullable Identifier id, @Nullable Identifier atlasId) {
+		if (id == null) {
+			return this.getMissingSprite();
+		}
+		if (atlasId == null || atlasId == ATLAS_ID) {
+			return this.atlas.getSprite(id);
+		}
+		return OtherAtlasManager.getSprite(id, atlasId, this.getMissingSprite());
 	}
 
 	public TextureAtlasSprite getMissingSprite() {
-		return /*? if >=1.21 {*/ this.atlas.missingSprite /*?} else {*/ /*this.getSprite(MissingTextureAtlasSprite.getLocation()) *//*?}*/;
+		return /*? if >=1.21 {*/ this.atlas.missingSprite /*?} else {*/ /*this.atlas.getSprite(MissingTextureAtlasSprite.getLocation()) *//*?}*/;
 	}
 }

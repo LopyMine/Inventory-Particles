@@ -2,7 +2,7 @@ package net.lopymine.ip.texture;
 
 import java.util.*;
 import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
-import net.lopymine.ip.config.particle.ParticleConfig;
+import net.lopymine.ip.config.particle.*;
 import net.lopymine.ip.debug.IDebugRenderable;
 import net.lopymine.ip.element.base.ITickElement;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -19,8 +19,8 @@ public interface IParticleTextureProvider extends ITickElement, IDebugRenderable
 
 	static IParticleTextureProvider getTextureProvider(ParticleConfig config) {
 		List<TextureAtlasSprite> sprites = CACHED_SPRITES.computeIfAbsent(config, (cfg) -> {
-			ArrayList<Identifier> textures = config.getTextures();
-			return textures.stream().map(InventoryParticlesAtlasManager.getInstance()::getSprite).toList();
+			ArrayList<ParticleTexture> textures = config.getTextures();
+			return textures.stream().map((texture) -> InventoryParticlesAtlasManager.getInstance().getSprite(texture.getSprite(), texture.getAtlasId())).toList();
 		});
 
 		double animationSpeed = config.getAnimationSpeed();

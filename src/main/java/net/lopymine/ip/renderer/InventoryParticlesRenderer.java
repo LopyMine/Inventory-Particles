@@ -61,7 +61,7 @@ public class InventoryParticlesRenderer extends TickElement {
 			return;
 		}
 		this.runSoft(() -> {
-			ParticleDrawUtils.prepareParticlesBuffer();
+
 			for (IParticle particle : screenParticles) {
 				if (particle == null) {
 					continue;
@@ -71,7 +71,7 @@ public class InventoryParticlesRenderer extends TickElement {
 					this.hoveredParticle = particle;
 				}
 			}
-			ParticleDrawUtils.endParticlesBuffer();
+			ParticleDrawUtils.endDrawing();
 		}, "rendering_particle");
 	}
 

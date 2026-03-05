@@ -5,10 +5,10 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.*;
 import lombok.*;
+import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.element.*;
 import net.lopymine.ip.spawner.context.ParticleSpawnContext;
 import net.minecraft.resources.Identifier;
-import net.lopymine.mossylib.utils.CodecUtils;
 import static net.lopymine.mossylib.utils.CodecUtils.option;
 
 @Getter
@@ -21,7 +21,7 @@ public class ParticleConfig {
 				return either.right().orElseGet(() -> either.left().map(DynamicParticleSizes::fromStatic).orElse(null));
 			}, Either::right);
 
-	public static final Codec<Identifier> TEXTURES_CODEC = Identifier.CODEC.xmap((id) -> {
+	public static final Codec<Identifier> SPRITE_CODEC = Identifier.CODEC.xmap((id) -> {
 		if (id.getPath().endsWith(".png")) {
 			String path = id.getPath();
 			String i = id.getNamespace();
@@ -34,6 +34,17 @@ public class ParticleConfig {
 		}
 		return id;
 	}, (id) -> id);
+
+	public static final Codec<ParticleTexture> TEXTURES_CODEC = Codec.either(SPRITE_CODEC, ParticleTexture.CODEC).xmap((either) -> {
+		Optional<Identifier> left = either.left();
+		return left.map((id) -> new ParticleTexture(id, InventoryParticlesAtlasManager.ATLAS_ID))
+				.orElseGet(() -> either.right().orElseThrow());
+	}, (particleTexture) -> {
+		if (particleTexture.getAtlasId() == InventoryParticlesAtlasManager.ATLAS_ID) {
+			return Either.left(particleTexture.getSpriteNotNull());
+		}
+		return Either.right(particleTexture);
+	});
 
 	public static final Codec<ParticleConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			option("life_time", 0, Codec.INT, ParticleConfig::getLifeTimeTicks),
@@ -49,12 +60,13 @@ public class ParticleConfig {
 	private ParticleAnimationType animationType;
 	private double animationSpeed;
 	private DynamicParticleSizes size;
-	private ArrayList<Identifier> textures;
+	private ArrayList<ParticleTexture> textures;
 	private HashSet<ParticleHolder> holders;
 	private ParticlePhysics physics;
 
 	public InventoryParticle createParticle(ParticleSpawnContext context) {
 		return new InventoryParticle(this, context);
+
 	}
 
 }
