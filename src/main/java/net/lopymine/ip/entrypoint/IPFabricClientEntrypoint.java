@@ -3,20 +3,17 @@ package net.lopymine.ip.entrypoint;
 //? if fabric {
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.client.command.InventoryParticlesCommandManager;
-import net.lopymine.ip.particles.ParticlesConfigsManager;
+import net.lopymine.ip.resourcepack.particles.ParticlesConfigsManager;
 import net.lopymine.ip.resourcepack.*;
 import net.lopymine.mossylib.loader.MossyLoader;
-import net.minecraft.server.packs.PackType;
 
 //? if >=1.21.9 {
 
-import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 
 //?}
 

@@ -2,25 +2,24 @@ package net.lopymine.ip.texture;
 
 import java.util.List;
 import lombok.*;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.resources.Identifier;
+import net.lopymine.ip.element.inventory.texture.*;
 import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 
 @Setter
 @Getter
-public class StretchParticleTextureProvider extends AbstractParticleTextureProviderWithPeriod {
+public class StretchInventoryElementTextureProvider extends AbstractInventoryElementTextureProviderWithPeriod {
 
 	protected int currentTextureId = -1;
 	@Nullable
-	private TextureAtlasSprite currentTexture;
+	private IInventoryElementTexture currentTexture;
 
-	public StretchParticleTextureProvider(List<TextureAtlasSprite> textures, double animationSpeed, int lifeTime) {
+	public StretchInventoryElementTextureProvider(List<IInventoryElementTexture> textures, double animationSpeed, int lifeTime) {
 		super(textures, animationSpeed, lifeTime);
 	}
 
 	@Override
-	protected TextureAtlasSprite getInitializationTextureFromNotEmptyTextures(RandomSource random) {
+	protected IInventoryElementTexture getInitializationTextureFromNotEmptyTextures(RandomSource random) {
 		if (this.currentTexture == null) {
 			return this.currentTexture = this.textures.get(0);
 		}
@@ -28,7 +27,7 @@ public class StretchParticleTextureProvider extends AbstractParticleTextureProvi
 	}
 
 	@Override
-	protected TextureAtlasSprite getTextureFromNotEmptyTextures(RandomSource random) {
+	protected IInventoryElementTexture getTextureFromNotEmptyTextures(RandomSource random) {
 		if (this.currentTexture != null && this.ticks < this.changeTextureTick) {
 			return this.currentTexture;
 		}

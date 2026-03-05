@@ -10,4 +10,8 @@ public class SpeedController<E extends IMovableElement> extends AbstractSpeedCon
 		super(config, random, impulse * config.getCursorImpulseInheritCoefficient());
 	}
 
+	@Override
+	protected SpeedController<E> getController() {
+		return this;
+	}
 }
