@@ -54,7 +54,7 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 	}
 
 	@Override
-	protected void registerConfig(ParticleConfig config) {
+	protected void registerConfig(ParticleConfig config, Identifier id) {
 		for (ParticleHolder holder : config.getHolders()) {
 			ParticleSpawner spawner = holder.create(config::createParticle);
 			Either<CachedItem, Identifier> itemOrTag = holder.getItemOrTag();

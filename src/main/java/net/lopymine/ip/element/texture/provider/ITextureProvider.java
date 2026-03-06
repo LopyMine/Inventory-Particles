@@ -11,11 +11,21 @@ public interface ITextureProvider extends ITickElement, IDebugRenderable {
 	Map<Object, List<ITexture>> CACHED_SPRITES = new HashMap<>();
 
 	static void clear() {
+		for (List<ITexture> list : CACHED_SPRITES.values()) {
+			for (ITexture texture : list) {
+				texture.clear();
+			}
+		}
 		CACHED_SPRITES.clear();
 	}
 
 	static ITextureProvider getTextureProvider(Object cacheKey, List<ITexture> textures, double animationSpeed, int lifeTime, TextureAnimationType type) {
-		List<ITexture> sprites = CACHED_SPRITES.computeIfAbsent(cacheKey, (key) -> textures);
+		List<ITexture> sprites = CACHED_SPRITES.computeIfAbsent(cacheKey, (key) -> {
+			for (ITexture texture : textures) {
+				texture.initialize();
+			}
+			return textures;
+		});
 		return switch (type) {
 			case STRETCH -> new StretchTextureProvider(sprites, animationSpeed, lifeTime);
 			case ONETIME -> new OneTimeTextureProvider(sprites, animationSpeed, lifeTime);

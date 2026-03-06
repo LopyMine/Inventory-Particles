@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 import net.lopymine.mossylib.logger.MossyLogger;
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 
 public abstract class AbstractConfigsManager<C> {
@@ -20,7 +21,7 @@ public abstract class AbstractConfigsManager<C> {
 
 	protected abstract MossyLogger getLogger();
 
-	protected abstract void registerConfig(C config);
+	protected abstract void registerConfig(C config, Identifier id);
 
 	public void reload() {
 		this.getLogger().info("Started registration {} from resources...", this.getConfigName().toUpperCase(Locale.ROOT));
@@ -36,7 +37,7 @@ public abstract class AbstractConfigsManager<C> {
 					try (InputStream inputStream = resource.open();
 						 BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
 						C config = this.getCodec().decode(JsonOps.INSTANCE, JsonParser.parseReader(reader))/*? if >=1.20.5 {*/.getOrThrow()/*?} else {*//*.getOrThrow(false, this.getLogger()::error)*//*?}*/.getFirst();
-						this.registerConfig(config);
+						this.registerConfig(config, id);
 						this.getLogger().debug("Registered {} at \"{}\"", this.getConfigName(), id);
 						registeredConfigs.getAndIncrement();
 					} catch (Exception e) {

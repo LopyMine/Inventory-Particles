@@ -43,7 +43,9 @@ public class AtlasTexture implements ITexture {
 
 	@Override
 	public void render(GuiGraphics graphics, float x, float y, float width, float height, int color) {
-		//todo
+		if (this.atlasSprite == null) {
+			return;
+		}
 		OptimizedDrawer.drawParticleSprite(graphics, this.atlasSprite, 0, 0, width, height, color);
 	}
 
@@ -52,8 +54,14 @@ public class AtlasTexture implements ITexture {
 		return this.getSpriteNotNull();
 	}
 
-	public Identifier getSpriteOr(Identifier missingSprite) {
-		return this.sprite == null ? missingSprite : this.sprite;
+	@Override
+	public void initialize() {
+		this.atlasSprite = InventoryParticlesAtlasManager.getInstance().getSprite(this.sprite, this.atlas);
+	}
+
+	@Override
+	public void clear() {
+		this.atlasSprite = null;
 	}
 
 	@NotNull

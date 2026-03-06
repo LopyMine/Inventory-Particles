@@ -12,17 +12,30 @@ import org.jetbrains.annotations.*;
 public class ItemTexture implements ITexture {
 
 	private CachedItem cachedItem;
+
+	@Nullable
 	private ItemStack stack;
 
 	public ItemTexture(@NotNull CachedItem cachedItem) {
 		this.cachedItem = cachedItem;
-		this.stack = cachedItem.getItem().getDefaultInstance();
 	}
 
 	@Override
 	public void render(GuiGraphics graphics, float x, float y, float width, float height, int color) {
-		//todo
+		if (this.stack == null) {
+			return;
+		}
 		graphics.renderItem(this.stack, 0,0);
+	}
+
+	@Override
+	public void initialize() {
+		this.stack = this.cachedItem.getItem().getDefaultInstance();
+	}
+
+	@Override
+	public void clear() {
+		this.stack = null;
 	}
 
 	@Override
