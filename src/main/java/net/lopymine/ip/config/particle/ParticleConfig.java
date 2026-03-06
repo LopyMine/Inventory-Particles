@@ -5,11 +5,12 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.*;
 import lombok.*;
-import net.lopymine.ip.config.misc.CachedItem;
 import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
-import net.lopymine.ip.element.*;
-import net.lopymine.ip.element.inventory.texture.AtlasInventoryElementTexture;
-import net.lopymine.ip.spawner.context.ParticleSpawnContext;
+import net.lopymine.ip.config.misc.CachedItem;
+import net.lopymine.ip.element.mod.InventoryParticle;
+import net.lopymine.ip.element.size.*;
+import net.lopymine.ip.element.texture.*;
+import net.lopymine.ip.element.mod.spawner.context.ParticleSpawnContext;
 import net.minecraft.resources.Identifier;
 import static net.lopymine.mossylib.utils.CodecUtils.option;
 
@@ -18,51 +19,50 @@ import static net.lopymine.mossylib.utils.CodecUtils.option;
 @AllArgsConstructor
 public class ParticleConfig {
 
-	public static final Codec<DynamicParticleSizes> DYNAMIC_PARTICLE_SIZE_CODEC = Codec.either(StaticParticleSize.CODEC, DynamicParticleSizes.CODEC)
+	public static final Codec<DynamicSizesWithInterpolation> DYNAMIC_PARTICLE_SIZE_CODEC = Codec.either(StaticSize.CODEC, DynamicSizesWithInterpolation.CODEC)
 			.xmap((either) -> {
-				return either.right().orElseGet(() -> either.left().map(DynamicParticleSizes::fromStatic).orElse(null));
+				return either.right().orElseGet(() -> either.left().map(DynamicSizesWithInterpolation::fromStatic).orElse(null));
 			}, Either::right);
 
-	public static final Codec<Identifier> SPRITE_CODEC = Identifier.CODEC.xmap((id) -> {
+	public static final Codec<ITexture> TEXTURE_OR_ITEM_CODEC = Identifier.CODEC.xmap((id) -> {
 		if (id.getPath().endsWith(".png")) {
 			String path = id.getPath();
-			String i = id.getNamespace();
 			String s = path.substring(0, path.length() - 4);
-			//? if >=1.21 {
-			return Identifier.fromNamespaceAndPath(i, s);
-			//?} else {
-			/*return Identifier.tryBuild(i, s);
-			 *///?}
+			return new AtlasTexture(id.withPath(s), null);
 		}
-		return id;
-	}, (id) -> id);
+		return new ItemTexture(new CachedItem(id));
+	}, ITexture::getId);
 
-	public static final Codec<ParticleTexture> TEXTURES_CODEC = Codec.either(SPRITE_CODEC, ParticleTexture.CODEC).xmap((either) -> {
-		Optional<Identifier> left = either.left();
-		return left.map((id) -> new ParticleTexture(id, InventoryParticlesAtlasManager.ATLAS_ID))
-				.orElseGet(() -> either.right().orElseThrow());
-	}, (particleTexture) -> {
-		if (particleTexture.getAtlasId() == InventoryParticlesAtlasManager.ATLAS_ID) {
-			return Either.left(particleTexture.getSpriteNotNull());
+	public static final Codec<ITexture> ADVANCED_TEXTURES_CODEC = Codec.either(TEXTURE_OR_ITEM_CODEC, AtlasTexture.CODEC).xmap((either) -> {
+		if (either.right().isPresent()) {
+			return either.right().get();
 		}
-		return Either.right(particleTexture);
+		if (either.left().isPresent()) {
+			return either.left().get();
+		}
+		return null;
+	}, (texture) -> {
+		if (texture instanceof AtlasTexture elementTexture && elementTexture.getAtlas() != InventoryParticlesAtlasManager.ATLAS_ID) {
+			return Either.right(elementTexture);
+		}
+		return Either.left(texture);
 	});
 
 	public static final Codec<ParticleConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			option("life_time", 0, Codec.INT, ParticleConfig::getLifeTimeTicks),
-			option("animation_type", InventoryElementTextureAnimationType.RANDOM, InventoryElementTextureAnimationType.CODEC, ParticleConfig::getAnimationType),
+			option("animation_type", TextureAnimationType.RANDOM, TextureAnimationType.CODEC, ParticleConfig::getAnimationType),
 			option("animation_speed", 1.0D, Codec.DOUBLE, ParticleConfig::getAnimationSpeed),
-			option("size", DynamicParticleSizes.STANDARD, DYNAMIC_PARTICLE_SIZE_CODEC, ParticleConfig::getSize),
-			option("textures", new ArrayList<>(), Identifier.CODEC, ParticleConfig::getTextures),
+			option("size", DynamicSizesWithInterpolation.STANDARD, DYNAMIC_PARTICLE_SIZE_CODEC, ParticleConfig::getSize),
+			option("textures", new ArrayList<>(), ADVANCED_TEXTURES_CODEC, ParticleConfig::getTextures),
 			option("holders", new HashSet<>(), ParticleHolder.CODEC, ParticleConfig::getHolders),
 			option("physics", ParticlePhysics.getNewInstance(), ParticlePhysics.CODEC, ParticleConfig::getPhysics)
 	).apply(instance, ParticleConfig::new));
 
 	private int lifeTimeTicks;
-	private InventoryElementTextureAnimationType animationType;
+	private TextureAnimationType animationType;
 	private double animationSpeed;
-	private DynamicParticleSizes size;
-	private ArrayList<ParticleTexture> textures;
+	private DynamicSizesWithInterpolation size;
+	private ArrayList<ITexture> textures;
 	private HashSet<ParticleHolder> holders;
 	private ParticlePhysics physics;
 

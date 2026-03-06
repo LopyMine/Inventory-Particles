@@ -7,16 +7,15 @@ import java.util.*;
 import java.util.function.*;
 import lombok.*;
 import net.lopymine.ip.InventoryParticles;
-import net.lopymine.ip.color.*;
-import net.lopymine.ip.color.advanced.AdvancedParticleColorType;
-import net.lopymine.ip.color.advanced.mode.AdvancedParticleColorTypeRandomStaticMode;
+import net.lopymine.ip.element.color.*;
+import net.lopymine.ip.element.color.advanced.AdvancedColorProviderRandomStatic;
 import net.lopymine.ip.config.misc.CachedItem;
 import net.lopymine.ip.config.range.IntegerRange;
-import net.lopymine.ip.element.*;
-import net.lopymine.ip.predicate.IParticleSpawnPredicate;
-import net.lopymine.ip.predicate.nbt.*;
-import net.lopymine.ip.spawner.ParticleSpawner;
-import net.lopymine.ip.spawner.context.ParticleSpawnContext;
+import net.lopymine.ip.element.mod.InventoryParticle;
+import net.lopymine.ip.element.predicate.ISpawnPredicate;
+import net.lopymine.ip.element.predicate.nbt.*;
+import net.lopymine.ip.element.mod.spawner.ParticleSpawner;
+import net.lopymine.ip.element.mod.spawner.context.ParticleSpawnContext;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import static net.lopymine.mossylib.utils.CodecUtils.option;
@@ -28,31 +27,31 @@ public class ParticleHolder {
 
 	public static final Identifier STANDARD_SPAWN_AREA = InventoryParticles.id("spawn_areas/standard.png");
 
-	public static final Codec<IParticleColorType> STANDARD_AND_LIST_COLOR_TYPE_CODEC = Codec.either(IParticleColorType.CODEC, IParticleColorType.CODEC.listOf())
+	public static final Codec<IColorProvider> STANDARD_AND_LIST_COLOR_TYPE_CODEC = Codec.either(IColorProvider.CODEC, IColorProvider.CODEC.listOf())
 			.xmap((either) -> {
-				Optional<List<IParticleColorType>> right = either.right();
+				Optional<List<IColorProvider>> right = either.right();
 				if (right.isPresent()) {
-					return new AdvancedParticleColorType(new AdvancedParticleColorTypeRandomStaticMode(), right.get(), 0);
+					return new AdvancedColorProvider(new AdvancedColorProviderRandomStatic(), right.get(), 0);
 				}
-				Optional<IParticleColorType> left = either.left();
+				Optional<IColorProvider> left = either.left();
 				return left.orElse(null);
 			}, (type) -> {
-				if (type instanceof AdvancedParticleColorType advancedType) {
+				if (type instanceof AdvancedColorProvider advancedType) {
 					return Either.right(advancedType.getValues());
 				}
 				return Either.left(type);
 			});
 
-	public static final Codec<IParticleColorType> STANDARD_AND_ADVANCED_COLOR_TYPE_CODEC = Codec.either(AdvancedParticleColorType.CODEC, STANDARD_AND_LIST_COLOR_TYPE_CODEC)
+	public static final Codec<IColorProvider> STANDARD_AND_ADVANCED_COLOR_TYPE_CODEC = Codec.either(AdvancedColorProvider.CODEC, STANDARD_AND_LIST_COLOR_TYPE_CODEC)
 			.xmap((either) -> {
-				Optional<IParticleColorType> right = either.right();
+				Optional<IColorProvider> right = either.right();
 				if (right.isPresent()) {
 					return right.get();
 				}
-				Optional<AdvancedParticleColorType> left = either.left();
+				Optional<AdvancedColorProvider> left = either.left();
 				return left.orElse(null);
 			}, (type) -> {
-				if (type instanceof AdvancedParticleColorType advancedType) {
+				if (type instanceof AdvancedColorProvider advancedType) {
 					return Either.left(advancedType);
 				}
 				return Either.right(type);
@@ -81,7 +80,7 @@ public class ParticleHolder {
 			option("spawn_area", STANDARD_SPAWN_AREA, SPAWN_AREA_CODEC, ParticleHolder::getSpawnArea),
 			option("spawn_count", new IntegerRange(), IntegerRange.CODEC, ParticleHolder::getSpawnCount),
 			option("spawn_frequency", new IntegerRange(), IntegerRange.CODEC, ParticleHolder::getSpawnFrequency),
-			option("color", new StandardParticleColorType(), STANDARD_AND_ADVANCED_COLOR_TYPE_CODEC, ParticleHolder::getColor),
+			option("color", new StandardColorProvider(), STANDARD_AND_ADVANCED_COLOR_TYPE_CODEC, ParticleHolder::getColor),
 			option("speed_coefficient", 0.0D, Codec.DOUBLE, ParticleHolder::getSpeedCoefficient)
 	).apply(instance, ParticleHolder::new));
 
@@ -92,7 +91,7 @@ public class ParticleHolder {
 	private Identifier spawnArea;
 	private IntegerRange spawnCount;
 	private IntegerRange spawnFrequency;
-	private IParticleColorType color;
+	private IColorProvider color;
 	private double speedCoefficient;
 
 	public ParticleSpawner create(Function<ParticleSpawnContext, InventoryParticle> function) {
@@ -106,7 +105,7 @@ public class ParticleHolder {
 		);
 	}
 
-	public IParticleSpawnPredicate getSpawnCondition() {
-		return new NbtParticleSpawnPredicate(this.name, this.nbtCondition, this.match);
+	public ISpawnPredicate getSpawnCondition() {
+		return new NbtSpawnPredicate(this.name, this.nbtCondition, this.match);
 	}
 }

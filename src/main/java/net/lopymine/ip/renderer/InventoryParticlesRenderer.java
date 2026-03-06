@@ -5,11 +5,10 @@ import lombok.*;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.sub.InventoryParticleConfig;
-import net.lopymine.ip.element.*;
-import net.lopymine.ip.resourcepack.particles.ParticlesConfigsManager;
-import net.lopymine.ip.spawner.*;
-import net.lopymine.ip.spawner.context.ParticleSpawnContext;
-import net.lopymine.ip.utils.ParticleDrawUtils;
+import net.lopymine.ip.element.mod.*;
+import net.lopymine.ip.element.mod.spawner.IParticleSpawner;
+import net.lopymine.ip.resourcepack.manager.ParticlesConfigsManager;
+import net.lopymine.ip.element.mod.spawner.context.ParticleSpawnContext;
 import net.lopymine.mossylib.logger.MossyLogger;
 import net.minecraft.client.*;
 import net.minecraft.client.gui.GuiGraphics;
@@ -60,7 +59,6 @@ public class InventoryParticlesRenderer extends AbstractInventoryElementsRendere
 
 	@Override
 	protected void renderElements(GuiGraphics context, float tickProgress) {
-		ParticleDrawUtils.prepareParticlesBuffer();
 		for (InventoryParticle particle : this.getScreenElements()) {
 			if (particle == null) {
 				continue;
@@ -70,7 +68,7 @@ public class InventoryParticlesRenderer extends AbstractInventoryElementsRendere
 				this.setHoveredElement(particle);
 			}
 		}
-		ParticleDrawUtils.endParticlesBuffer();
+		OptimizedDrawer.endDrawing();
 	}
 
 	public void tick(@Nullable AbstractContainerMenu handler, @Nullable Integer inventoryX, @Nullable Integer inventoryY) {

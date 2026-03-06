@@ -2,25 +2,25 @@ package net.lopymine.ip.config.i2o;
 
 import com.mojang.serialization.Codec;
 import lombok.*;
-import net.lopymine.ip.config.particle.*;
+import net.lopymine.ip.element.size.*;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
-public class Integer2DynamicParticleSize extends Integer2Object<DynamicParticleSize> implements Comparable<Integer2DynamicParticleSize> {
+public class Integer2DynamicParticleSize extends Integer2Object<DynamicSize> implements Comparable<Integer2DynamicParticleSize> {
 
 	public static final Codec<Integer2DynamicParticleSize> CODEC = Integer2Object.getCodec(
 			"size",
-			DynamicParticleSize.STANDARD_SIZE,
-			DynamicParticleSize.CODEC,
+			DynamicSize.STANDARD_SIZE,
+			DynamicSize.CODEC,
 			Integer2DynamicParticleSize::new
 	);
 
-	public Integer2DynamicParticleSize(int index, DynamicParticleSize object) {
+	public Integer2DynamicParticleSize(int index, DynamicSize object) {
 		super(index, object);
 	}
 
-	public static Integer2DynamicParticleSize fromStatic(StaticParticleSize size) {
-		return new Integer2DynamicParticleSize(-1, new DynamicParticleSize(size.getWidth(), size.getHeight()));
+	public static Integer2DynamicParticleSize fromStatic(StaticSize size) {
+		return new Integer2DynamicParticleSize(-1, new DynamicSize(size.getWidth(), size.getHeight()));
 	}
 
 	@Override

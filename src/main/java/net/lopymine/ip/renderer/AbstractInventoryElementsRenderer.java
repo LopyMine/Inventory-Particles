@@ -3,7 +3,7 @@ package net.lopymine.ip.renderer;
 import java.util.*;
 import lombok.*;
 import net.lopymine.ip.config.InventoryParticlesConfig;
-import net.lopymine.ip.config.optimization.ParticleDeletionMode;
+import net.lopymine.ip.config.optimization.ParticlesDeletionMode;
 import net.lopymine.ip.element.base.*;
 import net.lopymine.ip.element.inventory.IInventoryElement;
 import net.lopymine.mossylib.logger.MossyLogger;
@@ -41,7 +41,7 @@ public abstract class AbstractInventoryElementsRenderer<E extends IInventoryElem
 		if (this.screenElements.isEmpty()) {
 			return;
 		}
-		this.runSoft(() -> this.renderElements(context, tickProgress), "rendering_particle");
+		this.runSoft(() -> this.renderElements(context, tickProgress), "rendering_inventory_elements");
 	}
 
 	protected abstract void renderElements(GuiGraphics context, float tickProgress);
@@ -82,13 +82,13 @@ public abstract class AbstractInventoryElementsRenderer<E extends IInventoryElem
 
 	protected void checkElementsLimit() {
 		InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
-		int difference = (this.screenElements.size() + 1) - config.getParticleConfig().getMaxParticles();
+		int difference = (this.screenElements.size() + 1) - config.getParticleConfig().getParticlesCountLimit();
 		if (difference > 0) {
-			this.clearParticlesForNewOnes(difference, config.getParticleConfig().getParticleDeletionMode());
+			this.clearParticlesForNewOnes(difference, config.getParticleConfig().getParticlesDeletionMode());
 		}
 	}
 
-	protected void clearParticlesForNewOnes(int difference, ParticleDeletionMode mode) {
+	protected void clearParticlesForNewOnes(int difference, ParticlesDeletionMode mode) {
 		switch (mode) {
 			case OLDEST -> {
 				if (!(this.screenElements instanceof ArrayDeque<E> deque)) {
@@ -165,7 +165,7 @@ public abstract class AbstractInventoryElementsRenderer<E extends IInventoryElem
 		try {
 			runnable.run();
 		} catch (Exception e) {
-			this.getLogger().error("[{}] Failed to process inventory particles!", action, e);
+			this.getLogger().error("[{}] Unexpected error!", action, e);
 			InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
 			config.getMainConfig().setModEnabled(false);
 			config.saveAsync();
@@ -188,7 +188,7 @@ public abstract class AbstractInventoryElementsRenderer<E extends IInventoryElem
 	protected abstract MossyLogger getLogger();
 
 	protected @NotNull Collection<E> getScreenElementsList() {
-		return switch (InventoryParticlesConfig.getInstance().getParticleConfig().getParticleDeletionMode()) {
+		return switch (InventoryParticlesConfig.getInstance().getParticleConfig().getParticlesDeletionMode()) {
 			case OLDEST -> new ArrayDeque<>();
 			case RANDOM -> new ArrayList<>();
 		};

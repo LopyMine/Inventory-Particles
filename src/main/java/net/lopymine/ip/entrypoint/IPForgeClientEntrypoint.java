@@ -4,8 +4,8 @@ package net.lopymine.ip.entrypoint;
 
 /*import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.client.command.InventoryParticlesCommandManager;
-import net.lopymine.ip.particles.ParticlesConfigsManager;
-import net.lopymine.ip.resourcepack.InventoryParticlesClientReloadListener;
+import net.lopymine.ip.manager.ParticlesConfigsManager;
+import net.lopymine.ip.resourcepack.reload.InventoryParticlesClientReloadListener;
 import net.lopymine.mossylib.loader.MossyLoader;
 import net.lopymine.mossylib.modmenu.*;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;

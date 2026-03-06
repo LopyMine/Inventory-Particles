@@ -1,7 +1,7 @@
 package net.lopymine.ip.mixin;
 
 import com.mojang.blaze3d.platform.Window;
-import net.lopymine.ip.element.InventoryCursor;
+import net.lopymine.ip.element.mod.InventoryCursor;
 import net.lopymine.ip.renderer.InventoryParticlesRenderer;
 import net.minecraft.client.*;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;

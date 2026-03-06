@@ -8,8 +8,8 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.client.command.InventoryParticlesCommandManager;
-import net.lopymine.ip.resourcepack.particles.ParticlesConfigsManager;
-import net.lopymine.ip.resourcepack.*;
+import net.lopymine.ip.resourcepack.manager.ParticlesConfigsManager;
+import net.lopymine.ip.resourcepack.reload.InventoryParticlesClientReloadListener;
 import net.lopymine.mossylib.loader.MossyLoader;
 
 //? if >=1.21.9 {

@@ -9,9 +9,12 @@
     },
 
 	"textures": [
-		"inventory_particles:void/void_0.png",
+		"minecraft:stick",
 		"inventory_particles:void/void_1.png",
-		"inventory_particles:void/void_2.png"
+		{
+			"atlas": "minecraft:decorated_pot",
+			"sprite": "inventory_particles:void/void_2.png"
+		}
 	],
 	
 	"holders": [

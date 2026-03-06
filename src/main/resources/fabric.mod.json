@@ -8,12 +8,12 @@
         "${mod_authors}"
     ],
     "contact": {
-        "homepage": "https://modrinth.com/mod/inventory-particles",
-        "issues": "https://github.com/LopyMine/Inventory-Particles/issues"
+        "homepage": "https://modrinth.com/mod/${github_mod_name}",
+        "issues": "https://github.com/${github_author}/${github_mod_name}/issues"
     },
     "license": "${mod_license}",
     "icon": "icon/icon.png",
-    "environment": "*",
+    "environment": "${fabric_trick_side}",
     "entrypoints": {
         "main": [
 	        "net.lopymine.ip.entrypoint.IPFabricEntrypoint"
