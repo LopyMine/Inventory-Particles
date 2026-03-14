@@ -13,5 +13,4 @@ public interface IParticleSpawner {
 
 	List<InventoryParticle> spawn(ParticleSpawnContext context);
 
-	void bump(ParticleHolder holder);
 }

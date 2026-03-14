@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConfig> {
 
+	public static final Map<Identifier, List<ParticleConfig>> REGISTERED_CONFIGS = new HashMap<>();
 	private static final Map<Item, List<IParticleSpawner>> PER_ITEM_PARTICLE_SPAWNERS = new IdentityHashMap<>();
 	private static final Map<TagKey<Item>, List<IParticleSpawner>> PER_TAG_PARTICLE_SPAWNERS = new HashMap<>();
 
@@ -55,6 +56,8 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 
 	@Override
 	protected void registerConfig(ParticleConfig config, Identifier id) {
+		REGISTERED_CONFIGS.computeIfAbsent(id, (key) -> new ArrayList<>()).add(config);
+
 		for (ParticleHolder holder : config.getHolders()) {
 			ParticleSpawner spawner = holder.create(config::createParticle);
 			Either<CachedItem, Identifier> itemOrTag = holder.getItemOrTag();
@@ -74,6 +77,7 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 	}
 
 	public void reload() {
+		REGISTERED_CONFIGS.clear();
 		PER_ITEM_PARTICLE_SPAWNERS.clear();
 		PER_TAG_PARTICLE_SPAWNERS.clear();
 		super.reload();

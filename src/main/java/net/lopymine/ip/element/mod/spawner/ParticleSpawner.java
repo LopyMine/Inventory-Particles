@@ -134,15 +134,4 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 		particle.setLastX(particle.getX());
 		particle.setLastY(particle.getY());
 	}
-
-	@Override
-	public void bump(ParticleHolder holder) {
-		this.spawnArea        = ParticleSpawnArea.readFromTexture(holder.getSpawnArea());
-		this.countRange       = holder.getSpawnCount();
-		this.frequencyRange   = holder.getSpawnFrequency();
-		this.speedCoefficient = holder.getSpeedCoefficient();
-		this.colorType        = holder.getColor();
-		this.spawnCondition   = holder.getSpawnCondition();
-		this.nextSpawnTicks   = 0;
-	}
 }
