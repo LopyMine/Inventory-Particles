@@ -17,7 +17,7 @@ import net.lopymine.ip.utils.ArgbUtils2;
 import net.lopymine.mossylib.extension.DrawContextExtension;
 import net.lopymine.mossylib.utils.ArgbUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.util.*;
 import org.jetbrains.annotations.*;
@@ -144,7 +144,7 @@ public abstract class AbstractInventoryElement<E extends AbstractInventoryElemen
 		}
 	}
 
-	public void render(GuiGraphics context, InventoryCursor cursor, float tickProgress, boolean stoppedTicking) {
+	public void render(GuiGraphicsExtractor context, InventoryCursor cursor, float tickProgress, boolean stoppedTicking) {
 		if (!this.isInitialized()) {
 			return;
 		}
@@ -177,7 +177,7 @@ public abstract class AbstractInventoryElement<E extends AbstractInventoryElemen
 		context.pop();
 	}
 
-	protected void renderElementTexture(GuiGraphics context, float width, float height) {
+	protected void renderElementTexture(GuiGraphicsExtractor context, float width, float height) {
 		this.getElementTexture().render(context, 0, 0, width, height, this.getRenderColor());
 	}
 

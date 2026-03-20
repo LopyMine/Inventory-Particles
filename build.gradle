@@ -3,7 +3,7 @@ plugins {
 }
 
 mossyDependencies {
-	minecraft = stonecutter.current.version.toString()
+	minecraft = stonecutter.current.project.substring(stonecutter.current.project.indexOf("-") + 1)
 	lombok = prop("base.lombok_version")
 
 	fabricApi = prop("build.fabric_api")
@@ -18,18 +18,21 @@ mossyDependencies {
 //		if (stonecutter.compare(stonecutter.current.version, "1.21.11") >= 0) {
 //			disable("mossylib")
 //		}
+ 		if (stonecutter.current.version.startsWith("26.1")) {
+			disable("mossylib")
+		}
 	}
 }
 
 repositories {
 	mavenLocal()
-//	maven {
-//		name "Mossy Projects"
-//		url "https://maven.lopymine.net/releases"
-//	}
+	maven {
+		name "Mossy Projects"
+		url "https://maven.lopymine.net/releases"
+	}
 }
 
-//dependencies {
+dependencies {
 //	if (stonecutter.compare(stonecutter.current.version, "1.21.11") >= 0) {
 //		def project = stonecutter.current.project
 //		if (project.contains("neoforge")) {
@@ -38,11 +41,31 @@ repositories {
 //			include(modImplementation("net.lopymine:mossylib:1.0.5-${project}"))
 //		}
 //	}
-//}
+	def project = stonecutter.current.project
+	if (project.contains("26.1")) {
+		if (project.contains("neoforge")) {
+			jarJar(implementation("net.lopymine:mossylib:1.1.0-neoforge-26.1-pre-2"))
+		} else {
+			include(implementation("net.lopymine:mossylib:1.1.0-fabric-26.1-pre-2"))
+		}
+	}
+}
 
 stonecutter {
 	replacements.string(current.parsed >= "1.21.11") {
 		replace("TagKey::location", "TagKey::location")
+	}
+}
+
+stonecutter {
+	replacements.string(current.parsed >= "26.1") {
+		replace("net.minecraft.client.gui.GuiGraphics", "net.minecraft.client.gui.GuiGraphicsExtractor")
+		replace("GuiGraphics", "GuiGraphicsExtractor")
+		replace("context.drawString(", "context.text(")
+		replace("context.renderItem(", "context.item(")
+		replace("graphics.drawString(", "graphics.text(")
+		replace("graphics.renderItem(", "graphics.item(")
+		replace("ClickType", "ContainerInput")
 	}
 }
 

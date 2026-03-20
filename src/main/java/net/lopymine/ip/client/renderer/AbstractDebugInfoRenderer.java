@@ -10,7 +10,7 @@ import net.lopymine.ip.debug.*;
 import net.lopymine.ip.utils.ArgbUtils2;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.ChatFormatting;
 
@@ -25,7 +25,7 @@ public abstract class AbstractDebugInfoRenderer {
 		this.specialFieldRenderers.put(name, renderable);
 	}
 
-	public void render(GuiGraphics context, Class<?> clazz, Object clazzInstance) {
+	public void render(GuiGraphicsExtractor context, Class<?> clazz, Object clazzInstance) {
 		this.yOffset = 5;
 		this.xOffset = 5;
 		this.renderDecoration(context, "[" + this.getRendererName() + "]");
@@ -38,7 +38,7 @@ public abstract class AbstractDebugInfoRenderer {
 		);
 	}
 
-	private void renderClassFields(GuiGraphics context, Class<?> clazz, Object clazzInstance, BiConsumer<String, Object> renderFieldData, Consumer<String> renderDecoration) {
+	private void renderClassFields(GuiGraphicsExtractor context, Class<?> clazz, Object clazzInstance, BiConsumer<String, Object> renderFieldData, Consumer<String> renderDecoration) {
 		Builder<Field> builder = Stream.builder();
 
 		Class<?> c = clazz;
@@ -101,22 +101,22 @@ public abstract class AbstractDebugInfoRenderer {
 		});
 	}
 
-	protected void renderFieldData(GuiGraphics context, String name, Object text) {
+	protected void renderFieldData(GuiGraphicsExtractor context, String name, Object text) {
 		String string = name + ": " + (text == null ? "NULL" : text.toString());
 		this.renderLabel(context, string, ChatFormatting.WHITE);
 	}
 
-	protected void renderDecoration(GuiGraphics context, String label) {
+	protected void renderDecoration(GuiGraphicsExtractor context, String label) {
 		this.renderLabel(context, label, ChatFormatting.GRAY);
 	}
 
-	protected void renderLabel(GuiGraphics context, String label, ChatFormatting color) {
+	protected void renderLabel(GuiGraphicsExtractor context, String label, ChatFormatting color) {
 		Font textRenderer = Minecraft.getInstance().font;
 		Screen screen = Minecraft.getInstance().screen;
 		if (screen == null) {
 			return;
 		}
-		context.drawString(
+		context.text(
 				textRenderer,
 				label,
 				this.getTextX(screen, textRenderer, label),
@@ -142,5 +142,5 @@ public abstract class AbstractDebugInfoRenderer {
 
 	protected abstract String getRendererName();
 
-	public abstract void render(GuiGraphics context);
+	public abstract void render(GuiGraphicsExtractor context);
 }

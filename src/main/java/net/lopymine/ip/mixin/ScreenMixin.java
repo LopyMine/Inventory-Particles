@@ -29,16 +29,22 @@ public class ScreenMixin {
 	@Inject(
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/client/gui/screens/Screen;render(Lnet/minecraft/client/gui/GuiGraphics;IIF)V",
+					//? if >=26.1 {
+					target = "Lnet/minecraft/client/gui/screens/Screen;extractRenderState(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IIF)V",
+					//?} else {
+					/*target = "Lnet/minecraft/client/gui/screens/Screen;render(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IIF)V",
+					*///?}
 					shift = Shift.AFTER
 			),
-			//? if >=1.21.9 {
-			method = "renderWithTooltipAndSubtitles"
-			//?} else {
+			//? if >=26.1 {
+			method = "extractRenderStateWithTooltipAndSubtitles"
+			//?} elif >=1.21.9 {
+			/*method = "renderWithTooltipAndSubtitles"
+			*///?} else {
 			/*method = "renderWithTooltip"
 			*///?}
 	)
-	private void renderInventoryParticles(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+	private void renderInventoryParticles(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
 		InventoryParticlesMainConfig config = InventoryParticlesConfig.getInstance().getMainConfig();
 		if (!config.isModEnabled()) {
 			return;
@@ -74,8 +80,8 @@ public class ScreenMixin {
 	}
 
 	//? if <=1.21.4 {
-	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;renderTooltip(Lnet/minecraft/client/gui/Font;Ljava/util/List;Lnet/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipPositioner;II)V"), method = "renderWithTooltip")
-	private void fixTooltip(GuiGraphics instance, Font textRenderer, List<FormattedCharSequence> text, ClientTooltipPositioner positioner, int x, int y, Operation<Void> original) {
+	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;renderTooltip(Lnet/minecraft/client/gui/Font;Ljava/util/List;Lnet/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipPositioner;II)V"), method = "renderWithTooltip")
+	private void fixTooltip(GuiGraphicsExtractor instance, Font textRenderer, List<FormattedCharSequence> text, ClientTooltipPositioner positioner, int x, int y, Operation<Void> original) {
 		boolean bl = InventoryParticlesConfig.getInstance().getMainConfig().isModEnabled();
 		if (bl) {
 			RenderSystem.disableDepthTest();

@@ -1,0 +1,8 @@
+classTweaker v1 official
+# 26.1 AW(AT)
+
+accessible field net/minecraft/client/renderer/texture/TextureAtlas missingSprite Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;
+accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScreen hoveredSlot Lnet/minecraft/world/inventory/Slot;
+
+accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScreen leftPos I
+accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScreen topPos I

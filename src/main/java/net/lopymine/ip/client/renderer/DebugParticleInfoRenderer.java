@@ -4,7 +4,7 @@ import net.lopymine.ip.element.mod.InventoryParticle;
 import net.lopymine.ip.renderer.*;
 import net.lopymine.ip.utils.ArgbUtils2;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 
 public class DebugParticleInfoRenderer extends AbstractDebugInfoRenderer {
@@ -23,7 +23,7 @@ public class DebugParticleInfoRenderer extends AbstractDebugInfoRenderer {
 	}
 
 	@Override
-	public void render(GuiGraphics context) {
+	public void render(GuiGraphicsExtractor context) {
 		InventoryParticlesRenderer renderer = InventoryParticlesRenderer.getInstance();
 		InventoryParticle selectedParticle = renderer.getSelectedElement();
 		this.render(context, InventoryParticle.class, selectedParticle);

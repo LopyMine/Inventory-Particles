@@ -6,7 +6,7 @@ import lombok.*;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.renderer.OptimizedDrawer;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.*;
@@ -42,7 +42,7 @@ public class AtlasTexture implements ITexture {
 	}
 
 	@Override
-	public void render(GuiGraphics graphics, float x, float y, float width, float height, int color) {
+	public void render(GuiGraphicsExtractor graphics, float x, float y, float width, float height, int color) {
 		if (this.atlasSprite == null) {
 			return;
 		}

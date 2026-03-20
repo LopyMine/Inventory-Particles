@@ -37,9 +37,13 @@ public class NbtUtils {
 		if (stack.is(Items.CROSSBOW)) {
 			//? if >=1.21 {
 			return Optional.ofNullable(stack.getComponents().get(DataComponents.CHARGED_PROJECTILES))
-					.map(ChargedProjectiles::getItems)
+					//? if >=26.1 {
+					.map(ChargedProjectiles::items)
+					//?} else {
+					/*.map(ChargedProjectiles::getItems)
+					 *///?}
 					.filter((list) -> !list.isEmpty())
-					.map((list) -> getColorFromPotionContentsStack(list.get(0)))
+					.map((list) -> getColorFromPotionContentsStack(list.get(0).create()))
 					.filter(Optional::isPresent)
 					.map(Optional::get);
 			//?} else {
@@ -60,9 +64,19 @@ public class NbtUtils {
 			*///?}
 		}
 
-		if (/*? if >=1.21 {*/ stack.is(net.minecraft.tags.ItemTags.DYEABLE) /*?} else {*/ /*stack.getItem() instanceof DyeableLeatherItem *//*?}*/ ) {
+		//? if >=26.1 {
+		if (stack.is(net.minecraft.tags.ItemTags.DYES)) {
 			return getColorFromDyedStack(stack);
 		}
+		//?} elif >=1.21 {
+		/*if (stack.is(net.minecraft.tags.ItemTags.DYEABLE)) {
+			return getColorFromDyedStack(stack);
+		}
+		*///?} else {
+		/*if (stack.getItem() instanceof DyeableLeatherItem) {
+			return getColorFromDyedStack(stack);
+		}
+		*///?}
 
 		if (stack.is(Items.FIREWORK_STAR)) {
 			return getColorFromFireworkExplosionStack(stack);

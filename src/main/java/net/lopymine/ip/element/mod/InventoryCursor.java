@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 @Getter
 public class InventoryCursor extends TickElement implements IMovableElement {
 
-	private ItemStack currentStack = Items.AIR.getDefaultInstance();
+	private ItemStack currentStack = ItemStack.EMPTY;
 	@Nullable
 	private Slot hoveredSlot = null;
 
@@ -33,7 +33,7 @@ public class InventoryCursor extends TickElement implements IMovableElement {
 	private double mouseY = 0;
 
 	public void setStack(@Nullable ItemStack currentStack) {
-		this.currentStack = currentStack == null || currentStack == ItemStack.EMPTY ? Items.AIR.getDefaultInstance() : currentStack;
+		this.currentStack = currentStack == null || currentStack == ItemStack.EMPTY ? ItemStack.EMPTY : currentStack;
 	}
 
 	public void setX(double x) {

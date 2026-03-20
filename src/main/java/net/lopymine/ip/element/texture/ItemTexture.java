@@ -2,7 +2,7 @@ package net.lopymine.ip.element.texture;
 
 import lombok.*;
 import net.lopymine.ip.config.misc.CachedItem;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.*;
@@ -21,11 +21,11 @@ public class ItemTexture implements ITexture {
 	}
 
 	@Override
-	public void render(GuiGraphics graphics, float x, float y, float width, float height, int color) {
+	public void render(GuiGraphicsExtractor graphics, float x, float y, float width, float height, int color) {
 		if (this.stack == null) {
 			return;
 		}
-		graphics.renderItem(this.stack, 0,0);
+		graphics.item(this.stack, 0,0);
 	}
 
 	@Override

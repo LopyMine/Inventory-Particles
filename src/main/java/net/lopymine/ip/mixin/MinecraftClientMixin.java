@@ -34,7 +34,14 @@ public class MinecraftClientMixin {
 		this.initRenderer();
 	}
 
-	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;resize(II)V"), method = "resizeDisplay")
+	@Inject(
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;resize(II)V"),
+			//? if >=26.1 {
+			method = "resizeGui"
+			//?} else {
+			/*method = "resizeDisplay"
+			*///?}
+	)
 	private void updateParticlesPositions(CallbackInfo ci) {
 		this.updateParticlesPositions();
 	}

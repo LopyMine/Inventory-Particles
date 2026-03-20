@@ -76,7 +76,7 @@
 		
 		
 		//? if <=1.21.11 {
-		{
+		/*{
 			"item": "minecraft:stone_spear",
 			"spawn_area": "stone_spear_piece.png",
 			"spawn_count": [0, 1],
@@ -86,7 +86,7 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		},
-		//?}
+		*///?}
 		{
 			"item": "minecraft:stone_sword",
 			"spawn_area": "stone_sword_piece.png",

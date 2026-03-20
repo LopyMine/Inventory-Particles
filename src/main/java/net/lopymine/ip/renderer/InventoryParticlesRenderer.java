@@ -11,7 +11,7 @@ import net.lopymine.ip.resourcepack.manager.ParticlesConfigsManager;
 import net.lopymine.ip.element.mod.spawner.context.ParticleSpawnContext;
 import net.lopymine.mossylib.logger.MossyLogger;
 import net.minecraft.client.*;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.*;
@@ -58,7 +58,7 @@ public class InventoryParticlesRenderer extends AbstractInventoryElementsRendere
 	}
 
 	@Override
-	protected void renderElements(GuiGraphics context, float tickProgress) {
+	protected void renderElements(GuiGraphicsExtractor context, float tickProgress) {
 		for (InventoryParticle particle : this.getScreenElements()) {
 			if (particle == null) {
 				continue;

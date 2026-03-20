@@ -3,6 +3,7 @@ package net.lopymine.ip.mixin;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.sub.InventoryParticleConfig;
 import net.lopymine.ip.renderer.InventoryParticlesRenderer;
+import net.lopymine.mossylib.MossyLib;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -22,17 +23,22 @@ public abstract class ScreenHandlerMixin {
 
 	@Shadow @Final public NonNullList<Slot> slots;
 
-	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/AbstractContainerMenu;doClick(IILnet/minecraft/world/inventory/ClickType;Lnet/minecraft/world/entity/player/Player;)V"), method = "clicked")
-	private void spawnParticlesWhenPuttedInSlot(int slotIndex, int button, ClickType actionType, Player player, CallbackInfo ci) {
+	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/AbstractContainerMenu;doClick(IILnet/minecraft/world/inventory/ContainerInput;Lnet/minecraft/world/entity/player/Player;)V"), method = "clicked")
+	private void spawnParticlesWhenPuttedInSlot(int slotIndex, int button, ContainerInput actionType, Player player, CallbackInfo ci) {
+		this.stuff(slotIndex, actionType, player);
+	}
+
+	@Unique
+	private void stuff(int slotIndex, ContainerInput actionType, Player player) {
 		Level world = player.level();
 		if (!world.isClientSide()) {
 			return;
 		}
 		InventoryParticleConfig config = InventoryParticlesConfig.getInstance().getParticleConfig();
 		if (slotIndex >= 0 && slotIndex < this.slots.size() && config.isGuiActionsSpawnEnabled()) {
-			boolean isTake = actionType == ClickType.PICKUP && this.getCarried().isEmpty();
-			boolean isPut = actionType == ClickType.PICKUP && !this.getCarried().isEmpty();
-			boolean isQuickMove = actionType == ClickType.QUICK_MOVE;
+			boolean isTake = actionType == ContainerInput.PICKUP && this.getCarried().isEmpty();
+			boolean isPut = actionType == ContainerInput.PICKUP && !this.getCarried().isEmpty();
+			boolean isQuickMove = actionType == ContainerInput.QUICK_MOVE;
 			if (!(config.isGuiActionTakeSpawnEnabled() && isTake)
 					&& !(config.isGuiActionPutSpawnEnabled() && isPut)
 					&& !(config.isGuiActionQuickMoveSpawnEnabled() && isQuickMove)

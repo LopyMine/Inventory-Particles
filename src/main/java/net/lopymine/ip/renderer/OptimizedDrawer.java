@@ -10,13 +10,13 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 *///?}
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 
 public class OptimizedDrawer {
 
 	public static void drawParticleSprite(
-			GuiGraphics context,
+			GuiGraphicsExtractor context,
 			TextureAtlasSprite sprite,
 			int x,
 			int y,

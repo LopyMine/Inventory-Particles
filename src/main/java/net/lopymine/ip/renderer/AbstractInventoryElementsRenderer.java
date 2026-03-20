@@ -9,7 +9,7 @@ import net.lopymine.ip.element.inventory.IInventoryElement;
 import net.lopymine.mossylib.logger.MossyLogger;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.*;
@@ -36,7 +36,7 @@ public abstract class AbstractInventoryElementsRenderer<E extends IInventoryElem
 	@Nullable
 	private E selectedElement;
 
-	public void render(GuiGraphics context, float tickProgress) {
+	public void render(GuiGraphicsExtractor context, float tickProgress) {
 		this.hoveredElement = null;
 		if (this.screenElements.isEmpty()) {
 			return;
@@ -44,7 +44,7 @@ public abstract class AbstractInventoryElementsRenderer<E extends IInventoryElem
 		this.runSoft(() -> this.renderElements(context, tickProgress), "rendering_inventory_elements");
 	}
 
-	protected abstract void renderElements(GuiGraphics context, float tickProgress);
+	protected abstract void renderElements(GuiGraphicsExtractor context, float tickProgress);
 
 	protected boolean shouldTick() {
 		if (this.stoppedTicking || this.stoppedByInitializationReason) {
@@ -174,7 +174,11 @@ public abstract class AbstractInventoryElementsRenderer<E extends IInventoryElem
 			LocalPlayer player = Minecraft.getInstance().player;
 			if (player != null) {
 				MutableComponent text = Component.literal("[%s] ".formatted(this.getModName())).append(Component.literal("Unexpected error with id \"%s\", please report this issue with your game logs! Inventory Particles was automatically disabled to prevent spamming ^^".formatted(action)).withStyle(ChatFormatting.RED));
-				player.displayClientMessage(text, false);
+				//? if >=26.1 {
+				player.sendSystemMessage(text);
+				//?} else {
+				/*player.displayClientMessage(text, false);
+				 *///?}
 			}
 		}
 	}
