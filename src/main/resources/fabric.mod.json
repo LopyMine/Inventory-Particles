@@ -32,7 +32,7 @@
         "java": ">=${java}",
         "${fabric_api_id}": "*"
     },
-	"accessWidener": "aws/fabric-${minecraft}.accesswidener",
+	"accessWidener": "${fabric_trick_accesswidener_id}",
 	"mixins": [
 		"${fabric_trick_mixin_configs}"
 	]

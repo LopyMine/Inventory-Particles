@@ -1,3 +1,5 @@
+//~ client_fabric_commands
+
 package net.lopymine.ip.client.command;
 
 import com.mojang.brigadier.CommandDispatcher;

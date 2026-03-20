@@ -1,14 +1,19 @@
 package net.lopymine.ip.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.*;
+import com.mojang.blaze3d.systems.RenderSystem;
+import java.util.List;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.sub.InventoryParticlesMainConfig;
 import net.lopymine.ip.element.mod.InventoryCursor;
 import net.lopymine.ip.renderer.InventoryParticlesRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner;
+import net.minecraft.util.FormattedCharSequence;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.At.Shift;

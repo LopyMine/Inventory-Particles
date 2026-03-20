@@ -6,14 +6,13 @@ package net.lopymine.ip.entrypoint;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.client.command.InventoryParticlesCommandManager;
 import net.lopymine.ip.modmenu.ModMenuIntegration;
-import net.lopymine.ip.resourcepack.*;
 import net.lopymine.ip.resourcepack.manager.ParticlesConfigsManager;
+import net.lopymine.ip.resourcepack.reload.InventoryParticlesClientReloadListener;
 import net.lopymine.mossylib.loader.MossyLoader;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.*;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 

@@ -1,3 +1,5 @@
+//~ client_fabric_commands
+
 package net.lopymine.ip.client.command.tags;
 
 import com.mojang.brigadier.Command;

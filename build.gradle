@@ -4,7 +4,6 @@ plugins {
 
 mossyDependencies {
 	minecraft = stonecutter.current.version.toString()
-	mappings = "official"
 	lombok = prop("base.lombok_version")
 
 	fabricApi = prop("build.fabric_api")
@@ -19,7 +18,6 @@ mossyDependencies {
 //		if (stonecutter.compare(stonecutter.current.version, "1.21.11") >= 0) {
 //			disable("mossylib")
 //		}
-		//override("modCompileOnly", "yacl")
 	}
 }
 

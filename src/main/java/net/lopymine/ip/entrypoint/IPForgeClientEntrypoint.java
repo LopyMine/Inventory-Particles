@@ -4,15 +4,12 @@ package net.lopymine.ip.entrypoint;
 
 /*import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.client.command.InventoryParticlesCommandManager;
-import net.lopymine.ip.manager.ParticlesConfigsManager;
+import net.lopymine.ip.resourcepack.manager.ParticlesConfigsManager;
 import net.lopymine.ip.resourcepack.reload.InventoryParticlesClientReloadListener;
 import net.lopymine.mossylib.loader.MossyLoader;
-import net.lopymine.mossylib.modmenu.*;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.lopymine.ip.modmenu.ModMenuIntegration;
 
 public class IPForgeClientEntrypoint {

@@ -1,5 +1,1 @@
-- Reworked configuration screen
-- Added whitelist/blacklist options to handle which items will spawn particles in different contexts
-- Added fade out effect for particles after reaching the count limit 
-- Added particles for target block (no way?)
-- Fixed links in ModMenu
+- Fixed debug particles for bedrock item
