@@ -1,1 +1,4 @@
+- Ported to 26.1, including particles for new item: Golden Dandelion
 - Fixed debug particles for bedrock item
+- [Forge 1.20.1] Fixed issue when particles doesn't work on multiplayer servers
+- [Fabric 1.21.1] Fixed incorrect particles rendering with Sodium

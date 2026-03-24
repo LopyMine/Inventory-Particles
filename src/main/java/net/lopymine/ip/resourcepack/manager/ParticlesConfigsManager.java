@@ -70,10 +70,6 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 				registerItemSpawner(tagKey, spawner);
 			});
 		}
-
-		if (Minecraft.getInstance().level != null) {
-			updateCombinedMap();
-		}
 	}
 
 	public void reload() {
@@ -81,6 +77,9 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 		PER_ITEM_PARTICLE_SPAWNERS.clear();
 		PER_TAG_PARTICLE_SPAWNERS.clear();
 		super.reload();
+		if (Minecraft.getInstance().level != null) {
+			updateCombinedMap();
+		}
 	}
 
 	private void registerItemSpawner(Item item, IParticleSpawner spawner) {

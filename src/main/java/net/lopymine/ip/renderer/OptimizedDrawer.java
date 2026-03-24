@@ -41,7 +41,19 @@ public class OptimizedDrawer {
 		);
 		//?} else {
 		/*PER_ATLAS_CONTEXTS.computeIfAbsent(sprite.atlasLocation(), (key) -> new ArrayList<>())
-				.add(new RenderContext(context.pose().last().pose(), sprite, x, y, width, height, color));
+				.add(new RenderContext(
+						//? if >=1.21 {
+						context.pose().last().copy().pose(),
+						//?} else {
+						/^new Matrix4f(context.pose().last().pose()),
+						 ^///?}
+						sprite,
+						x,
+						y,
+						width,
+						height,
+						color
+				));
 		*///?}
 
 		//? if >=1.21.2 && <=1.21.4 {

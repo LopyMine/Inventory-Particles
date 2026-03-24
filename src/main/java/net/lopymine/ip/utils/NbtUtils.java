@@ -43,7 +43,12 @@ public class NbtUtils {
 					/*.map(ChargedProjectiles::getItems)
 					 *///?}
 					.filter((list) -> !list.isEmpty())
-					.map((list) -> getColorFromPotionContentsStack(list.get(0).create()))
+					.map((list) -> getColorFromPotionContentsStack(
+							list.get(0)
+							//? if >=26.1 {
+							.create()
+							//?}
+					))
 					.filter(Optional::isPresent)
 					.map(Optional::get);
 			//?} else {

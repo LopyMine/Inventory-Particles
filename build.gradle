@@ -1,5 +1,6 @@
 plugins {
 	id "net.lopymine.mossy-plugin-core" version "$mossy_plugin_version"
+	id "maven-publish"
 }
 
 mossyDependencies {
@@ -79,6 +80,14 @@ processResources {
 
 publishing {
 	repositories {
+		maven {
+			name = 'MossyProjectsReleases'
+			url = uri('https://maven.lopymine.net/releases')
+			credentials(PasswordCredentials)
+			authentication {
+				create('basic', BasicAuthentication)
+			}
+		}
 		mavenLocal()
 	}
 

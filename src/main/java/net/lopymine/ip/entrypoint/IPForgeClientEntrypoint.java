@@ -7,6 +7,8 @@ import net.lopymine.ip.client.command.InventoryParticlesCommandManager;
 import net.lopymine.ip.resourcepack.manager.ParticlesConfigsManager;
 import net.lopymine.ip.resourcepack.reload.InventoryParticlesClientReloadListener;
 import net.lopymine.mossylib.loader.MossyLoader;
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -22,7 +24,7 @@ public class IPForgeClientEntrypoint {
 		MossyLoader.registerReloadListener(new InventoryParticlesClientReloadListener());
 		MossyLoader.registerCommands(InventoryParticlesCommandManager::register);
 
-		MinecraftForge.EVENT_BUS.<PlayerEvent.PlayerLoggedInEvent>addListener((event) -> {
+		MinecraftForge.EVENT_BUS.<ClientPlayerNetworkEvent.LoggingIn>addListener((event) -> {
 			ParticlesConfigsManager.updateCombinedMap();
 		});
 	}
