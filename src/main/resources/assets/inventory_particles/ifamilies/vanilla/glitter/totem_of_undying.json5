@@ -1,0 +1,19 @@
+{
+	"keywords": [
+		"@totem_of_undying"
+	],
+	"particles": [
+		{
+			"id": "vanilla/glitter/totem_of_undying",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 20],
+			"speed_coefficient": 0.2,
+			"color": ["#1DAF18", "#218E20", "#266D28", "#B8DD10", "#B3BE1E", "#AFA02D"],
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"family_groups": [],
+	"compatible": false,
+	"priority": 1000
+}

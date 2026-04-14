@@ -1,0 +1,31 @@
+{
+	"keywords": [
+		"powder",
+		"gunpowder",
+		"sugar",
+		"dust",
+		"dye"
+	],
+	"tags": [
+		"c:dusts"
+	],
+	"particles": [
+		{
+			"id": "family/dust/dust",
+			"textures": [
+				"inventory_particles:dust/dust_0.png",
+				"inventory_particles:dust/dust_1.png",
+				"inventory_particles:dust/dust_2.png"
+			],
+			"texture_generation_mode": "luminance_replace",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 20],
+			"speed_coefficient": 0.25,
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"family_groups": [],
+	"compatible": false,
+	"priority": 1000
+}

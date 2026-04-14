@@ -1,20 +1,31 @@
 package net.lopymine.ip.resourcepack.manager;
 
-import com.mojang.datafixers.util.Either;
+import com.mojang.datafixers.util.*;
 import com.mojang.serialization.Codec;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.CompletableFuture;
+import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.misc.CachedItem;
 import net.lopymine.ip.config.particle.*;
+import net.lopymine.ip.element.color.StandardColorProvider;
 import net.lopymine.ip.element.mod.spawner.*;
+import net.lopymine.ip.element.predicate.nbt.NbtNodeMatch;
+import net.lopymine.ip.family.*;
+import net.lopymine.ip.family.FamilyParticleData.GeneratedTextures;
+import net.lopymine.ip.family.generation.ItemRenderingManager;
+import net.lopymine.ip.t2o.*;
+import net.lopymine.ip.utils.*;
+import net.lopymine.ip.utils.iac.RenderedItemImage;
 import net.lopymine.mossylib.logger.MossyLogger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.*;
 import net.minecraft.resources.*;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.*;
 import org.jetbrains.annotations.Nullable;
 
@@ -59,7 +70,7 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 		REGISTERED_CONFIGS.computeIfAbsent(id, (key) -> new ArrayList<>()).add(config);
 
 		for (ParticleHolder holder : config.getHolders()) {
-			ParticleSpawner spawner = holder.create(config::createParticle);
+			ParticleSpawner spawner = holder.createSpawner(config::createParticle);
 			Either<CachedItem, Identifier> itemOrTag = holder.getItemOrTag();
 			itemOrTag.ifLeft((cachedItem) -> {
 				Item item = cachedItem.getItem();
@@ -96,31 +107,140 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 
 		COMBINED_MAP.clear();
 
-		for (Entry<ResourceKey<Item>, Item> entry : BuiltInRegistries.ITEM.entrySet()) {
-			Identifier identifier = entry.getKey().identifier();
-			Item item = entry.getValue();
+		Set<Entry<ResourceKey<Item>, Item>> entries = BuiltInRegistries.ITEM.entrySet();
+		CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+			int index = 0;
+			for (Entry<ResourceKey<Item>, Item> entry : entries) {
+				System.out.println("%s / %s".formatted(index, entries.size()));
 
-			List<IParticleSpawner> spawners = new ArrayList<>();
+				Identifier identifier = entry.getKey().identifier();
+				Item item = entry.getValue();
 
-			List<IParticleSpawner> itemSpecificSpawners = PER_ITEM_PARTICLE_SPAWNERS.get(item);
-			if (itemSpecificSpawners != null) {
-				spawners.addAll(itemSpecificSpawners);
+				List<IParticleSpawner> spawners = new ArrayList<>();
+
+
+				List<IParticleSpawner> familyParticles = getFamilyParticles(identifier, item);
+				if (familyParticles != null) {
+					spawners.addAll(familyParticles);
+				}
+
+//			List<IParticleSpawner> specificSpawners = PER_ITEM_PARTICLE_SPAWNERS.get(item);
+//			if (specificSpawners != null) {
+//				spawners.addAll(specificSpawners);
+//			}
+//
+//			if (!identifier.getNamespace().equals("minecraft") || item instanceof BucketItem) {
+//				spawners.addAll(item.builtInRegistryHolder()
+//						.tags()
+//						.map(PER_TAG_PARTICLE_SPAWNERS::get)
+//						.filter(Objects::nonNull)
+//						.flatMap(Collection::stream)
+//						.toList());
+//
+//
+//				List<IParticleSpawner> familyParticles = getFamilyParticles(identifier, item);
+//				if (familyParticles != null) {
+//					spawners.addAll(familyParticles);
+//				}
+//			}
+
+				index++;
+
+				if (spawners.isEmpty()) {
+					continue;
+				}
+
+				COMBINED_MAP.put(item, spawners);
 			}
+		}).exceptionally((e) -> {
+			e.printStackTrace();
+			return null;
+		});
+	}
 
-			if (!identifier.getNamespace().equals("minecraft")) {
-				spawners.addAll(item.builtInRegistryHolder()
-						.tags()
-						.map(PER_TAG_PARTICLE_SPAWNERS::get)
-						.filter(Objects::nonNull)
-						.flatMap(Collection::stream)
-						.toList());
-			}
+	@Nullable
+	private static List<IParticleSpawner> getFamilyParticles(Identifier itemId, Item item) {
+		List<FamilyParticleConfig> family = FamilyParticlesManager.getFamily(item);
+		if (family.isEmpty()) {
+			return null;
+		}
 
-			if (spawners.isEmpty()) {
+		FamilyParticleConfig config = family.get(0); // todo add priority
+		List<IParticleSpawner> list = new ArrayList<>();
+
+		for (FamilyParticleData particle : config.getParticles()) {
+			Identifier id = InventoryParticles.id("%s/%s.json".formatted(getInstance().getFolderName(), particle.getId().getPath()));
+			List<ParticleConfig> configs = REGISTERED_CONFIGS.get(id);
+			if (configs == null || configs.isEmpty()) {
+				getInstance().getLogger().error("Failed to find config from \"%s\" for family config from \"%s\"!".formatted(id.getPath(), config.getLocation()));
 				continue;
 			}
-			COMBINED_MAP.put(item, spawners);
+			for (ParticleConfig particleConfig : configs) {
+				ParticleConfig copy = particleConfig.copy();
+
+				RenderedItemImage renderedItemImage = ItemRenderingManager.getRenderedItemImage(item);
+				GeneratedTextures generatedTextures = renderedItemImage == null ? null : particle.getGeneratedTextures(renderedItemImage, itemId, item);
+
+				if (generatedTextures != null && copy.getTextures().isEmpty()) {
+					copy.setTextures(generatedTextures.textures());
+				}
+
+				ParticleSpawnAreaId spawnArea;
+				if (renderedItemImage != null) {
+					Identifier spawnAreaId = InventoryParticles.id("rii/" + itemId.getPath());
+					List<ParticleSpawnPos> pixels = Texture2ObjectsManager.readFromTexture(
+							renderedItemImage.getImage(),
+							spawnAreaId,
+							"family config spawn area",
+							() -> (x, y, imageWidth, imageHeight, color) -> {
+								if (ArgbUtils2.getAlpha(color) == 0) {
+									return false;
+								}
+								if (generatedTextures == null) {
+									return true;
+								}
+								ArrayList<Integer> colors = generatedTextures.colors();
+								if (colors.isEmpty()) {
+									return true;
+								}
+								for (Integer c : colors) {
+									int distance = ArgbUtils2.colorDistanceSquared(c, color);
+									if (distance <= 60 * 60) {
+										return true;
+									}
+								}
+								return false;
+							},
+							(x, y, width, height, color) -> new ParticleSpawnPos(x, y, width, height)
+					);
+					ParticleSpawnArea area = new ParticleSpawnArea(pixels.toArray(IParticleSpawnPos[]::new));
+
+					spawnArea = new ParticleSpawnAreaId(spawnAreaId);
+					spawnArea.setArea(area);
+					spawnArea.setInitialized(true);
+				} else {
+					spawnArea = ParticleSpawnAreaId.STANDARD_SPAWN_AREA_ID;
+				}
+
+				ParticleHolder familyHolder = new ParticleHolder(
+						"Family/UnknownParticle@" + RandomSource.create().nextIntBetweenInclusive(0, 100000),
+						Either.left(new CachedItem(item)),
+						NbtNodeMatch.ANY,
+						new HashSet<>(),
+						spawnArea,
+						particle.getSpawnCount(),
+						particle.getSpawnFrequency(),
+						particle.getColorProvider(),
+						particle.getSpeedCoefficient()
+				);
+				ParticleSpawner spawner = familyHolder.createSpawner(copy::createParticle);
+				list.add(spawner);
+			}
 		}
+
+		COMBINED_MAP.put(item, list);
+
+		return list;
 	}
 
 	@Nullable

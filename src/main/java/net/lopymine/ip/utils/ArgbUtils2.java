@@ -1,7 +1,6 @@
 package net.lopymine.ip.utils;
 
-import net.minecraft.util.CommonColors;
-import net.minecraft.util.Mth;
+import net.minecraft.util.*;
 
 public class ArgbUtils2 {
 
@@ -55,6 +54,37 @@ public class ArgbUtils2 {
 
 	public static int fullAlpha(int argb) {
 		return argb | CommonColors.BLACK;
+	}
+
+	public static int colorDistanceSquared(int c1, int c2) {
+		int r1 = (c1 >> 16) & 255;
+		int g1 = (c1 >> 8) & 255;
+		int b1 = c1 & 255;
+
+		int r2 = (c2 >> 16) & 255;
+		int g2 = (c2 >> 8) & 255;
+		int b2 = c2 & 255;
+
+		int dr = r1 - r2;
+		int dg = g1 - g2;
+		int db = b1 - b2;
+
+		return dr * dr + dg * dg + db * db;
+	}
+
+	public static boolean isGrayscalePixel(int color) {
+		int r = (color >> 16) & 255;
+		int g = (color >> 8) & 255;
+		int b = color & 255;
+
+		return r == g && g == b;
+	}
+
+	public static float luminance(int color) {
+		int r = (color >> 16) & 255;
+		int g = (color >> 8) & 255;
+		int b = color & 255;
+		return 0.2126f * r + 0.7152f * g + 0.0722f * b;
 	}
 
 }

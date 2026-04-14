@@ -1,0 +1,31 @@
+{
+	"keywords": [
+		"bucket",
+		"boat"
+	],
+	"tags": [
+		"c:buckets",
+		"c:drinks"
+	],
+	"particles": [
+		{
+			"id": "family/drip/fluid",
+			"textures": [
+				"inventory_particles:drip/liquid_drip_0.png",
+				"inventory_particles:drip/liquid_drip_1.png",
+				"inventory_particles:drip/liquid_drip_2.png"
+			],
+			"texture_generation_mode": "luminance_replace",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"family_groups": [],
+	"compatible": [
+		"#glint"
+	],
+	"priority": 2000
+}

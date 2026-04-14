@@ -1,0 +1,48 @@
+{
+	"keywords": [
+		"sand",
+		"snow",
+		"gravel"
+	],
+	"particles": [
+		{
+			"id": "family/vanilla/generic/sand/sand",
+			"textures": [
+				"inventory_particles:vanilla/generic/generic_7.png",
+				"inventory_particles:vanilla/generic/generic_6.png",
+				"inventory_particles:vanilla/generic/generic_5.png",
+				"inventory_particles:vanilla/generic/generic_4.png",
+				"inventory_particles:vanilla/generic/generic_3.png",
+				"inventory_particles:vanilla/generic/generic_2.png",
+				"inventory_particles:vanilla/generic/generic_1.png",
+				"inventory_particles:vanilla/generic/generic_0.png"
+			],
+			"texture_generation_mode": "luminance_replace",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.1,
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"id": "family/vanilla/generic/sand/sand_additional_small",
+			"textures": [
+				"inventory_particles:vanilla/generic/generic_5.png",
+				"inventory_particles:vanilla/generic/generic_4.png",
+				"inventory_particles:vanilla/generic/generic_3.png",
+				"inventory_particles:vanilla/generic/generic_2.png",
+				"inventory_particles:vanilla/generic/generic_1.png",
+				"inventory_particles:vanilla/generic/generic_0.png"
+			],
+			"texture_generation_mode": "luminance_replace",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.1,
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"family_groups": [],
+	"compatible": false,
+	"priority": 1000
+}

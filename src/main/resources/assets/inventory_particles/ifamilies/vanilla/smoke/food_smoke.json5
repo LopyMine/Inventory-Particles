@@ -1,0 +1,39 @@
+{
+	"keywords": [
+		"cooked"
+	],
+	"tags": [
+		"c:foods/cooked_bacon",
+		"c:foods/cooked_chicken",
+		"c:foods/cooked_cod",
+		"c:foods/cooked_egg",
+		"c:foods/cooked_fish",
+		"c:foods/cooked_fishes",
+		"c:foods/cooked_meat",
+		"c:foods/cooked_meats",
+		"c:foods/cooked_mutton",
+		"c:foods/cooked_pork",
+		"c:foods/cooked_porkchop",
+		"c:foods/cooked_rabbit",
+		"c:foods/cooked_salmon",
+		"c:foods/cooked_beef"
+	],
+	"particles": [
+		{
+			"id": "vanilla/big_smoke/food_smoke",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 100
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"family_groups": [],
+	"compatible": false,
+	"priority": 1000
+}

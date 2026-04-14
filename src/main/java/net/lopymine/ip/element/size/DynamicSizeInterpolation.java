@@ -9,7 +9,7 @@ import java.util.function.Function;
 import lombok.*;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.debug.HideInDebugRender;
-import net.lopymine.ip.utils.Easing;
+import net.lopymine.ip.utils.easing.Easing;
 import net.minecraft.util.Mth;
 
 @Getter

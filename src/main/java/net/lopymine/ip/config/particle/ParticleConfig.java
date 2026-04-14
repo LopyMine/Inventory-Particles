@@ -70,4 +70,16 @@ public class ParticleConfig {
 		return InventoryParticle.create(this, context);
 	}
 
+	public ParticleConfig copy() {
+		return new ParticleConfig(
+				this.lifeTimeTicks,
+				this.animationType,
+				this.animationSpeed,
+				this.size,
+				new ArrayList<>(this.textures),
+				new HashSet<>(this.holders),
+				this.physics
+		);
+	}
+
 }

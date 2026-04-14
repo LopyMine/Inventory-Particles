@@ -1,0 +1,34 @@
+{
+	"keywords": [
+		"forest",
+		"tree",
+		"flower"
+	],
+	"tags": [
+		"minecraft:saplings",
+		"c:flowers"
+	],
+	"particles": [
+		{
+			"id": "family/leaves/leaves",
+			"textures": [
+				"inventory_particles:leaves/small/leaves_0.png",
+				"inventory_particles:leaves/small/leaves_1.png",
+				"inventory_particles:leaves/small/leaves_2.png"
+			],
+			"texture_generation_mode": "luminance_replace",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [40, 50],
+			"speed_coefficient": 0.4,
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"family_groups": [
+		"leaves"
+	],
+	"compatible": [
+		"leaves"
+	],
+	"priority": 1000
+}

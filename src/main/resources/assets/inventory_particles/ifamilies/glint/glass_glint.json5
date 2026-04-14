@@ -1,0 +1,37 @@
+{
+	"keywords": [
+		"glass",
+		"bottle",
+		"potion"
+	],
+	"tags": [
+		"c:glass_blocks/colorless",
+		"c:clear_glass_panes",
+		"c:clear_glass_slabs",
+		"c:clear_glass_stairs",
+		"c:clear_glass_blocks"
+	],
+	"particles": [
+		{
+			"id": "glint/glass_glint0",
+			"spawn_count": [0, 4],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"id": "glint/glass_glint1",
+			"spawn_count": [0, 4],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"family_groups": [],
+	"compatible": false,
+	"priority": 1000
+}

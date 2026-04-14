@@ -1,0 +1,24 @@
+{
+	"particles": [
+		{
+			"id": "family/fallback/standard",
+			"textures": [
+				"inventory_particles:fallback/standard_0.png",
+				"inventory_particles:fallback/standard_1.png",
+				"inventory_particles:fallback/standard_2.png",
+				"inventory_particles:fallback/standard_3.png",
+				"inventory_particles:fallback/standard_4.png",
+				"inventory_particles:fallback/standard_5.png"
+			],
+			"texture_generation_mode": "luminance_replace",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [40, 60],
+			"speed_coefficient": 0.2,
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"family_groups": [],
+	"compatible": true,
+	"priority": 200
+}

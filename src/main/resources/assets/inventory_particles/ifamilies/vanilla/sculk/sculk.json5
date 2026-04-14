@@ -1,0 +1,28 @@
+{
+	"keywords": [
+		"sculk"
+	],
+	"particles": [
+		{
+			"id": "vanilla/sculk/sculk_soul",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.15,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"id": "vanilla/sculk/sculk_charge",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.15,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"family_groups": [],
+	"compatible": false,
+	"priority": 1000
+}

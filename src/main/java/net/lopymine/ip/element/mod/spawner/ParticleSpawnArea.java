@@ -1,7 +1,6 @@
 package net.lopymine.ip.element.mod.spawner;
 
 import java.util.*;
-import net.lopymine.ip.config.particle.ParticleHolder;
 import net.lopymine.ip.t2o.*;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
@@ -11,7 +10,7 @@ public record ParticleSpawnArea(IParticleSpawnPos[] positions) implements IParti
 
 	@Nullable
 	public static ParticleSpawnArea readFromTexture(Identifier id) {
-		if (ParticleHolder.STANDARD_SPAWN_AREA.equals(id)) {
+		if (ParticleSpawnAreaId.STANDARD_SPAWN_AREA_ID.getId().equals(id)) {
 			return null;
 		}
 

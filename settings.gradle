@@ -23,6 +23,6 @@ pluginManagement {
 }
 
 plugins {
-	id "dev.kikugie.stonecutter" version "0.8.1"
+	id "dev.kikugie.stonecutter" version "0.9"
 	id "net.lopymine.mossy-plugin-settings" version "$mossy_plugin_version"
 }

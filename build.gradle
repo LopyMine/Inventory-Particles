@@ -19,9 +19,9 @@ mossyDependencies {
 //		if (stonecutter.compare(stonecutter.current.version, "1.21.11") >= 0) {
 //			disable("mossylib")
 //		}
- 		if (stonecutter.current.version.startsWith("26.1")) {
-			disable("mossylib")
-		}
+// 		if (stonecutter.current.version.startsWith("26.1")) {
+//			disable("mossylib")
+//		}
 	}
 }
 
@@ -33,24 +33,24 @@ repositories {
 	}
 }
 
-dependencies {
-//	if (stonecutter.compare(stonecutter.current.version, "1.21.11") >= 0) {
-//		def project = stonecutter.current.project
+//dependencies {
+////	if (stonecutter.compare(stonecutter.current.version, "1.21.11") >= 0) {
+////		def project = stonecutter.current.project
+////		if (project.contains("neoforge")) {
+////			jarJar(implementation("net.lopymine:mossylib:1.0.5-${project}"))
+////		} else {
+////			include(modImplementation("net.lopymine:mossylib:1.0.5-${project}"))
+////		}
+////	}
+//	def project = stonecutter.current.project
+//	if (project.contains("26.1")) {
 //		if (project.contains("neoforge")) {
-//			jarJar(implementation("net.lopymine:mossylib:1.0.5-${project}"))
+//			jarJar(implementation("net.lopymine:mossylib:1.1.0-neoforge-26.1-pre-2"))
 //		} else {
-//			include(modImplementation("net.lopymine:mossylib:1.0.5-${project}"))
+//			include(implementation("net.lopymine:mossylib:1.1.0-fabric-26.1-pre-2"))
 //		}
 //	}
-	def project = stonecutter.current.project
-	if (project.contains("26.1")) {
-		if (project.contains("neoforge")) {
-			jarJar(implementation("net.lopymine:mossylib:1.1.0-neoforge-26.1-pre-2"))
-		} else {
-			include(implementation("net.lopymine:mossylib:1.1.0-fabric-26.1-pre-2"))
-		}
-	}
-}
+//}
 
 stonecutter {
 	replacements.string(current.parsed >= "1.21.11") {

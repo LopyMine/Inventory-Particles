@@ -13,6 +13,33 @@ import net.minecraft.resources.Identifier;
 
 public class Texture2ObjectsManager {
 
+	public static <T> List<T> readFromTexture(NativeImage image, Identifier id, String objectName, Texture2ObjectPixelFilter filter, Texture2Object<T> texture2Object) {
+		try {
+			List<T> list = new ArrayList<>();
+			Texture2Object<Boolean> test = filter.getFilter();
+
+			int width = image.getWidth();
+			int height = image.getHeight();
+			for (int x = 0; x < width; x++) {
+				for (int y = 0; y < height; y++) {
+					int color = /*? if <=1.21.1 {*/ /*fromABGR(image.getPixelRGBA(x, y)); *//*?} else {*/ image.getPixel(x, y); /*?}*/
+					if (Boolean.FALSE.equals(test.accept(x, y, width, height, color))) {
+						continue;
+					}
+					T object = texture2Object.accept(x, y, width, height, color);
+					if (object != null) {
+						list.add(object);
+					}
+				}
+			}
+
+			return list;
+		} catch (Exception e) {
+			InventoryParticlesClient.LOGGER.error("Failed to create {} from texture \"{}\"! Reason:", objectName, id, e);
+		}
+		return List.of();
+	}
+
 	public static <T> List<T> readFromTexture(Identifier id, String objectName, Texture2ObjectPixelFilter filter, Texture2Object<T> texture2Object) {
 		try {
 			Optional<Resource> optional = Minecraft.getInstance().getResourceManager().getResource(id);
@@ -26,24 +53,7 @@ public class Texture2ObjectsManager {
 			InputStream inputStream = resource.open();
 			NativeImage image = NativeImage.read(inputStream);
 
-			List<T> list = new ArrayList<>();
-
-			int width = image.getWidth();
-			int height = image.getHeight();
-			for (int x = 0; x < width; x++) {
-				for (int y = 0; y < height; y++) {
-					int color = /*? if <=1.21.1 {*/ /*fromABGR(image.getPixelRGBA(x, y)); *//*?} else {*/ image.getPixel(x, y); /*?}*/
-					if (Boolean.FALSE.equals(filter.getFilter().accept(x, y, width, height, color))) {
-						continue;
-					}
-					T object = texture2Object.accept(x, y, width, height, color);
-					if (object != null) {
-						list.add(object);
-					}
-				}
-			}
-
-			return list;
+			return readFromTexture(image, id, objectName, filter, texture2Object);
 		} catch (Exception e) {
 			InventoryParticlesClient.LOGGER.error("Failed to load create {} from texture \"{}\"! Reason:", id, e);
 		}

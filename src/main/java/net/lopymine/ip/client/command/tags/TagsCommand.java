@@ -29,6 +29,7 @@ import static net.lopymine.mossylib.utils.CommandUtils.literal;
 //? if >=1.21.11 {
 
 import net.minecraft.util.Util;
+import org.jspecify.annotations.Nullable;
 
 //?} else {
 /*import net.minecraft.Util;
@@ -62,20 +63,25 @@ public class TagsCommand {
 		if (!getAvailableItems().contains(item.toString())) {
 			return 0;
 		}
-		//? if >=1.21.4 {
-		Optional<Reference<Item>> optional = BuiltInRegistries.ITEM.get(item);
-		if (optional.isEmpty()) {
-			return 0;
-		}
-
-		List<String> list = optional.get().tags().map(TagKey::location).map(Identifier::toString).toList();
-		//?} else {
-		/*Item get = BuiltInRegistries.ITEM.get(item);
-		List<String> list = get.builtInRegistryHolder().tags().map(TagKey::location).map(Identifier::toString).toList();
-		*///?}
+		List<String> list = getTags(item);
+		if (list == null) return 0;
 
 		writeAndOpen("tags-in-item.txt", list);
 		return Command.SINGLE_SUCCESS;
+	}
+
+	public static @Nullable List<String> getTags(Identifier item) {
+		//? if >=1.21.4 {
+		Optional<Reference<Item>> optional = BuiltInRegistries.ITEM.get(item);
+		if (optional.isEmpty()) {
+			return null;
+		}
+
+		return optional.get().tags().map(TagKey::location).map(Identifier::toString).toList();
+		//?} else {
+		/*Item get = BuiltInRegistries.ITEM.get(item);
+		return get.builtInRegistryHolder().tags().map(TagKey::location).map(Identifier::toString).toList();
+		*///?}
 	}
 
 	private static int items(CommandContext<FabricClientCommandSource> context) {

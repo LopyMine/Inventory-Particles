@@ -9,6 +9,7 @@ import net.lopymine.ip.element.mod.*;
 import net.lopymine.ip.element.mod.spawner.IParticleSpawner;
 import net.lopymine.ip.resourcepack.manager.ParticlesConfigsManager;
 import net.lopymine.ip.element.mod.spawner.context.ParticleSpawnContext;
+import net.lopymine.ip.utils.NativeImageUtils;
 import net.lopymine.mossylib.logger.MossyLogger;
 import net.minecraft.client.*;
 import net.minecraft.client.gui.GuiGraphicsExtractor;

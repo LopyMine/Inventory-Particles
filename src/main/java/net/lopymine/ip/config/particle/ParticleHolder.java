@@ -12,9 +12,9 @@ import net.lopymine.ip.element.color.advanced.AdvancedColorProviderRandomStatic;
 import net.lopymine.ip.config.misc.CachedItem;
 import net.lopymine.ip.config.range.IntegerRange;
 import net.lopymine.ip.element.mod.InventoryParticle;
+import net.lopymine.ip.element.mod.spawner.*;
 import net.lopymine.ip.element.predicate.ISpawnPredicate;
 import net.lopymine.ip.element.predicate.nbt.*;
-import net.lopymine.ip.element.mod.spawner.ParticleSpawner;
 import net.lopymine.ip.element.mod.spawner.context.ParticleSpawnContext;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
@@ -24,8 +24,6 @@ import static net.lopymine.mossylib.utils.CodecUtils.option;
 @Setter
 @AllArgsConstructor
 public class ParticleHolder {
-
-	public static final Identifier STANDARD_SPAWN_AREA = InventoryParticles.id("spawn_areas/standard.png");
 
 	public static final Codec<IColorProvider> STANDARD_AND_LIST_COLOR_TYPE_CODEC = Codec.either(IColorProvider.CODEC, IColorProvider.CODEC.listOf())
 			.xmap((either) -> {
@@ -57,14 +55,6 @@ public class ParticleHolder {
 				return Either.right(type);
 			});
 
-	public static final Codec<Identifier> SPAWN_AREA_CODEC = Codec.STRING.comapFlatMap((s) -> {
-		if (s.contains(":")) {
-			return Identifier.read(s);
-		}
-		String path = s.endsWith(".png") ? s : s + ".png";
-		return DataResult.success(InventoryParticles.id("spawn_areas/" + path));
-	}, Identifier::toString);
-
 	public static final Codec<Identifier> TAG_CODEC = Codec.STRING.comapFlatMap((s) -> {
 		if (s.startsWith("#")) {
 			return Identifier.read(s.substring(1));
@@ -77,7 +67,7 @@ public class ParticleHolder {
 			option("item", Either.left(new CachedItem()), Codec.either(CachedItem.CODEC, TAG_CODEC), ParticleHolder::getItemOrTag),
 			option("nbt_conditions_match", NbtNodeMatch.ANY, NbtNodeMatch.CODEC, ParticleHolder::getMatch),
 			option("nbt_conditions", new HashSet<>(), NbtNode.CODEC, ParticleHolder::getNbtCondition),
-			option("spawn_area", STANDARD_SPAWN_AREA, SPAWN_AREA_CODEC, ParticleHolder::getSpawnArea),
+			option("spawn_area", ParticleSpawnAreaId.STANDARD_SPAWN_AREA_ID, ParticleSpawnAreaId.CODEC, ParticleHolder::getSpawnArea),
 			option("spawn_count", new IntegerRange(), IntegerRange.CODEC, ParticleHolder::getSpawnCount),
 			option("spawn_frequency", new IntegerRange(), IntegerRange.CODEC, ParticleHolder::getSpawnFrequency),
 			option("color", new StandardColorProvider(), STANDARD_AND_ADVANCED_COLOR_TYPE_CODEC, ParticleHolder::getColor),
@@ -88,13 +78,13 @@ public class ParticleHolder {
 	private Either<CachedItem, Identifier> itemOrTag;
 	private NbtNodeMatch match;
 	private HashSet<NbtNode> nbtCondition;
-	private Identifier spawnArea;
+	private ParticleSpawnAreaId spawnArea;
 	private IntegerRange spawnCount;
 	private IntegerRange spawnFrequency;
 	private IColorProvider color;
 	private double speedCoefficient;
 
-	public ParticleSpawner create(Function<ParticleSpawnContext, InventoryParticle> function) {
+	public ParticleSpawner createSpawner(Function<ParticleSpawnContext, InventoryParticle> function) {
 		return new ParticleSpawner(
 				this.spawnArea,
 				this.spawnCount,

@@ -1,0 +1,33 @@
+{
+	"keywords": [
+		"carpet",
+		"string",
+		"wool",
+		"bed"
+	],
+	"tags": [
+		"c:strings",
+		"minecraft:wool",
+		"minecraft:banners",
+		"minecraft:beds"
+	],
+	"particles": [
+		{
+			"id": "family/piece/wool/wool",
+			"textures": [
+				"inventory_particles:piece/wool/piece_0.png",
+				"inventory_particles:piece/wool/piece_1.png",
+				"inventory_particles:piece/wool/piece_2.png"
+			],
+			"texture_generation_mode": "luminance_replace",
+			"spawn_count": [0, 3],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"family_groups": [],
+	"compatible": false,
+	"priority": 1000
+}

@@ -1,4 +1,4 @@
-package net.lopymine.ip.utils;
+package net.lopymine.ip.utils.easing;
 
 // https://nicmulvaney.com/easing
 @SuppressWarnings("unused")

@@ -25,6 +25,11 @@ public class CachedItem {
 		this.id = id;
 	}
 
+	public CachedItem(@NotNull Item item) {
+		this.id = BuiltInRegistries.ITEM.getKey(item);
+		this.item = item;
+	}
+
 	public CachedItem() {
 		this.id = BuiltInRegistries.ITEM.getKey(Items.AIR);
 	}

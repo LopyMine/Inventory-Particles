@@ -10,7 +10,8 @@
 		"MinecraftClientMixin",
 		"ScreenHandlerMixin",
 		"ScreenMixin",
-		"MouseMixin"
+		"MouseMixin",
+		"family.ScreenshotMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
