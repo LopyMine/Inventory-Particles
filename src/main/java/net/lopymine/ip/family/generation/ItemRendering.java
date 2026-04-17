@@ -91,7 +91,6 @@ public class ItemRendering {
 
 		var oldOutputColor = RenderSystem.outputColorTextureOverride;
 		var oldOutputDepth = RenderSystem.outputDepthTextureOverride;
-		//var oldModelViewMatrix = new Matrix4f(RenderSystem.getModelViewMatrix());
 		var oldModelViewMatrix = RenderSystem.getModelViewStack();
 		RenderSystem.backupProjectionMatrix();
 
@@ -107,12 +106,10 @@ public class ItemRendering {
 
 		RenderSystem.outputColorTextureOverride = colorView;
 		RenderSystem.outputDepthTextureOverride = depthView;
-		//RenderSystem.getModelViewMatrix().identity();
 		RenderSystem.getModelViewStack().identity();
 
 		ItemRendering.renderItemStack(itemStack);
 
-		//RenderSystem.getModelViewMatrix().set(oldModelViewMatrix);
 		RenderSystem.getModelViewStack().set(oldModelViewMatrix);
 		RenderSystem.outputColorTextureOverride = oldOutputColor;
 		RenderSystem.outputDepthTextureOverride = oldOutputDepth;

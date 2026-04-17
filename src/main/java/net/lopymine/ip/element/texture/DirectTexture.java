@@ -26,6 +26,7 @@ public class DirectTexture implements ITexture {
 	public void render(GuiGraphicsExtractor graphics, float x, float y, float width, float height, int color) {
 		//DrawUtils.drawTexture(graphics, this.location, (int) x, (int) y, 0, 0, (int) width, (int) height, this.textureWidth, this.textureHeight);
 		graphics.blit(RenderPipelines.GUI_TEXTURED, this.location, (int) x, (int) y, 0, 0, (int) width, (int) height, this.textureWidth, this.textureHeight, this.color.apply(color));
+		//graphics.blit(this.location, (int) x, (int) y, 0, 0, (int) width, (int) height, this.textureWidth, this.textureHeight, this.color.apply(color));
 	}
 
 	@Override

@@ -24,8 +24,6 @@
 		}
 	],
 	"family_groups": [],
-	"compatible": [
-		"#glint"
-	],
-	"priority": 2000
+	"compatible": false,
+	"priority": 1000
 }

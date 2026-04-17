@@ -1,6 +1,7 @@
 {
 	"keywords": [
-		"cooked"
+		"cooked",
+		"baked"
 	],
 	"tags": [
 		"c:foods/cooked_bacon",
@@ -35,5 +36,5 @@
 	],
 	"family_groups": [],
 	"compatible": false,
-	"priority": 1000
+	"priority": 1200
 }

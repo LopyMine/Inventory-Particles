@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import net.lopymine.ip.InventoryParticles;
-import net.lopymine.mossylib.utils.ArgbUtils;
+import net.lopymine.mossylib.utils.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.*;
 import net.minecraft.resources.Identifier;
@@ -25,17 +25,15 @@ public class NativeImageUtils {
 		int gBase = (baseColor >>> 8) & 0xFF;
 		int bBase = baseColor & 0xFF;
 
-		int aTint = (tintColor >>> 24) & 0xFF;
 		int rTint = (tintColor >>> 16) & 0xFF;
 		int gTint = (tintColor >>> 8) & 0xFF;
 		int bTint = tintColor & 0xFF;
 
-		int a = aBase;
 		int r = (rBase * rTint) / 255;
 		int g = (gBase * gTint) / 255;
 		int b = (bBase * bTint) / 255;
 
-		return (clampColor(a) << 24)
+		return (clampColor(aBase) << 24)
 				| (clampColor(r) << 16)
 				| (clampColor(g) << 8)
 				| clampColor(b);
@@ -168,32 +166,6 @@ public class NativeImageUtils {
 		return new NativeImageAndColor(result, lastReferenceColor);
 	}
 
-//	public static Entry<Integer, List<Integer>> getBestNextReference(Entry<Integer, List<Integer>> currentEntry, ArrayList<Entry<Integer, List<Integer>>> entries) {
-//		for (int d = 0; d < currentEntry.getValue().size(); d++) {
-//			Map<Integer, Integer> map = new HashMap<>();
-//			int referenceColor = currentEntry.getValue().get(d);
-//
-//			for (int i = d+1; i < entries.size(); i++) {
-//				Entry<Integer, List<Integer>> entry = entries.get(i);
-//				for (Integer color : entry.getValue()) {
-//					boolean bl = ArgbUtils2.colorDistanceSquared(color, referenceColor) > 60 * 60;
-//					if (bl) {
-//						continue;
-//					}
-//					map.put(entry.getKey(), color);
-//					break;
-//				}
-//			}
-//
-//			if (!map.isEmpty()) {
-//				Integer keyColor = currentEntry.getKey();
-//				map.put(keyColor, referenceColor);
-//				resultMap.putAll(map);
-//				break;
-//			}
-//		}
-//	}
-
 	public static List<Integer> getBestPixelsByLuminance(NativeImage source, float targetLuminance, int fallbackColor) {
 		int width = source.getWidth();
 		int height = source.getHeight();
@@ -210,9 +182,6 @@ public class NativeImageUtils {
 				if (ArgbUtils2.getAlpha(color) == 0) {
 					continue;
 				}
-//				if (ArgbUtils2.isGrayscalePixel(color)) {
-//					continue;
-//				}
 				set.add(color);
 			}
 		}
@@ -228,29 +197,19 @@ public class NativeImageUtils {
 		return results;
 	}
 
-	private static long stableSeed(String value) {
-		long h = value.hashCode() & 0xffffffffL;
-		h ^= (h >>> 16);
-		h *= 0x7feb352dL;
-		h ^= (h >>> 15);
-		h *= 0x846ca68bL;
-		h ^= (h >>> 16);
-		return h;
-	}
-
 	public static NativeImage loadFromResource(Identifier id) {
 		Resource resource = Minecraft.getInstance().getResourceManager().getResource(id).orElse(null);
 		if (resource == null) {
 			AbstractTexture texture = Minecraft.getInstance().getTextureManager().byPath.get(id);
 
 			if (!(texture instanceof DynamicTexture backedTexture)) {
-				InventoryParticles.LOGGER.error("Failed to register mod's texture as a sprite in atlas! Failed to find texture even from TextureManager! Id: \"{}\", Texture Class: \"{}\"", id, texture == null ? "null" : texture.getClass().getSimpleName());
+				InventoryParticles.LOGGER.error("Failed to find texture from TextureManager! Id: \"{}\", Texture Class: \"{}\"", id, texture == null ? "null" : texture.getClass().getSimpleName());
 				return null;
 			}
 
 			NativeImage image = backedTexture.getPixels();
 			if (image == null) {
-				InventoryParticles.LOGGER.error("Failed to register mod's texture as a sprite in atlas! Found image in TextureManager, but it's null somehow!? Id: \"{}\"", id);
+				InventoryParticles.LOGGER.error("Found image in TextureManager, but it's null somehow!? Id: \"{}\"", id);
 				return null;
 			}
 
@@ -262,7 +221,7 @@ public class NativeImageUtils {
 		try {
 			return NativeImage.read(resource.open());
 		} catch (IOException e) {
-			InventoryParticles.LOGGER.error("Failed to load resource for mod's atlas:", e);
+			InventoryParticles.LOGGER.error("Failed to load image! Id: \"{}\", :", id, e);
 		}
 
 		return null;

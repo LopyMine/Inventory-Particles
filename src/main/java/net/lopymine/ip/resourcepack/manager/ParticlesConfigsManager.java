@@ -5,13 +5,13 @@ import com.mojang.serialization.Codec;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.misc.CachedItem;
 import net.lopymine.ip.config.particle.*;
-import net.lopymine.ip.element.color.StandardColorProvider;
 import net.lopymine.ip.element.mod.spawner.*;
 import net.lopymine.ip.element.predicate.nbt.NbtNodeMatch;
 import net.lopymine.ip.family.*;
@@ -21,7 +21,6 @@ import net.lopymine.ip.t2o.*;
 import net.lopymine.ip.utils.*;
 import net.lopymine.ip.utils.iac.RenderedItemImage;
 import net.lopymine.mossylib.logger.MossyLogger;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.*;
 import net.minecraft.resources.*;
 import net.minecraft.tags.TagKey;
@@ -35,116 +34,68 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 	private static final Map<Item, List<IParticleSpawner>> PER_ITEM_PARTICLE_SPAWNERS = new IdentityHashMap<>();
 	private static final Map<TagKey<Item>, List<IParticleSpawner>> PER_TAG_PARTICLE_SPAWNERS = new HashMap<>();
 
+	public static final AtomicInteger TOTAL_ITEMS = new AtomicInteger(-1);
+	public static final AtomicInteger LINKED_ITEMS = new AtomicInteger(-1);
+
 	private static final Map<Item, List<IParticleSpawner>> COMBINED_MAP = new IdentityHashMap<>();
 
 	private static final ParticlesConfigsManager INSTANCE = new ParticlesConfigsManager();
 
-	private ParticlesConfigsManager() {}
+	private ParticlesConfigsManager() {
+	}
 
 	public static ParticlesConfigsManager getInstance() {
 		return INSTANCE;
 	}
 
-	@Override
-	protected String getFolderName() {
-		return InventoryParticlesAtlasManager.FOLDER_ID.getPath();
-	}
-
-	@Override
-	protected Codec<ParticleConfig> getCodec() {
-		return ParticleConfig.CODEC;
-	}
-
-	@Override
-	protected String getConfigName() {
-		return "particle configs";
-	}
-
-	@Override
-	protected MossyLogger getLogger() {
-		return InventoryParticlesClient.LOGGER;
-	}
-
-	@Override
-	protected void registerConfig(ParticleConfig config, Identifier id) {
-		REGISTERED_CONFIGS.computeIfAbsent(id, (key) -> new ArrayList<>()).add(config);
-
-		for (ParticleHolder holder : config.getHolders()) {
-			ParticleSpawner spawner = holder.createSpawner(config::createParticle);
-			Either<CachedItem, Identifier> itemOrTag = holder.getItemOrTag();
-			itemOrTag.ifLeft((cachedItem) -> {
-				Item item = cachedItem.getItem();
-				registerItemSpawner(item, spawner);
-			});
-			itemOrTag.ifRight((tag) -> {
-				TagKey<Item> tagKey = TagKey.create(Registries.ITEM, tag);
-				registerItemSpawner(tagKey, spawner);
-			});
-		}
-	}
-
-	public void reload() {
-		REGISTERED_CONFIGS.clear();
-		PER_ITEM_PARTICLE_SPAWNERS.clear();
-		PER_TAG_PARTICLE_SPAWNERS.clear();
-		super.reload();
-		if (Minecraft.getInstance().level != null) {
-			updateCombinedMap();
-		}
-	}
-
-	private void registerItemSpawner(Item item, IParticleSpawner spawner) {
-		PER_ITEM_PARTICLE_SPAWNERS.computeIfAbsent(item, (i) -> new ArrayList<>()).add(spawner);
-	}
-
-	private void registerItemSpawner(TagKey<Item> item, IParticleSpawner spawner) {
-		PER_TAG_PARTICLE_SPAWNERS.computeIfAbsent(item, (i) -> new ArrayList<>()).add(spawner);
-	}
-
 	@SuppressWarnings("deprecation")
 	public static void updateCombinedMap() {
 		InventoryParticlesConfig.getInstance().getWhitelistsConfig().recompileAll();
-
 		COMBINED_MAP.clear();
-
 		Set<Entry<ResourceKey<Item>, Item>> entries = BuiltInRegistries.ITEM.entrySet();
-		CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
-			int index = 0;
-			for (Entry<ResourceKey<Item>, Item> entry : entries) {
-				System.out.println("%s / %s".formatted(index, entries.size()));
 
+		TOTAL_ITEMS.set(entries.size());
+		LINKED_ITEMS.set(-1);
+
+		boolean debug = Boolean.getBoolean("inventory_particles.debug_generate") || true;
+
+		CompletableFuture.runAsync(() -> {
+			InventoryParticles.LOGGER.info("Started linking particle configs for world items...");
+
+			LINKED_ITEMS.set(0);
+			for (Entry<ResourceKey<Item>, Item> entry : entries) {
 				Identifier identifier = entry.getKey().identifier();
 				Item item = entry.getValue();
 
 				List<IParticleSpawner> spawners = new ArrayList<>();
 
+				if (debug) {
+					List<IParticleSpawner> familyParticles = getFamilyParticles(identifier, item);
+					if (familyParticles != null) {
+						spawners.addAll(familyParticles);
+					}
+				} else {
+					List<IParticleSpawner> specificSpawners = PER_ITEM_PARTICLE_SPAWNERS.get(item);
+					if (specificSpawners != null) {
+						spawners.addAll(specificSpawners);
+					}
 
-				List<IParticleSpawner> familyParticles = getFamilyParticles(identifier, item);
-				if (familyParticles != null) {
-					spawners.addAll(familyParticles);
+					if (!identifier.getNamespace().equals("minecraft") || item instanceof BucketItem) {
+						spawners.addAll(item.builtInRegistryHolder()
+								.tags()
+								.map(PER_TAG_PARTICLE_SPAWNERS::get)
+								.filter(Objects::nonNull)
+								.flatMap(Collection::stream)
+								.toList());
+
+						List<IParticleSpawner> familyParticles = getFamilyParticles(identifier, item);
+						if (familyParticles != null) {
+							spawners.addAll(familyParticles);
+						}
+					}
 				}
 
-//			List<IParticleSpawner> specificSpawners = PER_ITEM_PARTICLE_SPAWNERS.get(item);
-//			if (specificSpawners != null) {
-//				spawners.addAll(specificSpawners);
-//			}
-//
-//			if (!identifier.getNamespace().equals("minecraft") || item instanceof BucketItem) {
-//				spawners.addAll(item.builtInRegistryHolder()
-//						.tags()
-//						.map(PER_TAG_PARTICLE_SPAWNERS::get)
-//						.filter(Objects::nonNull)
-//						.flatMap(Collection::stream)
-//						.toList());
-//
-//
-//				List<IParticleSpawner> familyParticles = getFamilyParticles(identifier, item);
-//				if (familyParticles != null) {
-//					spawners.addAll(familyParticles);
-//				}
-//			}
-
-				index++;
+				LINKED_ITEMS.incrementAndGet();
 
 				if (spawners.isEmpty()) {
 					continue;
@@ -152,8 +103,9 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 
 				COMBINED_MAP.put(item, spawners);
 			}
+			InventoryParticles.LOGGER.info("Finished linking particle configs for world items!");
 		}).exceptionally((e) -> {
-			e.printStackTrace();
+			InventoryParticlesClient.LOGGER.error("Failed to link particle configs for world items:", e);
 			return null;
 		});
 	}
@@ -165,7 +117,7 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 			return null;
 		}
 
-		FamilyParticleConfig config = family.get(0); // todo add priority
+		FamilyParticleConfig config = family.get(0);
 		List<IParticleSpawner> list = new ArrayList<>();
 
 		for (FamilyParticleData particle : config.getParticles()) {
@@ -246,6 +198,59 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 	@Nullable
 	public static List<IParticleSpawner> getSpawnersForItem(Item item) {
 		return COMBINED_MAP.get(item);
+	}
+
+	@Override
+	protected String getFolderName() {
+		return InventoryParticlesAtlasManager.FOLDER_ID.getPath();
+	}
+
+	@Override
+	protected Codec<ParticleConfig> getCodec() {
+		return ParticleConfig.CODEC;
+	}
+
+	@Override
+	protected String getConfigName() {
+		return "particle configs";
+	}
+
+	@Override
+	protected MossyLogger getLogger() {
+		return InventoryParticlesClient.LOGGER;
+	}
+
+	@Override
+	protected void registerConfig(ParticleConfig config, Identifier id) {
+		REGISTERED_CONFIGS.computeIfAbsent(id, (key) -> new ArrayList<>()).add(config);
+
+		for (ParticleHolder holder : config.getHolders()) {
+			ParticleSpawner spawner = holder.createSpawner(config::createParticle);
+			Either<CachedItem, Identifier> itemOrTag = holder.getItemOrTag();
+			itemOrTag.ifLeft((cachedItem) -> {
+				Item item = cachedItem.getItem();
+				registerItemSpawner(item, spawner);
+			});
+			itemOrTag.ifRight((tag) -> {
+				TagKey<Item> tagKey = TagKey.create(Registries.ITEM, tag);
+				registerItemSpawner(tagKey, spawner);
+			});
+		}
+	}
+
+	public void reload() {
+		REGISTERED_CONFIGS.clear();
+		PER_ITEM_PARTICLE_SPAWNERS.clear();
+		PER_TAG_PARTICLE_SPAWNERS.clear();
+		super.reload();
+	}
+
+	private void registerItemSpawner(Item item, IParticleSpawner spawner) {
+		PER_ITEM_PARTICLE_SPAWNERS.computeIfAbsent(item, (i) -> new ArrayList<>()).add(spawner);
+	}
+
+	private void registerItemSpawner(TagKey<Item> item, IParticleSpawner spawner) {
+		PER_TAG_PARTICLE_SPAWNERS.computeIfAbsent(item, (i) -> new ArrayList<>()).add(spawner);
 	}
 
 }

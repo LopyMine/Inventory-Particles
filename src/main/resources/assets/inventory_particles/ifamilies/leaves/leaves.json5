@@ -19,11 +19,7 @@
 			"nbt_conditions": []
 		}
 	],
-	"family_groups": [
-		"leaves"
-	],
-	"compatible": [
-		"leaves"
-	],
+	"family_groups": [],
+	"compatible": false,
 	"priority": 1000
 }

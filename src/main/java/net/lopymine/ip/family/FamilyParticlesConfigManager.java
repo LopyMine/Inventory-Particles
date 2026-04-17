@@ -57,7 +57,7 @@ public class FamilyParticlesConfigManager extends AbstractConfigsManager<FamilyP
 		this.registeredConfigs.clear();
 		super.reload();
 		this.getFallbackConfig();
-		this.registeredConfigs.sort(Comparator.comparingInt(FamilyParticleConfig::getPriority));
+		this.registeredConfigs.sort(Comparator.comparingInt(FamilyParticleConfig::getPriority).reversed());
 	}
 
 	@NotNull

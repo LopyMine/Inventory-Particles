@@ -82,6 +82,9 @@
 	"${mod_id}.modmenu.option.fade_out_duration.name": "Длительность исчезновения после удаления частиц",
 	"${mod_id}.modmenu.option.fade_out_duration.description": "Длительность в тиках для эффекта плавного исчезновения частиц после её удаления при достижении лимита частиц. Если 0, эффект отключён.",
 
+	"${mod_id}.particles_linking.title": "Привязывание частиц к предметам",
+	"${mod_id}.particles_linking.loading": "Прогресс: %s / %s",
+
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.true": "Включено",
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.false": "Выключено"
 }

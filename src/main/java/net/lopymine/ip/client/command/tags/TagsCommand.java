@@ -22,7 +22,7 @@ import net.minecraft.resources.*;
 import net.minecraft.tags.TagKey;
 
 import net.minecraft.world.item.Item;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.*;
 import static net.lopymine.mossylib.utils.CommandUtils.argument;
 import static net.lopymine.mossylib.utils.CommandUtils.literal;
 

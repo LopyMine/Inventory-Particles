@@ -4,13 +4,18 @@
 		"bottle",
 		"potion"
 	],
-	"tags": [
-		"c:glass_blocks/colorless",
-		"c:clear_glass_panes",
-		"c:clear_glass_slabs",
-		"c:clear_glass_stairs",
-		"c:clear_glass_blocks"
-	],
+	"tags": {
+		"whitelist": [
+			"c:glass_blocks/colorless",
+			"c:clear_glass_panes",
+			"c:clear_glass_slabs",
+			"c:clear_glass_stairs",
+			"c:clear_glass_blocks"
+		],
+		"blacklist": [
+			"c:dyed"
+		]
+	},
 	"particles": [
 		{
 			"id": "glint/glass_glint0",
@@ -33,5 +38,5 @@
 	],
 	"family_groups": [],
 	"compatible": false,
-	"priority": 1000
+	"priority": 1600
 }

@@ -82,6 +82,9 @@
 	"${mod_id}.modmenu.option.fade_out_duration.name": "Particle Deletion Fade Out Duration",
 	"${mod_id}.modmenu.option.fade_out_duration.description": "Duration in ticks for smooth particle fade out effect after reaching the maximum particle limit. If set to 0, particles will be removed immediately without fading.",
 
+	"${mod_id}.particles_linking.title": "Linking Particles To Items",
+	"${mod_id}.particles_linking.loading": "Progress: %s / %s",
+
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.true": "Enabled",
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.false": "Disabled"
 }

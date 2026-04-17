@@ -1,19 +1,22 @@
 package net.lopymine.ip.mixin;
 
-import com.mojang.datafixers.util.Pair;
+import com.llamalad7.mixinextras.injector.wrapoperation.*;
+import com.mojang.blaze3d.systems.RenderSystem;
 import java.util.*;
 import java.util.Map.Entry;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.sub.InventoryParticlesMainConfig;
 import net.lopymine.ip.element.mod.InventoryCursor;
+import net.lopymine.ip.family.gui.ParticlesLinkingInfo;
 import net.lopymine.ip.renderer.InventoryParticlesRenderer;
 import net.lopymine.ip.utils.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.world.item.Item;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner;
+import net.minecraft.util.FormattedCharSequence;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.At.Shift;
@@ -111,6 +114,7 @@ public class ScreenMixin {
 		}
 
 
+		ParticlesLinkingInfo.render(context, this.width - 5 - 8, 5, mouseX, mouseY);
 		InventoryParticlesRenderer.getInstance().render(context, tickProgress);
 		if (!config.isDebugModeEnabled()) {
 			return;

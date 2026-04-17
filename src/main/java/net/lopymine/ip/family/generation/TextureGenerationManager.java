@@ -19,6 +19,8 @@ import net.minecraft.world.item.Item;
 
 public class TextureGenerationManager {
 
+	private static final List<NativeImage> ALL_GENERATED_TEXTURES = new ArrayList<>();
+
 	public static GeneratedTextures colorizeWithDominantColor(RenderedItemImage renderedItemImage, ArrayList<Identifier> textures) {
 		ArrayList<ITexture> list = new ArrayList<>();
 		ArrayList<Integer> colorsList = new ArrayList<>();
@@ -92,11 +94,15 @@ public class TextureGenerationManager {
 					NativeImageAndColor replaced = NativeImageUtils.luminanceReplace(nativeImage, renderedItemImage.getImage(), item);
 					NativeImage replacedImage = replaced.image();
 
+					ALL_GENERATED_TEXTURES.add(replacedImage);
+
 					Identifier location = texture.withPrefix(itemId.getPath() + "/");
 					Minecraft.getInstance().getTextureManager().register(
 							location,
 							new DynamicTexture(location::toString, replacedImage)
 					);
+
+					debugUpload(renderedItemImage.getImage(), location);
 
 					DirectTexture directTexture = new DirectTexture(
 							location,
@@ -127,13 +133,20 @@ public class TextureGenerationManager {
 	}
 
 	private static void debugUpload(NativeImage replaced, Identifier location) {
-		Util.ioPool().execute(() -> {
-			try {
-				replaced.writeToFile(FabricLoader.getInstance().getConfigDir().resolve("images").resolve(location.getPath().replace("/", "_") + ".png"));
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		});
+//		Util.ioPool().execute(() -> {
+//			try {
+//				replaced.writeToFile(FabricLoader.getInstance().getConfigDir().resolve("images").resolve(location.getPath().replace("/", "_") + ".png"));
+//			} catch (IOException e) {
+//				throw new RuntimeException(e);
+//			}
+//		});
+	}
+
+	public static void clear() {
+		for (NativeImage texture : ALL_GENERATED_TEXTURES) {
+			texture.close();
+		}
+		ALL_GENERATED_TEXTURES.clear();
 	}
 
 	public record GenerationResult<T>(T object, Integer color) {}
