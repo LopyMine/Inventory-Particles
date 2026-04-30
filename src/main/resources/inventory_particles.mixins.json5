@@ -5,13 +5,31 @@
 	"compatibilityLevel": "JAVA_${java}",
 	"mixins": [],
 	"client": [
+		//? if >=1.21.5 {
+		"family.ScreenshotMixin",
+		//?}
+		//? if 1.21.5 {
+		/*"family.CompositeRenderTypeMixin",
+		*///?}
+
+		//? if <=1.21.4 {
+		/*"family.MinecraftMixin",
+		*///?}
+
+		//? if neoforge {
+		/*"neoforge.ClientPacketListenerMixin",
+		*///?}
+
+		//? if forge {
+		/*"forge.ClientPacketListenerMixin",
+		*///?}
+
 		"AtlasLoaderMixin",
 		"HandledScreenMixin",
 		"MinecraftClientMixin",
 		"ScreenHandlerMixin",
 		"ScreenMixin",
-		"MouseMixin",
-		"family.ScreenshotMixin"
+		"MouseMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

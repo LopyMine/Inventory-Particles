@@ -11,11 +11,7 @@ public class FamilyParticlesManager {
 
 	public static List<FamilyParticleConfig> getFamily(Item item) {
 		List<FamilyParticleConfig> data = getFamiliesByItemData(item);
-
-		if (data.isEmpty()) {
-			data.add(FamilyParticlesConfigManager.getInstance().getFallbackConfig());
-		}
-
+		data.add(FamilyParticlesConfigManager.getInstance().getFallbackConfig());
 		return data;
 	}
 
@@ -49,8 +45,8 @@ public class FamilyParticlesManager {
 		return configs;
 	}
 
-	private static boolean matchKeywords(Identifier id, ArrayList<String> list) {
-		String path = id.getPath();
+	private static boolean matchKeywords(Identifier itemId, ArrayList<String> list) {
+		String path = itemId.getPath();
 		String[] keys = path.split("_");
 
 		for (String key : keys) {
@@ -68,8 +64,9 @@ public class FamilyParticlesManager {
 		return false;
 	}
 
-	private static boolean matchTags(Identifier id, ArrayList<String> list) {
-		List<String> tags = TagsCommand.getTags(id);
+	private static boolean matchTags(Identifier itemId, ArrayList<String> list) {
+		String path = itemId.getPath();
+		List<String> tags = TagsCommand.getTags(itemId);
 		if (tags == null) {
 			return false;
 		}
@@ -80,11 +77,29 @@ public class FamilyParticlesManager {
 			}
 		}
 
+		for (String tag : tags) {
+			if (tag.startsWith("@") && path.contains(tag.substring(1))) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 
-	private static boolean matchNamespaces(Identifier id, ArrayList<String> list) {
-		return list.contains(id.getNamespace());
+	private static boolean matchNamespaces(Identifier itemId, ArrayList<String> list) {
+		String namespace = itemId.getNamespace();
+
+		if (list.contains(namespace)) {
+			return true;
+		}
+
+		for (String n : list) {
+			if (n.startsWith("@") && namespace.contains(n.substring(1))) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

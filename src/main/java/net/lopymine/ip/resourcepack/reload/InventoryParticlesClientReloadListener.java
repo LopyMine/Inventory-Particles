@@ -1,6 +1,6 @@
 package net.lopymine.ip.resourcepack.reload;
 
-import java.util.concurrent.Executor;
+import java.util.concurrent.*;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.family.*;
@@ -20,8 +20,8 @@ public class InventoryParticlesClientReloadListener extends AbstractResourceRelo
 
 	@Override
 	protected void reloadStuff(PreparationBarrier barrier, ResourceManager manager, Executor prepareExecutor, Executor applyExecutor) {
-		TextureGenerationManager.clear();
 		ITextureProvider.clear();
+		TextureGenerationManager.clear();
 
 		InventoryParticlesAtlasManager.getInstance().reload(barrier, manager, prepareExecutor, applyExecutor);
 		ParticlesConfigsManager.getInstance().reload();

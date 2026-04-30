@@ -13,12 +13,13 @@ import net.lopymine.ip.element.predicate.nbt.*;
 import net.lopymine.ip.element.texture.*;
 import net.lopymine.ip.family.generation.TextureGenerationManager;
 import net.lopymine.ip.utils.iac.RenderedItemImage;
-import net.lopymine.mossylib.utils.CodecUtils;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.*;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
+import static com.mojang.serialization.Codec.BOOL;
 import static com.mojang.serialization.codecs.RecordCodecBuilder.create;
+import static net.lopymine.mossylib.utils.CodecUtils.*;
 import static net.lopymine.mossylib.utils.CodecUtils.option;
 
 @Getter
@@ -31,7 +32,8 @@ public class FamilyParticleData {
 	public static final Codec<FamilyParticleData> ADVANCED_CODEC = create((instance) -> instance.group(
 			option("id", NO_PARTICLE_ID, Identifier.CODEC, FamilyParticleData::getId),
 			option("textures", new ArrayList<>(), Identifier.CODEC, FamilyParticleData::getTextures),
-			option("texture_generation_mode", TextureGenerationMode.ORIGINAL, TextureGenerationMode.CODEC, FamilyParticleData::getTextureGenerationMode),
+			option("texture_generation_mode", TextureGenerationMode.getNewInstance(), TextureGenerationMode.CODEC, FamilyParticleData::getTextureGenerationMode),
+			option("texture_extract_mode", TextureExtractMode.ITEM, TextureExtractMode.CODEC, FamilyParticleData::getTextureExtractMode),
 			option("nbt_conditions_match", NbtNodeMatch.ANY, NbtNodeMatch.CODEC, FamilyParticleData::getMatch),
 			option("nbt_conditions", new HashSet<>(), NbtNode.CODEC, FamilyParticleData::getNbtCondition),
 			option("spawn_count", new IntegerRange(1, 20), IntegerRange.CODEC, FamilyParticleData::getSpawnCount),
@@ -52,6 +54,7 @@ public class FamilyParticleData {
 	private Identifier id;
 	private ArrayList<Identifier> textures;
 	private TextureGenerationMode textureGenerationMode;
+	private TextureExtractMode textureExtractMode;
 
 	private NbtNodeMatch match;
 	private HashSet<NbtNode> nbtCondition;
@@ -60,27 +63,54 @@ public class FamilyParticleData {
 	private IColorProvider colorProvider;
 	private double speedCoefficient;
 
+	@NotNull
 	public GeneratedTextures getGeneratedTextures(RenderedItemImage renderedItemImage, Identifier itemId, Item item) {
-		return switch (this.textureGenerationMode) {
-			case ORIGINAL -> new GeneratedTextures(new ArrayList<>(), new ArrayList<>());
-			case LUMINANCE_REPLACE -> TextureGenerationManager.luminanceReplace(renderedItemImage, itemId, item, this.textures);
-			case COLORIZE_WITH_DOMINANT_COLOR -> TextureGenerationManager.colorizeWithDominantColor(renderedItemImage, this.textures);
-		};
+		if (this.textures.isEmpty()) {
+			return new GeneratedTextures(new ArrayList<>(), new ArrayList<>());
+		}
+		if (this.textureGenerationMode.isDisabled()) {
+			return new GeneratedTextures(new ArrayList<>(), new ArrayList<>());
+		}
+		return TextureGenerationManager.generateWithReplace(renderedItemImage, itemId, item, this.textures, this.textureGenerationMode);
 	}
 
 	public static Supplier<FamilyParticleData> getNewInstance() {
-		return () -> CodecUtils.parseNewInstanceHacky(CODEC);
+		return () -> parseNewInstanceHacky(CODEC);
 	}
 
 	public record GeneratedTextures(ArrayList<ITexture> textures, ArrayList<Integer> colors) {}
 
-	public enum TextureGenerationMode implements StringRepresentable {
+	@Getter
+	@Setter
+	@AllArgsConstructor
+	public static class TextureGenerationMode {
 
-		ORIGINAL,
-		COLORIZE_WITH_DOMINANT_COLOR,
-		LUMINANCE_REPLACE;
+		public static final Codec<TextureGenerationMode> CODEC = create((instance) -> instance.group(
+				option("luminance", false, Codec.BOOL, TextureGenerationMode::isLuminance),
+				option("saturation", false, Codec.BOOL, TextureGenerationMode::isSaturation),
+				option("frequency", false, Codec.BOOL, TextureGenerationMode::isFrequency)
+		).apply(instance, TextureGenerationMode::new));
 
-		public static final Codec<TextureGenerationMode> CODEC = StringRepresentable.fromEnum(TextureGenerationMode::values);
+		private boolean luminance;
+		private boolean saturation;
+		private boolean frequency;
+
+		public boolean isDisabled() {
+			return !this.luminance && !this.saturation && !this.frequency;
+		}
+
+		public static Supplier<TextureGenerationMode> getNewInstance() {
+			return () -> parseNewInstanceHacky(CODEC);
+		}
+
+	}
+
+	public enum TextureExtractMode implements StringRepresentable {
+
+		ITEM,
+		FLUID;
+
+		public static final Codec<TextureExtractMode> CODEC = StringRepresentable.fromEnum(TextureExtractMode::values);
 
 		@NotNull
 		@Override

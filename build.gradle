@@ -67,6 +67,11 @@ stonecutter {
 		replace("graphics.drawString(", "graphics.text(")
 		replace("graphics.renderItem(", "graphics.item(")
 		replace("ClickType", "ContainerInput")
+		replace("atlas.location()", "atlas.location()")
+	}
+
+	replacements.string(current.parsed >= "1.21.11") {
+		replace("import net.minecraft.Util;", "import net.minecraft.util.Util;")
 	}
 }
 

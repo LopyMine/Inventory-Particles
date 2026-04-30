@@ -11,7 +11,11 @@
 				"inventory_particles:leaves/leaves_1.png",
 				"inventory_particles:leaves/leaves_2.png"
 			],
-			"texture_generation_mode": "luminance_replace",
+			"texture_generation_mode": {
+				"luminance": true,
+				"saturation": false,
+				"frequency": false
+			},
 			"spawn_count": [0, 5],
 			"spawn_frequency": [10, 40],
 			"speed_coefficient": 0.4,

@@ -85,7 +85,7 @@ public class ParticleHolder {
 	private double speedCoefficient;
 
 	public ParticleSpawner createSpawner(Function<ParticleSpawnContext, InventoryParticle> function) {
-		return new ParticleSpawner(
+		return new  ParticleSpawner(
 				this.spawnArea,
 				this.spawnCount,
 				this.spawnFrequency,

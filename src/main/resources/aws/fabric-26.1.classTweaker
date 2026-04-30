@@ -9,3 +9,5 @@ accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScr
 
 accessible field net/minecraft/client/renderer/texture/TextureManager byPath Ljava/util/Map;
 accessible field net/minecraft/client/renderer/texture/SpriteContents originalImage Lcom/mojang/blaze3d/platform/NativeImage;
+
+accessible method net/minecraft/client/renderer/texture/SpriteLoader stitch (Ljava/util/List;ILjava/util/concurrent/Executor;)Lnet/minecraft/client/renderer/texture/SpriteLoader$Preparations;

@@ -7,3 +7,8 @@ accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScr
 accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScreen topPos I
 
 accessible method net/minecraft/client/renderer/texture/MissingTextureAtlasSprite generateMissingImage (II)Lcom/mojang/blaze3d/platform/NativeImage;
+
+accessible field net/minecraft/client/renderer/texture/TextureManager byPath Ljava/util/Map;
+
+accessible field net/minecraft/world/item/BucketItem content Lnet/minecraft/world/level/material/Fluid;
+accessible field net/minecraft/client/renderer/texture/SpriteContents originalImage Lcom/mojang/blaze3d/platform/NativeImage;

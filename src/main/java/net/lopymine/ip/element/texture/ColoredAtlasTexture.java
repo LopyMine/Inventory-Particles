@@ -14,7 +14,7 @@ public class ColoredAtlasTexture extends AtlasTexture {
 
 	private Function<Integer, Integer> color;
 
-	public ColoredAtlasTexture(@Nullable TextureAtlasSprite sprite,  Function<Integer, Integer> color) {
+	public ColoredAtlasTexture(@Nullable TextureAtlasSprite sprite, Function<Integer, Integer> color) {
 		super(sprite);
 		this.color = color;
 	}

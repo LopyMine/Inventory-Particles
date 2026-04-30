@@ -57,7 +57,11 @@
 				"inventory_particles:piece/food/piece_1.png",
 				"inventory_particles:piece/food/piece_2.png"
 			],
-			"texture_generation_mode": "luminance_replace",
+			"texture_generation_mode": {
+				"luminance": true,
+				"saturation": false,
+				"frequency": false
+			},
 			"spawn_count": [0, 2],
 			"spawn_frequency": [10, 40],
 			"speed_coefficient": 0.1,

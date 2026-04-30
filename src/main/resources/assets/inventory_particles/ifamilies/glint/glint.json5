@@ -27,20 +27,34 @@
 			"nugget",
 			"gold",
 			"redstone",
+			"emerald",
 			"iron",
+			"silver",
+			"platinum",
+			"steel",
+			"bronze",
+			"aluminum",
+			"artifact",
+			"cobalt",
 			"gem",
 			"crystal",
 			"amethyst",
 			"diamond",
-			"ore"
+			"ore",
+			"rod",
+			"ruby",
+			"sapphire",
+			"bucket"
 		],
 		"blacklist": [
 			"wood",
 			"wooden",
 			"stone",
+			"leather"
 		]
 	},
 	"tags": [
+		"c:buckets",
 		"c:tools",
 		"c:armors",
 		"c:chains"
@@ -55,7 +69,11 @@
 				"inventory_particles:glint/glint0_3.png",
 				"inventory_particles:glint/glint0_4.png"
 			],
-			"texture_generation_mode": "luminance_replace",
+			"texture_generation_mode": {
+				"luminance": true,
+				"saturation": false,
+				"frequency": false
+			},
 			"spawn_count": [0, 4],
 			"spawn_frequency": [10, 40],
 			"speed_coefficient": 0.1,
@@ -71,7 +89,11 @@
 				"inventory_particles:glint/glint1_3.png",
 				"inventory_particles:glint/glint1_4.png"
 			],
-			"texture_generation_mode": "luminance_replace",
+			"texture_generation_mode": {
+				"luminance": true,
+				"saturation": false,
+				"frequency": false
+			},
 			"spawn_count": [0, 4],
 			"spawn_frequency": [10, 40],
 			"speed_coefficient": 0.1,

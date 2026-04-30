@@ -17,7 +17,11 @@
 				"inventory_particles:dust/dust_1.png",
 				"inventory_particles:dust/dust_2.png"
 			],
-			"texture_generation_mode": "luminance_replace",
+			"texture_generation_mode": {
+				"luminance": true,
+				"saturation": true,
+				"frequency": true
+			},
 			"spawn_count": [0, 2],
 			"spawn_frequency": [10, 20],
 			"speed_coefficient": 0.25,

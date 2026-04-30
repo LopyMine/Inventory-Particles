@@ -69,47 +69,49 @@ public class ScreenMixin {
 		/*float tickProgress = Minecraft.getInstance().getFrameTime();
 		 *///?}
 
-		InventoryCursor cursor = InventoryParticlesRenderer.getInstance().getCursor();
+		if (InventoryParticlesConfig.getInstance().getMainConfig().isDebugModeEnabled()) {
+			InventoryCursor cursor = InventoryParticlesRenderer.getInstance().getCursor();
 
-		Map<Integer, List<Integer>> map = NativeImageUtils.LIST.get(cursor.getCurrentStack().getItem());
-		Map<Integer, Integer> map2 = NativeImageUtils.MAP2.get(cursor.getCurrentStack().getItem());
+			Map<Integer, List<Integer>> map = NativeImageUtils.LIST.get(cursor.getCurrentStack().getItem());
+			Map<Integer, Integer> map2 = NativeImageUtils.MAP2.get(cursor.getCurrentStack().getItem());
 
-		if (map != null) {
-			int xOffset = 0;
-			for (Entry<Integer, List<Integer>> entry : map.entrySet()) {
-				Integer color = entry.getKey();
+			if (map != null) {
+				int xOffset = 0;
+				for (Entry<Integer, List<Integer>> entry : map.entrySet()) {
+					Integer color = entry.getKey();
 
-				Font font = Minecraft.getInstance().font;
-				String s = String.valueOf(ArgbUtils2.getRed(color));
-				context.text(font, s, 100 + (xOffset * 4) - (font.width(s) / 2), 10, -1);
+					Font font = Minecraft.getInstance().font;
+					String s = String.valueOf(ArgbUtils2.getRed(color));
+					context.text(font, s, 100 + (xOffset * 4) - (font.width(s) / 2), 10, -1);
 
-				context.fill(10 + xOffset, 20, 14 + xOffset, 24, color);
+					context.fill(10 + xOffset, 20, 14 + xOffset, 24, color);
 
-				for (int i = 0; i < entry.getValue().size(); i++) {
-					int y = 10 + 28 + (6 * i);
-					Integer col = entry.getValue().get(i);
+					for (int i = 0; i < entry.getValue().size(); i++) {
+						int y = 10 + 28 + (6 * i);
+						Integer col = entry.getValue().get(i);
 
-					Integer c = map2.get(color);
-					if (c != null && c.equals(col)) {
-						context.fillGradient(10 + xOffset - 1, y - 1, 14 + xOffset + 1, y + 4 + 1, ArgbUtils2.getArgb(255, 255, 0, 0), ArgbUtils2.getArgb(255, 0, 0, 255));
+						Integer c = map2.get(color);
+						if (c != null && c.equals(col)) {
+							context.fillGradient(10 + xOffset - 1, y - 1, 14 + xOffset + 1, y + 4 + 1, ArgbUtils2.getArgb(255, 255, 0, 0), ArgbUtils2.getArgb(255, 0, 0, 255));
 
-						String ss1 = String.valueOf("A " + ArgbUtils2.getAlpha(col));
-						context.text(font, ss1, 100 + (xOffset * 6) - (font.width(ss1) / 2), 20 + 20, -1);
+							String ss1 = String.valueOf("A " + ArgbUtils2.getAlpha(col));
+							context.text(font, ss1, 100 + (xOffset * 6) - (font.width(ss1) / 2), 20 + 20, -1);
 
-						String ss2 = String.valueOf("R " + ArgbUtils2.getRed(col));
-						context.text(font, ss2, 100 + (xOffset * 6) - (font.width(ss2) / 2), 30+ 20, -1);
+							String ss2 = String.valueOf("R " + ArgbUtils2.getRed(col));
+							context.text(font, ss2, 100 + (xOffset * 6) - (font.width(ss2) / 2), 30+ 20, -1);
 
-						String ss3 = String.valueOf("G " + ArgbUtils2.getGreen(col));
-						context.text(font, ss3, 100 + (xOffset * 6) - (font.width(ss3) / 2), 40+ 20, -1);
+							String ss3 = String.valueOf("G " + ArgbUtils2.getGreen(col));
+							context.text(font, ss3, 100 + (xOffset * 6) - (font.width(ss3) / 2), 40+ 20, -1);
 
-						String ss4 = String.valueOf("B " + ArgbUtils2.getBlue(col));
-						context.text(font, ss4, 100 + (xOffset * 6) - (font.width(ss4) / 2), 50+ 20, -1);
+							String ss4 = String.valueOf("B " + ArgbUtils2.getBlue(col));
+							context.text(font, ss4, 100 + (xOffset * 6) - (font.width(ss4) / 2), 50+ 20, -1);
+						}
+
+						context.fill(10 + xOffset, y, 14 + xOffset, y + 4, col);
 					}
 
-					context.fill(10 + xOffset, y, 14 + xOffset, y + 4, col);
+					xOffset+=6;
 				}
-
-				xOffset+=6;
 			}
 		}
 

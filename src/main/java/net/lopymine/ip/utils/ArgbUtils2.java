@@ -4,6 +4,25 @@ import net.minecraft.util.*;
 
 public class ArgbUtils2 {
 
+	public static float getSaturation(int argb) {
+		int r = (argb >> 16) & 0xFF;
+		int g = (argb >> 8) & 0xFF;
+		int b = argb & 0xFF;
+
+		float rf = r / 255f;
+		float gf = g / 255f;
+		float bf = b / 255f;
+
+		float max = Math.max(rf, Math.max(gf, bf));
+		float min = Math.min(rf, Math.min(gf, bf));
+
+		if (max == 0f) {
+			return 0f;
+		}
+
+		return (max - min) / max;
+	}
+
 	public static int lerp(float progress, int first, int second) {
 		int alpha = Mth.lerpInt(progress, getAlpha(first), getAlpha(second));
 		int red = Mth.lerpInt(progress, getRed(first), getRed(second));

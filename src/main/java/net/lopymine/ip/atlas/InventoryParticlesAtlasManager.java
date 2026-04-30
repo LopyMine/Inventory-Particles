@@ -3,6 +3,7 @@ package net.lopymine.ip.atlas;
 import java.util.Set;
 import java.util.concurrent.*;
 import net.lopymine.ip.InventoryParticles;
+import net.lopymine.ip.family.atlas.manager.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.*;
 import net.minecraft.resources.Identifier;
@@ -53,6 +54,9 @@ public class InventoryParticlesAtlasManager {
 		}
 		if (atlasId == null || atlasId == ATLAS_ID) {
 			return this.atlas.getSprite(id);
+		}
+		if (atlasId == FamilyParticlesAtlasManager.ATLAS_ID) {
+			return FamilyParticlesAtlasManager.getSprite(id);
 		}
 		return OtherAtlasManager.getSprite(id, atlasId, this.getMissingSprite());
 	}

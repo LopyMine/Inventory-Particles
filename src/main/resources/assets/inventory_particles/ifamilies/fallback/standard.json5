@@ -10,7 +10,11 @@
 				"inventory_particles:fallback/standard_4.png",
 				"inventory_particles:fallback/standard_5.png"
 			],
-			"texture_generation_mode": "luminance_replace",
+			"texture_generation_mode": {
+				"luminance": true,
+				"saturation": false,
+				"frequency": false
+			},
 			"spawn_count": [0, 1],
 			"spawn_frequency": [40, 60],
 			"speed_coefficient": 0.2,

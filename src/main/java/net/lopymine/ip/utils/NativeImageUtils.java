@@ -1,12 +1,14 @@
 package net.lopymine.ip.utils;
 
 import com.mojang.blaze3d.platform.NativeImage;
-import com.mojang.datafixers.util.Pair;
 import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import lombok.experimental.ExtensionMethod;
 import net.lopymine.ip.InventoryParticles;
+import net.lopymine.ip.extension.NativeImageExtension;
+import net.lopymine.ip.family.FamilyParticleData.TextureGenerationMode;
 import net.lopymine.mossylib.utils.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.*;
@@ -14,6 +16,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.item.Item;
 
+@ExtensionMethod(NativeImageExtension.class)
 public class NativeImageUtils {
 
 	public static final Map<Item, Map<Integer, List<Integer>>> LIST = new ConcurrentHashMap<>();
@@ -43,7 +46,7 @@ public class NativeImageUtils {
 		return Math.max(0, Math.min(255, v));
 	}
 
-	public static NativeImageAndColor luminanceReplace(NativeImage image, NativeImage source, Item id) {
+	public static NativeImageAndColor generateWithReplace(NativeImage image, NativeImage source, Item id, TextureGenerationMode textureGenerationMode) {
 		int width = image.getWidth();
 		int height = image.getHeight();
 
@@ -56,14 +59,14 @@ public class NativeImageUtils {
 
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				int imagePixel = image.getPixel(x, y);
+				int imagePixel = image.getPixelArgb(x, y);
 				if (ArgbUtils.getAlpha(imagePixel) == 0) {
 					continue;
 				}
 				if (pixelAndColors.get(imagePixel) != null) {
 					continue;
 				}
-				List<Integer> pixels = getBestPixelsByLuminance(source, ArgbUtils2.luminance(imagePixel), imagePixel);
+				List<Integer> pixels = getBestPixelsByLuminance(source, ArgbUtils2.luminance(imagePixel), imagePixel, textureGenerationMode);
 				List<Integer> value = pixels.isEmpty() ? List.of(imagePixel) : pixels;
 				pixelAndColors.put(imagePixel, value);
 
@@ -72,30 +75,30 @@ public class NativeImageUtils {
 			}
 		}
 
-		ArrayList<Entry<Integer, List<Integer>>> entries = new ArrayList<>(pixelAndColors.entrySet());
-		if (entries.isEmpty()) {
+		ArrayList<Entry<Integer, List<Integer>>> templateColorAndBestPixels = new ArrayList<>(pixelAndColors.entrySet());
+		if (templateColorAndBestPixels.isEmpty()) {
 			return new NativeImageAndColor(result, -1);
 		}
 
 		Comparator<Entry<Integer, List<Integer>>> sort = Comparator.<Entry<Integer, List<Integer>>>comparingDouble(
 				(e) -> ArgbUtils2.luminance(e.getKey())
 		).reversed();
-		entries.sort(sort);
+		templateColorAndBestPixels.sort(sort);
 
 		Map<Integer, Integer> resultMap = new HashMap<>();
 		int lastReferenceColor = -1;
 		Set<Integer> lastColors = new HashSet<>();
 
-		Entry<Integer, List<Integer>> first = entries.get(0);
-		if (entries.size() >= 2) {
+		Entry<Integer, List<Integer>> first = templateColorAndBestPixels.get(0);
+		if (templateColorAndBestPixels.size() >= 2) {
 			for (int d = 0; d < first.getValue().size(); d++) {
 				Map<Integer, Integer> map = new HashMap<>();
 				int referenceColor = first.getValue().get(d);
 				lastReferenceColor = referenceColor;
 				lastColors.add(referenceColor);
 
-				for (int i = 1; i < entries.size(); i++) {
-					Entry<Integer, List<Integer>> entry = entries.get(i);
+				for (int i = 1; i < templateColorAndBestPixels.size(); i++) {
+					Entry<Integer, List<Integer>> entry = templateColorAndBestPixels.get(i);
 
 					int maxDistance = 442;
 					int distance = 35;
@@ -126,7 +129,7 @@ public class NativeImageUtils {
 					}
 				}
 
-				if (map.size() == entries.size() - 1) {
+				if (map.size() == templateColorAndBestPixels.size() - 1) {
 					resultMap.put(first.getKey(), referenceColor);
 					resultMap.putAll(map);
 					break;
@@ -150,7 +153,7 @@ public class NativeImageUtils {
 
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				int imagePixel = image.getPixel(x, y);
+				int imagePixel = image.getPixelArgb(x, y);
 				if (ArgbUtils.getAlpha(imagePixel) == 0) {
 					continue;
 				}
@@ -159,14 +162,14 @@ public class NativeImageUtils {
 					System.out.println("bruh");
 					continue;
 				}
-				result.setPixel(x, y, color);
+				result.setPixelArgb(x, y, color);
 			}
 		}
 
 		return new NativeImageAndColor(result, lastReferenceColor);
 	}
 
-	public static List<Integer> getBestPixelsByLuminance(NativeImage source, float targetLuminance, int fallbackColor) {
+	public static List<Integer> getBestPixelsByLuminance(NativeImage source, float targetLuminance, int fallbackColor, TextureGenerationMode textureGenerationMode) {
 		int width = source.getWidth();
 		int height = source.getHeight();
 
@@ -174,27 +177,101 @@ public class NativeImageUtils {
 			return List.of(fallbackColor);
 		}
 
-		Set<Integer> set = new HashSet<>();
+		int groupDifference = 12;
 
-		for (int x = 0; x < source.getWidth(); x++) {
-			for (int y = 0; y < source.getHeight(); y++) {
-				int color = source.getPixel(x, y);
+		Map<Integer, ColorCluster> clusters = new HashMap<>();
+
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				int color = source.getPixelArgb(x, y);
 				if (ArgbUtils2.getAlpha(color) == 0) {
 					continue;
 				}
-				set.add(color);
+
+				int key = createClusterKey(color, groupDifference);
+
+				ColorCluster cluster = clusters.computeIfAbsent(key, k -> new ColorCluster(textureGenerationMode));
+				cluster.add(color);
 			}
 		}
 
-		if (set.isEmpty()) {
+		if (clusters.isEmpty()) {
 			return List.of(fallbackColor);
 		}
 
-		ArrayList<Integer> results = new ArrayList<>(set);
+		ArrayList<ColorCluster> sortClusters = new ArrayList<>(clusters.values());
+		for (ColorCluster cluster : sortClusters) {
+			cluster.calcScore(targetLuminance);
+		}
 
-		results.sort(Comparator.comparingDouble(c -> Math.abs(ArgbUtils2.luminance(c) - targetLuminance)));
+		sortClusters.sort(Comparator.comparingDouble((ColorCluster c) -> c.score).reversed());
 
-		return results;
+		ArrayList<Integer> result = new ArrayList<>(sortClusters.size());
+		for (ColorCluster cluster : sortClusters) {
+			result.add(cluster.representativeColor);
+		}
+
+		return result;
+	}
+
+	private static int createClusterKey(int color, int bucketSize) {
+		int red = ArgbUtils.getRed(color);
+		int green = ArgbUtils.getGreen(color);
+		int blue = ArgbUtils.getBlue(color);
+
+		int rb = red / bucketSize;
+		int gb = green / bucketSize;
+		int bb = blue / bucketSize;
+
+		return (rb << 16) | (gb << 8) | bb;
+	}
+
+	private static class ColorCluster {
+
+		private final ArrayList<Integer> colors = new ArrayList<>();
+		private final TextureGenerationMode textureGenerationMode;
+
+		private int representativeColor;
+		private double score;
+
+		public ColorCluster(TextureGenerationMode textureGenerationMode) {
+			this.textureGenerationMode = textureGenerationMode;
+		}
+
+		void add(int color) {
+			this.colors.add(color);
+		}
+
+		void calcScore(float targetLuminance) {
+			if (this.colors.isEmpty()) {
+				this.representativeColor = -1;
+				this.score = Double.NEGATIVE_INFINITY;
+				return;
+			}
+
+			this.colors.sort(Comparator.comparingDouble(c -> Math.abs(ArgbUtils2.luminance(c) - targetLuminance)));
+			this.representativeColor = this.colors.get(0);
+
+			float luminance = ArgbUtils2.luminance(this.representativeColor);
+			double luminanceDifference = Math.abs(luminance - targetLuminance);
+
+			double luminanceScore = 1.0 / (1.0 + luminanceDifference * 8.0);
+			double saturationScore = 0.5 + ArgbUtils2.getSaturation(this.representativeColor);
+			double frequencyScore = Math.log1p(this.colors.size());
+
+			double score = 1.0F;
+			if (this.textureGenerationMode.isLuminance()) {
+				score *= luminanceScore;
+			}
+			if (this.textureGenerationMode.isSaturation()) {
+				score *= saturationScore;
+			}
+			if (this.textureGenerationMode.isFrequency()) {
+				score *= frequencyScore;
+			}
+
+			this.score = score;
+		}
 	}
 
 	public static NativeImage loadFromResource(Identifier id) {
@@ -228,5 +305,7 @@ public class NativeImageUtils {
 	}
 
 	public record NativeImageAndColor(NativeImage image, int averageColor) { }
+
+	private record PaletteColor(int score, int color) {}
 
 }

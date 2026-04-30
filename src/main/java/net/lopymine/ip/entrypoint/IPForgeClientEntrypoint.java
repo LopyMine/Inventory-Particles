@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.lopymine.ip.modmenu.ModMenuIntegration;
 
@@ -24,10 +25,12 @@ public class IPForgeClientEntrypoint {
 		MossyLoader.registerReloadListener(new InventoryParticlesClientReloadListener());
 		MossyLoader.registerCommands(InventoryParticlesCommandManager::register);
 
-		MinecraftForge.EVENT_BUS.<ClientPlayerNetworkEvent.LoggingIn>addListener((event) -> {
+		MinecraftForge.EVENT_BUS.<LevelJoinEvent>addListener((event) -> {
 			ParticlesConfigsManager.updateCombinedMap();
 		});
 	}
+
+	public static class LevelJoinEvent extends Event { }
 
 }
 

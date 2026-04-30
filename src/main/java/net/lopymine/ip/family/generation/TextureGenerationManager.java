@@ -1,85 +1,28 @@
 package net.lopymine.ip.family.generation;
 
 import com.mojang.blaze3d.platform.NativeImage;
-import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.*;
-import net.fabricmc.loader.api.FabricLoader;
+import java.util.Map.Entry;
+import java.util.concurrent.*;
 import net.lopymine.ip.element.texture.*;
-import net.lopymine.ip.family.FamilyParticleData.GeneratedTextures;
+import net.lopymine.ip.family.FamilyParticleData.*;
+import net.lopymine.ip.family.atlas.manager.*;
 import net.lopymine.ip.utils.*;
 import net.lopymine.ip.utils.NativeImageUtils.NativeImageAndColor;
 import net.lopymine.ip.utils.iac.RenderedItemImage;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Util;
 import net.minecraft.world.item.Item;
+
+//? if fabric {
+import net.fabricmc.loader.api.FabricLoader;
+//?}
 
 public class TextureGenerationManager {
 
-	private static final List<NativeImage> ALL_GENERATED_TEXTURES = new ArrayList<>();
+	private static final Map<Identifier, NativeImage> ALL_GENERATED_TEXTURES = new ConcurrentHashMap<>();
 
-	public static GeneratedTextures colorizeWithDominantColor(RenderedItemImage renderedItemImage, ArrayList<Identifier> textures) {
-		ArrayList<ITexture> list = new ArrayList<>();
-		ArrayList<Integer> colorsList = new ArrayList<>();
-
-		double[] colors = NativeImageFeatureExtractor.dominantColors(renderedItemImage.getImage(), 1);
-		int color = getDominantColor(colors, 0.0F);
-
-		colorsList.add(color);
-
-		Function<Integer, Integer> colorProvider = (c) -> renderedItemImage.getColor(color);
-
-		for (Identifier texture : textures) {
-			ColoredAtlasTexture coloredAtlasTexture;
-
-			if (texture.getPath().endsWith(".png")) {
-				String path = texture.getPath();
-				String fixedPath = path.substring(0, path.length() - 4);
-				coloredAtlasTexture = new ColoredAtlasTexture(texture.withPath(fixedPath), null, colorProvider);
-			} else {
-				coloredAtlasTexture = new ColoredAtlasTexture(texture, null, colorProvider);
-			}
-
-			list.add(coloredAtlasTexture);
-		}
-
-		return new GeneratedTextures(list, colorsList);
-	}
-
-	private static int getDominantColor(double[] colors, @SuppressWarnings("all") float percentOfLight) {
-		int argb;
-		if (colors.length >= 4) {
-			int colorCount = colors.length / 4;
-			Integer[] array = new Integer[colorCount];
-
-			for (int i = 0, j = 0; i + 3 < colors.length; i += 4, j++) {
-				int color = ArgbUtils2.getArgb(
-						(int) colors[i],
-						(int) colors[i + 1],
-						(int) colors[i + 2],
-						(int) colors[i + 3]
-				);
-				array[j] = color;
-			}
-
-			Arrays.sort(array, (a, b) -> {
-				float la = ArgbUtils2.luminance(a);
-				float lb = ArgbUtils2.luminance(b);
-				return Float.compare(la, lb);
-			});
-
-			int index = (int) Math.floor((array.length - 1) * percentOfLight);
-			argb = array[index];
-		} else {
-			argb = -1;
-		}
-		return argb;
-	}
-
-	public static GeneratedTextures luminanceReplace(RenderedItemImage renderedItemImage, Identifier itemId, Item item, ArrayList<Identifier> textures) {
+	public static GeneratedTextures generateWithReplace(RenderedItemImage renderedItemImage, Identifier itemId, Item item, ArrayList<Identifier> textures, TextureGenerationMode textureGenerationMode) {
 		ArrayList<ITexture> list = new ArrayList<>();
 		ArrayList<Integer> colors = new ArrayList<>();
 
@@ -91,23 +34,17 @@ public class TextureGenerationManager {
 						return null;
 					}
 
-					NativeImageAndColor replaced = NativeImageUtils.luminanceReplace(nativeImage, renderedItemImage.getImage(), item);
+					NativeImageAndColor replaced = NativeImageUtils.generateWithReplace(nativeImage, renderedItemImage.getImage(), item, textureGenerationMode);
 					NativeImage replacedImage = replaced.image();
 
-					ALL_GENERATED_TEXTURES.add(replacedImage);
-
 					Identifier location = texture.withPrefix(itemId.getPath() + "/");
-					Minecraft.getInstance().getTextureManager().register(
-							location,
-							new DynamicTexture(location::toString, replacedImage)
-					);
 
 					debugUpload(renderedItemImage.getImage(), location);
 
-					DirectTexture directTexture = new DirectTexture(
+					ALL_GENERATED_TEXTURES.put(location, replacedImage);
+					ColoredAtlasTexture directTexture = new ColoredAtlasTexture(
 							location,
-							replacedImage.getWidth(),
-							replacedImage.getHeight(),
+							FamilyParticlesAtlasManager.ATLAS_ID,
 							renderedItemImage::getColor
 					);
 					return new GenerationResult<>(
@@ -143,10 +80,14 @@ public class TextureGenerationManager {
 	}
 
 	public static void clear() {
-		for (NativeImage texture : ALL_GENERATED_TEXTURES) {
-			texture.close();
+		for (Entry<Identifier, NativeImage> entry : ALL_GENERATED_TEXTURES.entrySet()) {
+			Minecraft.getInstance().getTextureManager().release(entry.getKey());
 		}
 		ALL_GENERATED_TEXTURES.clear();
+	}
+
+	public static Map<Identifier, NativeImage> getAllGeneratedTextures() {
+		return ALL_GENERATED_TEXTURES;
 	}
 
 	public record GenerationResult<T>(T object, Integer color) {}

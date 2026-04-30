@@ -15,7 +15,12 @@
 				"inventory_particles:drip/liquid_drip_1.png",
 				"inventory_particles:drip/liquid_drip_2.png"
 			],
-			"texture_generation_mode": "luminance_replace",
+			"texture_generation_mode": {
+				"luminance": true,
+				"saturation": false,
+				"frequency": false
+			},
+			"texture_extract_mode": "fluid",
 			"spawn_count": [0, 2],
 			"spawn_frequency": [10, 40],
 			"speed_coefficient": 0.2,
@@ -25,5 +30,5 @@
 	],
 	"family_groups": [],
 	"compatible": false,
-	"priority": 1000
+	"priority": 1800
 }

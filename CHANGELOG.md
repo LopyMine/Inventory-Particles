@@ -1,4 +1,3 @@
-- Ported to 26.1, including particles for new item: Golden Dandelion
-- Fixed debug particles for bedrock item
-- [Forge 1.20.1] Fixed issue when particles doesn't work on multiplayer servers
-- [Fabric 1.21.1] Fixed incorrect particles rendering with Sodium
+- Added native compatibility for EVERY item from ALL mods! Now each item will have its own auto-generated particle! Documentation will be available later.
+- Fixed issue when mod requires joining to singleplayer to show particles in multiplayer
+- Ported to 26.1 Neoforge
