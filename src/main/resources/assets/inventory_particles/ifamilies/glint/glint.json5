@@ -26,6 +26,7 @@
 			"quartz",
 			"nugget",
 			"gold",
+			"golden",
 			"redstone",
 			"emerald",
 			"iron",
@@ -44,13 +45,15 @@
 			"rod",
 			"ruby",
 			"sapphire",
-			"bucket"
+			"bucket",
+			"sheet"
 		],
 		"blacklist": [
 			"wood",
 			"wooden",
 			"stone",
-			"leather"
+			"leather",
+			"cardboard"
 		]
 	},
 	"tags": [

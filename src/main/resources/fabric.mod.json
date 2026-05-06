@@ -32,6 +32,9 @@
         "java": ">=${java}",
         "${fabric_api_id}": "*"
     },
+	"breaks": {
+		"particle_effects": "<1.4.0"
+	},
 	"accessWidener": "${fabric_trick_accesswidener_id}",
 	"mixins": [
 		"${fabric_trick_mixin_configs}"

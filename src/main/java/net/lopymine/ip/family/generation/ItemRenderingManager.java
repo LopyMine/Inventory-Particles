@@ -4,6 +4,7 @@ import lombok.*;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.family.FamilyParticleData.TextureExtractMode;
 import net.lopymine.ip.utils.iac.*;
+import net.lopymine.ip.utils.iac.RenderedFluidImage.ColorGetter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.*;
@@ -17,20 +18,9 @@ public class ItemRenderingManager {
 			return null;
 		}
 
-		if (textureExtractMode == TextureExtractMode.FLUID) {
-			BucketItem bucketItem;
-
-			if (item instanceof BucketItem bucket) {
-				bucketItem = bucket;
-			} else if (item instanceof BoatItem) {
-				bucketItem = (BucketItem) Items.WATER_BUCKET;
-			} else {
-				bucketItem = null;
-			}
-
-			if (bucketItem != null) {
-				return getRenderedFluid(bucketItem, itemId);
-			}
+		SpecialRenderedItemImage specialRenderedItemImage = getSpecialRenderedItemImage(itemId, item, textureExtractMode);
+		if (specialRenderedItemImage.processed()) {
+			return specialRenderedItemImage.renderedItemImage();
 		}
 
 		return getRenderedItem(item, itemId);
@@ -70,6 +60,39 @@ public class ItemRenderingManager {
 		}
 		return renderingFluidImage.getRenderedItemImage();
 	}
+
+	@Nullable
+	public static RenderedItemImage getRenderedImageIfSpecial(Identifier itemId, Item item, TextureExtractMode textureExtractMode) {
+		if (Minecraft.getInstance().level == null) {
+			return null;
+		}
+		SpecialRenderedItemImage specialRenderedItemImage = getSpecialRenderedItemImage(itemId, item, textureExtractMode);
+		if (specialRenderedItemImage.processed()) {
+			return specialRenderedItemImage.renderedItemImage();
+		}
+		return null;
+	}
+
+	private static SpecialRenderedItemImage getSpecialRenderedItemImage(Identifier itemId, Item item, TextureExtractMode textureExtractMode) {
+		if (textureExtractMode == TextureExtractMode.FLUID) {
+			BucketItem bucketItem;
+
+			if (item instanceof BucketItem bucket) {
+				bucketItem = bucket;
+			} else if (item instanceof BoatItem) {
+				bucketItem = (BucketItem) Items.WATER_BUCKET;
+			} else {
+				bucketItem = null;
+			}
+
+			if (bucketItem != null) {
+				return new SpecialRenderedItemImage(true, getRenderedFluid(bucketItem, itemId));
+			}
+		}
+		return new SpecialRenderedItemImage(false, null);
+	}
+
+	private record SpecialRenderedItemImage(boolean processed, @Nullable RenderedItemImage renderedItemImage) {}
 
 	@Getter
 	public static class RenderingItemImage<T extends RenderedItemImage> {

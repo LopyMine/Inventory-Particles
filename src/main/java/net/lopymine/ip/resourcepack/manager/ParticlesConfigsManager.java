@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.*;
+import java.util.stream.Collectors;
 import lombok.*;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
@@ -15,13 +16,16 @@ import net.lopymine.ip.config.misc.CachedItem;
 import net.lopymine.ip.config.particle.*;
 import net.lopymine.ip.element.mod.spawner.*;
 import net.lopymine.ip.element.predicate.nbt.NbtNodeMatch;
+import net.lopymine.ip.element.texture.*;
 import net.lopymine.ip.family.*;
 import net.lopymine.ip.family.FamilyParticleData.GeneratedTextures;
 import net.lopymine.ip.family.atlas.AtlasSprite;
 import net.lopymine.ip.family.atlas.manager.*;
-import net.lopymine.ip.family.generation.ItemRenderingManager;
+import net.lopymine.ip.family.cache.*;
+import net.lopymine.ip.family.generation.*;
 import net.lopymine.ip.t2o.*;
 import net.lopymine.ip.utils.*;
+import net.lopymine.ip.utils.iac.RenderedFluidImage.ColorGetter;
 import net.lopymine.ip.utils.iac.RenderedItemImage;
 import net.lopymine.mossylib.logger.MossyLogger;
 import net.minecraft.client.Minecraft;
@@ -30,7 +34,7 @@ import net.minecraft.resources.*;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.*;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.*;
 
 public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConfig> {
 
@@ -53,64 +57,98 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 	}
 
 	public static void updateCombinedMap() {
+		boolean debug = Boolean.getBoolean("inventory_particles.debug_generate");
 		int currentVersion = VERSION.incrementAndGet();
 
 		InventoryParticlesConfig.getInstance().getWhitelistsConfig().recompileAll();
 		Set<Entry<ResourceKey<Item>, Item>> entries = new HashSet<>(BuiltInRegistries.ITEM.entrySet());
-		ReloadInfo reloadInfo = new ReloadInfo();
-
 		COMBINED_MAP = new IdentityHashMap<>();
-		RELOAD_INFO = reloadInfo;
-		boolean debug = Boolean.getBoolean("inventory_particles.debug_generate");
 
-		CompletableFuture.supplyAsync(() -> {
-			InventoryParticles.LOGGER.info("Started linking particle configs for world items...");
+		Map<Boolean, List<Entry<ResourceKey<Item>, Item>>> map = entries.stream().collect(Collectors.partitioningBy(
+				(entry) -> entry.getKey().identifier().getNamespace().equals("minecraft")
+		));
+
+		InventoryParticlesClient.sendNoticeMessage(map.get(false).size());
+
+		ReloadInfo reloadInfo = new ReloadInfo();
+		RELOAD_INFO = reloadInfo;
+
+		startLinkingFuture(currentVersion, "VANILLA", reloadInfo, map.get(true), debug).handle((reloadData, throwable) -> {
+			if (throwable != null) {
+				InventoryParticlesClient.LOGGER.error("Failed to link particle configs for VANILLA items:", throwable);
+				return null;
+			}
+			if (reloadData == null || Minecraft.getInstance().level == null) {
+				return null;
+			}
+			Map<Item, List<IParticleSpawner>> combinedMap = new IdentityHashMap<>(reloadData.getSpawners());
+			if (VERSION.get() != reloadData.getVersion()) {
+				return null;
+			}
+			COMBINED_MAP = combinedMap;
+			return new Pair<>(combinedMap, reloadData);
+		}).thenCompose((pair) -> {
+			if (pair == null) {
+				return CompletableFuture.completedFuture(null);
+			}
+			Map<Item, List<IParticleSpawner>> combinedMap = pair.getFirst();
+			ReloadData vanillaReloadData = pair.getSecond();
+			reloadInfo.setModdedItems(true);
+			return startLinkingFuture(currentVersion, "MODDED", reloadInfo, map.get(false), debug).whenComplete((reloadData, throwable) -> {
+				if (throwable != null) {
+					InventoryParticlesClient.LOGGER.error("Failed to link particle configs for MODDED items:", throwable);
+					return;
+				}
+				if (reloadData == null || Minecraft.getInstance().level == null || VERSION.get() != reloadData.getVersion()) {
+					return;
+				}
+				Set<AtlasSprite> sprites = FamilyParticlesAtlasSpriteManager.createSpritesFromGeneratedTextures();
+				FamilyParticlesAtlasManager.stitchAndUpdate(sprites, () -> {
+					Map<Item, List<IParticleSpawner>> combinedMap2 = new IdentityHashMap<>(combinedMap);
+					combinedMap2.putAll(reloadData.getFamilySpawners());
+					if (debug) {
+						combinedMap2.putAll(vanillaReloadData.getFamilySpawners());
+					}
+					if (Minecraft.getInstance().level == null || VERSION.get() != reloadData.getVersion()) {
+						return;
+					}
+					COMBINED_MAP = combinedMap2;
+				});
+			});
+		}).exceptionally(throwable -> {
+			InventoryParticlesClient.LOGGER.error("Failed to update combined particle map:", throwable);
+			return null;
+		});
+	}
+
+	private static @NonNull CompletableFuture<ReloadData> startLinkingFuture(int currentVersion, String stage, ReloadInfo reloadInfo, Collection<Entry<ResourceKey<Item>, Item>> entries, boolean debug) {
+		return CompletableFuture.supplyAsync(() -> {
+			InventoryParticles.LOGGER.info("Started linking particle configs for {} items...", stage);
 			ReloadData reloadData = new ReloadData(currentVersion);
 
 			reloadInfo.setProgress(0);
-			RELOAD_INFO.setTotalItems(entries.size());
+			reloadInfo.setTotalItems(entries.size());
 
 			for (Entry<ResourceKey<Item>, Item> entry : entries) {
 				if (VERSION.get() != reloadData.getVersion() || Minecraft.getInstance().level == null) {
-					InventoryParticles.LOGGER.warn("Canceled linking particle configs for world items.");
+					InventoryParticles.LOGGER.warn("Canceled linking particle configs for {} items.", stage);
 					return null;
 				}
 				Identifier id = entry.getKey().identifier();
 				Item item = entry.getValue();
 
 				reloadInfo.setCurrentItem(id.toString());
-				getInstance().getItemSpawners(debug, id, item, reloadData);
-				reloadInfo.setProgress(reloadInfo.getProgress()+1);
+				getItemSpawners(debug, id, item, reloadData);
+				reloadInfo.setProgress(reloadInfo.getProgress() + 1);
 			}
 
-			InventoryParticles.LOGGER.info("Finished linking particle configs for world items!");
-
+			InventoryParticles.LOGGER.info("Finished linking particle configs for {} items!", stage);
 			return reloadData;
-		}).whenComplete((reloadData, throwable) -> {
-			if (throwable != null) {
-				InventoryParticlesClient.LOGGER.error("Failed to link particle configs for world items:", throwable);
-				return;
-			}
-			if (reloadData == null || Minecraft.getInstance().level == null) {
-				return;
-			}
-
-			Map<Item, List<IParticleSpawner>> combinedMap = new IdentityHashMap<>(reloadData.getSpawners());
-
-			if (VERSION.get() != reloadData.getVersion()) {
-				return;
-			}
-			COMBINED_MAP = combinedMap;
-
-			Set<AtlasSprite> sprites = FamilyParticlesAtlasSpriteManager.createSpritesFromGeneratedTextures();
-			FamilyParticlesAtlasManager.stitchAndUpdate(sprites, () -> {
-				combinedMap.putAll(reloadData.getFamilySpawners());
-			});
 		});
 	}
 
 	@SuppressWarnings("deprecation")
-	private void getItemSpawners(boolean debug, Identifier itemId, Item item, ReloadData reloadData) {
+	private static void getItemSpawners(boolean debug, Identifier itemId, Item item, ReloadData reloadData) {
 		if (debug) {
 			List<IParticleSpawner> familyParticles = getFamilyParticles(itemId, item);
 			if (familyParticles != null) {
@@ -145,7 +183,7 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 	}
 
 	@Nullable
-	private List<IParticleSpawner> getFamilyParticles(Identifier itemId, Item item) {
+	private static List<IParticleSpawner> getFamilyParticles(Identifier itemId, Item item) {
 		List<FamilyParticleConfig> family = FamilyParticlesManager.getFamily(item);
 		if (family.isEmpty()) {
 			return null;
@@ -167,45 +205,22 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 					continue;
 				}
 
-				RenderedItemImage renderedItemImage = ItemRenderingManager.getRenderedItemImage(item, itemId, particle.getTextureExtractMode());
-				if (renderedItemImage == null) {
+				ParticleTexturesData particleTexturesData = getParticleTexturesData(itemId, item, particle);
+				if (particleTexturesData == null) {
 					continue;
 				}
-				GeneratedTextures generatedTextures = particle.getGeneratedTextures(renderedItemImage, itemId, item);
 
 				for (ParticleConfig particleConfig : configs) {
 					ParticleConfig copy = particleConfig.copy();
 
-					if (!generatedTextures.textures().isEmpty() && copy.getTextures().isEmpty()) {
-						copy.setTextures(generatedTextures.textures());
+					ArrayList<ITexture> textures = particleTexturesData.generatedTextures().textures();
+					if (!textures.isEmpty() && copy.getTextures().isEmpty()) {
+						copy.setTextures(textures);
 					}
 
 					Identifier spawnAreaId = InventoryParticles.id("rii/" + itemId.getPath());
-					List<ParticleSpawnPos> pixels = Texture2ObjectsManager.readFromTexture(
-							renderedItemImage.getImage(),
-							spawnAreaId,
-							"family config spawn area",
-							() -> (x, y, imageWidth, imageHeight, color) -> {
-								if (ArgbUtils2.getAlpha(color) == 0) {
-									return false;
-								}
-								ArrayList<Integer> colors = generatedTextures.colors();
-								if (colors.isEmpty()) {
-									return true;
-								}
-								for (Integer c : colors) {
-									int distance = ArgbUtils2.colorDistanceSquared(c, color);
-									if (distance <= 70 * 70) {
-										return true;
-									}
-								}
-								return false;
-							},
-							(x, y, width, height, color) -> new ParticleSpawnPos(x, y, width, height)
-					);
-
 					ParticleSpawnAreaId spawnArea = new ParticleSpawnAreaId(spawnAreaId);
-					spawnArea.setArea(new ParticleSpawnArea(pixels.toArray(IParticleSpawnPos[]::new)));
+					spawnArea.setArea(getParticleSpawnPos(itemId, particleTexturesData, spawnAreaId));
 					spawnArea.setInitialized(true);
 
 					ParticleHolder familyHolder = new ParticleHolder(
@@ -232,6 +247,92 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 		}
 
 		return null;
+	}
+
+	@Nullable
+	private static ParticleSpawnArea getParticleSpawnPos(Identifier itemId, ParticleTexturesData data, Identifier spawnAreaId) {
+		List<ParticleSpawnPos> load = FamilyParticlePixelsCache.load(itemId);
+		ArrayList<Integer> colors = data.generatedTextures().colors();
+		RenderedItemImage renderedItemImage = data.renderedItemImage();
+
+		if (load == null && colors != null && renderedItemImage != null) {
+			List<ParticleSpawnPos> pixels = Texture2ObjectsManager.readFromTexture(
+					renderedItemImage.getImage(),
+					spawnAreaId,
+					"family config spawn area",
+					() -> (x, y, imageWidth, imageHeight, color) -> {
+						if (ArgbUtils2.getAlpha(color) == 0) {
+							return false;
+						}
+						if (colors.isEmpty()) {
+							return true;
+						}
+						for (Integer c : colors) {
+							int distance = ArgbUtils2.colorDistanceSquared(c, color);
+							if (distance <= 70 * 70) {
+								return true;
+							}
+						}
+						return false;
+					},
+					(x, y, width, height, color) -> new ParticleSpawnPos(x, y, width, height)
+			);
+			FamilyParticlePixelsCache.save(itemId, pixels);
+			return new ParticleSpawnArea(pixels.toArray(IParticleSpawnPos[]::new));
+		}
+		if (load != null) {
+			if (InventoryParticlesConfig.getInstance().getMainConfig().isDebugModeEnabled()) {
+				InventoryParticlesClient.LOGGER.info("Found cached spawn area for {}", itemId);
+			}
+			return new ParticleSpawnArea(load.toArray(IParticleSpawnPos[]::new));
+		}
+		return null;
+	}
+
+	@Nullable
+	private static ParticleTexturesData getParticleTexturesData(Identifier itemId, Item item, FamilyParticleData particle) {
+		List<Identifier> cachedItemTextures = TextureGenerationManager.getPerItemTextures().get(itemId);
+		if (cachedItemTextures == null) {
+			RenderedItemImage renderedItemImage = ItemRenderingManager.getRenderedItemImage(item, itemId, particle.getTextureExtractMode());
+			if (renderedItemImage == null) {
+				return null;
+			}
+			GeneratedTextures generatedTextures = particle.getGeneratedTextures(renderedItemImage, itemId, item);
+			return new ParticleTexturesData(generatedTextures, renderedItemImage);
+		} else {
+			if (InventoryParticlesConfig.getInstance().getMainConfig().isDebugModeEnabled()) {
+				InventoryParticlesClient.LOGGER.info("Found cached textures for {}", itemId);
+			}
+			RenderedItemImage specialRenderedItemImage = ItemRenderingManager.getRenderedImageIfSpecial(itemId, item, particle.getTextureExtractMode());
+
+			ArrayList<ITexture> textures = new ArrayList<>();
+			cachedItemTextures.sort(Comparator.comparingInt(ParticlesConfigsManager::getTextureNumber));
+
+			for (Identifier cachedTexture : cachedItemTextures) {
+				ColoredAtlasTexture directTexture = new ColoredAtlasTexture(
+						cachedTexture,
+						FamilyParticlesAtlasManager.ATLAS_ID,
+						(c) -> specialRenderedItemImage == null ? c : specialRenderedItemImage.getColor(c)
+				);
+				textures.add(directTexture);
+			}
+			GeneratedTextures generatedTextures = new GeneratedTextures(textures, new ArrayList<>());
+			return new ParticleTexturesData(generatedTextures, null);
+		}
+	}
+
+	private static int getTextureNumber(Identifier id1) {
+		String path = id1.getPath();
+		String order = path.substring(path.lastIndexOf("_") + 1).replace(".png", "");
+		try {
+			return Integer.parseInt(order);
+		} catch (NumberFormatException e) {
+			return Integer.MAX_VALUE;
+		}
+	}
+
+	private record ParticleTexturesData(@NotNull GeneratedTextures generatedTextures, @Nullable RenderedItemImage renderedItemImage) {
+
 	}
 
 	@Nullable
@@ -311,6 +412,7 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 	@Setter
 	public static class ReloadInfo {
 
+		private boolean moddedItems = false;
 		private int totalItems = -1;
 		private int progress = -1;
 		private String currentItem = "air";

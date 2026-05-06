@@ -22,22 +22,26 @@ import static net.lopymine.mossylib.utils.CodecUtils.option;
 public class InventoryParticlesConfig {
 
 	public static final Codec<InventoryParticlesConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+			option("test_2_1_0", false, Codec.BOOL, InventoryParticlesConfig::isTest210),
 			option("test_1_2_2", false, Codec.BOOL, InventoryParticlesConfig::isTest122),
 			option("main", InventoryParticlesMainConfig.getNewInstance(), InventoryParticlesMainConfig.CODEC, InventoryParticlesConfig::getMainConfig),
 			option("particle", InventoryParticleConfig.getNewInstance(), InventoryParticleConfig.CODEC, InventoryParticlesConfig::getParticleConfig),
 			option("coefficients", InventoryParticlesCoefficientsConfig.getNewInstance(), InventoryParticlesCoefficientsConfig.CODEC, InventoryParticlesConfig::getCoefficientsConfig),
-			option("whitelists", InventoryParticlesItemWhitelistsConfig.getNewInstance(), InventoryParticlesItemWhitelistsConfig.CODEC, InventoryParticlesConfig::getWhitelistsConfig)
+			option("whitelists", InventoryParticlesItemWhitelistsConfig.getNewInstance(), InventoryParticlesItemWhitelistsConfig.CODEC, InventoryParticlesConfig::getWhitelistsConfig),
+			option("cache", InventoryParticlesCacheConfig.getNewInstance(), InventoryParticlesCacheConfig.CODEC, InventoryParticlesConfig::getCacheConfig)
 	).apply(instance, InventoryParticlesConfig::new));
 
 	private static final File CONFIG_FILE = MossyLoader.getConfigDir().resolve(InventoryParticles.MOD_ID + ".json5").toFile();
 	private static final Logger LOGGER = LoggerFactory.getLogger(InventoryParticles.MOD_NAME + "/Config");
 	private static InventoryParticlesConfig INSTANCE;
 
+	private boolean test210;
 	private boolean test122;
 	private InventoryParticlesMainConfig mainConfig;
 	private InventoryParticleConfig particleConfig;
 	private InventoryParticlesCoefficientsConfig coefficientsConfig;
 	private InventoryParticlesItemWhitelistsConfig whitelistsConfig;
+	private InventoryParticlesCacheConfig cacheConfig;
 
 	private InventoryParticlesConfig() {
 		throw new IllegalArgumentException();

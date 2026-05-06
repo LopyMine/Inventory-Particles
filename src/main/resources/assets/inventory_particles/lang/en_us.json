@@ -82,9 +82,25 @@
 	"${mod_id}.modmenu.option.fade_out_duration.name": "Particle Deletion Fade Out Duration",
 	"${mod_id}.modmenu.option.fade_out_duration.description": "Duration in ticks for smooth particle fade out effect after reaching the maximum particle limit. If set to 0, particles will be removed immediately without fading.",
 
+	"${mod_id}.modmenu.group.cache.name": "Particle Texture Cache",
+	"${mod_id}.modmenu.group.cache.description": "Settings controlling cached particle textures used for modded items.",
+
+	"${mod_id}.modmenu.option.invalidate_mode.name": "Invalidate Mode",
+	"${mod_id}.modmenu.option.invalidate_mode.description": "When cached particle textures for modded items should be deleted to be recreated.",
+
+	"${mod_id}.modmenu.option.invalidate_mode.after_resource_reloading": "After resource reloading",
+	"${mod_id}.modmenu.option.invalidate_mode.after_joining_world": "After joining world",
+	"${mod_id}.modmenu.option.invalidate_mode.after_game_launch": "After game launch",
+	"${mod_id}.modmenu.option.invalidate_mode.manual_invalidate": "Manual (button below)",
+
+	"${mod_id}.modmenu.option.invalidate_now.name": "Invalidate Cache Now",
+	"${mod_id}.modmenu.option.invalidate_now.description": "Immediately invalidates cached particle textures for modded items.",
+
 	"${mod_id}.particles_linking.title": "Linking Particles To Items",
 	"${mod_id}.particles_linking.loading": "Progress: %s / %s",
 
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.true": "Enabled",
-	"${mod_id}.modmenu.formatter.enabled_or_disabled.false": "Disabled"
+	"${mod_id}.modmenu.formatter.enabled_or_disabled.false": "Disabled",
+
+	"${mod_id}.notice_message_2_1_0": "§a[${mod_name}]§e Hello %s§e! A small, but important message:§r\n\n§rInventory Particles now has native support for items from other mods!\n\nHow it works: The mod takes items and creates particle textures for them. This can take some time depending on the number of modded items in the game §e(right now there %s§e!).§r\n\nTo see the progress, open your inventory and hover in the upper-right corner.\n\nIf you have a slow PC, you may experience a slight frame drop during the generation. This is normal and will only happen once!\n\nOnce complete, everything will be cached/saved and load very quickly.\n\nTo clear the cache or change its behaviour, open the mod's settings menu.\n\n§eThank you for your attention! This message will not appear again."
 }

@@ -16,6 +16,8 @@ mossyDependencies {
 	parchment = prop("build.parchment")
 
 	additional {
+		override("mossyCompileOnly", "oritech")
+		override("mossyCompileOnly", "geckolib")
 //		if (stonecutter.compare(stonecutter.current.version, "1.21.11") >= 0) {
 //			disable("mossylib")
 //		}

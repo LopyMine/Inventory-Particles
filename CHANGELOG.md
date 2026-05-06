@@ -1,3 +1,5 @@
-- Added native compatibility for EVERY item from ALL mods! Now each item will have its own auto-generated particle! Documentation will be available later.
-- Fixed issue when mod requires joining to singleplayer to show particles in multiplayer
-- Ported to 26.1 Neoforge
+- Particle loading for vanilla and mods items is now separated (vanilla -> modded)
+- Added caching for generated particles of modded items
+- Added notice-message (will happen only once)
+- Fixed missing particles for bedrock and wool-like items
+- Fixed issue when game freezes on texture generation for some mods

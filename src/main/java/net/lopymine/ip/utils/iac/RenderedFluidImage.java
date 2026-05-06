@@ -1,6 +1,7 @@
 package net.lopymine.ip.utils.iac;
 
 import com.mojang.blaze3d.platform.NativeImage;
+import lombok.Getter;
 import net.lopymine.ip.utils.NativeImageUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -11,6 +12,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
+@Getter
 public class RenderedFluidImage extends RenderedItemImage {
 
 	@Nullable

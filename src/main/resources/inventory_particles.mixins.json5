@@ -29,7 +29,8 @@
 		"MinecraftClientMixin",
 		"ScreenHandlerMixin",
 		"ScreenMixin",
-		"MouseMixin"
+		"MouseMixin",
+		"MinecraftRenderCallMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

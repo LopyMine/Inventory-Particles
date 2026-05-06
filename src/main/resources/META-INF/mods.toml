@@ -33,3 +33,10 @@ mandatory = true
 versionRange = "[1.0.5,)"
 ordering = "NONE"
 side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "particle_effects"
+mandatory = false
+versionRange = "[1.4.0,)"
+ordering = "NONE"
+side = "BOTH"

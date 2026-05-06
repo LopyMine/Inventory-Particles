@@ -16,7 +16,7 @@ import net.lopymine.ip.utils.iac.RenderedItemImage;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.*;
 import net.minecraft.world.item.Item;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.*;
 import static com.mojang.serialization.Codec.BOOL;
 import static com.mojang.serialization.codecs.RecordCodecBuilder.create;
 import static net.lopymine.mossylib.utils.CodecUtils.*;
@@ -78,7 +78,7 @@ public class FamilyParticleData {
 		return () -> parseNewInstanceHacky(CODEC);
 	}
 
-	public record GeneratedTextures(ArrayList<ITexture> textures, ArrayList<Integer> colors) {}
+	public record GeneratedTextures(ArrayList<ITexture> textures, @Nullable ArrayList<Integer> colors) {}
 
 	@Getter
 	@Setter

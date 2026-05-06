@@ -7,6 +7,7 @@ import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.platform.*;
 import com.mojang.blaze3d.platform.Lighting.Entry;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.lopymine.ip.family.hack.FamilySafeRenderExecutor;
 import com.mojang.blaze3d.textures.*;
 import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.function.Consumer;
@@ -47,7 +48,7 @@ public class ItemRendering {
 	public static void renderFluidIntoImage(BucketItem bucketItem, Consumer<RenderedFluidImage> consumer) {
 		RenderData renderData = ItemRendering.checkAndGetTarget();
 
-		Minecraft.getInstance().execute(() -> {
+		FamilySafeRenderExecutor.submit(() -> {
 			GpuTexture colorTexture = renderData.target.getColorTexture();
 			GpuTexture depthTexture = renderData.target.getDepthTexture();
 			if (colorTexture == null || depthTexture == null) {
@@ -93,7 +94,7 @@ public class ItemRendering {
 
 	public static void renderItemIntoImage(ItemStack itemStack, Consumer<RenderedItemImage> consumer) {
 		RenderData renderData = ItemRendering.checkAndGetTarget();
-		Minecraft.getInstance().execute(() -> {
+		FamilySafeRenderExecutor.submit(() -> {
 			ItemRendering.renderItemStackToTarget(renderData, itemStack);
 			InventoryParticlesImageConsumer specialConsumer = (image) -> {
 				consumer.accept(new RenderedItemImage(image));
@@ -179,7 +180,7 @@ public class ItemRendering {
 	@NotNull
 	private static RenderData checkAndGetTarget() {
 		if (TARGET == null) {
-			Minecraft.getInstance().execute(() -> {
+			FamilySafeRenderExecutor.submit(() -> {
 				TARGET                       = new TextureTarget("Inventory Particles Block Renderer Target", WIDTH, HEIGHT, true);
 				GUI_PROJECTION               = new Projection();
 				GUI_PROJECTION_MATRIX_BUFFER = new ProjectionMatrixBuffer("gui");
@@ -209,6 +210,7 @@ import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.platform.*;
 import com.mojang.blaze3d.platform.Lighting.Entry;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.lopymine.ip.family.hack.FamilySafeRenderExecutor;
 import com.mojang.blaze3d.textures.*;
 import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.function.Consumer;
@@ -253,7 +255,7 @@ public class ItemRendering {
 	public static void renderFluidIntoImage(BucketItem bucketItem, Consumer<RenderedFluidImage> consumer) {
 		RenderData renderData = ItemRendering.checkAndGetTarget();
 
-		Minecraft.getInstance().execute(() -> {
+		FamilySafeRenderExecutor.submit(() -> {
 			GpuTexture colorTexture = renderData.target.getColorTexture();
 			GpuTexture depthTexture = renderData.target.getDepthTexture();
 			if (colorTexture == null || depthTexture == null) {
@@ -328,7 +330,7 @@ public class ItemRendering {
 
 	public static void renderItemIntoImage(ItemStack itemStack, Consumer<RenderedItemImage> consumer) {
 		RenderData renderData = ItemRendering.checkAndGetTarget();
-		Minecraft.getInstance().execute(() -> {
+		FamilySafeRenderExecutor.submit(() -> {
 			ItemRendering.renderItemStackToTarget(renderData, itemStack);
 			InventoryParticlesImageConsumer specialConsumer = (image) -> {
 				consumer.accept(new RenderedItemImage(image));
@@ -411,7 +413,7 @@ public class ItemRendering {
 	@NotNull
 	private static RenderData checkAndGetTarget() {
 		if (TARGET == null) {
-			Minecraft.getInstance().execute(() -> {
+			FamilySafeRenderExecutor.submit(() -> {
 				TARGET = new TextureTarget("Inventory Particles Block Renderer Target", WIDTH, HEIGHT, true);
 				BUFFER = new CachedOrthoProjectionMatrixBuffer(
 						"item_rendering_inventory_particles",
@@ -441,6 +443,7 @@ import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.platform.*;
 import com.mojang.blaze3d.platform.Lighting.Entry;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.lopymine.ip.family.hack.FamilySafeRenderExecutor;
 import com.mojang.blaze3d.textures.*;
 import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.function.Consumer;
@@ -478,7 +481,7 @@ public class ItemRendering {
 	public static void renderFluidIntoImage(BucketItem bucketItem, Consumer<RenderedFluidImage> consumer) {
 		RenderData renderData = ItemRendering.checkAndGetTarget();
 
-		Minecraft.getInstance().execute(() -> {
+		FamilySafeRenderExecutor.submit(() -> {
 			GpuTexture colorTexture = renderData.target.getColorTexture();
 			GpuTexture depthTexture = renderData.target.getDepthTexture();
 			if (colorTexture == null || depthTexture == null) {
@@ -521,7 +524,7 @@ public class ItemRendering {
 
 	public static void renderItemIntoImage(ItemStack itemStack, Consumer<RenderedItemImage> consumer) {
 		RenderData renderData = ItemRendering.checkAndGetTarget();
-		Minecraft.getInstance().execute(() -> {
+		FamilySafeRenderExecutor.submit(() -> {
 			ItemRendering.renderItemStackToTarget(renderData, itemStack);
 			InventoryParticlesImageConsumer specialConsumer = (image) -> {
 				consumer.accept(new RenderedItemImage(image));
@@ -601,7 +604,7 @@ public class ItemRendering {
 	@NotNull
 	private static RenderData checkAndGetTarget() {
 		if (TARGET == null) {
-			Minecraft.getInstance().execute(() -> {
+			FamilySafeRenderExecutor.submit(() -> {
 				TARGET = new TextureTarget("Inventory Particles Block Renderer Target", WIDTH, HEIGHT, true);
 				BUFFER = new CachedOrthoProjectionMatrixBuffer(
 						"item_rendering_inventory_particles",
@@ -630,6 +633,7 @@ public class ItemRendering {
 import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.platform.*;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.lopymine.ip.family.hack.FamilySafeRenderExecutor;
 import com.mojang.blaze3d.textures.*;
 import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.function.Consumer;
@@ -666,7 +670,7 @@ public class ItemRendering {
 	public static void renderFluidIntoImage(BucketItem bucketItem, Consumer<RenderedFluidImage> consumer) {
 		RenderData renderData = ItemRendering.checkAndGetTarget();
 
-		Minecraft.getInstance().execute(() -> {
+		FamilySafeRenderExecutor.submit(() -> {
 			GpuTexture colorTexture = renderData.target.getColorTexture();
 			GpuTexture depthTexture = renderData.target.getDepthTexture();
 			if (colorTexture == null || depthTexture == null) {
@@ -709,7 +713,7 @@ public class ItemRendering {
 
 	public static void renderItemIntoImage(ItemStack itemStack, Consumer<RenderedItemImage> consumer) {
 		RenderData renderData = ItemRendering.checkAndGetTarget();
-		Minecraft.getInstance().execute(() -> {
+		FamilySafeRenderExecutor.submit(() -> {
 			ItemRendering.renderItemStackToTarget(renderData, itemStack);
 			InventoryParticlesImageConsumer specialConsumer = (image) -> {
 				consumer.accept(new RenderedItemImage(image));
@@ -771,7 +775,7 @@ public class ItemRendering {
 	@NotNull
 	private static RenderData checkAndGetTarget() {
 		if (TARGET == null) {
-			Minecraft.getInstance().execute(() -> {
+			FamilySafeRenderExecutor.submit(() -> {
 				TARGET = new TextureTarget("Inventory Particles Block Renderer Target", WIDTH, HEIGHT, true);
 			});
 		}
@@ -791,6 +795,7 @@ public class ItemRendering {
 import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.platform.*;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.lopymine.ip.family.hack.FamilySafeRenderExecutor;
 import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.function.Consumer;
 import net.fabricmc.fabric.api.client.render.fluid.v1.*;
@@ -823,7 +828,7 @@ public class ItemRendering {
 	public static volatile TextureTarget TARGET;
 
 	public static void renderFluidIntoImage(BucketItem bucketItem, Consumer<RenderedFluidImage> consumer) {
-		Minecraft.getInstance().execute(() -> {
+		RenderSystem.recordRenderCall(() -> {
 			Fluid content = bucketItem.content;
 			FluidState fluidState = content.defaultFluidState();
 			FluidRenderHandler handler = FluidRenderHandlerRegistry.INSTANCE.get(content);
@@ -855,7 +860,7 @@ public class ItemRendering {
 
 	public static void renderItemIntoImage(ItemStack itemStack, Consumer<RenderedItemImage> consumer) {
 		RenderData renderData = ItemRendering.checkAndGetTarget();
-		Minecraft.getInstance().execute(() -> {
+		RenderSystem.recordRenderCall(() -> {
 			ItemRendering.renderItemStackToTarget(renderData, itemStack);
 
 			TextureTarget target = renderData.target;
@@ -922,7 +927,7 @@ public class ItemRendering {
 	@NotNull
 	private static RenderData checkAndGetTarget() {
 		if (TARGET == null) {
-			Minecraft.getInstance().execute(() -> {
+			RenderSystem.recordRenderCall(() -> {
 				TARGET = new TextureTarget(WIDTH, HEIGHT, true);
 			});
 		}
@@ -941,9 +946,11 @@ public class ItemRendering {
 /*import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.platform.*;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.lopymine.ip.family.hack.FamilySafeRenderExecutor;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.blaze3d.vertex.PoseStack.Pose;
 import java.util.function.Consumer;
+import net.lopymine.ip.family.hack.FamilySafeRenderExecutor;
 import net.lopymine.ip.utils.iac.*;
 import net.lopymine.ip.utils.iac.RenderedFluidImage.ColorGetter;
 import net.minecraft.client.*;
@@ -962,14 +969,14 @@ import org.joml.Matrix4f;
 
 //? if fabric {
 
-/^import net.fabricmc.fabric.api.client.render.fluid.v1.*;
+import net.fabricmc.fabric.api.client.render.fluid.v1.*;
 
-^///?} elif neoforge {
+//?} elif neoforge {
 
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+/^import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.textures.FluidSpriteCache;
 
-//?} else {
+^///?} else {
 /^import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 
 ^///?}
@@ -986,16 +993,16 @@ public class ItemRendering {
 
 	@SuppressWarnings("deprecation")
 	public static void renderFluidIntoImage(BucketItem bucketItem, Consumer<RenderedFluidImage> consumer) {
-		Minecraft.getInstance().execute(() -> {
+		FamilySafeRenderExecutor.submit(() -> {
 			//? if fabric || neoforge {
 			Fluid content = bucketItem.content;
 			//?} elif forge {
 			/^Fluid content = bucketItem.getFluid();
-			^///?}
+			 ^///?}
 
 			FluidState fluidState = content.defaultFluidState();
 			//? if fabric {
-			/^FluidRenderHandler handler = FluidRenderHandlerRegistry.INSTANCE.get(content);
+			FluidRenderHandler handler = FluidRenderHandlerRegistry.INSTANCE.get(content);
 			if (handler == null) {
 				consumer.accept(null);
 				return;
@@ -1019,8 +1026,8 @@ public class ItemRendering {
 					return handler.getFluidColor(level, pos, fluidState);
 				}
 			}));
-			^///?} else {
-			IClientFluidTypeExtensions extensions = IClientFluidTypeExtensions.of(fluidState);
+			//?} else {
+			/^IClientFluidTypeExtensions extensions = IClientFluidTypeExtensions.of(fluidState);
 			TextureAtlas atlas;
 			try {
 				atlas = Minecraft.getInstance().getModelManager().getAtlas(TextureAtlas.LOCATION_BLOCKS);
@@ -1036,10 +1043,10 @@ public class ItemRendering {
 			}
 
 			//? if neoforge {
-			TextureAtlasSprite sprite = atlas.getTextures().get(stillTexture);
-			//?} else {
-			/^TextureAtlasSprite sprite = atlas.getSprite(stillTexture);
-			^///?}
+			/^¹TextureAtlasSprite sprite = atlas.getTextures().get(stillTexture);
+			¹^///?} else {
+			TextureAtlasSprite sprite = atlas.getSprite(stillTexture);
+			//?}
 			if (sprite == null) { // can be null!! Ignore warning
 				consumer.accept(null);
 				return;
@@ -1059,13 +1066,13 @@ public class ItemRendering {
 					return extensions.getTintColor(fluidState, level, pos);
 				}
 			}));
-			//?}
+			^///?}
 		});
 	}
 
 	public static void renderItemIntoImage(ItemStack itemStack, Consumer<RenderedItemImage> consumer) {
 		RenderData renderData = ItemRendering.checkAndGetTarget();
-		Minecraft.getInstance().execute(() -> {
+		FamilySafeRenderExecutor.submit(() -> {
 			ItemRendering.renderItemStackToTarget(renderData, itemStack);
 
 			TextureTarget target = renderData.target;
@@ -1161,7 +1168,7 @@ public class ItemRendering {
 	@NotNull
 	private static RenderData checkAndGetTarget() {
 		if (TARGET == null) {
-			Minecraft.getInstance().execute(() -> {
+			FamilySafeRenderExecutor.submit(() -> {
 				TARGET = new TextureTarget(WIDTH, HEIGHT, true, Minecraft.ON_OSX);
 			});
 		}

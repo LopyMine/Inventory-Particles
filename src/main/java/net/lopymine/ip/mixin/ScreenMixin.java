@@ -2,6 +2,7 @@ package net.lopymine.ip.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.*;
 import java.util.Map.Entry;
 import net.lopymine.ip.client.InventoryParticlesClient;
@@ -130,18 +131,4 @@ public class ScreenMixin {
 		context.nextStratum();
 		//?}
 	}
-
-	//? if <=1.21.4 {
-	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;renderTooltip(Lnet/minecraft/client/gui/Font;Ljava/util/List;Lnet/minecraft/client/gui/screens/inventory/tooltip/ClientTooltipPositioner;II)V"), method = "renderWithTooltip")
-	private void fixTooltip(GuiGraphicsExtractor instance, Font textRenderer, List<FormattedCharSequence> text, ClientTooltipPositioner positioner, int x, int y, Operation<Void> original) {
-		boolean bl = InventoryParticlesConfig.getInstance().getMainConfig().isModEnabled();
-		if (bl) {
-			RenderSystem.disableDepthTest();
-		}
-		original.call(instance, textRenderer, text, positioner, x, y);
-		if (bl) {
-			RenderSystem.enableDepthTest();
-		}
-	}
-	*///?}
 }

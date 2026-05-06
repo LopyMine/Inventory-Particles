@@ -19,7 +19,7 @@ public class ColoredAtlasTexture extends AtlasTexture {
 		this.color = color;
 	}
 
-	public ColoredAtlasTexture(@Nullable Identifier sprite, @Nullable Identifier atlas,  Function<Integer, Integer> color) {
+	public ColoredAtlasTexture(@Nullable Identifier sprite, @Nullable Identifier atlas, Function<Integer, Integer> color) {
 		super(sprite, atlas);
 		this.color = color;
 	}

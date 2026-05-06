@@ -5,6 +5,8 @@ import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.optimization.ParticlesDeletionMode;
 import net.lopymine.ip.config.sub.*;
+import net.lopymine.ip.config.sub.InventoryParticlesCacheConfig.CacheInvalidateMode;
+import net.lopymine.ip.family.cache.FamilyParticlesCacheManager;
 import net.lopymine.mossylib.yacl.api.*;
 import net.lopymine.mossylib.yacl.extension.SimpleOptionExtension;
 
@@ -14,7 +16,8 @@ public class GeneralCategory {
 	public static SimpleCategory get(InventoryParticlesConfig defConfig, InventoryParticlesConfig config) {
 		return SimpleCategory.startBuilder("general")
 				.groups(getMainGroup(defConfig.getMainConfig(), config.getMainConfig()))
-				.groups(getVisualGroup(defConfig.getParticleConfig(), config.getParticleConfig()));
+				.groups(getVisualGroup(defConfig.getParticleConfig(), config.getParticleConfig()))
+				.groups(getCacheGroup(defConfig.getCacheConfig(), config.getCacheConfig()));
 	}
 
 	private static SimpleGroup getMainGroup(InventoryParticlesMainConfig defConfig, InventoryParticlesMainConfig config) {
@@ -56,6 +59,20 @@ public class GeneralCategory {
 						.withController(0, 40, 1, true)
 						.withDescription(SimpleContent.NONE)
 						.build(InventoryParticles.MOD_ID)
+		);
+	}
+
+	private static SimpleGroup getCacheGroup(InventoryParticlesCacheConfig defConfig, InventoryParticlesCacheConfig config) {
+		return SimpleGroup.startBuilder("cache").options(
+				SimpleOption.<CacheInvalidateMode>startBuilder("invalidate_mode")
+					.withBinding(defConfig.getInvalidateMode(), config::getInvalidateMode, config::setInvalidateMode, true)
+					.withController(CacheInvalidateMode.class)
+					.withDescription(SimpleContent.NONE)
+					.build(InventoryParticles.MOD_ID),
+				SimpleOption.startButtonBuilder("invalidate_now", (screen, option) -> {
+					FamilyParticlesCacheManager.invalidateSilence();
+					}).withDescription(SimpleContent.NONE)
+					.build(InventoryParticles.MOD_ID)
 		);
 	}
 

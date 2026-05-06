@@ -2,6 +2,7 @@ package net.lopymine.ip.mixin;
 
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.sub.InventoryParticlesMainConfig;
+import net.lopymine.ip.family.atlas.manager.FamilyParticlesAtlasManager;
 import net.lopymine.ip.renderer.InventoryParticlesRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -18,6 +19,11 @@ public class MinecraftClientMixin {
 	@Shadow @Nullable public Screen screen;
 
 	@Shadow @Final private Window window;
+
+	@Inject(at = @At("HEAD"), method = "close")
+	private void inject(CallbackInfo ci) {
+		FamilyParticlesAtlasManager.close();
+	}
 
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;removed()V"), method = "setScreen")
 	private void clearRendererWhenRemovedScreen(Screen screen, CallbackInfo ci) {

@@ -35,3 +35,12 @@ type = "required"
 versionRange = "[1.0.5,)"
 ordering = "NONE"
 side = "BOTH"
+
+
+[[dependencies.${mod_id}]]
+modId = "particle_effects"
+type = "incompatible"
+versionRange = "[,1.4.0)"
+ordering = "NONE"
+side = "BOTH"
+reason = "Please update Particle Effects to latest version"

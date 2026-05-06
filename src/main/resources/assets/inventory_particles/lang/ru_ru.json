@@ -82,8 +82,24 @@
 	"${mod_id}.modmenu.option.fade_out_duration.name": "Длительность исчезновения после удаления частиц",
 	"${mod_id}.modmenu.option.fade_out_duration.description": "Длительность в тиках для эффекта плавного исчезновения частиц после её удаления при достижении лимита частиц. Если 0, эффект отключён.",
 
+	"${mod_id}.modmenu.group.cache.name": "Кэш текстур частиц",
+	"${mod_id}.modmenu.group.cache.description": "Настройки кэширования текстур частиц для предметов из модов.",
+
+	"${mod_id}.modmenu.option.invalidate_mode.name": "Режим сброса",
+	"${mod_id}.modmenu.option.invalidate_mode.description": "Когда следует удалять кэшированные текстуры частиц для предметов из модов, чтобы он создались заново.",
+
+	"${mod_id}.modmenu.option.invalidate_mode.after_resource_reloading": "После перезагрузки ресурсов",
+	"${mod_id}.modmenu.option.invalidate_mode.after_joining_world": "После входа в мир",
+	"${mod_id}.modmenu.option.invalidate_mode.after_game_launch": "После запуска игры",
+	"${mod_id}.modmenu.option.invalidate_mode.manual_invalidate": "Ручной сброс (кнопка снизу)",
+
+	"${mod_id}.modmenu.option.invalidate_now.name": "Сбросить кэш сейчас",
+	"${mod_id}.modmenu.option.invalidate_now.description": "Инвалидирует/удаляет кэшированные текстуры частиц для предметов из модов.",
+
 	"${mod_id}.particles_linking.title": "Привязывание частиц к предметам",
 	"${mod_id}.particles_linking.loading": "Прогресс: %s / %s",
+
+	"${mod_id}.notice_message_2_1_0": "§a[${mod_name}]§e Привет, %s§e! Небольшое, но важное сообщение:§r\n\n§rInventory Particles теперь поддерживает предметы из других модов!\n\nКак это работает: мод генерирует текстуры частиц для предметов из модов. Это может занять некоторое время в зависимости от количества модовых предметов в игре §e(сейчас их %s§e!).§r\n\nЧтобы следить за прогрессом, откройте инвентарь и наведите курсор в правый верхний угол.\n\nНа слабых компьютерах во время генерации вы можете заметить небольшое падение кадров. Это нормально и происходит только один раз.\n\nПосле завершения генерации всё будет кэшировано/сохранено и загружаться очень быстро.\n\nЧтобы очистить кэш или изменить его поведение, откройте меню настроек мода.\n\n§eСпасибо за внимание! Это сообщение больше не будет показываться.",
 
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.true": "Включено",
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.false": "Выключено"

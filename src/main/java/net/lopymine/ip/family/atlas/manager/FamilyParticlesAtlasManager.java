@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
 
 public class FamilyParticlesAtlasManager {
 
-	public static final Identifier ATLAS_ID = InventoryParticles.id("main_atlas.png");
+	public static final Identifier ATLAS_ID = InventoryParticles.id("family_atlas.png");
 	private static final StitchHooksManager STITCH_HOOKS_MANAGER = new StitchHooksManager();
 	private static final AtomicInteger LATEST_ATLAS_VERSION = new AtomicInteger();
 
@@ -84,7 +84,6 @@ public class FamilyParticlesAtlasManager {
 		future.thenAcceptAsync(stitchingContext::upload, applyExecutor);
 	}
 
-	// todo
 	public static void close() {
 		if (ATLAS_TEXTURE == null) {
 			return;

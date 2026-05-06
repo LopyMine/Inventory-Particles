@@ -27,10 +27,10 @@ public class ScreenshotMixin {
 			//?} else {
 
 			/*//? if fabric {
-			/^method = "method_68156"
-			^///?} else {
-			method = "lambda$takeScreenshot$4"
-			//?}
+			method = "method_68156"
+			//?} else {
+			/^method = "lambda$takeScreenshot$4"
+			^///?}
 
 			*///?}
 	)
@@ -44,10 +44,10 @@ public class ScreenshotMixin {
 			//?} else {
 
 			/*//? if fabric {
-			/^method = "method_68156"
-			^///?} else {
-			method = "lambda$takeScreenshot$4"
-			//?}
+			method = "method_68156"
+			//?} else {
+			/^method = "lambda$takeScreenshot$4"
+			^///?}
 
 			*///?}
 	)
