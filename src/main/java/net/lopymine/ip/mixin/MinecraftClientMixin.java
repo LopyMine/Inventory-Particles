@@ -22,7 +22,7 @@ public class MinecraftClientMixin {
 
 	@Inject(at = @At("HEAD"), method = "close")
 	private void inject(CallbackInfo ci) {
-		FamilyParticlesAtlasManager.close();
+		FamilyParticlesAtlasManager.closeAll();
 	}
 
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;removed()V"), method = "setScreen")

@@ -70,7 +70,7 @@ public class GeneralCategory {
 					.withDescription(SimpleContent.NONE)
 					.build(InventoryParticles.MOD_ID),
 				SimpleOption.startButtonBuilder("invalidate_now", (screen, option) -> {
-					FamilyParticlesCacheManager.invalidateSilence();
+					FamilyParticlesCacheManager.deleteSilence();
 					}).withDescription(SimpleContent.NONE)
 					.build(InventoryParticles.MOD_ID)
 		);

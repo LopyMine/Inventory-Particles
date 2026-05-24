@@ -15,11 +15,11 @@ public class StitchHooksManager {
 		}
 	}
 
-	public void runAllHooks() {
+	public void runAllHooks(boolean successful) {
 		OnAtlasStitched currentHook;
 		while ((currentHook = this.stitchHooks.poll()) != null) {
 			try {
-				currentHook.onStitch();
+				currentHook.onStitch(successful);
 			} catch (Exception e) {
 				InventoryParticles.LOGGER.warn("Unexpected error on stitch hooking:", e);
 			}

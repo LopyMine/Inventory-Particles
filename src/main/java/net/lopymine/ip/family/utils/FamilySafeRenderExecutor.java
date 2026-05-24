@@ -1,4 +1,4 @@
-package net.lopymine.ip.family.hack;
+package net.lopymine.ip.family.utils;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import java.util.Queue;

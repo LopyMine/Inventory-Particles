@@ -50,7 +50,11 @@ public abstract class ScreenHandlerMixin {
 			if (!(currentScreen instanceof AbstractContainerScreen<?> handledScreen)) {
 				return;
 			}
-			Slot slot = handledScreen.getMenu().slots.get(slotIndex);
+			var slots = handledScreen.getMenu().slots;
+			if (slotIndex >= slots.size()) {
+				return;
+			}
+			Slot slot = slots.get(slotIndex);
 			ItemStack stack = isTake || isPut ? this.getCarried() : slot.getItem();
 
 			InventoryParticlesRenderer.getInstance().onGuiAction(slot, stack, handledScreen.leftPos, handledScreen.topPos);

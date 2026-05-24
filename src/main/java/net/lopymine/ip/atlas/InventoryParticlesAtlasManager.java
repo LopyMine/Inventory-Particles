@@ -55,8 +55,9 @@ public class InventoryParticlesAtlasManager {
 		if (atlasId == null || atlasId == ATLAS_ID) {
 			return this.atlas.getSprite(id);
 		}
-		if (atlasId == FamilyParticlesAtlasManager.ATLAS_ID) {
-			return FamilyParticlesAtlasManager.getSprite(id);
+		FamilyParticlesAtlasManager familyManager = FamilyParticlesAtlasManager.get(atlasId.getPath());
+		if (familyManager != null) {
+			return familyManager.getSprite(id);
 		}
 		return OtherAtlasManager.getSprite(id, atlasId, this.getMissingSprite());
 	}

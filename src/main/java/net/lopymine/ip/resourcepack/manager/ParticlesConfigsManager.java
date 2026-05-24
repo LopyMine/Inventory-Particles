@@ -25,7 +25,6 @@ import net.lopymine.ip.family.cache.*;
 import net.lopymine.ip.family.generation.*;
 import net.lopymine.ip.t2o.*;
 import net.lopymine.ip.utils.*;
-import net.lopymine.ip.utils.iac.RenderedFluidImage.ColorGetter;
 import net.lopymine.ip.utils.iac.RenderedItemImage;
 import net.lopymine.mossylib.logger.MossyLogger;
 import net.minecraft.client.Minecraft;
@@ -43,7 +42,6 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 	private static final Map<TagKey<Item>, List<IParticleSpawner>> PER_TAG_PARTICLE_SPAWNERS = new HashMap<>();
 
 	public static ReloadInfo RELOAD_INFO = new ReloadInfo();
-
 	private static final AtomicInteger VERSION = new AtomicInteger(0);
 	private static volatile Map<Item, List<IParticleSpawner>> COMBINED_MAP = new IdentityHashMap<>();
 
@@ -102,8 +100,29 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 				if (reloadData == null || Minecraft.getInstance().level == null || VERSION.get() != reloadData.getVersion()) {
 					return;
 				}
-				Set<AtlasSprite> sprites = FamilyParticlesAtlasSpriteManager.createSpritesFromGeneratedTextures();
-				FamilyParticlesAtlasManager.stitchAndUpdate(sprites, () -> {
+
+				List<CompletableFuture<Void>> futures = new ArrayList<>();
+
+				Map<String, Set<AtlasSprite>> sprites = FamilyParticlesAtlasSpriteManager.createSpritesFromGeneratedTextures();
+				for (Entry<String, Set<AtlasSprite>> entry : sprites.entrySet()) {
+					String atlasId = entry.getKey();
+					FamilyParticlesAtlasManager manager = FamilyParticlesAtlasManager.get(atlasId);
+					if (manager == null) {
+						continue;
+					}
+
+					CompletableFuture<Void> future = new CompletableFuture<>();
+					manager.stitchAndUpdate(entry.getValue(), (successful) -> {
+						future.complete(null);
+						if (successful) {
+							FamilyParticlesAtlasCacheManager.save(atlasId);
+							FamilyParticlesSpawnAreasCacheManager.save(atlasId);
+						}
+					});
+					futures.add(future);
+				}
+
+				CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new)).thenRun(() -> {
 					Map<Item, List<IParticleSpawner>> combinedMap2 = new IdentityHashMap<>(combinedMap);
 					combinedMap2.putAll(reloadData.getFamilySpawners());
 					if (debug) {
@@ -138,7 +157,10 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 				Item item = entry.getValue();
 
 				reloadInfo.setCurrentItem(id.toString());
+				long before = System.currentTimeMillis();
 				getItemSpawners(debug, id, item, reloadData);
+				long after = System.currentTimeMillis();
+				reloadInfo.getLastProcessedItemsTime().add(after - before);
 				reloadInfo.setProgress(reloadInfo.getProgress() + 1);
 			}
 
@@ -251,7 +273,7 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 
 	@Nullable
 	private static ParticleSpawnArea getParticleSpawnPos(Identifier itemId, ParticleTexturesData data, Identifier spawnAreaId) {
-		List<ParticleSpawnPos> load = FamilyParticlePixelsCache.load(itemId);
+		List<ParticleSpawnPos> load = FamilyParticlesSpawnAreasCacheManager.load(itemId);
 		ArrayList<Integer> colors = data.generatedTextures().colors();
 		RenderedItemImage renderedItemImage = data.renderedItemImage();
 
@@ -277,7 +299,7 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 					},
 					(x, y, width, height, color) -> new ParticleSpawnPos(x, y, width, height)
 			);
-			FamilyParticlePixelsCache.save(itemId, pixels);
+			FamilyParticlesSpawnAreasCacheManager.add(itemId, pixels);
 			return new ParticleSpawnArea(pixels.toArray(IParticleSpawnPos[]::new));
 		}
 		if (load != null) {
@@ -291,8 +313,11 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 
 	@Nullable
 	private static ParticleTexturesData getParticleTexturesData(Identifier itemId, Item item, FamilyParticleData particle) {
-		List<Identifier> cachedItemTextures = TextureGenerationManager.getPerItemTextures().get(itemId);
+		List<Identifier> cachedItemTextures = FamilyParticlesAtlasCacheManager.getOrLoadItemTextures(itemId);
 		if (cachedItemTextures == null) {
+			if (InventoryParticlesConfig.getInstance().getMainConfig().isDebugModeEnabled()) {
+				InventoryParticlesClient.LOGGER.info("[1] Generating textures for {}", itemId);
+			}
 			RenderedItemImage renderedItemImage = ItemRenderingManager.getRenderedItemImage(item, itemId, particle.getTextureExtractMode());
 			if (renderedItemImage == null) {
 				return null;
@@ -301,17 +326,20 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 			return new ParticleTexturesData(generatedTextures, renderedItemImage);
 		} else {
 			if (InventoryParticlesConfig.getInstance().getMainConfig().isDebugModeEnabled()) {
-				InventoryParticlesClient.LOGGER.info("Found cached textures for {}", itemId);
+				InventoryParticlesClient.LOGGER.info("[2] Found cached textures for {}", itemId);
 			}
+
 			RenderedItemImage specialRenderedItemImage = ItemRenderingManager.getRenderedImageIfSpecial(itemId, item, particle.getTextureExtractMode());
 
 			ArrayList<ITexture> textures = new ArrayList<>();
 			cachedItemTextures.sort(Comparator.comparingInt(ParticlesConfigsManager::getTextureNumber));
 
+			FamilyParticlesAtlasManager manager = FamilyParticlesAtlasManager.getOrCreate(itemId.getNamespace());
+
 			for (Identifier cachedTexture : cachedItemTextures) {
 				ColoredAtlasTexture directTexture = new ColoredAtlasTexture(
 						cachedTexture,
-						FamilyParticlesAtlasManager.ATLAS_ID,
+						manager.getAtlasId(),
 						(c) -> specialRenderedItemImage == null ? c : specialRenderedItemImage.getColor(c)
 				);
 				textures.add(directTexture);
@@ -416,6 +444,39 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 		private int totalItems = -1;
 		private int progress = -1;
 		private String currentItem = "air";
+		private FixedSizeLongQueue lastProcessedItemsTime = new FixedSizeLongQueue(10);
+
+	}
+
+	public static class FixedSizeLongQueue {
+
+		private final int capacity;
+		private final Deque<Long> deque;
+		private long sum = 0L;
+
+		@Getter
+		private volatile double averageSeconds = 0.0;
+
+		public FixedSizeLongQueue(int capacity) {
+			if (capacity <= 0) {
+				throw new IllegalArgumentException("Capacity must be positive");
+			}
+
+			this.capacity = capacity;
+			this.deque = new ArrayDeque<>(capacity);
+		}
+
+		public synchronized void add(long value) {
+			if (this.deque.size() == this.capacity) {
+				long removed = this.deque.removeFirst();
+				this.sum -= removed;
+			}
+
+			this.deque.addLast(value);
+			this.sum += value;
+
+			this.averageSeconds = ((double) this.sum / this.deque.size()) / 1000.0;
+		}
 
 	}
 

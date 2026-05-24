@@ -1,6 +1,6 @@
 package net.lopymine.ip.mixin;
 
-import net.lopymine.ip.family.hack.FamilySafeRenderExecutor;
+import net.lopymine.ip.family.utils.FamilySafeRenderExecutor;
 import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;

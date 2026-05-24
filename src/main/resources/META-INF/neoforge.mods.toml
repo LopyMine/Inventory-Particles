@@ -36,7 +36,6 @@ versionRange = "[1.0.5,)"
 ordering = "NONE"
 side = "BOTH"
 
-
 [[dependencies.${mod_id}]]
 modId = "particle_effects"
 type = "incompatible"

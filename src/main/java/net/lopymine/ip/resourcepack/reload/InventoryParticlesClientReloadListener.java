@@ -6,8 +6,7 @@ import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.sub.InventoryParticlesCacheConfig.CacheInvalidateMode;
 import net.lopymine.ip.family.*;
-import net.lopymine.ip.family.cache.FamilyParticlesCacheManager;
-import net.lopymine.ip.family.generation.TextureGenerationManager;
+import net.lopymine.ip.family.cache.*;
 import net.lopymine.ip.resourcepack.manager.ParticlesConfigsManager;
 import net.lopymine.ip.element.texture.provider.ITextureProvider;
 import net.lopymine.mossylib.reload.AbstractResourceReloadListener;
@@ -26,16 +25,16 @@ public class InventoryParticlesClientReloadListener extends AbstractResourceRelo
 	@Override
 	protected void reloadStuff(PreparationBarrier barrier, ResourceManager manager, Executor prepareExecutor, Executor applyExecutor) {
 		if (this.first && InventoryParticlesConfig.getInstance().getCacheConfig().getInvalidateMode() == CacheInvalidateMode.AFTER_GAME_LAUNCH) {
-			FamilyParticlesCacheManager.invalidateSilence();
+			FamilyParticlesCacheManager.deleteSilence();
 		}
 		if (!this.first && InventoryParticlesConfig.getInstance().getCacheConfig().getInvalidateMode() == CacheInvalidateMode.AFTER_RESOURCE_RELOADING) {
-			FamilyParticlesCacheManager.invalidateSilence();
+			FamilyParticlesCacheManager.deleteSilence();
 		}
 		this.first = false;
 
 		ITextureProvider.clear(); // clear cached sprites
-		TextureGenerationManager.clear(); // clear cache and release images
-		FamilyParticlesCacheManager.load(); // load cache if exists
+		FamilyParticlesAtlasCacheManager.clear(); // release images
+		FamilyParticlesSpawnAreasCacheManager.clear(); // clear spawn areas
 		InventoryParticlesAtlasManager.getInstance().reload(barrier, manager, prepareExecutor, applyExecutor); // reload mod atlas
 		ParticlesConfigsManager.getInstance().reload(); // reload configs
 		FamilyParticlesConfigManager.getInstance().reload(); // reload family configs

@@ -1,5 +1,3 @@
-- Particle loading for vanilla and mods items is now separated (vanilla -> modded)
-- Added caching for generated particles of modded items
-- Added notice-message (will happen only once)
-- Fixed missing particles for bedrock and wool-like items
-- Fixed issue when game freezes on texture generation for some mods
+- Reworked cache file structure, so now you will have reduced amount of files
+- Fixed compatibility with "Stack To Nearby Chests" mod
+- Fixed appearing particles behind the grabbed item on 1.20.1

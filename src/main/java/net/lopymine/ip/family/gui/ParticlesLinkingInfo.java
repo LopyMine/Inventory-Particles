@@ -26,15 +26,22 @@ public class ParticlesLinkingInfo {
 
 		boolean hovered = mouseX >= x && mouseY >= y && mouseX < x + 8 && mouseY < y + 8;
 		if (hovered) {
+			double averageSeconds = reloadInfo.getLastProcessedItemsTime().getAverageSeconds();
+			String averageTime = averageSeconds < 0.01D ? "<0.01" : String.format(Locale.US, "%.2f", averageSeconds);
+			String remainingTime = String.format(Locale.US, "%.2f", Math.max(0D, (averageSeconds * (totalItems - progress))) / 60D);
+
 			List<ClientTooltipComponent> components = new ArrayList<>();
-			components.add(ClientTooltipComponent.create(InventoryParticles.text("particles_linking.title").append("                 ").getVisualOrderText()));
+			components.add(ClientTooltipComponent.create(InventoryParticles.text("particles_linking.title").append("                                     ").getVisualOrderText()));
 			components.add(ClientTooltipComponent.create(Component.literal(reloadInfo.getCurrentItem()).getVisualOrderText()));
 			components.add(ClientTooltipComponent.create(InventoryParticles.text("particles_linking.loading", progress, totalItems).getVisualOrderText()));
+			components.add(ClientTooltipComponent.create(InventoryParticles.text("particles_linking.average_time", averageTime).getVisualOrderText()));
+			components.add(ClientTooltipComponent.create(InventoryParticles.text("particles_linking.remaining_time", remainingTime).getVisualOrderText()));
 
 			DrawUtils.drawTooltip(graphics, components, mouseX, mouseY + 15);
 		}
 		DrawUtils.drawTexture(graphics, getSprite(), x, y, 0, 0, 8, 8, 8, 8);
 	}
+
 
 	private static Identifier getSprite() {
 		return Util.getMillis() / 1000L % 2L == 0L ? LOADING_0 : LOADING_1;

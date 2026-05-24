@@ -98,6 +98,8 @@
 
 	"${mod_id}.particles_linking.title": "Linking Particles To Items",
 	"${mod_id}.particles_linking.loading": "Progress: %s / %s",
+	"${mod_id}.particles_linking.average_time": "Average Time: %ss",
+	"${mod_id}.particles_linking.remaining_time": "Remaining Time: ~%sm",
 
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.true": "Enabled",
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.false": "Disabled",

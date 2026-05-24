@@ -91,7 +91,7 @@ public class OptimizedDrawer {
 		if (PARTICLES_BUFFER != null) {
 			endParticlesBuffer();
 		}
-		com.mojang.blaze3d.systems.RenderSystem.enableDepthTest();
+		com.mojang.blaze3d.systems.RenderSystem.disableDepthTest();
 		com.mojang.blaze3d.systems.RenderSystem.enableBlend();
 		com.mojang.blaze3d.systems.RenderSystem.setShaderTexture(0, atlasId);
 		com.mojang.blaze3d.systems.RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
@@ -114,7 +114,7 @@ public class OptimizedDrawer {
 		/^BufferUploader.drawWithShader(PARTICLES_BUFFER.end());
 		^///?}
 		com.mojang.blaze3d.systems.RenderSystem.disableBlend();
-		com.mojang.blaze3d.systems.RenderSystem.disableDepthTest();
+		com.mojang.blaze3d.systems.RenderSystem.enableDepthTest();
 		PARTICLES_BUFFER = null;
 	}
 
