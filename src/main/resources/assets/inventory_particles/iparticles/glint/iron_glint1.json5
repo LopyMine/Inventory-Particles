@@ -207,7 +207,6 @@
 		
 		
 		
-		//? if >=1.21.11 {
 		{
 			"item": "minecraft:iron_spear",
 			"spawn_area": "iron_spear_glint.png",
@@ -218,7 +217,6 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		},
-		//?}
 
 
 
@@ -535,7 +533,6 @@
 		
 		
 		
-		//? if >=1.21.11 {
 		{
 			"item": "minecraft:iron_nautilus_armor",
 			"spawn_area": "iron_nautilus_armor_glint.png",
@@ -546,7 +543,6 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		},
-		//?}
 		
 		
 		

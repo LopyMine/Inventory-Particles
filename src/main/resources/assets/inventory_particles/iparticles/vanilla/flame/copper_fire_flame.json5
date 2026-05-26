@@ -13,7 +13,6 @@
 	],
 	
 	"holders": [
-		//? if >=1.21.9 {
 		{
 			"item": "minecraft:copper_torch",
 			"spawn_area": "copper_torch_copper_fire_flame.png",
@@ -150,7 +149,6 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		}
-		//?}
 	],
 	"physics": {
 		"base": {

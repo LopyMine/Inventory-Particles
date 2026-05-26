@@ -182,7 +182,6 @@
 		
 		
 		
-		//? if >=1.21.11 {
 		{
 			"item": "minecraft:golden_spear",
 			"spawn_area": "golden_spear_glint.png",
@@ -193,7 +192,6 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		},
-		//?}
 		
 		
 		
@@ -254,7 +252,6 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		},
-		//? if >=1.21.11 {
 		{
 			"item": "minecraft:netherite_horse_armor",
 			"spawn_area": "netherite_horse_armor_glint_1.png",
@@ -275,7 +272,6 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		},
-		//?}
 		
 		
 		
@@ -420,7 +416,6 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		},
-		//? if >=26.1 {
 		{
 			"item": "minecraft:golden_dandelion",
 			"spawn_area": "golden_dandelion.png",
@@ -437,7 +432,7 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		},
-		//?}
+
 		{
 			"item": "minecraft:glistering_melon_slice",
 			"spawn_area": "glistering_melon_slice_glint.png",

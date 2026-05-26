@@ -40,6 +40,7 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 	public static final Map<Identifier, List<ParticleConfig>> REGISTERED_CONFIGS = new HashMap<>();
 	private static final Map<Item, List<IParticleSpawner>> PER_ITEM_PARTICLE_SPAWNERS = new IdentityHashMap<>();
 	private static final Map<TagKey<Item>, List<IParticleSpawner>> PER_TAG_PARTICLE_SPAWNERS = new HashMap<>();
+	public static final ParticleTexturesData EMPTY_PARTICLES_TEXTURES_DATA = new ParticleTexturesData(new GeneratedTextures(new ArrayList<>(), new ArrayList<>()), null);
 
 	public static ReloadInfo RELOAD_INFO = new ReloadInfo();
 	private static final AtomicInteger VERSION = new AtomicInteger(0);
@@ -232,6 +233,11 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 					continue;
 				}
 
+				Identifier spawnAreaId = InventoryParticles.id("rii/" + itemId.getPath());
+				ParticleSpawnAreaId spawnArea = new ParticleSpawnAreaId(spawnAreaId);
+				spawnArea.setArea(getParticleSpawnPos(itemId, particleTexturesData, spawnAreaId));
+				spawnArea.setInitialized(true);
+
 				for (ParticleConfig particleConfig : configs) {
 					ParticleConfig copy = particleConfig.copy();
 
@@ -239,11 +245,6 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 					if (!textures.isEmpty() && copy.getTextures().isEmpty()) {
 						copy.setTextures(textures);
 					}
-
-					Identifier spawnAreaId = InventoryParticles.id("rii/" + itemId.getPath());
-					ParticleSpawnAreaId spawnArea = new ParticleSpawnAreaId(spawnAreaId);
-					spawnArea.setArea(getParticleSpawnPos(itemId, particleTexturesData, spawnAreaId));
-					spawnArea.setInitialized(true);
 
 					ParticleHolder familyHolder = new ParticleHolder(
 							"Family/UnknownParticle@" + RandomSource.create().nextIntBetweenInclusive(0, 100000),
@@ -315,6 +316,9 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 	private static ParticleTexturesData getParticleTexturesData(Identifier itemId, Item item, FamilyParticleData particle) {
 		List<Identifier> cachedItemTextures = FamilyParticlesAtlasCacheManager.getOrLoadItemTextures(itemId);
 		if (cachedItemTextures == null) {
+			if (!particle.canGenerateTextures()) {
+				return EMPTY_PARTICLES_TEXTURES_DATA;
+			}
 			if (InventoryParticlesConfig.getInstance().getMainConfig().isDebugModeEnabled()) {
 				InventoryParticlesClient.LOGGER.info("[1] Generating textures for {}", itemId);
 			}
@@ -322,7 +326,7 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 			if (renderedItemImage == null) {
 				return null;
 			}
-			GeneratedTextures generatedTextures = particle.getGeneratedTextures(renderedItemImage, itemId, item);
+			GeneratedTextures generatedTextures = particle.generateTextures(renderedItemImage, itemId, item);
 			return new ParticleTexturesData(generatedTextures, renderedItemImage);
 		} else {
 			if (InventoryParticlesConfig.getInstance().getMainConfig().isDebugModeEnabled()) {
@@ -359,7 +363,7 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 		}
 	}
 
-	private record ParticleTexturesData(@NotNull GeneratedTextures generatedTextures, @Nullable RenderedItemImage renderedItemImage) {
+	public record ParticleTexturesData(@NotNull GeneratedTextures generatedTextures, @Nullable RenderedItemImage renderedItemImage) {
 
 	}
 

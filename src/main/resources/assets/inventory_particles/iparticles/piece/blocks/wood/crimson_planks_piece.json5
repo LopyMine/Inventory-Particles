@@ -141,7 +141,6 @@
 			"nbt_conditions": []
 		},
 
-		//? if >=1.21.9 {
 		{
 			"item": "minecraft:crimson_shelf",
 			"spawn_area": "shelf.png",
@@ -152,7 +151,6 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		},
-		//?}
 
 		
 		

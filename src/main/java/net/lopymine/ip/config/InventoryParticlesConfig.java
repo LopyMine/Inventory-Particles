@@ -22,6 +22,7 @@ import static net.lopymine.mossylib.utils.CodecUtils.option;
 public class InventoryParticlesConfig {
 
 	public static final Codec<InventoryParticlesConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+			option("test_2_3_0", false, Codec.BOOL, InventoryParticlesConfig::isTest230),
 			option("test_2_2_0", false, Codec.BOOL, InventoryParticlesConfig::isTest220),
 			option("test_2_1_0", false, Codec.BOOL, InventoryParticlesConfig::isTest210),
 			option("test_1_2_2", false, Codec.BOOL, InventoryParticlesConfig::isTest122),
@@ -36,6 +37,7 @@ public class InventoryParticlesConfig {
 	private static final Logger LOGGER = LoggerFactory.getLogger(InventoryParticles.MOD_NAME + "/Config");
 	private static InventoryParticlesConfig INSTANCE;
 
+	private boolean test230;
 	private boolean test220;
 	private boolean test210;
 	private boolean test122;

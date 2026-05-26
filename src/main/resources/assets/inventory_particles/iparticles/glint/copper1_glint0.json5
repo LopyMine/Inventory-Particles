@@ -247,7 +247,6 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		},
-		//? if >=1.21.9 {
 		{
 			"item": "minecraft:exposed_lightning_rod",
 			"spawn_area": "lightning_rod.png",
@@ -373,7 +372,6 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		},
-		//?}
 		{
 			"item": "minecraft:waxed_exposed_copper_trapdoor",
 			"spawn_area": "trapdoor.png",

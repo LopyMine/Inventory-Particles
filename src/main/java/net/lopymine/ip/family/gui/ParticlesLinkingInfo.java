@@ -2,6 +2,7 @@ package net.lopymine.ip.family.gui;
 
 import java.util.*;
 import net.lopymine.ip.InventoryParticles;
+import net.lopymine.ip.family.cache.FamilyParticlesCacheManager;
 import net.lopymine.ip.resourcepack.manager.ParticlesConfigsManager;
 import net.lopymine.ip.resourcepack.manager.ParticlesConfigsManager.ReloadInfo;
 import net.lopymine.mossylib.utils.DrawUtils;
@@ -32,6 +33,9 @@ public class ParticlesLinkingInfo {
 
 			List<ClientTooltipComponent> components = new ArrayList<>();
 			components.add(ClientTooltipComponent.create(InventoryParticles.text("particles_linking.title").append("                                     ").getVisualOrderText()));
+			if (FamilyParticlesCacheManager.test) {
+				components.add(ClientTooltipComponent.create(InventoryParticles.text("particles_linking.preparing").getVisualOrderText()));
+			}
 			components.add(ClientTooltipComponent.create(Component.literal(reloadInfo.getCurrentItem()).getVisualOrderText()));
 			components.add(ClientTooltipComponent.create(InventoryParticles.text("particles_linking.loading", progress, totalItems).getVisualOrderText()));
 			components.add(ClientTooltipComponent.create(InventoryParticles.text("particles_linking.average_time", averageTime).getVisualOrderText()));

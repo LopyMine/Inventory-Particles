@@ -20,12 +20,14 @@ public class FamilyParticlesAtlasSpriteManager {
 	public static Map<String, Set<AtlasSprite>> createSpritesFromGeneratedTextures() {
 		Map<String, Set<AtlasSprite>> map = new HashMap<>();
 
-		for (Entry<String, Map<Identifier, NativeImage>> e : FamilyParticlesAtlasCacheManager.getNamespaceTextures().entrySet()) {
+		for (Entry<String, Map<Identifier, Map<Identifier, NativeImage>>> e : FamilyParticlesAtlasCacheManager.getNamespaceTextures().entrySet()) {
 			String atlasId = e.getKey();
 			Set<AtlasSprite> set = new HashSet<>();
-			for (Entry<Identifier, NativeImage> entry : e.getValue().entrySet()) {
-				AtlasSprite sprite = AtlasSprite.of(entry.getKey(), entry.getValue());
-				set.add(sprite);
+			for (Entry<Identifier, Map<Identifier, NativeImage>> ee : e.getValue().entrySet()) {
+				for (Entry<Identifier, NativeImage> entry : ee.getValue().entrySet()) {
+					AtlasSprite sprite = AtlasSprite.of(entry.getKey(), entry.getValue());
+					set.add(sprite);
+				}
 			}
 			set.add(MISSING_SPRITE);
 			map.put(atlasId, set);

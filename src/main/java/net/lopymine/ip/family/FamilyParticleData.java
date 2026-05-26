@@ -17,7 +17,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.*;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.*;
-import static com.mojang.serialization.Codec.BOOL;
 import static com.mojang.serialization.codecs.RecordCodecBuilder.create;
 import static net.lopymine.mossylib.utils.CodecUtils.*;
 import static net.lopymine.mossylib.utils.CodecUtils.option;
@@ -63,14 +62,12 @@ public class FamilyParticleData {
 	private IColorProvider colorProvider;
 	private double speedCoefficient;
 
+	public boolean canGenerateTextures() {
+		return !this.textureGenerationMode.isDisabled() && !this.textures.isEmpty();
+	}
+
 	@NotNull
-	public GeneratedTextures getGeneratedTextures(RenderedItemImage renderedItemImage, Identifier itemId, Item item) {
-		if (this.textures.isEmpty()) {
-			return new GeneratedTextures(new ArrayList<>(), new ArrayList<>());
-		}
-		if (this.textureGenerationMode.isDisabled()) {
-			return new GeneratedTextures(new ArrayList<>(), new ArrayList<>());
-		}
+	public GeneratedTextures generateTextures(RenderedItemImage renderedItemImage, Identifier itemId, Item item) {
 		return TextureGenerationManager.generateWithReplace(renderedItemImage, itemId, item, this.textures, this.textureGenerationMode);
 	}
 

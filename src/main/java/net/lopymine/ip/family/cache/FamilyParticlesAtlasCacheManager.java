@@ -7,6 +7,7 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import lombok.*;
 import lombok.experimental.ExtensionMethod;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.client.InventoryParticlesClient;
@@ -22,7 +23,9 @@ import org.jetbrains.annotations.Nullable;
 @ExtensionMethod(NativeImageExtension.class)
 public class FamilyParticlesAtlasCacheManager {
 
-	private static final Map<String, Map<Identifier, NativeImage>> NAMESPACE_TEXTURES = new ConcurrentHashMap<>();
+	// namespace -> itemId -> particleId -> image
+	private static final Map<String, Map<Identifier, Map<Identifier, NativeImage>>> NAMESPACE_TEXTURES = new ConcurrentHashMap<>();
+	// itemId -> particleId(s)
 	private static final Map<Identifier, List<Identifier>> ITEM_TEXTURES = new ConcurrentHashMap<>();
 
 	private static final Map<String, Object> NAMESPACE_WRITE_LOCKS = new ConcurrentHashMap<>();
@@ -33,15 +36,18 @@ public class FamilyParticlesAtlasCacheManager {
 	}
 
 	public static void save(String namespace) {
-		Map<Identifier, NativeImage> map = NAMESPACE_TEXTURES.get(namespace);
+		Map<Identifier, Map<Identifier, NativeImage>> map = NAMESPACE_TEXTURES.get(namespace);
 		if (map == null) {
 			return;
 		}
 
-		List<AtlasImageRegion> regions = map.entrySet()
-				.stream()
-				.map((e) -> new AtlasImageRegion(e.getKey(), e.getValue()))
-				.toList();
+		List<AtlasImageRegion> regions = new ArrayList<>();
+		for (Entry<Identifier, Map<Identifier, NativeImage>> e : map.entrySet()) {
+			Identifier itemId = e.getKey();
+			for (Entry<Identifier, NativeImage> entry : e.getValue().entrySet()) {
+				regions.add(new AtlasImageRegion(itemId, entry.getKey(), entry.getValue()));
+			}
+		}
 
 		if (regions.isEmpty()) {
 			return;
@@ -107,7 +113,8 @@ public class FamilyParticlesAtlasCacheManager {
 			for (PackedAtlasImageRegion region : packedRegions) {
 				output.write(String.format(
 						Locale.ROOT,
-						"%s\t%d\t%d\t%d\t%d%n",
+						"%s\t%s\t%d\t%d\t%d\t%d%n",
+						region.itemId(),
 						region.id(),
 						region.x(),
 						region.y(),
@@ -142,6 +149,7 @@ public class FamilyParticlesAtlasCacheManager {
 			}
 
 			packedRegions.add(new PackedAtlasImageRegion(
+					region.itemId(),
 					region.id(),
 					image,
 					x,
@@ -158,13 +166,19 @@ public class FamilyParticlesAtlasCacheManager {
 	}
 
 	@Nullable
-	public static Map<Identifier, NativeImage> load(String namespace) {
+	public static TempPair load(String namespace) {
 		try {
 			InventoryParticlesConfig config = InventoryParticlesConfig.getInstance();
 			if (!config.isTest220()) {
 				FamilyParticlesCacheManager.delete();
 				config.setTest220(true);
 				config.save();
+			} else {
+				if (!config.isTest230()) {
+					FamilyParticlesCacheManager.delete230();
+					config.setTest230(true);
+					config.save();
+				}
 			}
 			if (!Files.exists(FamilyParticlesCacheManager.FOLDER)) {
 				return null;
@@ -180,7 +194,11 @@ public class FamilyParticlesAtlasCacheManager {
 	}
 
 	@Nullable
-	private static Map<Identifier, NativeImage> loadNamespace(String namespace) {
+	private static TempPair loadNamespace(String namespace) {
+		if (!Files.exists(FamilyParticlesCacheManager.FOLDER.resolve(namespace))) {
+			return null;
+		}
+
 		NativeImage atlasImage = loadAtlas(namespace);
 		if (atlasImage == null) {
 			return null;
@@ -226,38 +244,57 @@ public class FamilyParticlesAtlasCacheManager {
 		return atlasImage;
 	}
 
-	private static Map<Identifier, NativeImage> parseSprites(NativeImage image, String regions) {
-		Map<Identifier, NativeImage> map = new HashMap<>();
+	private static TempPair parseSprites(NativeImage image, String regions) {
+		Map<Identifier, Map<Identifier, NativeImage>> first = new HashMap<>();
+		Map<Identifier, NativeImage> second = new HashMap<>();
+
 		for (String line : regions.split("\n")) {
 			try {
 				String[] split = line.split("\t");
-				if (split.length < 5) {
+
+				if (split.length == 6) {
+					Identifier itemId = InventoryParticles.parseId(split[0]);
+					Identifier id = InventoryParticles.parseId(split[1]);
+					int x = Integer.parseInt(split[2].strip());
+					int y = Integer.parseInt(split[3].strip());
+					int w = Integer.parseInt(split[4].strip());
+					int h = Integer.parseInt(split[5].strip());
+
+					NativeImage particleTexture = new NativeImage(w, h, false);
+					image.copyRect(particleTexture, x, y, 0, 0, w, h, false, false);
+
+					first.computeIfAbsent(itemId, (ignored) -> new HashMap<>()).put(id, particleTexture);
 					continue;
 				}
 
-				Identifier id = InventoryParticles.parseId(split[0]);
-				int x = Integer.parseInt(split[1].strip());
-				int y = Integer.parseInt(split[2].strip());
-				int w = Integer.parseInt(split[3].strip());
-				int h = Integer.parseInt(split[4].strip());
+				if (split.length == 5) {
+					Identifier id = InventoryParticles.parseId(split[0]);
+					int x = Integer.parseInt(split[1].strip());
+					int y = Integer.parseInt(split[2].strip());
+					int w = Integer.parseInt(split[3].strip());
+					int h = Integer.parseInt(split[4].strip());
 
-				NativeImage particleTexture = new NativeImage(w, h, false);
-				image.copyRect(particleTexture, x, y, 0, 0, w, h, false, false);
+					NativeImage particleTexture = new NativeImage(w, h, false);
+					image.copyRect(particleTexture, x, y, 0, 0, w, h, false, false);
 
-				map.put(id, particleTexture);
+					second.put(id, particleTexture);
+					continue;
+				}
 			} catch (Exception ignored) { }
 		}
 		image.close();
-		return map;
+		return new TempPair(first, second);
 	}
 
 	public static void add(Identifier itemId, Identifier particleId, NativeImage particleImage) {
 		ITEM_TEXTURES.computeIfAbsent(itemId, (ignored) -> new ArrayList<>()).add(particleId);
-		NAMESPACE_TEXTURES.computeIfAbsent(itemId.getNamespace(), (ignored) -> new HashMap<>()).put(particleId, particleImage);
+		NAMESPACE_TEXTURES.computeIfAbsent(itemId.getNamespace(), (ignored) -> new HashMap<>())
+				.computeIfAbsent(itemId, (ignored) -> new HashMap<>())
+				.put(particleId, particleImage);
 	}
 
 	public static void clear() {
-		for (Map<Identifier, NativeImage> value : NAMESPACE_TEXTURES.values()) {
+		for (Map<Identifier, Map<Identifier, NativeImage>> value : NAMESPACE_TEXTURES.values()) {
 			for (Identifier id : value.keySet()) {
 				Minecraft.getInstance().getTextureManager().release(id);
 			}
@@ -266,7 +303,7 @@ public class FamilyParticlesAtlasCacheManager {
 		ITEM_TEXTURES.clear();
 	}
 
-	public static Map<String, Map<Identifier, NativeImage>> getNamespaceTextures() {
+	public static Map<String, Map<Identifier, Map<Identifier, NativeImage>>> getNamespaceTextures() {
 		return NAMESPACE_TEXTURES;
 	}
 
@@ -280,17 +317,38 @@ public class FamilyParticlesAtlasCacheManager {
 
 	public static List<Identifier> load(Identifier itemId) {
 		String namespace = itemId.getNamespace();
-		Map<Identifier, NativeImage> alreadyCreatedMap = NAMESPACE_TEXTURES.get(namespace);
+		Map<Identifier, Map<Identifier, NativeImage>> alreadyCreatedMap = NAMESPACE_TEXTURES.get(namespace);
 		if (alreadyCreatedMap != null) {
 			return null;
 		}
 
-		Map<Identifier, NativeImage> map = load(namespace);
-		if (map == null) {
+		TempPair pair = load(namespace);
+		if (pair == null) {
 			return null;
 		}
 
-		for (Entry<Identifier, NativeImage> entry : map.entrySet()) {
+		for (Entry<Identifier, Map<Identifier, NativeImage>> e : pair.first().entrySet()) {
+			Identifier parsedItemId = e.getKey();
+			for (Entry<Identifier, NativeImage> entry : e.getValue().entrySet()) {
+				//? if >=1.21.4 {
+				if (BuiltInRegistries.ITEM.get(parsedItemId).isEmpty()) {
+					continue;
+				}
+				//?} else {
+				/*if (BuiltInRegistries.ITEM.get(parsedItemId) == Items.AIR) {
+					continue;
+				}
+				*///?}
+				Identifier particleId = entry.getKey();
+				ITEM_TEXTURES.computeIfAbsent(parsedItemId, (ignored) -> new ArrayList<>()).add(particleId);
+				NAMESPACE_TEXTURES.computeIfAbsent(namespace, (ignored) -> new HashMap<>())
+						.computeIfAbsent(parsedItemId, (ignored) -> new HashMap<>())
+						.put(particleId, entry.getValue());
+			}
+		}
+
+		// todo remove this later pls
+		for (Entry<Identifier, NativeImage> entry : pair.second().entrySet()) {
 			Identifier parsedItemId = parseItemId(entry, namespace);
 			if (parsedItemId == null) {
 				continue;
@@ -307,9 +365,10 @@ public class FamilyParticlesAtlasCacheManager {
 			*///?}
 
 			Identifier particleId = entry.getKey();
-			ITEM_TEXTURES.computeIfAbsent(parsedItemId, (k) -> new ArrayList<>()).add(particleId);
-			Map<Identifier, NativeImage> textures = NAMESPACE_TEXTURES.computeIfAbsent(namespace, (k) -> new HashMap<>());
-			textures.put(particleId, entry.getValue());
+			ITEM_TEXTURES.computeIfAbsent(parsedItemId, (ignored) -> new ArrayList<>()).add(particleId);
+			NAMESPACE_TEXTURES.computeIfAbsent(namespace, (ignored) -> new HashMap<>())
+					.computeIfAbsent(parsedItemId, (ignored) -> new HashMap<>())
+					.put(particleId, entry.getValue());
 		}
 
 		return ITEM_TEXTURES.get(itemId);
@@ -330,7 +389,10 @@ public class FamilyParticlesAtlasCacheManager {
 		return InventoryParticles.parseId(atlasId + ":" + substring);
 	}
 
-	private record PackedAtlasImageRegion(
+	public record TempPair(Map<Identifier, Map<Identifier, NativeImage>> first, Map<Identifier, NativeImage> second) { }
+
+	public record PackedAtlasImageRegion(
+			Identifier itemId,
 			Identifier id,
 			NativeImage image,
 			int x,
@@ -341,6 +403,7 @@ public class FamilyParticlesAtlasCacheManager {
 	}
 
 	public record AtlasImageRegion(
+			Identifier itemId,
 			Identifier id,
 			NativeImage image
 	) {

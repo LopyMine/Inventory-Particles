@@ -1,3 +1,3 @@
-- Reworked cache file structure, so now you will have reduced amount of files
-- Fixed compatibility with "Stack To Nearby Chests" mod
-- Fixed appearing particles behind the grabbed item on 1.20.1
+- Returned configs for newer items to older Minecraft versions. This was done for "Minecraft Update Backport" mods.
+- Fixed creating and loading cache for *special* items with unusual ids. This should fix generating particles everytime. Regenerating cache is not required.
+- Optimized generating particles to remove useless rendering when there is no need for that.
