@@ -12,11 +12,6 @@ import net.lopymine.ip.resourcepack.manager.ParticlesConfigsManager;
 import net.lopymine.ip.resourcepack.reload.InventoryParticlesClientReloadListener;
 import net.lopymine.mossylib.loader.MossyLoader;
 
-//? if >=1.21.9 {
-
-
-//?}
-
 public class IPFabricClientEntrypoint implements ClientModInitializer {
 
 	@Override

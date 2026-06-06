@@ -40,3 +40,10 @@ mandatory = false
 versionRange = "[1.4.0,)"
 ordering = "NONE"
 side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "inventory_interactions"
+mandatory = false
+versionRange = "[1.2.0,)"
+ordering = "NONE"
+side = "BOTH"

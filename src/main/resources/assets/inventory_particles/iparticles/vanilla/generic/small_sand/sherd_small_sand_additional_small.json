@@ -9,12 +9,10 @@
 	},
 
 	"textures": [
-		"inventory_particles:vanilla/generic/generic_5.png",
-		"inventory_particles:vanilla/generic/generic_4.png",
-		"inventory_particles:vanilla/generic/generic_3.png",
-		"inventory_particles:vanilla/generic/generic_2.png",
+		"inventory_particles:vanilla/generic/generic_0.png",
 		"inventory_particles:vanilla/generic/generic_1.png",
-		"inventory_particles:vanilla/generic/generic_0.png"
+		"inventory_particles:vanilla/generic/generic_2.png",
+		"inventory_particles:vanilla/generic/generic_3.png"
 	],
 	
 	"holders": [

@@ -82,11 +82,11 @@
 	"${mod_id}.modmenu.option.fade_out_duration.name": "Particle Deletion Fade Out Duration",
 	"${mod_id}.modmenu.option.fade_out_duration.description": "Duration in ticks for smooth particle fade out effect after reaching the maximum particle limit. If set to 0, particles will be removed immediately without fading.",
 
-	"${mod_id}.modmenu.group.cache.name": "Particle Texture Cache",
-	"${mod_id}.modmenu.group.cache.description": "Settings controlling cached particle textures used for modded items.",
+	"${mod_id}.modmenu.group.cache.name": "Modded Items Cache",
+	"${mod_id}.modmenu.group.cache.description": "Settings controlling cached assets used for modded items.",
 
 	"${mod_id}.modmenu.option.invalidate_mode.name": "Invalidate Mode",
-	"${mod_id}.modmenu.option.invalidate_mode.description": "When cached particle textures for modded items should be deleted to be recreated.",
+	"${mod_id}.modmenu.option.invalidate_mode.description": "When cached assets for modded items should be deleted to be recreated.",
 
 	"${mod_id}.modmenu.option.invalidate_mode.after_resource_reloading": "After resource reloading",
 	"${mod_id}.modmenu.option.invalidate_mode.after_joining_world": "After joining world",
@@ -94,7 +94,7 @@
 	"${mod_id}.modmenu.option.invalidate_mode.manual_invalidate": "Manual (button below)",
 
 	"${mod_id}.modmenu.option.invalidate_now.name": "Invalidate Cache Now",
-	"${mod_id}.modmenu.option.invalidate_now.description": "Immediately invalidates cached particle textures for modded items.",
+	"${mod_id}.modmenu.option.invalidate_now.description": "Immediately invalidates cached assets for modded items.",
 
 	"${mod_id}.particles_linking.title": "Linking Particles To Items",
 	"${mod_id}.particles_linking.loading": "Progress: %s / %s",

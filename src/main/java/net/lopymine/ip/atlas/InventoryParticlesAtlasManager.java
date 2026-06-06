@@ -5,7 +5,9 @@ import java.util.concurrent.*;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.family.atlas.manager.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.client.renderer.texture.*;
+import net.minecraft.network.chat.*;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.*;
 import org.jetbrains.annotations.Nullable;
@@ -49,17 +51,30 @@ public class InventoryParticlesAtlasManager {
 	}
 
 	public TextureAtlasSprite getSprite(@Nullable Identifier id, @Nullable Identifier atlasId) {
-		if (id == null) {
-			return this.getMissingSprite();
+		try {
+			if (id == null) {
+				return this.getMissingSprite();
+			}
+			if (atlasId == null || atlasId == ATLAS_ID) {
+				return this.atlas.getSprite(id);
+			}
+			FamilyParticlesAtlasManager familyManager = FamilyParticlesAtlasManager.get(atlasId.getPath());
+			if (familyManager != null) {
+				return familyManager.getSprite(id);
+			}
+			return OtherAtlasManager.getSprite(id, atlasId, this.getMissingSprite());
+		} catch (Exception e) {
+			if (e.getMessage().equals("Tried to lookup sprite, but atlas is not initialized")) {
+				MutableComponent message = Component.literal("[Inventory Particles] Hey, wait! This error is special, and I don’t know when or why it happens. There have been only a few bug reports about it. If you see this message, please report this bug with the !!full game logs!! — they’re important. Thanks!\n");
+				ChatComponent chat = Minecraft.getInstance().gui.getChat();
+				//? if >=26.1 {
+				chat.addClientSystemMessage(message);
+				//?} else {
+				/*chat.addMessage(message);
+				 *///?}
+			}
+			throw e;
 		}
-		if (atlasId == null || atlasId == ATLAS_ID) {
-			return this.atlas.getSprite(id);
-		}
-		FamilyParticlesAtlasManager familyManager = FamilyParticlesAtlasManager.get(atlasId.getPath());
-		if (familyManager != null) {
-			return familyManager.getSprite(id);
-		}
-		return OtherAtlasManager.getSprite(id, atlasId, this.getMissingSprite());
 	}
 
 	public TextureAtlasSprite getMissingSprite() {

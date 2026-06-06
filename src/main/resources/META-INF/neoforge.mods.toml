@@ -43,3 +43,11 @@ versionRange = "[,1.4.0)"
 ordering = "NONE"
 side = "BOTH"
 reason = "Please update Particle Effects to latest version"
+
+[[dependencies.${mod_id}]]
+modId = "inventory_interactions"
+type = "incompatible"
+versionRange = "[,1.2.0)"
+ordering = "NONE"
+side = "BOTH"
+reason = "Please update Inventory Interactions to latest version"
