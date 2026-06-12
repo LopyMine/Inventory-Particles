@@ -1,0 +1,31 @@
+{
+	"keywords": {
+		"whitelist": [
+			"torch",
+			"sconce",
+			"campfire",
+			"fire"
+		],
+		"blacklist": [
+			"soul"
+		]
+	},
+	"particles": [
+		{
+			"id": "vanilla/flame/flame",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.15,
+			"color": {
+				"mode": "gradient",
+				"values": ["#FFFFFFFF", "#FFFFFFFF", "#00FFFFFF"],
+				"speed": 20
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"family_groups": [],
+	"compatible": false,
+	"priority": 1000
+}

@@ -1,0 +1,18 @@
+{
+	"keywords": [
+		"redstone"
+	],
+	"particles": [
+		{
+			"id": "redstone/redstone",
+			"spawn_count": [1, 2],
+			"spawn_frequency": [1, 4],
+			"speed_coefficient": 0.15,
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		}
+	],
+	"family_groups": [],
+	"compatible": false,
+	"priority": 1230
+}
