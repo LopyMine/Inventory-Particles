@@ -274,7 +274,13 @@ public class ItemRendering {
 			TextureAtlasSprite[] fluidSprites = handler.getFluidSprites(null, null, fluidState);
 			TextureAtlasSprite sprite = fluidSprites[0];
 
+			if (sprite.contents().name().getPath().equals("missingno")) {
+				consumer.accept(null);
+				return;
+			}
+
 			NativeImage nativeImage = new NativeImage(WIDTH, HEIGHT, true);
+
 			sprite.contents().originalImage.copyRect(nativeImage, 0, 0, 0, 0, 16, 16, false, false);
 
 			consumer.accept(new RenderedFluidImage(nativeImage, new ColorGetter() {
@@ -505,6 +511,11 @@ public class ItemRendering {
 
 			TextureAtlasSprite sprite = fluidSprites[0];
 
+			if (sprite.contents().name().getPath().equals("missingno")) {
+				consumer.accept(null);
+				return;
+			}
+
 			NativeImage nativeImage = new NativeImage(WIDTH, HEIGHT, true);
 			sprite.contents().originalImage.copyRect(nativeImage, 0, 0, 0, 0, 16, 16, false, false);
 
@@ -694,6 +705,11 @@ public class ItemRendering {
 
 			TextureAtlasSprite sprite = fluidSprites[0];
 
+			if (sprite.contents().name().getPath().equals("missingno")) {
+				consumer.accept(null);
+				return;
+			}
+
 			NativeImage nativeImage = new NativeImage(WIDTH, HEIGHT, true);
 			sprite.contents().originalImage.copyRect(nativeImage, 0, 0, 0, 0, 16, 16, false, false);
 
@@ -840,6 +856,11 @@ public class ItemRendering {
 			TextureAtlasSprite[] fluidSprites = handler.getFluidSprites(null, null, fluidState);
 
 			TextureAtlasSprite sprite = fluidSprites[0];
+
+			if (sprite.contents().name().getPath().equals("missingno")) {
+				consumer.accept(null);
+				return;
+			}
 
 			NativeImage nativeImage = new NativeImage(WIDTH, HEIGHT, true);
 			sprite.contents().originalImage.copyRect(nativeImage, 0, 0, 0, 0, 16, 16, false, false);
@@ -1011,6 +1032,11 @@ public class ItemRendering {
 			TextureAtlasSprite[] fluidSprites = handler.getFluidSprites(null, null, fluidState);
 
 			TextureAtlasSprite sprite = fluidSprites[0];
+
+			if (sprite.contents().name().getPath().equals("missingno")) {
+				consumer.accept(null);
+				return;
+			}
 
 			NativeImage nativeImage = new NativeImage(WIDTH, HEIGHT, true);
 			sprite.contents().originalImage.copyRect(nativeImage, 0, 0, 0, 0, 16, 16, false, false);

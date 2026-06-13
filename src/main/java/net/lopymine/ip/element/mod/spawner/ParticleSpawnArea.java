@@ -23,6 +23,10 @@ public record ParticleSpawnArea(IParticleSpawnPos[] positions) implements IParti
 		return new ParticleSpawnArea(list.toArray(IParticleSpawnPos[]::new));
 	}
 
+	public boolean isEmpty() {
+		return this.positions().length == 0;
+	}
+
 	@Override
 	@Nullable
 	public IParticleSpawnPos getRandomPos(RandomSource random) {

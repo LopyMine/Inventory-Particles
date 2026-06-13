@@ -235,7 +235,12 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 
 				Identifier spawnAreaId = InventoryParticles.id("rii/" + itemId.getPath());
 				ParticleSpawnAreaId spawnArea = new ParticleSpawnAreaId(spawnAreaId);
-				spawnArea.setArea(getParticleSpawnPos(itemId, particleTexturesData, spawnAreaId));
+				ParticleSpawnArea particleSpawnPos = getParticleSpawnPos(itemId, particleTexturesData, spawnAreaId);
+				if ((particleSpawnPos == null || particleSpawnPos.isEmpty()) && particle.getSpawnAreaFallback() != ParticleSpawnAreaId.STANDARD_SPAWN_AREA_ID) {
+					particleSpawnPos = particle.getSpawnAreaFallback().getArea();
+				}
+
+				spawnArea.setArea(particleSpawnPos);
 				spawnArea.setInitialized(true);
 
 				for (ParticleConfig particleConfig : configs) {

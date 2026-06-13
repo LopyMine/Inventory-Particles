@@ -28,9 +28,9 @@ Texture references in configs use the `inventory_particles:` namespace prefix. E
 
 ---
 
-## — Main Options —
+## — Config Options —
 
-### `life_time` <img src="https://github.com/LopyMine/PatPat/blob/master/img/wiki/required.png?raw=true" width="60px" alt="status"/>
+### `life_time` 
 
 > Type: `Integer` | Example: `300` | Positive only
 
@@ -38,7 +38,7 @@ Specifies the lifetime of the particle in ticks (game ticks, where 20 ticks = 1 
 
 ---
 
-### `animation_type` <img src="https://github.com/LopyMine/PatPat/blob/master/img/wiki/optional.png?raw=true" width="60px" alt="status"/>
+### `animation_type` 
 
 > Type: `String` | Example: `random_static` | Default Value: `random`
 
@@ -53,7 +53,7 @@ Possible values:
 
 ---
 
-### `animation_speed` <img src="https://github.com/LopyMine/PatPat/blob/master/img/wiki/optional.png?raw=true" width="60px" alt="status"/>
+### `animation_speed` 
 
 > Type: `Double` | Example: `1.0` | Default Value: `1.0` | Positive only
 
@@ -61,13 +61,13 @@ Controls the speed of the texture animation in game ticks. `1.0` is normal speed
 
 ---
 
-### `size` <img src="https://github.com/LopyMine/PatPat/blob/master/img/wiki/optional.png?raw=true" width="60px" alt="status"/>
+### `size` 
 
 > Type: `Object` | Example: `{"width": 16, "height": 16}` | Default Value: `{"width": 8, "height": 8}`
 
 Defines the size of the particle. Can be static or dynamic:
 
-#### Static Size:
+#### Example — Static Size:
 ```json
 {
   "width": 8.0,
@@ -75,7 +75,7 @@ Defines the size of the particle. Can be static or dynamic:
 }
 ```
 
-#### Dynamic Size:
+#### Example — Dynamic Size:
 ```json
 "size": {
   {
@@ -96,13 +96,13 @@ Defines the size of the particle. Can be static or dynamic:
 
 ---
 
-### `textures` <img src="https://github.com/LopyMine/PatPat/blob/master/img/wiki/required.png?raw=true" width="60px" alt="status"/>
+### `textures` 
 
 > Type: `String Array` | Example: `["inventory_particles:drip/water_drip_0.png"]`
 
-List of strings that indticates texture paths for your particle. Can be item texture or atlas texture:
+List of strings that indicates texture paths for your particle. Can be item texture or atlas texture:
 
-#### Item Texture
+#### Example — Item Texture
 ```json
 "textures": [
 	"minecraft:stick"
@@ -111,7 +111,7 @@ List of strings that indticates texture paths for your particle. Can be item tex
 - Renders provided item as particle's texture
 - Use tooltip with F3+H to get your item identifier
 
-#### Standard (Mod) Atlas Texture
+#### Example — Standard (Mod) Atlas Texture
 ```json
 "textures": [
 	"inventory_particles:void/void_1.png"
@@ -119,7 +119,7 @@ List of strings that indticates texture paths for your particle. Can be item tex
 ```
 - Renders texture from mod's atlas. Every texture must be in `textures/iparticles/..`
 
-#### Another Atlas Texture
+#### Example — Another Atlas Texture
 ```json
 "textures": [
 	{
@@ -128,19 +128,21 @@ List of strings that indticates texture paths for your particle. Can be item tex
 	}
 ],
 ```
-- Renders texture from another atlas. Every texture must be in `textures/iparticles/..`
+- Renders texture from another atlas.
 
-### `holders` <img src="https://github.com/LopyMine/PatPat/blob/master/img/wiki/required.png?raw=true" width="60px" alt="status"/>
+### `holders` 
 
 > Type: `Array of Objects` | Example: See below | Default Value: `[]`
 
 List of items that trigger particle spawning. Each holder defines when and where particles appear on an item. At least one holder is required for particles to spawn.
 
+---
+
 #### Holder Fields:
 
 ##### `name`
 
-> Type: `String` | Example: `"Water Bucket Drip"` | Default Value: Auto-generated
+> Type: `String` | Example: `"Water Bucket Drip"` | Default Value: UnknownParticle@123456
 
 Optional name for the holder, used for debugging. Helps identify configurations in logs.
 
@@ -152,83 +154,15 @@ Item ID or tag to trigger particles:
 - Item ID: `"minecraft:water_bucket"` — spawns particles only on this item.
 - Tag: `"#minecraft:buckets"` — spawns particles on all items in the tag (use `#` prefix).
 
-##### `nbt_conditions_match`
-
-> Type: `String` | Example: `"any"` | Default Value: `"any"`
-
-How to combine NBT conditions when multiple are specified:
-- `"all"`: All conditions must match.
-- `"any"`: At least one condition must match.
-- `"none"`: None of the conditions must match.
-
-##### `nbt_conditions`
-
-> Type: `Array of Objects` | Example: See structure below | Default Value: `[]`
-
-Conditions based on item's NBT data. Allows particles only on items with specific enchantments, damage, or custom data. Each object represents an NBT node to check.
-
-###### NBT Condition Fields:
-- `this_name`: Name of the NBT tag to check (e.g., `"Damage"`, `"Enchantments"`, `"CustomModelData"`).
-- `this_type`: Type of the tag: `"int"`, `"string"`, `"list"`, `"compound"`, `"double"`, `"float"`, `"long"`.
-- `check_value`: Array of values to match against. String comparison.
-- `next_match` (optional): How to combine nested conditions (`"all"`, `"any"`, `"none"`).
-- `next` (optional): Array of nested conditions for deeper NBT paths.
-
-**Example — Enchanted items only:**
-```json
-"nbt_conditions": [
-  {
-    "this_name": "Enchantments",
-    "this_type": "list",
-    "check_value": [""]
-  }
-]
-```
-
-**Example — Damaged tools:**
-```json
-"nbt_conditions": [
-  {
-    "this_name": "Damage",
-    "this_type": "int",
-    "check_value": ["0"],
-    "next_match": "none"
-  }
-]
-```
-This shows particles only if Damage ≠ 0.
-
-**Example — Custom data (nested):**
-```json
-"nbt_conditions": [
-  {
-    "this_name": "tag",
-    "this_type": "compound",
-    "check_value": [""],
-    "next": [
-      {
-        "this_name": "example_key",
-        "this_type": "string",
-        "check_value": ["example_value"]
-      }
-    ]
-  }
-]
-```
-
 ##### `spawn_area`
 
-> Type: `String` | Example: `"lava_bucket_drip.png"` | Default Value: `"standard.png"`
+> Type: `String` | Example: `"lava_bucket_drip.png"` | Default Value: Just left top corner without offsets
 
-Name of a PNG file in the `textures/spawn_areas/` directory. The image acts as a mask:
-- **White pixels** (`#FFFFFF`) — particles spawn here.
-- **Black pixels** (`#000000`) — particles do not spawn.
-- **Gray pixels** — partial spawn chance (transparency).
+Name of a PNG file in the `textures/spawn_areas/` directory. The image acts as a mask where particles may spawn.
 
-Size of the mask determines spawn region on the item. Load the item texture as reference, then draw white areas where you want particles.
+Size of the mask determines spawn region on the item.
 
 **Example files:**
-- `"standard.png"` — uniform spawning across entire item.
 - `"bucket_drip.png"` — spawning only at bucket bottom edge.
 - `"spawn_egg.png"` — spawning on spawn egg surface.
 
@@ -236,7 +170,7 @@ Size of the mask determines spawn region on the item. Load the item texture as r
 
 > Type: `Array of Integers` | Example: `[1, 2]` | Default Value: `[0, 0]`
 
-Range of particles spawned per event: `[min, max]`. A random integer between min and max is chosen each spawn.
+Range of particles spawned per spawn event: `[min, max]`. A random integer between min and max is chosen each spawn.
 
 - `[0, 0]` — no particles spawn (default, likely unintended).
 - `[1, 1]` — exactly 1 particle each spawn.
@@ -253,48 +187,182 @@ Ticks between spawn events: `[min, max]`. A random interval is chosen each time 
 - `[10, 80]` — spawns every 0.5–4 seconds (varied effect).
 - `[80, 80]` — spawns every 4 seconds (fixed rate).
 
+##### `speed_coefficient`
+
+> Type: `Double` | Example: `0.2` | Default Value: `0.0`
+
+Scales particle spawn count based on cursor movement speed. The formula is:
+```
+spawn_count = config_spawn_count * speed_coefficient * sqrt(cursor_speed)
+```
+
+This means particles spawn more frequently when the cursor moves faster:
+- `0.0` — spawn count ignores cursor speed (static spawning).
+- `0.2` — spawn count scales moderately with cursor speed.
+- `1.0` — spawn count scales fully with cursor speed.
+
 ##### `color`
 
 > Type: `String` or `Object` | Example: `"#FF0000"` | Default Value: `""`
 
 Tints the particle. Options:
 
-**Static color (hex):**
+**Example — Static color (hex value, #AARRGGBB):**
 ```json
-"color": "#FF0000"
+"color": "#FFFF0000"
 ```
-Red particles. Use 6-digit hex code.
 
-**White (default):**
+This will color particle to red. Something like `"#DDFF0000"` will make particle little transparent.
+
+**Example — White (default):**
 ```json
 "color": ""
 ```
 No tint applied.
 
-**From item NBT:**
+**Example — From item NBT:**
 ```json
 "color": "nbt"
 ```
 Reads color from item's `display.color` NBT (used by leather armor, dyed items). If not present, defaults to white.
 
-**List of colors (animated/random):**
+**Example — List of colors (animated/random):**
 ```json
 "color": "nbt_list"
 ```
 Reads color list from item NBT and cycles through or randomly picks colors.
 
-##### `speed_coefficient`
+> The difference between "nbt" and "nbt_list" lies in how the final color is obtained.
+> "nbt" blends all available colors into one, whereas "nbt_list" leaves them as they are.
 
-> Type: `Double` | Example: `0.2` | Default Value: `0.0`
+**Example — Advanced color modes (gradients, animations):**
 
-Multiplier for particle physics speed. Affects `impulse`, `acceleration`, and `max` values in physics.
+Advanced color modes allow complex color animations by combining multiple colors with different interpolation modes.
 
-- `0.0` — no additional speed (particles move only by physics base settings).
-- `0.3` — particles move 30% faster than configured.
-- `1.0` — full speed as configured.
-- `-0.5` — negative multiplier reverses movement direction (rare).
+```json
+"color": {
+  "mode": "gradient",
+  "values": ["#FF000000", "#FFFF0000", "#FFFFFF00", "#FF00FF00", "#FF0000FF", "#FF000000"],
+  "speed": 20
+}
+```
 
-#### Holder Example — Complete:
+Available modes:
+- `"random"`: Picks random color from `values` each tick.
+- `"random_static"`: Picks random color once at spawn.
+- `"gradient"`: Smoothly interpolates between colors in order. `speed` is the duration in ticks for full cycle.
+- `"gradient_loop"`: Same as gradient but loops infinitely.
+- `"gradient_bounce"`: Interpolates back and forth between colors.
+- `"gradient_random_static"`: Gradient that starts at random position in the color sequence.
+- `"mixed"`: Blends all colors together.
+
+**Example — Rainbow gradient:**
+```json
+"color": {
+  "mode": "gradient_loop",
+  "values": ["#FFFF0000", "#FFFF7F00", "#FFFFFF00", "#FF00FF00", "#FF0000FF", "#FF8B00FF"],
+  "speed": 40
+}
+```
+Cycles through rainbow colors, taking 40 ticks for a full loop.
+
+**Example — Fade in-out:**
+```json
+"color": {
+  "mode": "gradient_bounce",
+  "values": ["#00FFFFFF", "#FFFFFFFF"],
+  "speed": 20
+}
+```
+Fades from transparent white to opaque white and back, where the first hex digit is alpha (00=transparent, FF=opaque).
+
+##### `nbt_conditions_match`
+
+> Type: `String` | Example: `"all"` | Default Value: `"any"`
+
+How to combine NBT conditions when multiple are specified:
+- `"all"`: All conditions must match.
+- `"any"`: At least one condition must match.
+- `"none"`: None of the conditions must match.
+
+##### `nbt_conditions`
+
+> Type: `Array of Objects` | Example: See structure below | Default Value: `[]`
+
+Conditions based on item's NBT data. Allows particles only on items with specific enchantments, damage, or custom data. Each object represents an NBT node to check.
+
+###### NBT Node Fields:
+- `this_name`: Name of the NBT tag to check (e.g., `"Damage"`, `"Enchantments"`, `"CustomModelData"`).
+- `this_type`: Type of the NBT tag to check: `"int"`, `"string"`, `"list"`, `"compound"`, `"double"`, `"float"`, `"long"`.
+- `check_value`: Array of values to match against. It uses string comparison.
+- `next_match` (optional): How to combine nested conditions (`"all"`, `"any"`, `"none"`).
+- `next` (optional): Array of nested conditions for deeper NBT paths.
+
+**Example — Enchanted items only:**
+
+Why it works: Not all items necessarily have the "Enchantments" tag.
+If an item has any enchantment, it also has this tag.
+Also, note that we are not checking for specific enchantments here.
+
+```json
+"nbt_conditions": [
+  {
+    "this_name": "Enchantments",
+    "this_type": "list"
+  }
+]
+```
+
+**Example — Damaged tools:**
+
+Here, we are checking the specific value of the NBT tag.
+If the Damage value is 0, it returns true; if the value is 10, it returns false.
+If the value is not of the int type, it also returns false.
+If there is no value or tag at all, it also returns false.
+
+```json
+"nbt_conditions": [
+  {
+    "this_name": "Damage",
+    "this_type": "int",
+    "check_value": ["0"]
+  }
+]
+```
+
+**Example — More nbt nodes (nested):**
+
+To return true here, it must find the "tag", then find in it the "example_key" (of type string), and only then check if the value is "example_value".
+If something fails, it will return false.
+
+```json
+"nbt_conditions": [
+  {
+    "this_name": "tag",
+    "this_type": "compound",
+    "next": [
+      {
+        "this_name": "example_key",
+        "this_type": "string",
+        "check_value": ["example_value"]
+      }
+    ]
+  }
+]
+```
+
+**Example — Specific custom model data:**
+```json
+"nbt_conditions": [
+  {
+    "this_name": "CustomModelData",
+    "this_type": "int",
+    "check_value": ["12345"]
+  }
+]
+```
+
+#### Example — Holder:
 
 ```json
 "holders": [
@@ -316,13 +384,16 @@ Multiplier for particle physics speed. Affects `impulse`, `acceleration`, and `m
     "spawn_count": [0, 2],
     "spawn_frequency": [30, 60],
     "speed_coefficient": 0.1,
-    "color": "",
+    "color": {
+      "mode": "gradient_loop",
+      "values": ["#FFFFFF00", "#FFFFFFFF", "#FF00FF00"],
+      "speed": 20
+    },
     "nbt_conditions_match": "all",
     "nbt_conditions": [
       {
         "this_name": "Enchantments",
-        "this_type": "list",
-        "check_value": [""]
+        "this_type": "list"
       }
     ]
   }
@@ -344,16 +415,16 @@ Movement physics for the particle in 2D space. Controls X/Y motion and angular r
 > Type: `Object` | Controls horizontal (left-right) movement.
 
 - `impulse`: Initial speed range `[min, max]` in pixels/tick. Applied once at spawn.
-- `impulse_bidirectional`: If `true`, impulse can be positive or negative (left or right). If `false`, always positive.
+- `impulse_bidirectional`: If `true`, impulse can be positive or negative (left or right). If `false`, always positive. In math, it basically does `randomValue(impulseRange) * random(1, -1)`
 - `acceleration`: Constant acceleration in pixels/tick². Applied every tick.
-- `acceleration_bidirectional`: If `true`, acceleration can flip direction each tick.
-- `max_acceleration`: Maximum acceleration magnitude `[min, max]`.
-- `max`: Maximum speed magnitude `[min, max]`.
+- `acceleration_bidirectional`: If `true`, acceleration can flip direction each tick. In math, it basically does `acceleration * random(1, -1)`
+- `max_acceleration`: Maximum acceleration speed `[min, max]`.
+- `max`: Maximum global speed magnitude `[min, max]`.
 - `braking`: Deceleration per tick (0–1). Reduces speed each frame. `0.05` = 5% slowdown per tick.
 - `turbulence`: Random speed variation `[min, max]` applied per tick (like wind).
-- `cursor_impulse_inherit_coefficient`: How much particle inherits cursor movement (0–1). `1.0` = full inheritance.
+- `cursor_impulse_inherit_coefficient`: How much particle inherits cursor speed (0–1). `1.0` = full inheritance.
 
-**Example — still horizontal:**
+**Example — No particle movement:**
 ```json
 "x_speed": {
   "impulse": [0.0, 0.0],
@@ -368,7 +439,7 @@ Movement physics for the particle in 2D space. Controls X/Y motion and angular r
 }
 ```
 
-**Example — drifting horizontally:**
+**Example — Drifting:**
 ```json
 "x_speed": {
   "impulse": [-0.5, 0.5],
@@ -379,15 +450,13 @@ Movement physics for the particle in 2D space. Controls X/Y motion and angular r
   "cursor_impulse_inherit_coefficient": 1.0
 }
 ```
-Random initial drift ±0.5 px/tick, slight turbulence, gentle braking.
+It does random initial drift ±0.5 px/tick, slight turbulence, gentle braking.
 
 ##### `y_speed`
 
 > Type: `Object` | Controls vertical (up-down) movement. Same structure as `x_speed`.
 
-Common use: gravity/falling motion.
-
-**Example — gravity (dripping):**
+**Example — Gravity/Dripping:**
 ```json
 "y_speed": {
   "impulse": [0.0, 0.0],
@@ -403,13 +472,12 @@ Common use: gravity/falling motion.
 ```
 Constant downward acceleration (gravity), small turbulence to add randomness. Used in milk/lava drips.
 
-**Example — floating upward:**
+**Example — Floating upward:**
 ```json
 "y_speed": {
   "impulse": [0.1, 0.3],
   "impulse_bidirectional": false,
   "acceleration": -0.1,
-  "braking": 0.05,
   "turbulence": [0.0, 0.0]
 }
 ```
@@ -417,23 +485,34 @@ Particles spawn with upward velocity, gradually slow and fall back down.
 
 ##### `angle_speed`
 
-> Type: `Object` | Controls rotation of the particle in degrees per tick.
+> Type: `Object` | Controls particle movement direction via angle-based physics.
 
-- `impulse`: Rotation speed at spawn `[min, max]` degrees/tick.
-- `impulse_bidirectional`: If `true`, can spin clockwise or counter-clockwise.
-- All other fields same as `x_speed`.
+This applies speed in the direction the particle is facing (its angle). Uses trigonometry to convert angle into X/Y velocity components.
 
-**Example — spinning particle:**
+Fields used:
+- `impulse`: Initial angle-based speed `[min, max]`. Applied at spawn.
+- `impulse_bidirectional`: If `true`, impulse can be positive or negative.
+- `acceleration`: Constant acceleration in the angle direction.
+- `acceleration_bidirectional`: If `true`, acceleration can flip direction.
+- `braking`: Deceleration applied to angle-based movement.
+- `turbulence`: Random variation in angle-based speed.
+
+Fields NOT used in angle_speed (ignored):
+- `max_acceleration`
+- `max`
+- `cursor_impulse_inherit_coefficient`
+
+**Example — movement in rotated direction:**
 ```json
 "angle_speed": {
-  "impulse": [2.0, 5.0],
-  "impulse_bidirectional": true,
-  "acceleration": 0.0,
-  "braking": 0.0,
+  "impulse": [1.0, 2.0],
+  "impulse_bidirectional": false,
+  "acceleration": 0.1,
+  "braking": 0.02,
   "turbulence": [0.0, 0.0]
 }
 ```
-Particle rotates 2–5 degrees per tick in random direction.
+Particle moves in direction of its angle with 1–2 px/tick initial speed and slight acceleration. Combine with `particle.rotate_in_movement_direction: true` for particles that face their movement.
 
 #### `rotation`
 
@@ -441,13 +520,13 @@ Rotation settings for the visual representation (particle body and texture).
 
 ##### `particle`
 
-> Type: `Object` | Rotates the entire particle sprite.
+> Type: `Object` | Rotates the entire particle, where it actually looks.
 
 - `spawn_angle`: Initial rotation `[min, max]` in degrees (0–360).
 - `rotate_in_movement_direction`: If `true`, particle rotates to face its movement direction (auto-orient).
 - `speed`: Speed config (same structure as `x_speed`) controlling rotation speed.
 
-**Example — static orientation:**
+**Example — Static orientation:**
 ```json
 "particle": {
   "spawn_angle": [0.0, 0.0],
@@ -462,7 +541,7 @@ Rotation settings for the visual representation (particle body and texture).
 ```
 Particle never rotates, always upright (0°).
 
-**Example — auto-orient to movement:**
+**Example — Auto-orient to movement:**
 ```json
 "particle": {
   "spawn_angle": [0.0, 0.0],
@@ -474,7 +553,7 @@ Particle rotates to face the direction it's moving (like a falling leaf).
 
 ##### `texture`
 
-> Type: `Object` | Rotates only the texture inside the particle (particle frame stays still).
+> Type: `Object` | Rotates only the particle sprite separate from particle itself.
 
 Same structure as `particle`. Useful for spinning effects without moving the sprite boundary.
 
@@ -494,7 +573,7 @@ Same structure as `particle`. Useful for spinning effects without moving the spr
 ```
 Texture starts at random angle, spins 1–3 degrees/tick in either direction.
 
-#### Physics Example — Complete (Falling Leaf):
+#### Example — Physics:
 
 ```json
 "physics": {
@@ -559,81 +638,4 @@ Result: Particle drifts side to side, accelerates downward (gravity), rotates pa
 2. Place particle texture files in `textures/iparticles/`.
 3. Place spawn area masks in `textures/spawn_areas/` (if using custom masks).
 4. Reload resource pack in-game (F3+T in vanilla, or mod reload).
-5. Hold the item in your inventory to see particles.
-
-Use `/ip particles reload` command (if available) to reload configs without full resource pack reload.
-
-### Common Issues
-
-**Particles don't appear:**
-- Verify `spawn_count` is not `[0, 0]` (default).
-- Check `spawn_frequency` is not `[0, 0]`.
-- Confirm item ID or tag in `holders.item` matches your inventory item.
-- Verify texture path is correct and file exists.
-
-**Textures look wrong:**
-- Check texture path ends with `.png`.
-- Verify texture atlas file exists in `textures/iparticles/`.
-- Use 16×16 or 32×32 PNG files for best results.
-- Ensure alpha channel is enabled for transparency.
-
-**Spawn area mask doesn't work:**
-- Verify spawn area file exists in `textures/spawn_areas/`.
-- Use pure white (`#FFFFFF`) for active areas, pure black (`#000000`) for inactive.
-- Test with `"standard.png"` first to confirm other settings work.
-
-**Physics don't feel right:**
-- Start with `acceleration: 0.3` for gravity-like effect.
-- Use `braking: 0.05` to slow particles down over time.
-- Test `turbulence: [-0.1, 0.1]` for randomness without chaos.
-- Adjust `speed_coefficient` in holder to scale all physics uniformly.
-
-### Performance Tips
-- Keep `spawn_count` low (1–2) to avoid lag on weak systems.
-- Use `spawn_frequency` with longer gaps (20+ ticks) for smoother effect.
-- Reuse textures across multiple particles to save memory.
-- Avoid complex physics (many speed configs) on frequently-spawned items.
-
-### Texture Guidelines
-- Use semi-transparent PNG for soft edges and blending.
-- Match texture style to item (sparkles for gems, drips for liquids).
-- Provide multiple frames (3–5) for `random` or `loop` animation types.
-- Keep filesize small; 64×64 PNG is usually sufficient.
-
-### NBT Condition Examples
-
-**Enchanted items only:**
-```json
-"nbt_conditions_match": "any",
-"nbt_conditions": [
-  {
-    "this_name": "Enchantments",
-    "this_type": "list",
-    "check_value": [""]
-  }
-]
-```
-
-**Specific damage range:**
-```json
-"nbt_conditions_match": "all",
-"nbt_conditions": [
-  {
-    "this_name": "Damage",
-    "this_type": "int",
-    "check_value": ["0"],
-    "next_match": "none"
-  }
-]
-```
-
-**Specific custom model data:**
-```json
-"nbt_conditions": [
-  {
-    "this_name": "CustomModelData",
-    "this_type": "int",
-    "check_value": ["12345"]
-  }
-]
-```
+5. Hold the item in your inventory to see particles. .

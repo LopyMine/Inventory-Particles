@@ -1,1 +1,2 @@
-- Fixed sand/generic particles
+- Better handling modded items
+- Fixed missing particles for some modded items

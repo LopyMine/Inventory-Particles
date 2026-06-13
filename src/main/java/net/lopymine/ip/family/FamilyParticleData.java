@@ -9,6 +9,7 @@ import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.config.particle.ParticleHolder;
 import net.lopymine.ip.config.range.IntegerRange;
 import net.lopymine.ip.element.color.*;
+import net.lopymine.ip.element.mod.spawner.ParticleSpawnAreaId;
 import net.lopymine.ip.element.predicate.nbt.*;
 import net.lopymine.ip.element.texture.*;
 import net.lopymine.ip.family.generation.TextureGenerationManager;
@@ -35,6 +36,7 @@ public class FamilyParticleData {
 			option("texture_extract_mode", TextureExtractMode.ITEM, TextureExtractMode.CODEC, FamilyParticleData::getTextureExtractMode),
 			option("nbt_conditions_match", NbtNodeMatch.ANY, NbtNodeMatch.CODEC, FamilyParticleData::getMatch),
 			option("nbt_conditions", new HashSet<>(), NbtNode.CODEC, FamilyParticleData::getNbtCondition),
+			option("spawn_area_fallback", ParticleSpawnAreaId.STANDARD_SPAWN_AREA_ID, ParticleSpawnAreaId.CODEC, FamilyParticleData::getSpawnAreaFallback),
 			option("spawn_count", new IntegerRange(1, 20), IntegerRange.CODEC, FamilyParticleData::getSpawnCount),
 			option("spawn_frequency", new IntegerRange(20, 60), IntegerRange.CODEC, FamilyParticleData::getSpawnFrequency),
 			option("color", new StandardColorProvider(), ParticleHolder.STANDARD_AND_ADVANCED_COLOR_TYPE_CODEC, FamilyParticleData::getColorProvider),
@@ -57,6 +59,7 @@ public class FamilyParticleData {
 
 	private NbtNodeMatch match;
 	private HashSet<NbtNode> nbtCondition;
+	private ParticleSpawnAreaId spawnAreaFallback;
 	private IntegerRange spawnCount;
 	private IntegerRange spawnFrequency;
 	private IColorProvider colorProvider;

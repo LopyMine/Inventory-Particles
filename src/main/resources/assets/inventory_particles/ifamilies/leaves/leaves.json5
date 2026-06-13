@@ -1,7 +1,16 @@
 {
-	"keywords": [
-		"leaves",
-	],
+	"keywords": {
+		"whitelist": [
+			"leaves",
+			"leaf",
+		],
+		"blacklist": [
+			"box",
+			"planter",
+			"pot",
+			"urn"
+		]
+	},
 	"tags": [],
 	"particles": [
 		{
@@ -25,5 +34,5 @@
 	],
 	"family_groups": [],
 	"compatible": false,
-	"priority": 1000
+	"priority": 1010
 }

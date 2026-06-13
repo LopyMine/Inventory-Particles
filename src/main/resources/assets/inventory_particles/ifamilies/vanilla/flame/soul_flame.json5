@@ -6,13 +6,11 @@
 			"campfire",
 			"fire"
 		],
-		"blacklist": [
-			"soul"
-		]
 	},
 	"particles": [
 		{
-			"id": "vanilla/flame/flame",
+			"id": "vanilla/flame/soul_fire_flame",
+			"spawn_area_fallback": "torch_flame.png",
 			"spawn_count": [0, 2],
 			"spawn_frequency": [10, 40],
 			"speed_coefficient": 0.15,
@@ -27,5 +25,5 @@
 	],
 	"family_groups": [],
 	"compatible": false,
-	"priority": 1000
+	"priority": 1148
 }

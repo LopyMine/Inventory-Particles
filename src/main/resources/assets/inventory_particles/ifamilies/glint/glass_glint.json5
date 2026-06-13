@@ -1,9 +1,33 @@
 {
-	"keywords": [
-		"glass",
-		"bottle",
-		"potion"
-	],
+	"keywords": {
+		"whitelist": [
+			"glass",
+			"jar",
+			"elixir",
+			"tincture",
+			"bottle",
+			"bottled",
+			"potion"
+		],
+		"blacklist": [
+			"dirty",
+			"white",
+			"lightgray",
+			"gray",
+			"black",
+			"brown",
+			"red",
+			"orange",
+			"yellow",
+			"green",
+			"cyan",
+			"lightblue",
+			"blue",
+			"purple",
+			"magenta",
+			"pink"
+		]
+	},
 	"tags": {
 		"whitelist": [
 			"c:glass_blocks/colorless",

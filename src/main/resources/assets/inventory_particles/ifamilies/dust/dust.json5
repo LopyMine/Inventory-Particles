@@ -4,7 +4,9 @@
 		"gunpowder",
 		"sugar",
 		"dust",
-		"dye"
+		"dye",
+		"ash",
+		"ashen"
 	],
 	"tags": [
 		"c:dusts"

@@ -1,9 +1,17 @@
 {
-	"keywords": [
-		"forest",
-		"tree",
-		"flower"
-	],
+	"keywords": {
+		"whitelist": [
+			"forest",
+			"tree",
+			"flower"
+		],
+		"blacklist": [
+			"box",
+			"planter",
+			"pot",
+			"urn"
+		]
+	},
 	"tags": [
 		"minecraft:saplings",
 		"c:flowers"

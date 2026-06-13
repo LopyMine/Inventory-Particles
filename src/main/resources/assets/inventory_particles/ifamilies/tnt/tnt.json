@@ -1,18 +1,43 @@
 {
 	"keywords": [
-		"redstone"
+		"tnt"
 	],
 	"particles": [
 		{
-			"id": "redstone/redstone",
-			"spawn_count": [1, 2],
-			"spawn_frequency": [1, 4],
-			"speed_coefficient": 0.15,
+			"id": "dust/gunpowder_dust",
+			"spawn_count": [2, 4],
+			"spawn_frequency": [10, 20],
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"id": "vanilla/generic/sand/sand_sand",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.1,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#C8C08E", "#E8E0AE"],
+				"speed": 5.0
+			},
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"id": "vanilla/generic/sand/sand_sand_additional_small",
+			"spawn_count": [0, 1],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.1,
+			"color": {
+				"mode": "gradient_random_static",
+				"values": ["#C8C08E", "#E8E0AE"],
+				"speed": 5.0
+			},
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		}
 	],
 	"family_groups": [],
 	"compatible": false,
-	"priority": 1230
+	"priority": 1000
 }
