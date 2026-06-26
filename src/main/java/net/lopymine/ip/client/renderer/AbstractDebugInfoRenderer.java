@@ -8,6 +8,7 @@ import java.util.stream.Stream.Builder;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.debug.*;
 import net.lopymine.ip.utils.ArgbUtils2;
+import net.lopymine.mossylib.utils.ScreenUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -112,7 +113,7 @@ public abstract class AbstractDebugInfoRenderer {
 
 	protected void renderLabel(GuiGraphicsExtractor context, String label, ChatFormatting color) {
 		Font textRenderer = Minecraft.getInstance().font;
-		Screen screen = Minecraft.getInstance().screen;
+		Screen screen = ScreenUtils.current();
 		if (screen == null) {
 			return;
 		}
@@ -121,7 +122,7 @@ public abstract class AbstractDebugInfoRenderer {
 				label,
 				this.getTextX(screen, textRenderer, label),
 				this.getTextY(),
-				color.getColor() == null ? -1 : ArgbUtils2.fullAlpha(color.getColor()),
+				-1,
 				true
 		);
 

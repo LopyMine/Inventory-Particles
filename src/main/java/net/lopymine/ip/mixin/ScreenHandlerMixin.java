@@ -4,6 +4,7 @@ import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.sub.InventoryParticleConfig;
 import net.lopymine.ip.renderer.InventoryParticlesRenderer;
 import net.lopymine.mossylib.MossyLib;
+import net.lopymine.mossylib.utils.ScreenUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -46,7 +47,7 @@ public abstract class ScreenHandlerMixin {
 				return;
 			}
 
-			Screen currentScreen = Minecraft.getInstance().screen;
+			Screen currentScreen = ScreenUtils.current();
 			if (!(currentScreen instanceof AbstractContainerScreen<?> handledScreen)) {
 				return;
 			}

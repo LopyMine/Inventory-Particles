@@ -34,7 +34,12 @@ public class InventoryParticlesClient {
 
 		MutableComponent message = InventoryParticles.text("notice_message_2_1_0", name, size);
 
-		ChatComponent chat = Minecraft.getInstance().gui.getChat();
+		//? if >=26.2 {
+		ChatComponent chat = Minecraft.getInstance().gui.hud.getChat();
+		//?} else {
+		/*ChatComponent chat = Minecraft.getInstance().gui.getChat();
+		 *///?}
+
 		//? if >=26.1 {
 		chat.addClientSystemMessage(message);
 		//?} else {

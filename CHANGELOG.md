@@ -1,2 +1,1 @@
-- Better handling modded items
-- Fixed missing particles for some modded items
+- Fixed mixin injection issue

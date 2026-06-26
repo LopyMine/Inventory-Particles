@@ -1,5 +1,5 @@
-accessWidener v2 named
-# 1.21.10 AW
+classTweaker v1 official
+# 26.2 AW(AT)
 
 accessible field net/minecraft/client/renderer/texture/TextureAtlas missingSprite Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;
 accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScreen hoveredSlot Lnet/minecraft/world/inventory/Slot;

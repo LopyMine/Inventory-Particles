@@ -66,7 +66,11 @@ public class InventoryParticlesAtlasManager {
 		} catch (Exception e) {
 			if (e.getMessage().equals("Tried to lookup sprite, but atlas is not initialized")) {
 				MutableComponent message = Component.literal("[Inventory Particles] Hey, wait! This error is special, and I don’t know when or why it happens. There have been only a few bug reports about it. If you see this message, please report this bug with the !!full game logs!! — they’re important. Thanks!\n");
-				ChatComponent chat = Minecraft.getInstance().gui.getChat();
+				//? if >=26.2 {
+				ChatComponent chat = Minecraft.getInstance().gui.hud.getChat();
+				//?} else {
+				/*ChatComponent chat = Minecraft.getInstance().gui.getChat();
+				 *///?}
 				//? if >=26.1 {
 				chat.addClientSystemMessage(message);
 				//?} else {

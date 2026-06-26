@@ -15,7 +15,7 @@ import net.lopymine.ip.element.texture.ITexture;
 import net.lopymine.ip.element.texture.provider.ITextureProvider;
 import net.lopymine.ip.utils.ArgbUtils2;
 import net.lopymine.mossylib.extension.DrawContextExtension;
-import net.lopymine.mossylib.utils.ArgbUtils;
+import net.lopymine.mossylib.utils.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
@@ -132,7 +132,7 @@ public abstract class AbstractInventoryElement<E extends AbstractInventoryElemen
 		if (!this.isInitialized()) {
 			return;
 		}
-		Screen currentScreen = Minecraft.getInstance().screen;
+		Screen currentScreen = ScreenUtils.current();
 		if (currentScreen != null) {
 			int width = currentScreen.width;
 			int height = currentScreen.height;

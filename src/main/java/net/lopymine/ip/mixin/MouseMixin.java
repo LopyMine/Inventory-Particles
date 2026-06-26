@@ -3,6 +3,7 @@ package net.lopymine.ip.mixin;
 import com.mojang.blaze3d.platform.Window;
 import net.lopymine.ip.element.mod.InventoryCursor;
 import net.lopymine.ip.renderer.InventoryParticlesRenderer;
+import net.lopymine.mossylib.utils.ScreenUtils;
 import net.minecraft.client.*;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import org.spongepowered.asm.mixin.*;
@@ -33,7 +34,7 @@ public abstract class MouseMixin {
 			*///?}
 	)
 	private void inject(CallbackInfo ci) {
-		if (Minecraft.getInstance().screen instanceof AbstractContainerScreen<?> handledScreen) {
+		if (ScreenUtils.current() instanceof AbstractContainerScreen<?> handledScreen) {
 			InventoryCursor cursor = InventoryParticlesRenderer.getInstance().getCursor();
 			cursor.setCurrentStack(handledScreen.getMenu().getCarried());
 		}

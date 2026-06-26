@@ -24,6 +24,10 @@
 		/*"forge.ClientPacketListenerMixin",
 		*///?}
 
+		//? if >=26.2 {
+		"GuiMixin",
+		//?}
+
 		"AtlasLoaderMixin",
 		"HandledScreenMixin",
 		"MinecraftClientMixin",
