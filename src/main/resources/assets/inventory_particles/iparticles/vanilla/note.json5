@@ -213,6 +213,16 @@
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
 		},
+		{
+			"item": "minecraft:music_disc_bounce",
+			"spawn_area": "music_disc_bounce_note.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.15,
+			"color": ["#EDFABF", "#D4D490", "#D1AF8A"],
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
 		
 		
 		
