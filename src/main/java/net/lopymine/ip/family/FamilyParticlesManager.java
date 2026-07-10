@@ -2,6 +2,7 @@ package net.lopymine.ip.family;
 
 import java.util.*;
 import net.lopymine.ip.client.command.tags.TagsCommand;
+import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.*;
@@ -10,6 +11,10 @@ import org.jetbrains.annotations.*;
 public class FamilyParticlesManager {
 
 	public static List<FamilyParticleConfig> getFamily(Item item) {
+		if (!InventoryParticlesConfig.getInstance().getFamilyGenerationConfig().canGenerateFor(item)) {
+			return new ArrayList<>();
+		}
+
 		List<FamilyParticleConfig> data = getFamiliesByItemData(item);
 		data.add(FamilyParticlesConfigManager.getInstance().getFallbackConfig());
 		return data;

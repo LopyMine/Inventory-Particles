@@ -6,6 +6,7 @@ import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.optimization.ParticlesDeletionMode;
 import net.lopymine.ip.config.sub.*;
 import net.lopymine.ip.config.sub.InventoryParticlesCacheConfig.CacheInvalidateMode;
+import net.lopymine.ip.config.sub.InventoryParticlesFamilyGenerationConfig.Mode;
 import net.lopymine.ip.family.cache.FamilyParticlesCacheManager;
 import net.lopymine.mossylib.yacl.api.*;
 import net.lopymine.mossylib.yacl.extension.SimpleOptionExtension;
@@ -17,7 +18,29 @@ public class GeneralCategory {
 		return SimpleCategory.startBuilder("general")
 				.groups(getMainGroup(defConfig.getMainConfig(), config.getMainConfig()))
 				.groups(getVisualGroup(defConfig.getParticleConfig(), config.getParticleConfig()))
+				.groups(getFamilyGenerationGroup(defConfig.getFamilyGenerationConfig(), config.getFamilyGenerationConfig()))
 				.groups(getCacheGroup(defConfig.getCacheConfig(), config.getCacheConfig()));
+	}
+
+	private static SimpleGroup getFamilyGenerationGroup(InventoryParticlesFamilyGenerationConfig defConfig, InventoryParticlesFamilyGenerationConfig config) {
+		return SimpleGroup.startBuilder("family_generation").options(
+				SimpleOption.<Mode>startBuilder("family_generation_mods_mode")
+						.withBinding(defConfig.getModsMode(), config::getModsMode, config::setModsMode, true)
+						.withController(Mode.class)
+						.withDescription(SimpleContent.NONE),
+				SimpleOption.<String>startBuilder("family_generation_mods")
+						.withBinding(defConfig.getMods(), config::getMods, config::setMods, true)
+						.withController()
+						.withDescription(SimpleContent.NONE),
+				SimpleOption.<Mode>startBuilder("family_generation_items_mode")
+						.withBinding(defConfig.getItemsMode(), config::getItemsMode, config::setItemsMode, true)
+						.withController(Mode.class)
+						.withDescription(SimpleContent.NONE),
+				SimpleOption.<String>startBuilder("family_generation_items")
+						.withBinding(defConfig.getItems(), config::getItems, config::setItems, true)
+						.withController()
+						.withDescription(SimpleContent.NONE)
+		);
 	}
 
 	private static SimpleGroup getMainGroup(InventoryParticlesMainConfig defConfig, InventoryParticlesMainConfig config) {

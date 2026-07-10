@@ -82,6 +82,24 @@
 	"${mod_id}.modmenu.option.fade_out_duration.name": "Particle Deletion Fade Out Duration",
 	"${mod_id}.modmenu.option.fade_out_duration.description": "Duration in ticks for smooth particle fade out effect after reaching the maximum particle limit. If set to 0, particles will be removed immediately without fading.",
 
+	"${mod_id}.modmenu.group.family_generation.name": "Family Particle Generation",
+	"${mod_id}.modmenu.group.family_generation.description": "Controls which mods and items automatic family particle generation will work for. Family particles are generated for modded items based on their rendered look. An item must pass both the mods filter and the items filter. \n\n!!!!! NOTE: after changing these lists you must regenerate particles — delete the old cache with the \"Invalidate Cache Now\" button below, then reload resources with F3 + T.",
+
+	"${mod_id}.modmenu.option.family_generation_mode.blacklist": "Blacklist",
+	"${mod_id}.modmenu.option.family_generation_mode.whitelist": "Whitelist",
+
+	"${mod_id}.modmenu.option.family_generation_mods_mode.name": "[Mods] List Mode",
+	"${mod_id}.modmenu.option.family_generation_mods_mode.description": "How the mods list is applied. Blacklist — family particles are generated for all mods except those in the list; Whitelist — family particles are generated only for mods in the list.",
+
+	"${mod_id}.modmenu.option.family_generation_mods.name": "[Mods] List",
+	"${mod_id}.modmenu.option.family_generation_mods.description": "Mod ids (namespaces) to filter, separated by spaces. E.g. \"minecraft create farmersdelight\". Leave empty for no filtering (with Blacklist mode).",
+
+	"${mod_id}.modmenu.option.family_generation_items_mode.name": "[Items] List Mode",
+	"${mod_id}.modmenu.option.family_generation_items_mode.description": "How the items list is applied. Blacklist — family particles are generated for all items except those in the list; Whitelist — family particles are generated only for items in the list.",
+
+	"${mod_id}.modmenu.option.family_generation_items.name": "[Items] List",
+	"${mod_id}.modmenu.option.family_generation_items.description": "Item ids to filter, separated by spaces. E.g. \"minecraft:diamond create:wrench\". You can copy an id from the item's tooltip (with F3 + H enabled). Leave empty for no filtering (with Blacklist mode).",
+
 	"${mod_id}.modmenu.group.cache.name": "Modded Items Cache",
 	"${mod_id}.modmenu.group.cache.description": "Settings controlling cached assets used for modded items.",
 

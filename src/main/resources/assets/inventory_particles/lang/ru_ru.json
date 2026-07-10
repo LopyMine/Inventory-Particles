@@ -82,6 +82,24 @@
 	"${mod_id}.modmenu.option.fade_out_duration.name": "Длительность исчезновения после удаления частиц",
 	"${mod_id}.modmenu.option.fade_out_duration.description": "Длительность в тиках для эффекта плавного исчезновения частиц после её удаления при достижении лимита частиц. Если 0, эффект отключён.",
 
+	"${mod_id}.modmenu.group.family_generation.name": "Генерация семейных частиц",
+	"${mod_id}.modmenu.group.family_generation.description": "Определяет, для каких модов и предметов будет работать автоматическая генерация семейных частиц. Семейные частицы создаются для предметов из модов на основе их отрисованного вида. Предмет должен пройти и фильтр модов, и фильтр предметов. \n\n!!!!! ВНИМАНИЕ: после изменения списков нужно перегенерировать частицы — удалите старый кэш кнопкой «Сбросить кэш сейчас» ниже, затем перезагрузите ресурсы через F3 + T.",
+
+	"${mod_id}.modmenu.option.family_generation_mode.blacklist": "Чёрный список",
+	"${mod_id}.modmenu.option.family_generation_mode.whitelist": "Белый список",
+
+	"${mod_id}.modmenu.option.family_generation_mods_mode.name": "[Моды] Режим списка",
+	"${mod_id}.modmenu.option.family_generation_mods_mode.description": "Как применяется список модов. Чёрный список — семейные частицы создаются для всех модов, кроме указанных в списке; Белый список — семейные частицы создаются только для модов из списка.",
+
+	"${mod_id}.modmenu.option.family_generation_mods.name": "[Моды] Список",
+	"${mod_id}.modmenu.option.family_generation_mods.description": "Айди модов (пространства имён) для фильтрации, через пробел. Например: \"minecraft create farmersdelight\". Оставьте пустым, чтобы отключить фильтрацию (в режиме чёрного списка). ",
+
+	"${mod_id}.modmenu.option.family_generation_items_mode.name": "[Предметы] Режим списка",
+	"${mod_id}.modmenu.option.family_generation_items_mode.description": "Как применяется список предметов. Чёрный список — семейные частицы создаются для всех предметов, кроме указанных в списке; Белый список — семейные частицы создаются только для предметов из списка.",
+
+	"${mod_id}.modmenu.option.family_generation_items.name": "[Предметы] Список",
+	"${mod_id}.modmenu.option.family_generation_items.description": "Айди предметов для фильтрации, через пробел. Например: \"minecraft:diamond create:wrench\". Айди можно скопировать из подсказки предмета (F3 + H). Оставьте пустым, чтобы отключить фильтрацию (в режиме чёрного списка). ",
+
 	"${mod_id}.modmenu.group.cache.name": "Кэш текстур частиц",
 	"${mod_id}.modmenu.group.cache.description": "Настройки кэширования текстур частиц для предметов из модов.",
 

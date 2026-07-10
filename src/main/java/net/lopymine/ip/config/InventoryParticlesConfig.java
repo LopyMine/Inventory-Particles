@@ -30,6 +30,7 @@ public class InventoryParticlesConfig {
 			option("particle", InventoryParticleConfig.getNewInstance(), InventoryParticleConfig.CODEC, InventoryParticlesConfig::getParticleConfig),
 			option("coefficients", InventoryParticlesCoefficientsConfig.getNewInstance(), InventoryParticlesCoefficientsConfig.CODEC, InventoryParticlesConfig::getCoefficientsConfig),
 			option("whitelists", InventoryParticlesItemWhitelistsConfig.getNewInstance(), InventoryParticlesItemWhitelistsConfig.CODEC, InventoryParticlesConfig::getWhitelistsConfig),
+			option("family_generation", InventoryParticlesFamilyGenerationConfig.getNewInstance(), InventoryParticlesFamilyGenerationConfig.CODEC, InventoryParticlesConfig::getFamilyGenerationConfig),
 			option("cache", InventoryParticlesCacheConfig.getNewInstance(), InventoryParticlesCacheConfig.CODEC, InventoryParticlesConfig::getCacheConfig)
 	).apply(instance, InventoryParticlesConfig::new));
 
@@ -45,6 +46,7 @@ public class InventoryParticlesConfig {
 	private InventoryParticleConfig particleConfig;
 	private InventoryParticlesCoefficientsConfig coefficientsConfig;
 	private InventoryParticlesItemWhitelistsConfig whitelistsConfig;
+	private InventoryParticlesFamilyGenerationConfig familyGenerationConfig;
 	private InventoryParticlesCacheConfig cacheConfig;
 
 	private InventoryParticlesConfig() {

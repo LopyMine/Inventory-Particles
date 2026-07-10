@@ -21,6 +21,7 @@ public class YACLConfigurationScreen {
 
 		Runnable onSave = () -> {
 			config.getWhitelistsConfig().recompileAll();
+			config.getFamilyGenerationConfig().recompileAll();
 			config.saveAsync();
 		};
 		return SimpleYACLScreen.startBuilder(InventoryParticles.MOD_ID, parent, onSave)
