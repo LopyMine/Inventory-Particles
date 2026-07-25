@@ -204,7 +204,7 @@
 
 ### ![Icon](https://cdn.modrinth.com/data/cached_images/9111988448f778aaff9ac4477e463343fe4dc7e4.png) Want to support mod and authors? Just tell everyone about this mod!
 
-Yeah, you got it right. Just by advertising, you will support the mod and the creators well. The more people will know about this mod, the more downloads it will have, more downloads will give good motivation to authors and increase income from the site (literally free donation). **Remember, advertising must not be intrusive and annoying!**
+Yeah, you got it right. Just by advertising, you will support the mod and the creators well. The more people will know about this mod, the more downloads it will have, more downloads will give good motivation to authors and increase income from the site (literally free donation). **Remember, advertising must not be intrusive and annoiyng!**
 
 ### What you can do?
 - Make a video review / advertisement
