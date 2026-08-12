@@ -26,6 +26,7 @@
 
 		//? if >=26.2 {
 		"GuiMixin",
+		"TextureAtlasMixin",
 		//?}
 
 		"AtlasLoaderMixin",

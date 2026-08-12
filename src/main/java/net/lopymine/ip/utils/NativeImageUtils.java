@@ -46,7 +46,7 @@ public class NativeImageUtils {
 		return Math.max(0, Math.min(255, v));
 	}
 
-	public static NativeImageAndColor generateWithReplace(NativeImage image, NativeImage source, Item id, TextureGenerationMode textureGenerationMode) {
+	public static NativeImageAndColor generateWithReplace(NativeImage image, SourceColors sourceColors, Item id) {
 		int width = image.getWidth();
 		int height = image.getHeight();
 
@@ -66,7 +66,7 @@ public class NativeImageUtils {
 				if (pixelAndColors.get(imagePixel) != null) {
 					continue;
 				}
-				List<Integer> pixels = getBestPixelsByLuminance(source, ArgbUtils2.luminance(imagePixel), imagePixel, textureGenerationMode);
+				List<Integer> pixels = sourceColors.getBestPixelsByLuminance(ArgbUtils2.luminance(imagePixel), imagePixel);
 				List<Integer> value = pixels.isEmpty() ? List.of(imagePixel) : pixels;
 				pixelAndColors.put(imagePixel, value);
 
@@ -169,12 +169,12 @@ public class NativeImageUtils {
 		return new NativeImageAndColor(result, lastReferenceColor);
 	}
 
-	public static List<Integer> getBestPixelsByLuminance(NativeImage source, float targetLuminance, int fallbackColor, TextureGenerationMode textureGenerationMode) {
+	public static SourceColors clusterColors(NativeImage source, TextureGenerationMode textureGenerationMode) {
 		int width = source.getWidth();
 		int height = source.getHeight();
 
 		if (width <= 0 || height <= 0) {
-			return List.of(fallbackColor);
+			return new SourceColors(new ArrayList<>(), textureGenerationMode);
 		}
 
 		int groupDifference = 12;
@@ -190,28 +190,12 @@ public class NativeImageUtils {
 
 				int key = createClusterKey(color, groupDifference);
 
-				ColorCluster cluster = clusters.computeIfAbsent(key, k -> new ColorCluster(textureGenerationMode));
+				ColorCluster cluster = clusters.computeIfAbsent(key, k -> new ColorCluster());
 				cluster.add(color);
 			}
 		}
 
-		if (clusters.isEmpty()) {
-			return List.of(fallbackColor);
-		}
-
-		ArrayList<ColorCluster> sortClusters = new ArrayList<>(clusters.values());
-		for (ColorCluster cluster : sortClusters) {
-			cluster.calcScore(targetLuminance);
-		}
-
-		sortClusters.sort(Comparator.comparingDouble((ColorCluster c) -> c.score).reversed());
-
-		ArrayList<Integer> result = new ArrayList<>(sortClusters.size());
-		for (ColorCluster cluster : sortClusters) {
-			result.add(cluster.representativeColor);
-		}
-
-		return result;
+		return new SourceColors(new ArrayList<>(clusters.values()), textureGenerationMode);
 	}
 
 	private static int createClusterKey(int color, int bucketSize) {
@@ -226,47 +210,81 @@ public class NativeImageUtils {
 		return (rb << 16) | (gb << 8) | bb;
 	}
 
+	public static class SourceColors {
+
+		private final ArrayList<ColorCluster> clusters;
+		private final TextureGenerationMode textureGenerationMode;
+
+		private SourceColors(ArrayList<ColorCluster> clusters, TextureGenerationMode textureGenerationMode) {
+			this.clusters             = clusters;
+			this.textureGenerationMode = textureGenerationMode;
+		}
+
+		public List<Integer> getBestPixelsByLuminance(float targetLuminance, int fallbackColor) {
+			if (this.clusters.isEmpty()) {
+				return List.of(fallbackColor);
+			}
+
+			ArrayList<ColorCluster> sortClusters = new ArrayList<>(this.clusters);
+			for (ColorCluster cluster : sortClusters) {
+				cluster.calcScore(targetLuminance, this.textureGenerationMode);
+			}
+
+			sortClusters.sort(Comparator.comparingDouble((ColorCluster c) -> c.score).reversed());
+
+			ArrayList<Integer> result = new ArrayList<>(sortClusters.size());
+			for (ColorCluster cluster : sortClusters) {
+				result.add(cluster.representativeColor);
+			}
+
+			return result;
+		}
+	}
+
 	private static class ColorCluster {
 
 		private final ArrayList<Integer> colors = new ArrayList<>();
-		private final TextureGenerationMode textureGenerationMode;
 
 		private int representativeColor;
 		private double score;
-
-		public ColorCluster(TextureGenerationMode textureGenerationMode) {
-			this.textureGenerationMode = textureGenerationMode;
-		}
 
 		void add(int color) {
 			this.colors.add(color);
 		}
 
-		void calcScore(float targetLuminance) {
+		void calcScore(float targetLuminance, TextureGenerationMode textureGenerationMode) {
 			if (this.colors.isEmpty()) {
 				this.representativeColor = -1;
 				this.score = Double.NEGATIVE_INFINITY;
 				return;
 			}
 
-			this.colors.sort(Comparator.comparingDouble(c -> Math.abs(ArgbUtils2.luminance(c) - targetLuminance)));
-			this.representativeColor = this.colors.get(0);
+			int best = this.colors.get(0);
+			double bestDifference = Math.abs(ArgbUtils2.luminance(best) - targetLuminance);
 
-			float luminance = ArgbUtils2.luminance(this.representativeColor);
-			double luminanceDifference = Math.abs(luminance - targetLuminance);
+			for (int i = 1; i < this.colors.size(); i++) {
+				int color = this.colors.get(i);
+				double difference = Math.abs(ArgbUtils2.luminance(color) - targetLuminance);
+				if (difference < bestDifference) {
+					best           = color;
+					bestDifference = difference;
+				}
+			}
 
-			double luminanceScore = 1.0 / (1.0 + luminanceDifference * 8.0);
-			double saturationScore = 0.5 + ArgbUtils2.getSaturation(this.representativeColor);
+			this.representativeColor = best;
+
+			double luminanceScore = 1.0 / (1.0 + bestDifference * 8.0);
+			double saturationScore = 0.5 + ArgbUtils2.getSaturation(best);
 			double frequencyScore = Math.log1p(this.colors.size());
 
 			double score = 1.0F;
-			if (this.textureGenerationMode.isLuminance()) {
+			if (textureGenerationMode.isLuminance()) {
 				score *= luminanceScore;
 			}
-			if (this.textureGenerationMode.isSaturation()) {
+			if (textureGenerationMode.isSaturation()) {
 				score *= saturationScore;
 			}
-			if (this.textureGenerationMode.isFrequency()) {
+			if (textureGenerationMode.isFrequency()) {
 				score *= frequencyScore;
 			}
 

@@ -9,7 +9,7 @@ import net.lopymine.ip.family.FamilyParticleData.*;
 import net.lopymine.ip.family.atlas.manager.*;
 import net.lopymine.ip.family.cache.*;
 import net.lopymine.ip.utils.*;
-import net.lopymine.ip.utils.NativeImageUtils.NativeImageAndColor;
+import net.lopymine.ip.utils.NativeImageUtils.*;
 import net.lopymine.ip.utils.iac.RenderedItemImage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
@@ -25,15 +25,10 @@ public class TextureGenerationManager {
 			return new GeneratedTextures(new ArrayList<>(), new ArrayList<>());
 		}
 
-		return CompletableFuture.supplyAsync(
-				() -> generateAll(renderedItemImage, itemId, item, textures, textureGenerationMode),
-				Minecraft.getInstance()
-		).join();
-	}
-
-	private static GeneratedTextures generateAll(RenderedItemImage renderedItemImage, Identifier itemId, Item item, ArrayList<Identifier> textures, TextureGenerationMode textureGenerationMode) {
 		ArrayList<ITexture> list = new ArrayList<>();
 		ArrayList<Integer> colors = new ArrayList<>();
+
+		SourceColors sourceColors = NativeImageUtils.clusterColors(renderedItemImage.getImage(), textureGenerationMode);
 
 		for (Identifier texture : textures) {
 			try {
@@ -44,7 +39,7 @@ public class TextureGenerationManager {
 
 				Identifier particleId = texture.withPrefix(itemId.getPath() + "/");
 
-				NativeImageAndColor generatedParticle = NativeImageUtils.generateWithReplace(particleImage, renderedItemImage.getImage(), item, textureGenerationMode);
+				NativeImageAndColor generatedParticle = NativeImageUtils.generateWithReplace(particleImage, sourceColors, item);
 
 				FamilyParticlesAtlasCacheManager.add(itemId, particleId, generatedParticle.image());
 
@@ -83,7 +78,5 @@ public class TextureGenerationManager {
 		}
 		TEMPLATES.clear();
 	}
-
-	public record GenerationResult<T>(T object, Integer color) {}
 
 }

@@ -121,7 +121,6 @@ public class ItemRenderBatcher {
 		);
 		return cell;
 	}
-	//?}
 
 	@Nullable
 	private static <T> T awaitAngGet(BatchResult<T> result, String description) {

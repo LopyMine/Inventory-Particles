@@ -23,26 +23,27 @@ public class FamilyParticlesManager {
 	@NotNull
 	private static List<FamilyParticleConfig> getFamiliesByItemData(Item item) {
 		Identifier id = BuiltInRegistries.ITEM.getKey(item);
+		ItemMatchData itemData = ItemMatchData.of(id);
 
 		ArrayList<FamilyParticleConfig> configs = new ArrayList<>();
 		for (FamilyParticleConfig config : FamilyParticlesConfigManager.getInstance().getRegisteredConfigs()) {
-			if (matchKeywords(id, config.getKeywords().getBlacklist())) {
+			if (matchKeywords(itemData, config.getKeywords().getBlacklist())) {
 				continue;
 			}
-			if (matchTags(id, config.getTags().getBlacklist())) {
+			if (matchTags(itemData, config.getTags().getBlacklist())) {
 				continue;
 			}
-			if (matchNamespaces(id, config.getNamespaces().getBlacklist())) {
+			if (matchNamespaces(itemData, config.getNamespaces().getBlacklist())) {
 				continue;
 			}
 
-			if (matchKeywords(id, config.getKeywords().getWhitelist())) {
+			if (matchKeywords(itemData, config.getKeywords().getWhitelist())) {
 				configs.add(config);
 			}
-			if (matchTags(id, config.getTags().getWhitelist())) {
+			if (matchTags(itemData, config.getTags().getWhitelist())) {
 				configs.add(config);
 			}
-			if (matchNamespaces(id, config.getNamespaces().getWhitelist())) {
+			if (matchNamespaces(itemData, config.getNamespaces().getWhitelist())) {
 				configs.add(config);
 			}
 		}
@@ -50,18 +51,15 @@ public class FamilyParticlesManager {
 		return configs;
 	}
 
-	private static boolean matchKeywords(Identifier itemId, ArrayList<String> list) {
-		String path = itemId.getPath();
-		String[] keys = path.split("_");
-
-		for (String key : keys) {
+	private static boolean matchKeywords(ItemMatchData itemData, ArrayList<String> list) {
+		for (String key : itemData.keys()) {
 			if (list.contains(key)) {
 				return true;
 			}
 		}
 
 		for (String keyword : list) {
-			if (keyword.startsWith("@") && path.contains(keyword.substring(1))) {
+			if (keyword.startsWith("@") && itemData.path().contains(keyword.substring(1))) {
 				return true;
 			}
 		}
@@ -69,9 +67,8 @@ public class FamilyParticlesManager {
 		return false;
 	}
 
-	private static boolean matchTags(Identifier itemId, ArrayList<String> list) {
-		String path = itemId.getPath();
-		List<String> tags = TagsCommand.getTags(itemId);
+	private static boolean matchTags(ItemMatchData itemData, ArrayList<String> list) {
+		List<String> tags = itemData.tags();
 		if (tags == null) {
 			return false;
 		}
@@ -83,7 +80,7 @@ public class FamilyParticlesManager {
 		}
 
 		for (String tag : tags) {
-			if (tag.startsWith("@") && path.contains(tag.substring(1))) {
+			if (tag.startsWith("@") && itemData.path().contains(tag.substring(1))) {
 				return true;
 			}
 		}
@@ -91,8 +88,8 @@ public class FamilyParticlesManager {
 		return false;
 	}
 
-	private static boolean matchNamespaces(Identifier itemId, ArrayList<String> list) {
-		String namespace = itemId.getNamespace();
+	private static boolean matchNamespaces(ItemMatchData itemData, ArrayList<String> list) {
+		String namespace = itemData.namespace();
 
 		if (list.contains(namespace)) {
 			return true;
@@ -105,6 +102,14 @@ public class FamilyParticlesManager {
 		}
 
 		return false;
+	}
+
+	private record ItemMatchData(String path, String namespace, String[] keys, @Nullable List<String> tags) {
+
+		static ItemMatchData of(Identifier itemId) {
+			String path = itemId.getPath();
+			return new ItemMatchData(path, itemId.getNamespace(), path.split("_"), TagsCommand.getTags(itemId));
+		}
 	}
 
 }

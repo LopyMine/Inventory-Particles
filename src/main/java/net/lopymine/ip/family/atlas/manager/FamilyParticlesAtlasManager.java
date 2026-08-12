@@ -37,6 +37,10 @@ public class FamilyParticlesAtlasManager {
 		return CREATED_ATLASES.get(id);
 	}
 
+	public static Set<String> keys() {
+		return CREATED_ATLASES.keySet();
+	}
+
 	public static FamilyParticlesAtlasManager getOrCreate(String namespace) {
 		return CREATED_ATLASES.computeIfAbsent(namespace, FamilyParticlesAtlasManager::new);
 	}
