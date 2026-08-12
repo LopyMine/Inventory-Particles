@@ -143,6 +143,7 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 
 	private static @NonNull CompletableFuture<ReloadData> startLinkingFuture(int currentVersion, String stage, ReloadInfo reloadInfo, Collection<Entry<ResourceKey<Item>, Item>> entries, boolean debug) {
 		return CompletableFuture.supplyAsync(() -> {
+			long before = System.currentTimeMillis();
 			InventoryParticles.LOGGER.info("Started linking particle configs for {} items...", stage);
 			ReloadData reloadData = new ReloadData(currentVersion);
 
@@ -158,14 +159,15 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 				Item item = entry.getValue();
 
 				reloadInfo.setCurrentItem(id.toString());
-				long before = System.currentTimeMillis();
+				long b = System.currentTimeMillis();
 				getItemSpawners(debug, id, item, reloadData);
-				long after = System.currentTimeMillis();
-				reloadInfo.getLastProcessedItemsTime().add(after - before);
+				long a = System.currentTimeMillis();
+				reloadInfo.getLastProcessedItemsTime().add(a - b);
 				reloadInfo.setProgress(reloadInfo.getProgress() + 1);
 			}
 
-			InventoryParticles.LOGGER.info("Finished linking particle configs for {} items!", stage);
+			long after = System.currentTimeMillis();
+			InventoryParticles.LOGGER.info("Finished linking particle configs for {} items! It took {} seconds. Amount: {}", stage, (after - before) / 1000D, entries.size());
 			return reloadData;
 		});
 	}
