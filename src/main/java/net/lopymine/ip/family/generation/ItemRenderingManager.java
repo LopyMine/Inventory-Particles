@@ -1,10 +1,9 @@
 package net.lopymine.ip.family.generation;
 
-import lombok.*;
-import net.lopymine.ip.InventoryParticles;
+import java.util.List;
 import net.lopymine.ip.family.FamilyParticleData.TextureExtractMode;
+import net.lopymine.ip.family.generation.batch.*;
 import net.lopymine.ip.utils.iac.*;
-import net.lopymine.ip.utils.iac.RenderedFluidImage.ColorGetter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.*;
@@ -13,102 +12,43 @@ import org.jetbrains.annotations.Nullable;
 public class ItemRenderingManager {
 
 	@Nullable
-	public static RenderedItemImage getRenderedItemImage(Item item, Identifier itemId, TextureExtractMode textureExtractMode) {
-		if (Minecraft.getInstance().level == null) {
+	public static BucketItem resolveBucket(Item item, TextureExtractMode textureExtractMode) {
+		if (textureExtractMode != TextureExtractMode.FLUID) {
 			return null;
 		}
-
-		SpecialRenderedItemImage specialRenderedItemImage = getSpecialRenderedItemImage(itemId, item, textureExtractMode);
-		if (specialRenderedItemImage.processed()) {
-			return specialRenderedItemImage.renderedItemImage();
+		if (item instanceof BucketItem bucketItem) {
+			return bucketItem;
 		}
-
-		return getRenderedItem(item, itemId);
-	}
-
-	@Nullable
-	private static RenderedItemImage getRenderedItem(Item item, Identifier itemId) {
-		RenderingItemImage<RenderedItemImage> renderingItemImage = new RenderingItemImage<>();
-		ItemRendering.renderItemIntoImage(item.getDefaultInstance(), renderingItemImage::setRenderedItemImage);
-		int i = 0;
-		while (!renderingItemImage.isReady() && i < 3000) {
-			try {
-				Thread.sleep(10);
-				i++;
-			} catch (Exception ignored) { }
-		}
-		if (i >= 3000) {
-			InventoryParticles.LOGGER.error("Skipping rendering \"{}\" because it took too long!", itemId);
-		}
-		return renderingItemImage.getRenderedItemImage();
-	}
-
-	@Nullable
-	private static RenderedItemImage getRenderedFluid(BucketItem bucketItem, Identifier itemId) {
-		RenderingItemImage<RenderedFluidImage> renderingFluidImage = new RenderingItemImage<>();
-		ItemRendering.renderFluidIntoImage(bucketItem, renderingFluidImage::setRenderedItemImage);
-
-		int i = 0;
-		while (!renderingFluidImage.isReady() && i < 3000) {
-			try {
-				Thread.sleep(10);
-				i++;
-			} catch (Exception ignored) { }
-		}
-		if (i >= 3000) {
-			InventoryParticles.LOGGER.error("Skipping rendering \"{}\" because it took too long!", itemId);
-		}
-		return renderingFluidImage.getRenderedItemImage();
-	}
-
-	@Nullable
-	public static RenderedItemImage getRenderedImageIfSpecial(Identifier itemId, Item item, TextureExtractMode textureExtractMode) {
-		if (Minecraft.getInstance().level == null) {
-			return null;
-		}
-		SpecialRenderedItemImage specialRenderedItemImage = getSpecialRenderedItemImage(itemId, item, textureExtractMode);
-		if (specialRenderedItemImage.processed()) {
-			return specialRenderedItemImage.renderedItemImage();
+		if (item instanceof BoatItem) {
+			return (BucketItem) Items.WATER_BUCKET;
 		}
 		return null;
 	}
 
-	private static SpecialRenderedItemImage getSpecialRenderedItemImage(Identifier itemId, Item item, TextureExtractMode textureExtractMode) {
-		if (textureExtractMode == TextureExtractMode.FLUID) {
-			BucketItem bucketItem;
-
-			if (item instanceof BucketItem bucket) {
-				bucketItem = bucket;
-			} else if (item instanceof BoatItem) {
-				bucketItem = (BucketItem) Items.WATER_BUCKET;
-			} else {
-				bucketItem = null;
-			}
-
-			if (bucketItem != null) {
-				return new SpecialRenderedItemImage(true, getRenderedFluid(bucketItem, itemId));
-			}
+	@Nullable
+	public static RenderedItemImage renderItemImage(Item item, Identifier itemId, TextureExtractMode textureExtractMode) {
+		if (Minecraft.getInstance().level == null) {
+			return null;
 		}
-		return new SpecialRenderedItemImage(false, null);
+
+		BucketItem bucketItem = resolveBucket(item, textureExtractMode);
+		RenderedItemImages images = ItemRenderBatcher.render(List.of(new ItemRenderRequest(itemId, item, bucketItem)));
+
+		return images.get(item, textureExtractMode);
 	}
 
-	private record SpecialRenderedItemImage(boolean processed, @Nullable RenderedItemImage renderedItemImage) {}
-
-	@Getter
-	public static class RenderingItemImage<T extends RenderedItemImage> {
-
-		@Nullable
-		private T renderedItemImage;
-		private boolean ready;
-
-		public void setRenderedItemImage(@Nullable T renderedItemImage) {
-			this.renderedItemImage = renderedItemImage;
-			this.ready             = true;
+	@Nullable
+	public static RenderedItemImage renderItemImageIfSpecial(Identifier itemId, Item item, TextureExtractMode textureExtractMode) {
+		if (Minecraft.getInstance().level == null) {
+			return null;
 		}
+
+		BucketItem bucketItem = resolveBucket(item, textureExtractMode);
+		if (bucketItem != null) {
+			RenderedItemImages images = ItemRenderBatcher.render(List.of(new ItemRenderRequest(itemId, item, bucketItem)));
+			return images.getFluid(item);
+		}
+
+		return null;
 	}
-
-
-
-
-
 }

@@ -70,7 +70,7 @@ public class FamilyParticleData {
 	}
 
 	@NotNull
-	public GeneratedTextures generateTextures(RenderedItemImage renderedItemImage, Identifier itemId, Item item) {
+	public GeneratedTextures generateFamilyTextures(RenderedItemImage renderedItemImage, Identifier itemId, Item item) {
 		return TextureGenerationManager.generateWithReplace(renderedItemImage, itemId, item, this.textures, this.textureGenerationMode);
 	}
 

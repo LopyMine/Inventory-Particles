@@ -1,9 +1,7 @@
 package net.lopymine.ip.family.generation;
 
 import com.mojang.blaze3d.platform.NativeImage;
-import java.io.IOException;
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.concurrent.*;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.element.texture.*;
@@ -14,57 +12,76 @@ import net.lopymine.ip.utils.*;
 import net.lopymine.ip.utils.NativeImageUtils.NativeImageAndColor;
 import net.lopymine.ip.utils.iac.RenderedItemImage;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Util;
 import net.minecraft.world.item.*;
 import org.jetbrains.annotations.Nullable;
 
 public class TextureGenerationManager {
 
+	private static final Map<Identifier, Optional<NativeImage>> TEMPLATES = new ConcurrentHashMap<>();
+
 	public static GeneratedTextures generateWithReplace(RenderedItemImage renderedItemImage, Identifier itemId, Item item, ArrayList<Identifier> textures, TextureGenerationMode textureGenerationMode) {
+		if (textures.isEmpty()) {
+			return new GeneratedTextures(new ArrayList<>(), new ArrayList<>());
+		}
+
+		return CompletableFuture.supplyAsync(
+				() -> generateAll(renderedItemImage, itemId, item, textures, textureGenerationMode),
+				Minecraft.getInstance()
+		).join();
+	}
+
+	private static GeneratedTextures generateAll(RenderedItemImage renderedItemImage, Identifier itemId, Item item, ArrayList<Identifier> textures, TextureGenerationMode textureGenerationMode) {
 		ArrayList<ITexture> list = new ArrayList<>();
 		ArrayList<Integer> colors = new ArrayList<>();
 
 		for (Identifier texture : textures) {
 			try {
-				CompletableFuture<GenerationResult<ITexture>> future = CompletableFuture.supplyAsync(() -> {
-					NativeImage particleImage = NativeImageUtils.loadFromResource(texture.withPrefix("textures/ifamily/"));
-					if (particleImage == null) {
-						return null;
-					}
-
-					Identifier particleId = texture.withPrefix(itemId.getPath() + "/");
-					NativeImageAndColor generatedParticle = NativeImageUtils.generateWithReplace(particleImage, renderedItemImage.getImage(), item, textureGenerationMode);
-
-					FamilyParticlesAtlasCacheManager.add(itemId, particleId, generatedParticle.image());
-
-					FamilyParticlesAtlasManager familyManager = FamilyParticlesAtlasManager.getOrCreate(itemId.getNamespace());
-					ColoredAtlasTexture directTexture = new ColoredAtlasTexture(
-							particleId,
-							familyManager.getAtlasId(),
-							renderedItemImage::getColor
-					);
-					return new GenerationResult<>(
-							directTexture,
-							generatedParticle.averageColor()
-					);
-				}, Minecraft.getInstance());
-
-				GenerationResult<ITexture> result = future.get();
-
-				if (result == null) {
-					throw new NullPointerException("Failed to replace by luminance for \"%s\"".formatted(itemId));
+				NativeImage particleImage = getTemplate(texture);
+				if (particleImage == null) {
+					throw new NullPointerException("Failed to load particle template \"%s\" for \"%s\"".formatted(texture, itemId));
 				}
 
-				list.add(result.object);
-				colors.add(result.color);
+				Identifier particleId = texture.withPrefix(itemId.getPath() + "/");
+
+				NativeImageAndColor generatedParticle = NativeImageUtils.generateWithReplace(particleImage, renderedItemImage.getImage(), item, textureGenerationMode);
+
+				FamilyParticlesAtlasCacheManager.add(itemId, particleId, generatedParticle.image());
+
+				FamilyParticlesAtlasManager familyManager = FamilyParticlesAtlasManager.getOrCreate(itemId.getNamespace());
+				ColoredAtlasTexture directTexture = new ColoredAtlasTexture(
+						particleId,
+						familyManager.getAtlasId(),
+						renderedItemImage::getColor
+				);
+
+				list.add(directTexture);
+				colors.add(generatedParticle.averageColor());
 			} catch (Exception e) {
-				e.printStackTrace();
+				InventoryParticles.LOGGER.error("Failed to generate particle texture for \"{}\":", itemId, e);
 			}
 		}
 
 		return new GeneratedTextures(list, colors);
+	}
+
+	@Nullable
+	private static NativeImage getTemplate(Identifier texture) {
+		Optional<NativeImage> cached = TEMPLATES.get(texture);
+		if (cached != null) {
+			return cached.orElse(null);
+		}
+
+		NativeImage image = NativeImageUtils.loadFromResource(texture.withPrefix("textures/ifamily/"));
+		TEMPLATES.put(texture, Optional.ofNullable(image));
+		return image;
+	}
+
+	public static void clearTemplates() {
+		for (Optional<NativeImage> template : TEMPLATES.values()) {
+			template.ifPresent(NativeImage::close);
+		}
+		TEMPLATES.clear();
 	}
 
 	public record GenerationResult<T>(T object, Integer color) {}

@@ -8,6 +8,7 @@ import com.mojang.blaze3d.platform.*;
 import com.mojang.blaze3d.platform.Lighting.Entry;
 import com.mojang.blaze3d.systems.RenderSystem;
 import java.lang.Math;
+import java.util.*;
 import net.lopymine.ip.family.utils.FamilySafeRenderExecutor;
 import com.mojang.blaze3d.textures.*;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -32,77 +33,83 @@ import org.joml.*;
 
 public class ItemRendering {
 
-	private static final int WIDTH = 16;
-	private static final int HEIGHT = 16;
+	public static final int CELL_SIZE = 16;
+	public static final int MAX_ATLAS_SIZE = 1024;
+	public static final int MAX_ATLAS_CELLS = MAX_ATLAS_SIZE / CELL_SIZE;
+	public static final int MAX_ITEMS_PER_ATLAS = MAX_ATLAS_CELLS * MAX_ATLAS_CELLS;
+
+	private static final float CELL_UNITS = CELL_SIZE / 2F;
 
 	@Nullable
 	private static Projection GUI_PROJECTION;
-
 	@Nullable
 	private static ProjectionMatrixBuffer GUI_PROJECTION_MATRIX_BUFFER;
-
 	@Nullable
 	public static volatile TextureTarget TARGET;
 
-	public static void renderFluidIntoImage(BucketItem bucketItem, Consumer<RenderedFluidImage> consumer) {
-		RenderData renderData = ItemRendering.checkAndGetTarget();
-
+	public static void renderFluidsIntoImages(List<BucketItem> bucketItems, Consumer<List<RenderedFluidImage>> consumer) {
 		FamilySafeRenderExecutor.submit(() -> {
-			GpuTexture colorTexture = renderData.target.getColorTexture();
-			GpuTexture depthTexture = renderData.target.getDepthTexture();
-			if (colorTexture == null || depthTexture == null) {
-				consumer.accept(null);
-				return;
-			}
-
 			FluidStateModelSet set = Minecraft.getInstance().getModelManager().getFluidStateModelSet();
-			FluidModel model = set.get(bucketItem.getContent().defaultFluidState());
-			TextureAtlasSprite sprite = model.stillMaterial().sprite();
 
-			if (sprite.contents().name().getPath().equals("missingno")) {
+			List<RenderedFluidImage> images = new ArrayList<>();
+			for (BucketItem bucketItem : bucketItems) {
+				images.add(ItemRendering.createFluidImage(set, bucketItem));
+			}
+
+			consumer.accept(images);
+		});
+	}
+
+	@Nullable
+	private static RenderedFluidImage createFluidImage(FluidStateModelSet set, BucketItem bucketItem) {
+		FluidModel model = set.get(bucketItem.getContent().defaultFluidState());
+		TextureAtlasSprite sprite = model.stillMaterial().sprite();
+
+		if (sprite.contents().name().getPath().equals("missingno")) {
+			return null;
+		}
+
+		NativeImage nativeImage = new NativeImage(CELL_SIZE, CELL_SIZE, true);
+		sprite.contents().originalImage.copyRect(nativeImage, 0, 0, 0, 0, CELL_SIZE, CELL_SIZE, false, false);
+
+		return new RenderedFluidImage(nativeImage, new ColorGetter() {
+
+			@Nullable
+			private final BlockTintSource source = model.tintSource();
+
+			@Override
+			public int getFallback(BlockState state) {
+				if (this.source == null) {
+					return -1;
+				}
+				return this.source.color(state);
+			}
+
+			@Override
+			public int getWorld(BlockState state, ClientLevel level, BlockPos pos) {
+				if (this.source == null) {
+					return -1;
+				}
+				return this.source.colorInWorld(state, level, pos);
+			}
+		});
+	}
+
+	public static void renderItemsIntoAtlas(List<ItemStack> itemStacks, int columns, int rows, Consumer<NativeImage> consumer) {
+		FamilySafeRenderExecutor.submit(() -> {
+			RenderData data = ItemRendering.getOrCreateTarget(columns * CELL_SIZE, rows * CELL_SIZE);
+
+			if (!ItemRendering.renderStacksToTarget(data, itemStacks, columns)) {
 				consumer.accept(null);
 				return;
 			}
 
-			NativeImage nativeImage = new NativeImage(WIDTH, HEIGHT, true);
-			sprite.contents().originalImage.copyRect(nativeImage, 0, 0, 0, 0, 16, 16, false, false);
-
-			consumer.accept(new RenderedFluidImage(nativeImage, new ColorGetter() {
-
-				@Nullable
-				private final BlockTintSource source = model.tintSource();
-
-				@Override
-				public int getFallback(BlockState state) {
-					if (this.source == null) {
-						return -1;
-					}
-					return this.source.color(state);
-				}
-
-				@Override
-				public int getWorld(BlockState state, ClientLevel level, BlockPos pos) {
-					if (this.source == null) {
-						return -1;
-					}
-					return this.source.colorInWorld(state, level, pos);
-				}
-			}));
+			InventoryParticlesImageConsumer specialConsumer = consumer::accept;
+			Screenshot.takeScreenshot(data.target, specialConsumer);
 		});
 	}
 
-	public static void renderItemIntoImage(ItemStack itemStack, Consumer<RenderedItemImage> consumer) {
-		RenderData renderData = ItemRendering.checkAndGetTarget();
-		FamilySafeRenderExecutor.submit(() -> {
-			ItemRendering.renderItemStackToTarget(renderData, itemStack);
-			InventoryParticlesImageConsumer specialConsumer = (image) -> {
-				consumer.accept(new RenderedItemImage(image));
-			};
-			Screenshot.takeScreenshot(renderData.target, specialConsumer);
-		});
-	}
-
-	private static void renderItemStackToTarget(RenderData data, ItemStack itemStack) {
+	private static boolean renderStacksToTarget(RenderData data, List<ItemStack> itemStacks, int columns) {
 		TextureTarget target = data.target;
 		Projection projection = data.projection;
 		ProjectionMatrixBuffer buffer = data.buffer;
@@ -113,7 +120,7 @@ public class ItemRendering {
 		GpuTexture depthTexture = target.getDepthTexture();
 
 		if (colorTexture == null || colorView == null || depthTexture == null || depthView == null) {
-			return;
+			return false;
 		}
 
 
@@ -127,7 +134,7 @@ public class ItemRendering {
 				colorTexture, new Vector4f(0F, 0F, 0F, 0F),
 				depthTexture, clearDepth
 		);
-		projection.setupOrtho(-5000.0F, 5000.0F, WIDTH / 2F, HEIGHT / 2F, true);
+		projection.setupOrtho(-5000.0F, 5000.0F, target.width / 2F, target.height / 2F, true);
 		RenderSystem.setProjectionMatrix(
 				buffer.getBuffer(projection),
 				ProjectionType.ORTHOGRAPHIC
@@ -138,63 +145,78 @@ public class ItemRendering {
 		RenderSystem.getModelViewStack().identity();
 		RenderSystem.disableScissorForRenderTypeDraws();
 
-		ItemRendering.renderItemStack(itemStack);
+		ItemRendering.renderItemStacks(itemStacks, columns);
 
 		RenderSystem.getModelViewStack().set(oldModelViewMatrix);
 		RenderSystem.outputColorTextureOverride = oldOutputColor;
 		RenderSystem.outputDepthTextureOverride = oldOutputDepth;
 		RenderSystem.restoreProjectionMatrix();
+		return true;
 	}
 
-	private static void renderItemStack(ItemStack itemStack) {
-		FeatureRenderDispatcher dispatcher = Minecraft.getInstance().gameRenderer.featureRenderDispatcher();
+	private static void renderItemStacks(List<ItemStack> itemStacks, int columns) {
+		Minecraft minecraft = Minecraft.getInstance();
+		FeatureRenderDispatcher dispatcher = minecraft.gameRenderer.featureRenderDispatcher();
 
-		TrackingItemStackRenderState renderState = new TrackingItemStackRenderState();
-		Minecraft.getInstance().getItemModelResolver().updateForTopItem(
-				renderState,
-				itemStack,
-				ItemDisplayContext.GUI,
-				null,
-				null,
-				0
-		);
-
-
-		PoseStack poseStack = new PoseStack();
-		poseStack.pushPose();
-		poseStack.last().pose().mul(new Matrix4f());
-		float max = Math.max(WIDTH, HEIGHT) / 2F;
-
-		poseStack.translate(max / 2F, max / 2F, max / 2F);
-		poseStack.scale(max, -max, max);
-
-		Minecraft.getInstance().gameRenderer.lighting().setupFor(Entry.ITEMS_FLAT);
+		// Lighting is global state applied when the features are drawn, so one setup covers the page.
+		minecraft.gameRenderer.lighting().setupFor(Entry.ITEMS_FLAT);
 
 		SubmitNodeStorage storage = new SubmitNodeStorage();
+		PoseStack poseStack = new PoseStack();
 
-		renderState.submit(poseStack, storage, 15728880, OverlayTexture.NO_OVERLAY, 0);
+		for (int i = 0; i < itemStacks.size(); i++) {
+			ItemStack itemStack = itemStacks.get(i);
+			if (itemStack == null || itemStack.isEmpty()) {
+				continue;
+			}
+
+			TrackingItemStackRenderState renderState = new TrackingItemStackRenderState();
+			minecraft.getItemModelResolver().updateForTopItem(
+					renderState,
+					itemStack,
+					ItemDisplayContext.GUI,
+					null,
+					null,
+					0
+			);
+
+			int column = i % columns;
+			int row    = i / columns;
+
+			poseStack.pushPose();
+			poseStack.translate(
+					column * CELL_UNITS + CELL_UNITS / 2F,
+					row * CELL_UNITS + CELL_UNITS / 2F,
+					CELL_UNITS / 2F
+			);
+			poseStack.scale(CELL_UNITS, -CELL_UNITS, CELL_UNITS);
+
+			renderState.submit(poseStack, storage, 15728880, OverlayTexture.NO_OVERLAY, 0);
+			poseStack.popPose();
+		}
+
 
 		dispatcher.renderAllFeatures(storage);
 	}
 
 	@NotNull
-	private static RenderData checkAndGetTarget() {
-		if (TARGET == null) {
-			FamilySafeRenderExecutor.submit(() -> {
-				TARGET                       = new TextureTarget("Inventory Particles Block Renderer Target", WIDTH, HEIGHT, true, GpuFormat.RGBA8_UNORM);
-				GUI_PROJECTION               = new Projection();
-				GUI_PROJECTION_MATRIX_BUFFER = new ProjectionMatrixBuffer("gui");
-			});
+	private static RenderData getOrCreateTarget(int width, int height) {
+		TextureTarget target = TARGET;
+		if (target == null) {
+			target = TARGET = new TextureTarget("Inventory Particles Block Renderer Target", width, height, true, GpuFormat.RGBA8_UNORM);
+		} else if (target.width != width || target.height != height) {
+			target.resize(width, height);
 		}
-		TextureTarget target;
-		Projection projection;
-		ProjectionMatrixBuffer buffer;
 
-		do {
-			target     = TARGET;
-			projection = GUI_PROJECTION;
-			buffer     = GUI_PROJECTION_MATRIX_BUFFER;
-		} while (target == null || projection == null || buffer == null);
+		Projection projection = GUI_PROJECTION;
+		if (projection == null) {
+			projection = GUI_PROJECTION = new Projection();
+		}
+
+		ProjectionMatrixBuffer buffer = GUI_PROJECTION_MATRIX_BUFFER;
+		if (buffer == null) {
+			buffer = GUI_PROJECTION_MATRIX_BUFFER = new ProjectionMatrixBuffer("gui");
+		}
 
 		return new RenderData(target, projection, buffer);
 	}

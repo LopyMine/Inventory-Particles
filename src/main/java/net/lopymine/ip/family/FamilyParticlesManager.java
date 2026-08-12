@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
 
 public class FamilyParticlesManager {
 
-	public static List<FamilyParticleConfig> getFamily(Item item) {
+	public static List<FamilyParticleConfig> getFamilyConfigsForItem(Item item) {
 		if (!InventoryParticlesConfig.getInstance().getFamilyGenerationConfig().canGenerateFor(item)) {
 			return new ArrayList<>();
 		}
