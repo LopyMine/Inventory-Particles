@@ -33,7 +33,7 @@ import org.joml.*;
 
 public class ItemRendering {
 
-	public static final int CELL_SIZE = 16;
+	public static final int CELL_SIZE = 32;
 	public static final int MAX_ATLAS_SIZE = 1024;
 	public static final int MAX_ATLAS_CELLS = MAX_ATLAS_SIZE / CELL_SIZE;
 	public static final int MAX_ITEMS_PER_ATLAS = MAX_ATLAS_CELLS * MAX_ATLAS_CELLS;
@@ -69,8 +69,10 @@ public class ItemRendering {
 			return null;
 		}
 
-		NativeImage nativeImage = new NativeImage(CELL_SIZE, CELL_SIZE, true);
-		sprite.contents().originalImage.copyRect(nativeImage, 0, 0, 0, 0, CELL_SIZE, CELL_SIZE, false, false);
+		NativeImage originalImage = sprite.contents().originalImage;
+		int d = Math.min(originalImage.getWidth(), originalImage.getHeight());
+		NativeImage nativeImage = new NativeImage(d, d, true);
+		originalImage.copyRect(nativeImage, 0, 0, 0, 0, d, d, false, false);
 
 		return new RenderedFluidImage(nativeImage, new ColorGetter() {
 
@@ -143,10 +145,10 @@ public class ItemRendering {
 		RenderSystem.outputColorTextureOverride = colorView;
 		RenderSystem.outputDepthTextureOverride = depthView;
 		RenderSystem.getModelViewStack().identity();
+
+		ItemRendering.renderItemStacks(itemStacks, columns, target.height);
+
 		RenderSystem.disableScissorForRenderTypeDraws();
-
-		ItemRendering.renderItemStacks(itemStacks, columns);
-
 		RenderSystem.getModelViewStack().set(oldModelViewMatrix);
 		RenderSystem.outputColorTextureOverride = oldOutputColor;
 		RenderSystem.outputDepthTextureOverride = oldOutputDepth;
@@ -154,7 +156,7 @@ public class ItemRendering {
 		return true;
 	}
 
-	private static void renderItemStacks(List<ItemStack> itemStacks, int columns) {
+	private static void renderItemStacks(List<ItemStack> itemStacks, int columns, int targetHeight) {
 		Minecraft minecraft = Minecraft.getInstance();
 		FeatureRenderDispatcher dispatcher = minecraft.gameRenderer.featureRenderDispatcher();
 
@@ -183,6 +185,9 @@ public class ItemRendering {
 			int column = i % columns;
 			int row    = i / columns;
 
+			int left   = column * CELL_SIZE;
+			int bottom = row * CELL_SIZE + CELL_SIZE;
+
 			poseStack.pushPose();
 			poseStack.translate(
 					column * CELL_UNITS + CELL_UNITS / 2F,
@@ -191,12 +196,13 @@ public class ItemRendering {
 			);
 			poseStack.scale(CELL_UNITS, -CELL_UNITS, CELL_UNITS);
 
+			RenderSystem.enableScissorForRenderTypeDraws(left, targetHeight - bottom, CELL_SIZE, CELL_SIZE);
+
 			renderState.submit(poseStack, storage, 15728880, OverlayTexture.NO_OVERLAY, 0);
+			dispatcher.renderAllFeatures(storage);
+
 			poseStack.popPose();
 		}
-
-
-		dispatcher.renderAllFeatures(storage);
 	}
 
 	@NotNull

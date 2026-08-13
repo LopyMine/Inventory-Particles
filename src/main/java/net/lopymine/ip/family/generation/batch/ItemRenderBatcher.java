@@ -1,11 +1,13 @@
 package net.lopymine.ip.family.generation.batch;
 
 import com.mojang.blaze3d.platform.NativeImage;
+import java.io.IOException;
 import java.util.*;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.family.generation.ItemRendering;
 import net.lopymine.ip.utils.iac.*;
+import net.lopymine.mossylib.loader.MossyLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.*;
 import org.jetbrains.annotations.Nullable;
@@ -66,6 +68,13 @@ public class ItemRenderBatcher {
 		for (int i = 0; i < requests.size() && i < rendered.size(); i++) {
 			RenderedFluidImage image = rendered.get(i);
 			if (image != null) {
+
+//						try {
+//							image.getImage().writeToFile(MossyLoader.getConfigDir().resolve(requests.get(i).itemId().getPath() + ".png"));
+//						} catch (IOException e) {
+//							throw new RuntimeException(e);
+//						}
+
 				images.putFluid(requests.get(i).item(), image);
 			}
 		}
@@ -94,6 +103,12 @@ public class ItemRenderBatcher {
 		if (atlas == null) {
 			return;
 		}
+
+		//		try {
+//			atlas.writeToFile(MossyLoader.getConfigDir().resolve(Math.abs(atlas.hashCode()) + ".png"));
+//		} catch (IOException e) {
+//			throw new RuntimeException(e);
+//		}
 
 		try {
 			for (int i = 0; i < page.size(); i++) {
