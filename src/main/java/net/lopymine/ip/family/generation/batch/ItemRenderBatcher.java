@@ -69,11 +69,11 @@ public class ItemRenderBatcher {
 			RenderedFluidImage image = rendered.get(i);
 			if (image != null) {
 
-//						try {
-//							image.getImage().writeToFile(MossyLoader.getConfigDir().resolve(requests.get(i).itemId().getPath() + ".png"));
-//						} catch (IOException e) {
-//							throw new RuntimeException(e);
-//						}
+				try {
+					image.getImage().writeToFile(MossyLoader.getConfigDir().resolve("1235").resolve(requests.get(i).itemId().getPath() + ".png"));
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
 
 				images.putFluid(requests.get(i).item(), image);
 			}
@@ -104,11 +104,11 @@ public class ItemRenderBatcher {
 			return;
 		}
 
-		//		try {
-//			atlas.writeToFile(MossyLoader.getConfigDir().resolve(Math.abs(atlas.hashCode()) + ".png"));
-//		} catch (IOException e) {
-//			throw new RuntimeException(e);
-//		}
+		try {
+			atlas.writeToFile(MossyLoader.getConfigDir().resolve("1235").resolve(Math.abs(atlas.hashCode()) + ".png"));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 
 		try {
 			for (int i = 0; i < page.size(); i++) {

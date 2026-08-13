@@ -3,12 +3,12 @@ package net.lopymine.ip.element.mod.spawner;
 public record ParticleSpawnPos(int x, int y, int width, int height) implements IParticleSpawnPos {
 
 	@Override
-	public int getXOffset() {
-		return (this.width - 16) / 2;
+	public double getDetailedX() {
+		return (int) (((float) this.x / this.width) * 16F);
 	}
 
 	@Override
-	public int getYOffset() {
-		return (this.height - 16) / 2;
+	public double getDetailedY() {
+		return (int) (((float) this.y / this.height) * 16F);
 	}
 }

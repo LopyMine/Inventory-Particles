@@ -430,13 +430,14 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 		RenderedItemImages extractedItemImages = cache.getImages();
 
 		if (cachedItemTextures == null) {
-			if (!particleData.canGenerateTextures()) {
+			RenderedItemImage renderedItemImage = extractedItemImages.get(item, particleData.getTextureExtractMode());
+			if (!particleData.canGenerateTextures() && renderedItemImage == null) {
 				return EMPTY_PARTICLES_TEXTURES_DATA;
 			}
 			if (InventoryParticlesConfig.getInstance().getMainConfig().isDebugModeEnabled()) {
 				InventoryParticlesClient.LOGGER.info("[1] Generating textures for {}", itemId);
 			}
-			RenderedItemImage image = Optional.ofNullable(extractedItemImages.get(item, particleData.getTextureExtractMode())).orElseGet(
+			RenderedItemImage image = Optional.ofNullable(renderedItemImage).orElseGet(
 					() -> ItemRenderingManager.renderItemImage(item, itemId, particleData.getTextureExtractMode())
 			);
 			if (image == null) {
