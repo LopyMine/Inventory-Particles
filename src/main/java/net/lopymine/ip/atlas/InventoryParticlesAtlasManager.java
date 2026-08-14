@@ -65,7 +65,8 @@ public class InventoryParticlesAtlasManager {
 			return OtherAtlasManager.getSprite(id, atlasId, this.getMissingSprite());
 		} catch (Exception e) {
 			if (e.getMessage().equals("Tried to lookup sprite, but atlas is not initialized")) {
-				MutableComponent message = Component.literal("[Inventory Particles] Hey, wait! This error is special, and I don’t know when or why it happens. There have been only a few bug reports about it. If you see this message, please report this bug with the !!full game logs!! — they’re important. Thanks!\n");
+				MutableComponent message = Component.literal("[Inventory Particles] Hey, wait! This error is special, and I don’t know when or why it happens. If you see this message, please report this bug with the !!full game logs!! — they’re important. Thanks!\n")
+						.append("\n Another mod might be breaking Inventory Particles. \n\n To find it, try disabling half of your active mods at a time until the problem goes away, that will help you find that mod quickly. \nThat would be a huge help <3");
 				//? if >=26.2 {
 				ChatComponent chat = Minecraft.getInstance().gui.hud.getChat();
 				//?} else {
@@ -76,6 +77,8 @@ public class InventoryParticlesAtlasManager {
 				//?} else {
 				/*chat.addMessage(message);
 				 *///?}
+
+				InventoryParticles.LOGGER.error("TRIED TO GET SPRITE FROM ATLAS, BUT IT'S NOT INITIALIZED YET: " + (id == null ? "null" : id.toString()) + " " + (atlasId == null ? "null" : atlasId.toString()));
 			}
 			throw e;
 		}
