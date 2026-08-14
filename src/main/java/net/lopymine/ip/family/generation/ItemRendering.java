@@ -33,12 +33,7 @@ import org.joml.*;
 
 public class ItemRendering {
 
-	public static final int CELL_SIZE = 32;
 	public static final int MAX_ATLAS_SIZE = 1024;
-	public static final int MAX_ATLAS_CELLS = MAX_ATLAS_SIZE / CELL_SIZE;
-	public static final int MAX_ITEMS_PER_ATLAS = MAX_ATLAS_CELLS * MAX_ATLAS_CELLS;
-
-	private static final float CELL_UNITS = CELL_SIZE / 2F;
 
 	@Nullable
 	private static Projection GUI_PROJECTION;
@@ -46,6 +41,15 @@ public class ItemRendering {
 	private static ProjectionMatrixBuffer GUI_PROJECTION_MATRIX_BUFFER;
 	@Nullable
 	public static volatile TextureTarget TARGET;
+
+	public static int getMaxAtlasCells(int cellSize) {
+		return MAX_ATLAS_SIZE / cellSize;
+	}
+
+	public static int getMaxItemsPerAtlas(int cellSize) {
+		int cells = getMaxAtlasCells(cellSize);
+		return cells * cells;
+	}
 
 	public static void renderFluidsIntoImages(List<BucketItem> bucketItems, Consumer<List<RenderedFluidImage>> consumer) {
 		FamilySafeRenderExecutor.submit(() -> {
@@ -97,11 +101,11 @@ public class ItemRendering {
 		});
 	}
 
-	public static void renderItemsIntoAtlas(List<ItemStack> itemStacks, int columns, int rows, Consumer<NativeImage> consumer) {
+	public static void renderItemsIntoAtlas(List<ItemStack> itemStacks, int columns, int rows, int cellSize, Consumer<NativeImage> consumer) {
 		FamilySafeRenderExecutor.submit(() -> {
-			RenderData data = ItemRendering.getOrCreateTarget(columns * CELL_SIZE, rows * CELL_SIZE);
+			RenderData data = ItemRendering.getOrCreateTarget(columns * cellSize, rows * cellSize);
 
-			if (!ItemRendering.renderStacksToTarget(data, itemStacks, columns)) {
+			if (!ItemRendering.renderStacksToTarget(data, itemStacks, columns, cellSize)) {
 				consumer.accept(null);
 				return;
 			}
@@ -111,7 +115,7 @@ public class ItemRendering {
 		});
 	}
 
-	private static boolean renderStacksToTarget(RenderData data, List<ItemStack> itemStacks, int columns) {
+	private static boolean renderStacksToTarget(RenderData data, List<ItemStack> itemStacks, int columns, int cellSize) {
 		TextureTarget target = data.target;
 		Projection projection = data.projection;
 		ProjectionMatrixBuffer buffer = data.buffer;
@@ -146,7 +150,7 @@ public class ItemRendering {
 		RenderSystem.outputDepthTextureOverride = depthView;
 		RenderSystem.getModelViewStack().identity();
 
-		ItemRendering.renderItemStacks(itemStacks, columns, target.height);
+		ItemRendering.renderItemStacks(itemStacks, columns, cellSize, target.height);
 
 		RenderSystem.disableScissorForRenderTypeDraws();
 		RenderSystem.getModelViewStack().set(oldModelViewMatrix);
@@ -156,14 +160,13 @@ public class ItemRendering {
 		return true;
 	}
 
-	private static void renderItemStacks(List<ItemStack> itemStacks, int columns, int targetHeight) {
+	private static void renderItemStacks(List<ItemStack> itemStacks, int columns, int cellSize, int targetHeight) {
 		Minecraft minecraft = Minecraft.getInstance();
 		FeatureRenderDispatcher dispatcher = minecraft.gameRenderer.featureRenderDispatcher();
-
-		// Lighting is global state applied when the features are drawn, so one setup covers the page.
 		minecraft.gameRenderer.lighting().setupFor(Entry.ITEMS_FLAT);
 
 		SubmitNodeStorage storage = new SubmitNodeStorage();
+		float cellUnits = cellSize / 2F;
 		PoseStack poseStack = new PoseStack();
 
 		for (int i = 0; i < itemStacks.size(); i++) {
@@ -185,18 +188,18 @@ public class ItemRendering {
 			int column = i % columns;
 			int row    = i / columns;
 
-			int left   = column * CELL_SIZE;
-			int bottom = row * CELL_SIZE + CELL_SIZE;
+			int left   = column * cellSize;
+			int bottom = row * cellSize + cellSize;
 
 			poseStack.pushPose();
 			poseStack.translate(
-					column * CELL_UNITS + CELL_UNITS / 2F,
-					row * CELL_UNITS + CELL_UNITS / 2F,
-					CELL_UNITS / 2F
+					column * cellUnits + cellUnits / 2F,
+					row * cellUnits + cellUnits / 2F,
+					cellUnits / 2F
 			);
-			poseStack.scale(CELL_UNITS, -CELL_UNITS, CELL_UNITS);
+			poseStack.scale(cellUnits, -cellUnits, cellUnits);
 
-			RenderSystem.enableScissorForRenderTypeDraws(left, targetHeight - bottom, CELL_SIZE, CELL_SIZE);
+			RenderSystem.enableScissorForRenderTypeDraws(left, targetHeight - bottom, cellSize, cellSize);
 
 			renderState.submit(poseStack, storage, 15728880, OverlayTexture.NO_OVERLAY, 0);
 			dispatcher.renderAllFeatures(storage);
@@ -265,12 +268,7 @@ import org.joml.Matrix4f;
 
 public class ItemRendering {
 
-	public static final int CELL_SIZE = 32;
 	public static final int MAX_ATLAS_SIZE = 1024;
-	public static final int MAX_ATLAS_CELLS = MAX_ATLAS_SIZE / CELL_SIZE;
-	public static final int MAX_ITEMS_PER_ATLAS = MAX_ATLAS_CELLS * MAX_ATLAS_CELLS;
-
-	private static final float CELL_UNITS = CELL_SIZE / 2F;
 
 	@Nullable
 	private static Projection GUI_PROJECTION;
@@ -278,6 +276,15 @@ public class ItemRendering {
 	private static ProjectionMatrixBuffer GUI_PROJECTION_MATRIX_BUFFER;
 	@Nullable
 	public static volatile TextureTarget TARGET;
+
+	public static int getMaxAtlasCells(int cellSize) {
+		return MAX_ATLAS_SIZE / cellSize;
+	}
+
+	public static int getMaxItemsPerAtlas(int cellSize) {
+		int cells = getMaxAtlasCells(cellSize);
+		return cells * cells;
+	}
 
 	public static void renderFluidsIntoImages(List<BucketItem> bucketItems, Consumer<List<RenderedFluidImage>> consumer) {
 		FamilySafeRenderExecutor.submit(() -> {
@@ -329,11 +336,11 @@ public class ItemRendering {
 		});
 	}
 
-	public static void renderItemsIntoAtlas(List<ItemStack> itemStacks, int columns, int rows, Consumer<NativeImage> consumer) {
+	public static void renderItemsIntoAtlas(List<ItemStack> itemStacks, int columns, int rows, int cellSize, Consumer<NativeImage> consumer) {
 		FamilySafeRenderExecutor.submit(() -> {
-			RenderData data = ItemRendering.getOrCreateTarget(columns * CELL_SIZE, rows * CELL_SIZE);
+			RenderData data = ItemRendering.getOrCreateTarget(columns * cellSize, rows * cellSize);
 
-			if (!ItemRendering.renderStacksToTarget(data, itemStacks, columns)) {
+			if (!ItemRendering.renderStacksToTarget(data, itemStacks, columns, cellSize)) {
 				consumer.accept(null);
 				return;
 			}
@@ -343,7 +350,7 @@ public class ItemRendering {
 		});
 	}
 
-	private static boolean renderStacksToTarget(RenderData data, List<ItemStack> itemStacks, int columns) {
+	private static boolean renderStacksToTarget(RenderData data, List<ItemStack> itemStacks, int columns, int cellSize) {
 		TextureTarget target = data.target;
 		Projection projection = data.projection;
 		ProjectionMatrixBuffer buffer = data.buffer;
@@ -377,7 +384,7 @@ public class ItemRendering {
 		RenderSystem.outputDepthTextureOverride = depthView;
 		RenderSystem.getModelViewStack().identity();
 
-		ItemRendering.renderItemStacks(itemStacks, columns, target.height);
+		ItemRendering.renderItemStacks(itemStacks, columns, cellSize, target.height);
 
 		RenderSystem.disableScissorForRenderTypeDraws();
 		RenderSystem.getModelViewStack().set(oldModelViewMatrix);
@@ -387,12 +394,13 @@ public class ItemRendering {
 		return true;
 	}
 
-	private static void renderItemStacks(List<ItemStack> itemStacks, int columns, int targetHeight) {
+	private static void renderItemStacks(List<ItemStack> itemStacks, int columns, int cellSize, int targetHeight) {
 		Minecraft minecraft = Minecraft.getInstance();
 		FeatureRenderDispatcher dispatcher = minecraft.gameRenderer.getFeatureRenderDispatcher();
 		BufferSource bufferSource = minecraft.renderBuffers().bufferSource();
 		minecraft.gameRenderer.getLighting().setupFor(Entry.ITEMS_FLAT);
 
+		float cellUnits = cellSize / 2F;
 		PoseStack poseStack = new PoseStack();
 
 		for (int i = 0; i < itemStacks.size(); i++) {
@@ -414,18 +422,18 @@ public class ItemRendering {
 			int column = i % columns;
 			int row    = i / columns;
 
-			int left   = column * CELL_SIZE;
-			int bottom = row * CELL_SIZE + CELL_SIZE;
+			int left   = column * cellSize;
+			int bottom = row * cellSize + cellSize;
 
 			poseStack.pushPose();
 			poseStack.translate(
-					column * CELL_UNITS + CELL_UNITS / 2F,
-					row * CELL_UNITS + CELL_UNITS / 2F,
-					CELL_UNITS / 2F
+					column * cellUnits + cellUnits / 2F,
+					row * cellUnits + cellUnits / 2F,
+					cellUnits / 2F
 			);
-			poseStack.scale(CELL_UNITS, -CELL_UNITS, CELL_UNITS);
+			poseStack.scale(cellUnits, -cellUnits, cellUnits);
 
-			RenderSystem.enableScissorForRenderTypeDraws(left, targetHeight - bottom, CELL_SIZE, CELL_SIZE);
+			RenderSystem.enableScissorForRenderTypeDraws(left, targetHeight - bottom, cellSize, cellSize);
 
 			renderState.submit(poseStack, dispatcher.getSubmitNodeStorage(), 15728880, OverlayTexture.NO_OVERLAY, 0);
 			dispatcher.renderAllFeatures();
@@ -504,17 +512,21 @@ import net.fabricmc.fabric.api.client.render.fluid.v1.*;
 
 public class ItemRendering {
 
-	public static final int CELL_SIZE = 32;
 	public static final int MAX_ATLAS_SIZE = 1024;
-	public static final int MAX_ATLAS_CELLS = MAX_ATLAS_SIZE / CELL_SIZE;
-	public static final int MAX_ITEMS_PER_ATLAS = MAX_ATLAS_CELLS * MAX_ATLAS_CELLS;
-
-	private static final float CELL_UNITS = CELL_SIZE / 2F;
 
 	@Nullable
 	private static CachedOrthoProjectionMatrixBuffer BUFFER;
 	@Nullable
 	public static volatile TextureTarget TARGET;
+
+	public static int getMaxAtlasCells(int cellSize) {
+		return MAX_ATLAS_SIZE / cellSize;
+	}
+
+	public static int getMaxItemsPerAtlas(int cellSize) {
+		int cells = getMaxAtlasCells(cellSize);
+		return cells * cells;
+	}
 
 	public static void renderFluidsIntoImages(List<BucketItem> bucketItems, Consumer<List<RenderedFluidImage>> consumer) {
 		FamilySafeRenderExecutor.submit(() -> {
@@ -597,11 +609,11 @@ public class ItemRendering {
 		^///?}
 	}
 
-	public static void renderItemsIntoAtlas(List<ItemStack> itemStacks, int columns, int rows, Consumer<NativeImage> consumer) {
+	public static void renderItemsIntoAtlas(List<ItemStack> itemStacks, int columns, int rows, int cellSize, Consumer<NativeImage> consumer) {
 		FamilySafeRenderExecutor.submit(() -> {
-			RenderData data = ItemRendering.getOrCreateTarget(columns * CELL_SIZE, rows * CELL_SIZE);
+			RenderData data = ItemRendering.getOrCreateTarget(columns * cellSize, rows * cellSize);
 
-			if (!ItemRendering.renderStacksToTarget(data, itemStacks, columns)) {
+			if (!ItemRendering.renderStacksToTarget(data, itemStacks, columns, cellSize)) {
 				consumer.accept(null);
 				return;
 			}
@@ -611,7 +623,7 @@ public class ItemRendering {
 		});
 	}
 
-	private static boolean renderStacksToTarget(RenderData data, List<ItemStack> itemStacks, int columns) {
+	private static boolean renderStacksToTarget(RenderData data, List<ItemStack> itemStacks, int columns, int cellSize) {
 		TextureTarget target = data.target;
 		CachedOrthoProjectionMatrixBuffer buffer = data.buffer;
 
@@ -642,7 +654,7 @@ public class ItemRendering {
 		RenderSystem.outputDepthTextureOverride = depthView;
 		RenderSystem.getModelViewStack().identity();
 
-		ItemRendering.renderItemStacks(itemStacks, columns, target.height);
+		ItemRendering.renderItemStacks(itemStacks, columns, cellSize, target.height);
 
 		RenderSystem.disableScissorForRenderTypeDraws();
 		RenderSystem.getModelViewStack().set(oldModelViewMatrix);
@@ -652,12 +664,13 @@ public class ItemRendering {
 		return true;
 	}
 
-	private static void renderItemStacks(List<ItemStack> itemStacks, int columns, int targetHeight) {
+	private static void renderItemStacks(List<ItemStack> itemStacks, int columns, int cellSize, int targetHeight) {
 		Minecraft minecraft = Minecraft.getInstance();
 		FeatureRenderDispatcher dispatcher = minecraft.gameRenderer.getFeatureRenderDispatcher();
 		BufferSource bufferSource = minecraft.renderBuffers().bufferSource();
 		minecraft.gameRenderer.getLighting().setupFor(Entry.ITEMS_FLAT);
 
+		float cellUnits = cellSize / 2F;
 		PoseStack poseStack = new PoseStack();
 
 		for (int i = 0; i < itemStacks.size(); i++) {
@@ -679,18 +692,18 @@ public class ItemRendering {
 			int column = i % columns;
 			int row    = i / columns;
 
-			int left   = column * CELL_SIZE;
-			int bottom = row * CELL_SIZE + CELL_SIZE;
+			int left   = column * cellSize;
+			int bottom = row * cellSize + cellSize;
 
 			poseStack.pushPose();
 			poseStack.translate(
-					column * CELL_UNITS + CELL_UNITS / 2F,
-					row * CELL_UNITS + CELL_UNITS / 2F,
-					CELL_UNITS / 2F
+					column * cellUnits + cellUnits / 2F,
+					row * cellUnits + cellUnits / 2F,
+					cellUnits / 2F
 			);
-			poseStack.scale(CELL_UNITS, -CELL_UNITS, CELL_UNITS);
+			poseStack.scale(cellUnits, -cellUnits, cellUnits);
 
-			RenderSystem.enableScissorForRenderTypeDraws(left, targetHeight - bottom, CELL_SIZE, CELL_SIZE);
+			RenderSystem.enableScissorForRenderTypeDraws(left, targetHeight - bottom, cellSize, cellSize);
 
 			renderState.submit(poseStack, dispatcher.getSubmitNodeStorage(), 15728880, OverlayTexture.NO_OVERLAY, 0);
 			dispatcher.renderAllFeatures();
@@ -769,15 +782,19 @@ public class ItemRendering {
 
 	public static boolean SWAP_TARGET = false;
 
-	public static final int CELL_SIZE = 32;
 	public static final int MAX_ATLAS_SIZE = 1024;
-	public static final int MAX_ATLAS_CELLS = MAX_ATLAS_SIZE / CELL_SIZE;
-	public static final int MAX_ITEMS_PER_ATLAS = MAX_ATLAS_CELLS * MAX_ATLAS_CELLS;
-
-	private static final float CELL_UNITS = CELL_SIZE / 2F;
 
 	@Nullable
 	public static volatile TextureTarget TARGET;
+
+	public static int getMaxAtlasCells(int cellSize) {
+		return MAX_ATLAS_SIZE / cellSize;
+	}
+
+	public static int getMaxItemsPerAtlas(int cellSize) {
+		int cells = getMaxAtlasCells(cellSize);
+		return cells * cells;
+	}
 
 	public static void renderFluidsIntoImages(List<BucketItem> bucketItems, Consumer<List<RenderedFluidImage>> consumer) {
 		FamilySafeRenderExecutor.submit(() -> {
@@ -872,10 +889,10 @@ public class ItemRendering {
 		^///?}
 	}
 
-	public static void renderItemsIntoAtlas(List<ItemStack> itemStacks, int columns, int rows, Consumer<NativeImage> consumer) {
+	public static void renderItemsIntoAtlas(List<ItemStack> itemStacks, int columns, int rows, int cellSize, Consumer<NativeImage> consumer) {
 		FamilySafeRenderExecutor.submit(() -> {
-			RenderData data = ItemRendering.getOrCreateTarget(columns * CELL_SIZE, rows * CELL_SIZE);
-			ItemRendering.renderStacksToTarget(data, itemStacks, columns);
+			RenderData data = ItemRendering.getOrCreateTarget(columns * cellSize, rows * cellSize);
+			ItemRendering.renderStacksToTarget(data, itemStacks, columns, cellSize);
 
 			TextureTarget target = data.target;
 			NativeImage nativeImage = new NativeImage(target.width, target.height, false);
@@ -887,7 +904,7 @@ public class ItemRendering {
 		});
 	}
 
-	private static void renderStacksToTarget(RenderData data, List<ItemStack> itemStacks, int columns) {
+	private static void renderStacksToTarget(RenderData data, List<ItemStack> itemStacks, int columns, int cellSize) {
 		TextureTarget target = data.target;
 
 		//? if >=1.21.1 {
@@ -913,7 +930,7 @@ public class ItemRendering {
 		/^RenderSystem.getModelViewStack().setIdentity();
 		 ^///?}
 
-		ItemRendering.renderItemStacks(itemStacks, columns, target);
+		ItemRendering.renderItemStacks(itemStacks, columns, cellSize, target);
 
 		//? if >=1.21.1 {
 		RenderSystem.getModelViewStack().set(oldModelViewMatrix);
@@ -930,7 +947,7 @@ public class ItemRendering {
 	}
 	^///?}
 
-	private static void renderItemStacks(List<ItemStack> itemStacks, int columns, TextureTarget target) {
+	private static void renderItemStacks(List<ItemStack> itemStacks, int columns, int cellSize, TextureTarget target) {
 		Minecraft minecraft = Minecraft.getInstance();
 		BufferSource bufferSource = minecraft.renderBuffers().bufferSource();
 
@@ -940,6 +957,7 @@ public class ItemRendering {
 		SWAP_TARGET = true;
 		target.bindWrite(true);
 
+		float cellUnits = cellSize / 2F;
 		PoseStack poseStack = new PoseStack();
 
 		for (int i = 0; i < itemStacks.size(); i++) {
@@ -953,18 +971,18 @@ public class ItemRendering {
 			int column = i % columns;
 			int row    = i / columns;
 
-			int left   = column * CELL_SIZE;
-			int bottom = row * CELL_SIZE + CELL_SIZE;
+			int left   = column * cellSize;
+			int bottom = row * cellSize + cellSize;
 
 			poseStack.pushPose();
 			poseStack.translate(
-					column * CELL_UNITS + CELL_UNITS / 2F,
-					row * CELL_UNITS + CELL_UNITS / 2F,
-					CELL_UNITS / 2F
+					column * cellUnits + cellUnits / 2F,
+					row * cellUnits + cellUnits / 2F,
+					cellUnits / 2F
 			);
-			poseStack.scale(CELL_UNITS, -CELL_UNITS, CELL_UNITS);
+			poseStack.scale(cellUnits, -cellUnits, cellUnits);
 
-			RenderSystem.enableScissor(left, target.height - bottom, CELL_SIZE, CELL_SIZE);
+			RenderSystem.enableScissor(left, target.height - bottom, cellSize, cellSize);
 
 			minecraft.getItemRenderer().render(
 					itemStack,

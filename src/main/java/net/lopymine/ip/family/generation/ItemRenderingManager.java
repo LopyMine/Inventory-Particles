@@ -26,26 +26,26 @@ public class ItemRenderingManager {
 	}
 
 	@Nullable
-	public static RenderedItemImage renderItemImage(Item item, Identifier itemId, TextureExtractMode textureExtractMode) {
+	public static RenderedItemImage renderItemImage(Item item, Identifier itemId, TextureExtractMode textureExtractMode, int cellSize) {
 		if (Minecraft.getInstance().level == null) {
 			return null;
 		}
 
 		BucketItem bucketItem = resolveBucket(item, textureExtractMode);
-		RenderedItemImages images = ItemRenderBatcher.render(List.of(new ItemRenderRequest(itemId, item, bucketItem)));
+		RenderedItemImages images = ItemRenderBatcher.render(List.of(new ItemRenderRequest(itemId, item, bucketItem)), cellSize);
 
 		return images.get(item, textureExtractMode);
 	}
 
 	@Nullable
-	public static RenderedItemImage renderItemImageIfSpecial(Identifier itemId, Item item, TextureExtractMode textureExtractMode) {
+	public static RenderedItemImage renderItemImageIfSpecial(Identifier itemId, Item item, TextureExtractMode textureExtractMode, int cellSize) {
 		if (Minecraft.getInstance().level == null) {
 			return null;
 		}
 
 		BucketItem bucketItem = resolveBucket(item, textureExtractMode);
 		if (bucketItem != null) {
-			RenderedItemImages images = ItemRenderBatcher.render(List.of(new ItemRenderRequest(itemId, item, bucketItem)));
+			RenderedItemImages images = ItemRenderBatcher.render(List.of(new ItemRenderRequest(itemId, item, bucketItem)), cellSize);
 			return images.getFluid(item);
 		}
 

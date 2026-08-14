@@ -38,6 +38,8 @@ import org.jetbrains.annotations.*;
 
 public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConfig> {
 
+	private static final int FAMILY_CELL_SIZE = 32;
+
 	public static final Map<Identifier, List<ParticleConfig>> REGISTERED_CONFIGS = new HashMap<>();
 	private static final Map<Item, List<IParticleSpawner>> PER_ITEM_PARTICLE_SPAWNERS = new IdentityHashMap<>();
 	private static final Map<TagKey<Item>, List<IParticleSpawner>> PER_TAG_PARTICLE_SPAWNERS = new HashMap<>();
@@ -220,7 +222,7 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 			}
 		}
 
-		cache.setImages(ItemRenderBatcher.render(renderRequests));
+		cache.setImages(ItemRenderBatcher.render(renderRequests, FAMILY_CELL_SIZE));
 	}
 
 	private static boolean shouldExtractFamilyItemImage(boolean debug, Identifier itemId, Item item) {
@@ -438,7 +440,7 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 				InventoryParticlesClient.LOGGER.info("[1] Generating textures for {}", itemId);
 			}
 			RenderedItemImage image = Optional.ofNullable(renderedItemImage).orElseGet(
-					() -> ItemRenderingManager.renderItemImage(item, itemId, particleData.getTextureExtractMode())
+					() -> ItemRenderingManager.renderItemImage(item, itemId, particleData.getTextureExtractMode(), FAMILY_CELL_SIZE)
 			);
 			if (image == null) {
 				return null;
@@ -455,7 +457,7 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 					?
 					extractedFluid
 					:
-					ItemRenderingManager.renderItemImageIfSpecial(itemId, item, particleData.getTextureExtractMode());
+					ItemRenderingManager.renderItemImageIfSpecial(itemId, item, particleData.getTextureExtractMode(), FAMILY_CELL_SIZE);
 
 			ArrayList<ITexture> textures = new ArrayList<>();
 			cachedItemTextures.sort(Comparator.comparingInt(ParticlesConfigsManager::getTextureNumber)); // bruh

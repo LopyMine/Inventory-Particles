@@ -17,7 +17,7 @@ public class ItemRenderBatcher {
 	private static final int WAIT_STEP_MS = 1;
 	private static final int MAX_RENDER_TIME = 10000;
 
-	public static RenderedItemImages render(List<ItemRenderRequest> requests) {
+	public static RenderedItemImages render(List<ItemRenderRequest> requests, int cellSize) {
 		RenderedItemImages images = new RenderedItemImages();
 		if (requests.isEmpty() || Minecraft.getInstance().level == null) {
 			return images;
@@ -39,7 +39,7 @@ public class ItemRenderBatcher {
 		InventoryParticlesClient.LOGGER.info("Fluids took {} seconds. Amount: {}", (b - a) / 1000D, fluidRequests.size());
 
 		long c = System.currentTimeMillis();
-		renderItems(itemRequests, images);
+		renderItems(itemRequests, images, cellSize);
 		long d = System.currentTimeMillis();
 
 		InventoryParticlesClient.LOGGER.info("Items took {} seconds. Amount: {}", (d - c) / 1000D, itemRequests.size());
@@ -68,27 +68,22 @@ public class ItemRenderBatcher {
 		for (int i = 0; i < requests.size() && i < rendered.size(); i++) {
 			RenderedFluidImage image = rendered.get(i);
 			if (image != null) {
-
-				try {
-					image.getImage().writeToFile(MossyLoader.getConfigDir().resolve("1235").resolve(requests.get(i).itemId().getPath() + ".png"));
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
-
 				images.putFluid(requests.get(i).item(), image);
 			}
 		}
 	}
 
-	private static void renderItems(List<ItemRenderRequest> requests, RenderedItemImages images) {
-		for (int from = 0; from < requests.size(); from += ItemRendering.MAX_ITEMS_PER_ATLAS) {
-			int to = Math.min(from + ItemRendering.MAX_ITEMS_PER_ATLAS, requests.size());
-			renderPage(requests.subList(from, to), images);
+	private static void renderItems(List<ItemRenderRequest> requests, RenderedItemImages images, int cellSize) {
+		int maxItemsPerAtlas = ItemRendering.getMaxItemsPerAtlas(cellSize);
+
+		for (int from = 0; from < requests.size(); from += maxItemsPerAtlas) {
+			int to = Math.min(from + maxItemsPerAtlas, requests.size());
+			renderPage(requests.subList(from, to), images, cellSize);
 		}
 	}
 
-	private static void renderPage(List<ItemRenderRequest> page, RenderedItemImages images) {
-		int columns = Math.min((int) Math.ceil(Math.sqrt(page.size())), ItemRendering.MAX_ATLAS_CELLS);
+	private static void renderPage(List<ItemRenderRequest> page, RenderedItemImages images, int cellSize) {
+		int columns = Math.min((int) Math.ceil(Math.sqrt(page.size())), ItemRendering.getMaxAtlasCells(cellSize));
 		int rows    = (page.size() + columns - 1) / columns;
 
 		List<ItemStack> itemStacks = new ArrayList<>(page.size());
@@ -97,7 +92,7 @@ public class ItemRenderBatcher {
 		}
 
 		BatchResult<NativeImage> result = new BatchResult<>();
-		ItemRendering.renderItemsIntoAtlas(itemStacks, columns, rows, result::complete);
+		ItemRendering.renderItemsIntoAtlas(itemStacks, columns, rows, cellSize, result::complete);
 
 		NativeImage atlas = awaitAngGet(result, "%s items".formatted(page.size()));
 		if (atlas == null) {
@@ -105,32 +100,24 @@ public class ItemRenderBatcher {
 		}
 
 		try {
-			atlas.writeToFile(MossyLoader.getConfigDir().resolve("1235").resolve(Math.abs(atlas.hashCode()) + ".png"));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-
-		try {
 			for (int i = 0; i < page.size(); i++) {
-				images.putItem(page.get(i).item(), new RenderedItemImage(sliceCell(atlas, i, columns)));
+				images.putItem(page.get(i).item(), new RenderedItemImage(sliceCell(atlas, i, columns, cellSize)));
 			}
 		} finally {
 			atlas.close();
 		}
 	}
 
-	private static NativeImage sliceCell(NativeImage atlas, int index, int columns) {
-		int size = ItemRendering.CELL_SIZE;
-
-		NativeImage cell = new NativeImage(size, size, true);
+	private static NativeImage sliceCell(NativeImage atlas, int index, int columns, int cellSize) {
+		NativeImage cell = new NativeImage(cellSize, cellSize, true);
 		atlas.copyRect(
 				cell,
-				(index % columns) * size,
-				(index / columns) * size,
+				(index % columns) * cellSize,
+				(index / columns) * cellSize,
 				0,
 				0,
-				size,
-				size,
+				cellSize,
+				cellSize,
 				false,
 				false
 		);

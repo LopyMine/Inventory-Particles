@@ -4,11 +4,11 @@ public record ParticleSpawnPos(int x, int y, int width, int height) implements I
 
 	@Override
 	public double getDetailedX() {
-		return (int) (((float) this.x / this.width) * 16F);
+		return (((float) this.x / this.width) * 16F);
 	}
 
 	@Override
 	public double getDetailedY() {
-		return (int) (((float) this.y / this.height) * 16F);
+		return (((float) this.y / this.height) * 16F);
 	}
 }
