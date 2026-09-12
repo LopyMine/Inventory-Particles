@@ -5,7 +5,6 @@ import java.util.*;
 import java.util.Map.Entry;
 import net.lopymine.ip.family.atlas.AtlasSprite;
 import net.lopymine.ip.family.cache.FamilyParticlesAtlasCacheManager;
-import net.lopymine.ip.family.generation.TextureGenerationManager;
 import net.lopymine.ip.utils.MissingSpriteUtils;
 import net.minecraft.resources.Identifier;
 
@@ -25,7 +24,7 @@ public class FamilyParticlesAtlasSpriteManager {
 			Set<AtlasSprite> set = new HashSet<>();
 			for (Entry<Identifier, Map<Identifier, NativeImage>> ee : e.getValue().entrySet()) {
 				for (Entry<Identifier, NativeImage> entry : ee.getValue().entrySet()) {
-					AtlasSprite sprite = AtlasSprite.of(entry.getKey(), entry.getValue());
+					AtlasSprite sprite = AtlasSprite.of(unwrapIdForAtlasSprite(entry.getKey()), entry.getValue());
 					set.add(sprite);
 				}
 			}
@@ -34,6 +33,16 @@ public class FamilyParticlesAtlasSpriteManager {
 		}
 
 		return map;
+	}
+
+	public static Identifier unwrapIdForAtlasSprite(Identifier id) {
+		if (id.getPath().endsWith(".png")) {
+			id = id.withPath((path) -> path.substring(0, path.length() - 4));
+			if (id.getPath().startsWith("textures/")) {
+				id = id.withPath((path) -> path.substring(9));
+			}
+		}
+		return id;
 	}
 
 }

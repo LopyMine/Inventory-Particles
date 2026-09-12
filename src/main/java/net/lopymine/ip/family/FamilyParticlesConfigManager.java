@@ -40,6 +40,11 @@ public class FamilyParticlesConfigManager extends AbstractConfigsManager<FamilyP
 	}
 
 	@Override
+	protected String getModId() {
+		return InventoryParticles.MOD_ID;
+	}
+
+	@Override
 	protected MossyLogger getLogger() {
 		return InventoryParticlesClient.LOGGER;
 	}

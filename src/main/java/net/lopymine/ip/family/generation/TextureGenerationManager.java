@@ -37,7 +37,7 @@ public class TextureGenerationManager {
 					throw new NullPointerException("Failed to load particle template \"%s\" for \"%s\"".formatted(texture, itemId));
 				}
 
-				Identifier particleId = texture.withPrefix(itemId.getPath() + "/");
+				Identifier particleId = FamilyParticlesAtlasSpriteManager.unwrapIdForAtlasSprite(texture.withPrefix(itemId.getPath() + "/"));
 
 				NativeImageAndColor generatedParticle = NativeImageUtils.generateWithReplace(particleImage, sourceColors, item);
 

@@ -17,6 +17,8 @@ public abstract class AbstractConfigsManager<C> {
 
 	protected abstract Codec<C> getCodec();
 
+	protected abstract String getModId();
+
 	protected abstract String getConfigName();
 
 	protected abstract MossyLogger getLogger();
@@ -30,12 +32,12 @@ public abstract class AbstractConfigsManager<C> {
 		AtomicInteger foundConfigs = new AtomicInteger();
 		AtomicInteger registeredConfigs = new AtomicInteger();
 
-		resourceManager.listResources(this.getFolderName(), (id) -> id.getPath().endsWith(".json5") || id.getPath().endsWith(".json"))
+		resourceManager.listResources(this.getFolderName(), (id) -> (id.getPath().endsWith(".json5") || id.getPath().endsWith(".json")) && id.getNamespace().equals(this.getModId()))
 				.forEach((id, resource) -> {
 					foundConfigs.getAndIncrement();
 
 					try (InputStream inputStream = resource.open();
-						 BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+					     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
 						C config = this.getCodec().decode(JsonOps.INSTANCE, JsonParser.parseReader(reader))/*? if >=1.20.5 {*/.getOrThrow()/*?} else {*//*.getOrThrow(false, this.getLogger()::error)*//*?}*/.getFirst();
 						this.registerConfig(config, id);
 						this.getLogger().debug("Registered {} at \"{}\"", this.getConfigName(), id);

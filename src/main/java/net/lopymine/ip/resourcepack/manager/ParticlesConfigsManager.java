@@ -512,6 +512,11 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 	}
 
 	@Override
+	protected String getModId() {
+		return InventoryParticles.MOD_ID;
+	}
+
+	@Override
 	protected MossyLogger getLogger() {
 		return InventoryParticlesClient.LOGGER;
 	}
@@ -541,7 +546,6 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 		REGISTERED_CONFIGS.clear();
 		PER_ITEM_PARTICLE_SPAWNERS.clear();
 		PER_TAG_PARTICLE_SPAWNERS.clear();
-		// Templates come from the resources, they cannot outlive a reload.
 		TextureGenerationManager.clearTemplates();
 		super.reload();
 	}
