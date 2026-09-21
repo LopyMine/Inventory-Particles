@@ -122,7 +122,11 @@ public class TagsCommand {
 				Files.createFile(path);
 			}
 			Files.writeString(path, text);
-			Util.getPlatform().openUri(path.toUri());
+			//? if >=26.3 {
+			com.mojang.blaze3d.Blaze3D.openUri(path.toUri());
+			//?} else {
+			/*Util.getPlatform().openUri(path.toUri());
+			*///?}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

@@ -1,4 +1,3 @@
-- Now mod reads particle assets only under "assets/inventory_particles/" folder
-  (to fix issues with Item Particles mod)
-- Fixed (probably) issue with atlases initialization (kinda old bug)
-- Added compatibility with CIT Resewn Continuation
+- Ported to 26.3 & fixes. 
+
+New particles & configs will be in the next update!

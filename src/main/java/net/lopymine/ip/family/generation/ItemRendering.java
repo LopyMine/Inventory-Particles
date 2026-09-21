@@ -10,7 +10,13 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import java.lang.Math;
 import java.util.*;
 import net.lopymine.ip.family.utils.FamilySafeRenderExecutor;
-import com.mojang.blaze3d.textures.*;
+//? if >=26.3 {
+import com.mojang.renderpearl.api.GpuFormat;
+import com.mojang.renderpearl.api.commands.RenderPass;
+import com.mojang.renderpearl.api.textures.*;
+//?} else {
+/*import com.mojang.blaze3d.textures.*;
+*///?}
 import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.function.Consumer;
 import net.lopymine.ip.utils.iac.*;
@@ -129,9 +135,10 @@ public class ItemRendering {
 			return false;
 		}
 
-
-		var oldOutputColor = RenderSystem.outputColorTextureOverride;
+		//? if <26.3 {
+		/*var oldOutputColor = RenderSystem.outputColorTextureOverride;
 		var oldOutputDepth = RenderSystem.outputDepthTextureOverride;
+		*///?}
 		var oldModelViewMatrix = RenderSystem.getModelViewStack();
 		RenderSystem.backupProjectionMatrix();
 
@@ -146,21 +153,25 @@ public class ItemRendering {
 				ProjectionType.ORTHOGRAPHIC
 		);
 
-		RenderSystem.outputColorTextureOverride = colorView;
+		//? if <26.3 {
+		/*RenderSystem.outputColorTextureOverride = colorView;
 		RenderSystem.outputDepthTextureOverride = depthView;
+		*///?}
 		RenderSystem.getModelViewStack().identity();
 
-		ItemRendering.renderItemStacks(itemStacks, columns, cellSize, target.height);
+		ItemRendering.renderItemStacks(itemStacks, columns, cellSize, target.height/*? if >=26.3 {*/, colorView, depthView/*?}*/);
 
 		RenderSystem.disableScissorForRenderTypeDraws();
 		RenderSystem.getModelViewStack().set(oldModelViewMatrix);
-		RenderSystem.outputColorTextureOverride = oldOutputColor;
+		//? if <26.3 {
+		/*RenderSystem.outputColorTextureOverride = oldOutputColor;
 		RenderSystem.outputDepthTextureOverride = oldOutputDepth;
+		*///?}
 		RenderSystem.restoreProjectionMatrix();
 		return true;
 	}
 
-	private static void renderItemStacks(List<ItemStack> itemStacks, int columns, int cellSize, int targetHeight) {
+	private static void renderItemStacks(List<ItemStack> itemStacks, int columns, int cellSize, int targetHeight/*? if >=26.3 {*/, GpuTextureView colorView, GpuTextureView depthView/*?}*/) {
 		Minecraft minecraft = Minecraft.getInstance();
 		FeatureRenderDispatcher dispatcher = minecraft.gameRenderer.featureRenderDispatcher();
 		minecraft.gameRenderer.lighting().setupFor(Entry.ITEMS_FLAT);
@@ -202,7 +213,17 @@ public class ItemRendering {
 			RenderSystem.enableScissorForRenderTypeDraws(left, targetHeight - bottom, cellSize, cellSize);
 
 			renderState.submit(poseStack, storage, 15728880, OverlayTexture.NO_OVERLAY, 0);
-			dispatcher.renderAllFeatures(storage);
+			//? if >=26.3 {
+			try (
+					FeatureRenderDispatcher.PreparedFrame frame = dispatcher.prepareFrame(storage);
+					RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(() -> "Inventory Particles Item Renderer", colorView, Optional.empty(), depthView, OptionalDouble.empty())
+			) {
+				RenderSystem.bindDefaultUniforms(renderPass);
+				FeatureRenderDispatcher.renderAllFeatures(renderPass, frame);
+			}
+			//?} else {
+			/*dispatcher.renderAllFeatures(storage);
+			*///?}
 
 			poseStack.popPose();
 		}
@@ -212,7 +233,7 @@ public class ItemRendering {
 	private static RenderData getOrCreateTarget(int width, int height) {
 		TextureTarget target = TARGET;
 		if (target == null) {
-			target = TARGET = new TextureTarget("Inventory Particles Block Renderer Target", width, height, true, GpuFormat.RGBA8_UNORM);
+			target = TARGET = new TextureTarget("Inventory Particles Block Renderer Target", width, height, /*? if >=26.3 {*/GpuFormat.RGBA8_UNORM, GpuFormat.D32_FLOAT/*?} else {*//*true, GpuFormat.RGBA8_UNORM*//*?}*/);
 		} else if (target.width != width || target.height != height) {
 			target.resize(width, height);
 		}
