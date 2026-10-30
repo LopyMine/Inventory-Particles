@@ -8,8 +8,10 @@ import net.lopymine.ip.config.sub.*;
 import net.lopymine.ip.config.sub.InventoryParticlesCacheConfig.CacheInvalidateMode;
 import net.lopymine.ip.config.sub.InventoryParticlesFamilyGenerationConfig.Mode;
 import net.lopymine.ip.family.cache.FamilyParticlesCacheManager;
+import net.lopymine.ip.yacl.screen.*;
 import net.lopymine.mossylib.yacl.api.*;
 import net.lopymine.mossylib.yacl.extension.SimpleOptionExtension;
+import net.minecraft.client.Minecraft;
 
 @ExtensionMethod(SimpleOptionExtension.class)
 public class GeneralCategory {
@@ -56,7 +58,10 @@ public class GeneralCategory {
 				SimpleOption.<Boolean>startBuilder("nbt_debug_mode_enabled")
 						.withBinding(defConfig.isNbtDebugModeEnabled(), config::isNbtDebugModeEnabled, config::setNbtDebugModeEnabled, false)
 						.withController()
-						.withDescription(SimpleContent.NONE)
+						.withDescription(SimpleContent.NONE),
+				SimpleOption.startButtonBuilder("test", (screen, option) -> {
+					Minecraft.getInstance().gui.setScreen(new ConfigEditorMenu());
+				})
 		);
 	}
 

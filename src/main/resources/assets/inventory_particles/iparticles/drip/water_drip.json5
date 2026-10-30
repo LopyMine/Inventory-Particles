@@ -661,6 +661,26 @@
 			"nbt_conditions": []
 		},
 		{
+			"item": "minecraft:poplar_boat",
+			"spawn_area": "poplar_boat_drip.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [20, 80],
+			"speed_coefficient": 0.15,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:poplar_chest_boat",
+			"spawn_area": "poplar_chest_boat_drip.png",
+			"spawn_count": [0, 2],
+			"spawn_frequency": [20, 80],
+			"speed_coefficient": 0.15,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
 			"item": "minecraft:bamboo_raft",
 			"spawn_area": "bamboo_raft_drip.png",
 			"spawn_count": [0, 2],

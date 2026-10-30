@@ -24,6 +24,26 @@
 			"color": "",
 			"nbt_conditions_match": "any",
 			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:magenta_concrete_stairs",
+			"spawn_area": "stairs.png",
+			"spawn_count": [0, 3],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:magenta_concrete_slab",
+			"spawn_area": "slab.png",
+			"spawn_count": [0, 3],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.1,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
 		}
 	],
 	"physics": {

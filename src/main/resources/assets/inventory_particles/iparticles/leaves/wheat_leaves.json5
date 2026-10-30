@@ -34,6 +34,16 @@
 			"nbt_conditions": []
 		},
 		{
+			"item": "minecraft:straw_bed",
+			"spawn_area": "straw_bed_leaves.png",
+			"spawn_count": [0, 4],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
 			"item": "minecraft:target",
 			"spawn_area": "block.png",
 			"spawn_count": [0, 2],

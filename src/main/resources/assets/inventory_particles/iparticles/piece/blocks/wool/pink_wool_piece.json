@@ -26,6 +26,36 @@
 			"nbt_conditions": []
 		},
 		{
+			"item": "minecraft:pink_wool_stairs",
+			"spawn_area": "stairs.png",
+			"spawn_count": [0, 3],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:pink_wool_slab",
+			"spawn_area": "slab.png",
+			"spawn_count": [0, 3],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
+			"item": "minecraft:pink_cushion",
+			"spawn_area": "pink_cushion_piece.png",
+			"spawn_count": [0, 3],
+			"spawn_frequency": [10, 40],
+			"speed_coefficient": 0.2,
+			"color": "",
+			"nbt_conditions_match": "any",
+			"nbt_conditions": []
+		},
+		{
 			"item": "minecraft:pink_carpet",
 			"spawn_area": "carpet.png",
 			"spawn_count": [0, 2],
