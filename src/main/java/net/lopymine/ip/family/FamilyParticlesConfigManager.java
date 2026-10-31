@@ -13,7 +13,9 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 public class FamilyParticlesConfigManager extends AbstractConfigsManager<FamilyParticleConfig> {
 
-	public static final Identifier FALLBACK_CONFIG_ID = InventoryParticles.id("ifamilies/fallback/standard.json");
+	public static final String FOLDER_NAME = "families";
+	public static final String LEGACY_FOLDER_NAME = "ifamilies";
+	public static final Identifier FALLBACK_CONFIG_ID = InventoryParticles.id("%s/%s/fallback/standard".formatted(InventoryParticles.MOD_ID, FOLDER_NAME));
 
 	private final Map<Identifier, FamilyParticleConfig> registeredConfigsMap = new HashMap<>();
 	private final List<FamilyParticleConfig> registeredConfigs = new ArrayList<>();
@@ -26,7 +28,12 @@ public class FamilyParticlesConfigManager extends AbstractConfigsManager<FamilyP
 
 	@Override
 	protected String getFolderName() {
-		return "ifamilies";
+		return FOLDER_NAME;
+	}
+
+	@Override
+	protected String getLegacyFolderName() {
+		return LEGACY_FOLDER_NAME;
 	}
 
 	@Override

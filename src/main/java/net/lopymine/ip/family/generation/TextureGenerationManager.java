@@ -18,6 +18,10 @@ import org.jetbrains.annotations.Nullable;
 
 public class TextureGenerationManager {
 
+	public static final String FAMILY_TEXTURES_FOLDER_NAME = "family";
+	public static final String FAMILY_TEXTURES_PREFIX = "textures/%s/%s/".formatted(InventoryParticles.MOD_ID, FAMILY_TEXTURES_FOLDER_NAME);
+	private static final String LEGACY_FAMILY_TEXTURES_PREFIX = "textures/ifamily/";
+
 	private static final Map<Identifier, Optional<NativeImage>> TEMPLATES = new ConcurrentHashMap<>();
 
 	public static GeneratedTextures generateWithReplace(RenderedItemImage renderedItemImage, Identifier itemId, Item item, ArrayList<Identifier> textures, TextureGenerationMode textureGenerationMode) {
@@ -67,7 +71,10 @@ public class TextureGenerationManager {
 			return cached.orElse(null);
 		}
 
-		NativeImage image = NativeImageUtils.loadFromResource(texture.withPrefix("textures/ifamily/"));
+		NativeImage image = NativeImageUtils.loadFromResource(texture.withPrefix(FAMILY_TEXTURES_PREFIX));
+		if (image == null) {
+			image = NativeImageUtils.loadFromResource(texture.withPrefix(LEGACY_FAMILY_TEXTURES_PREFIX));
+		}
 		TEMPLATES.put(texture, Optional.ofNullable(image));
 		return image;
 	}

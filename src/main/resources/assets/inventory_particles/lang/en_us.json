@@ -114,6 +114,35 @@
 	"${mod_id}.modmenu.option.invalidate_now.name": "Invalidate Cache Now",
 	"${mod_id}.modmenu.option.invalidate_now.description": "Immediately invalidates cached assets for modded items.",
 
+	"${mod_id}.modmenu.option.open_editor.name": "Open Particles Editor",
+	"${mod_id}.modmenu.option.open_editor.description": "Opens the in-game editor for particle resource packs.",
+
+	"${mod_id}.editor.title": "Particles Editor",
+	"${mod_id}.editor.create_new": "Create New Pack",
+	"${mod_id}.editor.edit_another": "Edit Another Pack",
+
+	"${mod_id}.editor.creation.title": "New Particles Pack",
+	"${mod_id}.editor.creation.name": "Pack name",
+	"${mod_id}.editor.creation.create": "Create",
+	"${mod_id}.editor.creation.namespace": "Files will be written to: %s",
+	"${mod_id}.editor.creation.namespace_hint": "Enter a name that is not used by another pack",
+
+	"${mod_id}.editor.selection.title": "Select A Pack",
+	"${mod_id}.editor.selection.edit": "Edit",
+	"${mod_id}.editor.selection.entry.configs": "Particles: %s, auto-particles: %s",
+	"${mod_id}.editor.selection.entry.legacy_layout": "Old layout! Particles: %s, auto-particles: %s",
+	"${mod_id}.editor.selection.entry.empty": "No particles yet",
+
+	"${mod_id}.editor.pack.title": "Pack: %s",
+	"${mod_id}.editor.pack.namespace": "Writes to: %s",
+	"${mod_id}.editor.pack.work_in_progress": "Particles of this pack will be here",
+	"${mod_id}.editor.pack.migrate_layout": "Update Pack Layout",
+	"${mod_id}.editor.pack.save": "Save",
+	"${mod_id}.editor.pack.save_and_apply": "Save And Apply",
+	"${mod_id}.editor.pack.discard.title": "Unsaved Changes",
+	"${mod_id}.editor.pack.discard.message": "Leave the editor and discard everything that was not saved?",
+	"${mod_id}.editor.pack.discard.confirm": "Discard",
+
 	"${mod_id}.particles_linking.title": "Linking Particles To Items",
 	"${mod_id}.particles_linking.loading": "Progress: %s / %s",
 	"${mod_id}.particles_linking.average_time": "Average Time: %ss",

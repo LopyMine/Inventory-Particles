@@ -18,6 +18,14 @@ public class InventoryParticles {
 		 *///?}
 	}
 
+	public static Identifier id(String namespace, String path) {
+		//? if >=1.21 {
+		return Identifier.fromNamespaceAndPath(namespace, path);
+		//?} else {
+		/*return Identifier.tryBuild(namespace, path);
+		 *///?}
+	}
+
 	public static Identifier parseId(String path) {
 		//? if >=1.21 {
 		return Identifier.parse(path);

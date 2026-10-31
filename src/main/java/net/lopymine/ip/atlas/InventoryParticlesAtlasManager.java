@@ -14,8 +14,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class InventoryParticlesAtlasManager {
 
-	public static final Identifier ATLAS_ID = InventoryParticles.id("textures/atlas/iparticles");
-	public static final Identifier FOLDER_ID = InventoryParticles.id("iparticles");
+	public static final Identifier ATLAS_ID = InventoryParticles.id("textures/atlas/particles");
+	public static final Identifier LEGACY_ATLAS_ID = InventoryParticles.id("textures/atlas/iparticles");
+	public static final Identifier FOLDER_ID = InventoryParticles.id("particles");
 	private static InventoryParticlesAtlasManager INSTANCE;
 	private final TextureAtlas atlas;
 
@@ -55,7 +56,7 @@ public class InventoryParticlesAtlasManager {
 			if (id == null) {
 				return this.getMissingSprite();
 			}
-			if (atlasId == null || ATLAS_ID.equals(atlasId)) {
+			if (atlasId == null || ATLAS_ID.equals(atlasId) || LEGACY_ATLAS_ID.equals(atlasId)) {
 				return this.atlas.getSprite(id);
 			}
 			FamilyParticlesAtlasManager familyManager = FamilyParticlesAtlasManager.get(atlasId.getPath());

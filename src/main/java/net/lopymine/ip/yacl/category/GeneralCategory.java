@@ -7,8 +7,8 @@ import net.lopymine.ip.config.optimization.ParticlesDeletionMode;
 import net.lopymine.ip.config.sub.*;
 import net.lopymine.ip.config.sub.InventoryParticlesCacheConfig.CacheInvalidateMode;
 import net.lopymine.ip.config.sub.InventoryParticlesFamilyGenerationConfig.Mode;
+import net.lopymine.ip.editor.screen.ParticlesResourcePackEditorScreen;
 import net.lopymine.ip.family.cache.FamilyParticlesCacheManager;
-import net.lopymine.ip.yacl.screen.*;
 import net.lopymine.mossylib.yacl.api.*;
 import net.lopymine.mossylib.yacl.extension.SimpleOptionExtension;
 import net.minecraft.client.Minecraft;
@@ -58,10 +58,12 @@ public class GeneralCategory {
 				SimpleOption.<Boolean>startBuilder("nbt_debug_mode_enabled")
 						.withBinding(defConfig.isNbtDebugModeEnabled(), config::isNbtDebugModeEnabled, config::setNbtDebugModeEnabled, false)
 						.withController()
-						.withDescription(SimpleContent.NONE),
-				SimpleOption.startButtonBuilder("test", (screen, option) -> {
-					Minecraft.getInstance().gui.setScreen(new ConfigEditorMenu());
+						.withDescription(SimpleContent.NONE)
+				//? if >=26.3 {
+				,SimpleOption.startButtonBuilder("open_editor", (screen, option) -> {
+					Minecraft.getInstance().gui.setScreen(new ParticlesResourcePackEditorScreen(screen));
 				})
+				//?}
 		);
 	}
 

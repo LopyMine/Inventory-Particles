@@ -38,6 +38,9 @@ import org.jetbrains.annotations.*;
 
 public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConfig> {
 
+	public static final String FOLDER_NAME = "particles";
+	public static final String LEGACY_FOLDER_NAME = "iparticles";
+
 	private static final int FAMILY_CELL_SIZE = 32;
 
 	public static final Map<Identifier, List<ParticleConfig>> REGISTERED_CONFIGS = new HashMap<>();
@@ -330,7 +333,7 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 			List<IParticleSpawner> list = new ArrayList<>();
 
 			for (FamilyParticleData particleData : particles) {
-				Identifier id = InventoryParticles.id("%s/%s.json".formatted(getInstance().getFolderName(), particleData.getId().getPath()));
+				Identifier id = getParticleConfigId(particleData.getId());
 				List<ParticleConfig> configs = REGISTERED_CONFIGS.get(id);
 				if (configs == null || configs.isEmpty()) {
 					getInstance().getLogger().error("Failed to find config from \"%s\" for family config from \"%s\"!".formatted(id.getPath(), config.getLocation()));
@@ -384,6 +387,11 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 		}
 
 		return null;
+	}
+
+	public static Identifier getParticleConfigId(Identifier particleId) {
+		String namespace = particleId.getNamespace().equals("minecraft") ? InventoryParticles.MOD_ID : particleId.getNamespace();
+		return InventoryParticles.id(namespace, "%s/%s".formatted(getInstance().getFolderPath(), particleId.getPath()));
 	}
 
 	@Nullable
@@ -498,7 +506,12 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 
 	@Override
 	protected String getFolderName() {
-		return InventoryParticlesAtlasManager.FOLDER_ID.getPath();
+		return FOLDER_NAME;
+	}
+
+	@Override
+	protected String getLegacyFolderName() {
+		return LEGACY_FOLDER_NAME;
 	}
 
 	@Override

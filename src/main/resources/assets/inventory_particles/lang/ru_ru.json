@@ -114,6 +114,35 @@
 	"${mod_id}.modmenu.option.invalidate_now.name": "Сбросить кэш сейчас",
 	"${mod_id}.modmenu.option.invalidate_now.description": "Инвалидирует/удаляет кэшированные текстуры частиц для предметов из модов.",
 
+	"${mod_id}.modmenu.option.open_editor.name": "Открыть редактор частиц",
+	"${mod_id}.modmenu.option.open_editor.description": "Открывает внутриигровой редактор ресурспаков с частицами.",
+
+	"${mod_id}.editor.title": "Редактор частиц",
+	"${mod_id}.editor.create_new": "Создать новый пак",
+	"${mod_id}.editor.edit_another": "Редактировать другой пак",
+
+	"${mod_id}.editor.creation.title": "Новый пак с частицами",
+	"${mod_id}.editor.creation.name": "Название пака",
+	"${mod_id}.editor.creation.create": "Создать",
+	"${mod_id}.editor.creation.namespace": "Файлы будут писаться в: %s",
+	"${mod_id}.editor.creation.namespace_hint": "Введите название, которое не занято другим паком",
+
+	"${mod_id}.editor.selection.title": "Выберите пак",
+	"${mod_id}.editor.selection.edit": "Редактировать",
+	"${mod_id}.editor.selection.entry.configs": "Частиц: %s, авто-частиц: %s",
+	"${mod_id}.editor.selection.entry.legacy_layout": "Старая раскладка! Частиц: %s, авто-частиц: %s",
+	"${mod_id}.editor.selection.entry.empty": "Частиц пока нет",
+
+	"${mod_id}.editor.pack.title": "Пак: %s",
+	"${mod_id}.editor.pack.namespace": "Запись в: %s",
+	"${mod_id}.editor.pack.work_in_progress": "Здесь будут частицы этого пака",
+	"${mod_id}.editor.pack.migrate_layout": "Обновить раскладку пака",
+	"${mod_id}.editor.pack.save": "Сохранить",
+	"${mod_id}.editor.pack.save_and_apply": "Сохранить и применить",
+	"${mod_id}.editor.pack.discard.title": "Несохранённые изменения",
+	"${mod_id}.editor.pack.discard.message": "Выйти из редактора и потерять всё, что не сохранено?",
+	"${mod_id}.editor.pack.discard.confirm": "Потерять",
+
 	"${mod_id}.particles_linking.title": "Привязывание частиц к предметам",
 	"${mod_id}.particles_linking.loading": "Прогресс: %s / %s",
 	"${mod_id}.particles_linking.average_time": "Среднее время: %sс",

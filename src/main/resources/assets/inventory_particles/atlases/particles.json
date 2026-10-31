@@ -2,7 +2,7 @@
 	"sources": [
 		{
 			"type": "minecraft:directory",
-			"source": "iparticles",
+			"source": "inventory_particles/particles",
 			"prefix": ""
 		}
 	]
