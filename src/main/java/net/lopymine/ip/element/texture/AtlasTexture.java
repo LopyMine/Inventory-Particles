@@ -29,7 +29,7 @@ public class AtlasTexture implements ITexture {
 	private Identifier atlas;
 
 	@Nullable
-	private TextureAtlasSprite atlasSprite;
+	private transient TextureAtlasSprite atlasSprite;
 
 	public AtlasTexture(@Nullable TextureAtlasSprite sprite) {
 		this(null, null);

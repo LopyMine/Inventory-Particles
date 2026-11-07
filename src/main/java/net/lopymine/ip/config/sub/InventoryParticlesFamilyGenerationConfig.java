@@ -117,9 +117,6 @@ public class InventoryParticlesFamilyGenerationConfig {
 		return this.compiledItems = ids;
 	}
 
-	/**
-	 * @return true if family particle generation is allowed for the given item (mod namespace and item filters both pass).
-	 */
 	public boolean canGenerateFor(Item item) {
 		Identifier itemId = BuiltInRegistries.ITEM.getKey(item);
 

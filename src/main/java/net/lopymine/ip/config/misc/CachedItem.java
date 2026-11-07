@@ -16,6 +16,7 @@ import org.jetbrains.annotations.*;
 public class CachedItem {
 
 	public static final Codec<CachedItem> CODEC = Identifier.CODEC.xmap(CachedItem::new, CachedItem::getId);
+	public static final Identifier AIR_ID = BuiltInRegistries.ITEM.getKey(Items.AIR);
 
 	private Identifier id;
 	@Nullable

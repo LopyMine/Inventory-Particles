@@ -26,7 +26,7 @@ public class AdvancedColorProvider implements IColorProvider {
 	private IAdvancedColorProvider mode;
 	private List<IColorProvider> values;
 	@Nullable
-	private Integer[] compiledValues;
+	private transient Integer[] compiledValues;
 	private int speed;
 
 	public AdvancedColorProvider(IAdvancedColorProvider mode, List<IColorProvider> values, int speed) {

@@ -11,6 +11,7 @@ import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.debug.HideInDebugRender;
 import net.lopymine.ip.utils.easing.Easing;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.Nullable;
 
 @Getter
 @Setter
@@ -30,6 +31,16 @@ public class DynamicSizeInterpolation {
 
 	private static void register(String id, Function<Double, Double> function) {
 		REGISTERED_INTERPOLATIONS.put(id, function);
+	}
+
+	@Nullable
+	public static DynamicSizeInterpolation find(String id) {
+		if (id.equals(NO_INTERPOLATION.id)) {
+			return NO_INTERPOLATION;
+		}
+
+		Function<Double, Double> function = REGISTERED_INTERPOLATIONS.get(id);
+		return function == null ? null : new DynamicSizeInterpolation(id, function);
 	}
 
 	public double getInterpolated(double first, double second, double progress) {
@@ -68,12 +79,12 @@ public class DynamicSizeInterpolation {
 		}
 
 		CODEC = Codec.STRING.xmap((s) -> {
-			Function<Double, Double> function = REGISTERED_INTERPOLATIONS.get(s);
-			if (function == null) {
+			DynamicSizeInterpolation interpolation = find(s);
+			if (interpolation == null) {
 				InventoryParticlesClient.LOGGER.error("Failed to find interpolation method with name \"{}\"!", s);
 				return NO_INTERPOLATION;
 			}
-			return new DynamicSizeInterpolation(s, function);
+			return interpolation;
 		}, (i) -> i.id);
 	}
 

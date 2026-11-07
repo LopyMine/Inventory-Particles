@@ -2,19 +2,29 @@ package net.lopymine.ip.t2o;
 
 import java.io.InputStream;
 import java.util.*;
+import lombok.Setter;
 import lombok.experimental.ExtensionMethod;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.extension.NativeImageExtension;
 import net.lopymine.mossylib.loader.MossyLoader;
-import net.lopymine.mossylib.utils.*;
 import net.minecraft.client.Minecraft;
 import com.mojang.blaze3d.platform.NativeImage;
-import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.*;
 import net.minecraft.resources.Identifier;
+import org.jetbrains.annotations.Nullable;
 
 @ExtensionMethod(NativeImageExtension.class)
 public class Texture2ObjectsManager {
+
+	@Setter
+	@Nullable
+	private static ResourceManager RESOURCE_MANAGER_OVERRIDE;
+
+	public static ResourceManager getResourceManager() {
+		ResourceManager override = RESOURCE_MANAGER_OVERRIDE;
+		return override == null ? Minecraft.getInstance().getResourceManager() : override;
+	}
 
 	public static <T> List<T> readFromTexture(NativeImage image, Identifier id, String objectName, Texture2ObjectPixelFilter filter, Texture2Object<T> texture2Object) {
 		try {
@@ -45,7 +55,7 @@ public class Texture2ObjectsManager {
 
 	public static <T> List<T> readFromTexture(Identifier id, String objectName, Texture2ObjectPixelFilter filter, Texture2Object<T> texture2Object) {
 		try {
-			Optional<Resource> optional = Minecraft.getInstance().getResourceManager().getResource(id);
+			Optional<Resource> optional = getResourceManager().getResource(id);
 			if (optional.isEmpty()) {
 				if (InventoryParticlesConfig.getInstance().getMainConfig().isDebugModeEnabled() || MossyLoader.isDevelopmentEnvironment()) {
 					InventoryParticlesClient.LOGGER.error("Failed to find texture from \"{}\" to create {} from texture!", id, objectName);

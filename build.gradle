@@ -66,8 +66,14 @@ stonecutter {
 		replace("GuiGraphics", "GuiGraphicsExtractor")
 		replace("context.drawString(", "context.text(")
 		replace("context.renderItem(", "context.item(")
+		replace("context.drawCenteredString(", "context.centeredText(")
 		replace("graphics.drawString(", "graphics.text(")
 		replace("graphics.renderItem(", "graphics.item(")
+		replace("graphics.drawCenteredString(", "graphics.centeredText(")
+		replace("renderWidget(", "extractWidgetRenderState(")
+		replace("renderScrollbar(", "extractScrollbar(")
+		replace("renderListBackground(", "extractListBackground(")
+		replace("renderListSeparators(", "extractListSeparators(")
 		replace("ClickType", "ContainerInput")
 		replace("atlas.location()", "atlas.location()")
 	}
@@ -117,6 +123,31 @@ publishing {
 configurations.forEach {
 	it.resolutionStrategy {
 		cacheChangingModulesFor(0, 'seconds')
+	}
+}
+
+// All versions share "runs/client", so they can not be launched at the same time.
+// Aggregated run tasks from the root project (and the "parallel_runs" property) give every version its own game directory.
+if (project.hasProperty("parallel_runs") || gradle.startParameter.taskNames.any { it.endsWith("runClients") }) {
+	File gameDirectory = rootProject.file("runs/clients/${project.name}")
+
+	afterEvaluate {
+		def loom = project.extensions.findByName("loom")
+		if (loom != null) {
+			loom.runs.client.runDir = gameDirectory.absolutePath
+		}
+
+		["neoForge", "legacyForge"].each { extensionName ->
+			def extension = project.extensions.findByName(extensionName)
+			if (extension != null && extension.runs.findByName("client") != null) {
+				extension.runs.client.gameDirectory.set(gameDirectory)
+			}
+		}
+
+		tasks.named("runClient").configure {
+			it.workingDir = gameDirectory
+			it.doFirst { gameDirectory.mkdirs() }
+		}
 	}
 }
 

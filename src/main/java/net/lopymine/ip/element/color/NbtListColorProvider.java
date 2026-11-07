@@ -11,9 +11,9 @@ import org.jetbrains.annotations.Nullable;
 public class NbtListColorProvider implements IColorProvider, IListInventoryElementColorProvider {
 
 	public static final Integer[] NO_COLOR = {-1};
-	private Integer[] colors;
+	private transient Integer[] colors;
 	@Nullable
-	private Integer currentColor;
+	private transient Integer currentColor;
 
 	private static Integer[] getColorFromStack(ItemStack stack) {
 		return NbtUtils.getColorsFromStack(stack).orElse(NO_COLOR);

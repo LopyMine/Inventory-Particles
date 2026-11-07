@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 public class Integer2DynamicParticleSize extends Integer2Object<DynamicSize> implements Comparable<Integer2DynamicParticleSize> {
 
+	public static final int STATIC_INDEX = -1;
+
 	public static final Codec<Integer2DynamicParticleSize> CODEC = Integer2Object.getCodec(
 			"size",
 			DynamicSize.STANDARD_SIZE,
@@ -20,7 +22,7 @@ public class Integer2DynamicParticleSize extends Integer2Object<DynamicSize> imp
 	}
 
 	public static Integer2DynamicParticleSize fromStatic(StaticSize size) {
-		return new Integer2DynamicParticleSize(-1, new DynamicSize(size.getWidth(), size.getHeight()));
+		return new Integer2DynamicParticleSize(STATIC_INDEX, new DynamicSize(size.getWidth(), size.getHeight()));
 	}
 
 	@Override

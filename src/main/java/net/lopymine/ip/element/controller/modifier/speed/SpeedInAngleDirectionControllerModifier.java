@@ -1,43 +1,48 @@
 package net.lopymine.ip.element.controller.modifier.speed;
 
 import lombok.*;
-import net.lopymine.ip.config.speed.SpeedConfig;
 import net.lopymine.ip.element.base.*;
-import net.lopymine.ip.element.controller.speed.SpeedController;
-import net.minecraft.util.RandomSource;
+import net.lopymine.ip.element.controller.speed.*;
 
 @Getter
 @Setter
 public class SpeedInAngleDirectionControllerModifier<E extends IMovableElement & IRotatableElement> implements ISpeedControllerModifier<SpeedController<E>, E> {
 
-	private SpeedConfig config;
-	private RandomSource random;
+	private AngleSpeedController<E> angleSpeedController;
 	private boolean xAxis;
 
-	public SpeedInAngleDirectionControllerModifier(SpeedConfig config, RandomSource random, boolean xAxis) {
-		this.config = config;
-		this.random = random;
-		this.xAxis  = xAxis;
+	private double appliedSpeed;
+
+	public SpeedInAngleDirectionControllerModifier(AngleSpeedController<E> angleSpeedController, boolean xAxis) {
+		this.angleSpeedController = angleSpeedController;
+		this.xAxis                = xAxis;
 	}
 
 	@Override
 	public double getImpulse(E element) {
-		return this.calc(this.config.getImpulseBidirectional(this.random), element);
+		return 0.0D;
 	}
 
 	@Override
 	public double getAcceleration(E element) {
-		return this.calc(this.config.getAccelerationBidirectional(this.random), element);
+		return 0.0D;
 	}
 
 	@Override
 	public double getBraking(E element) {
-		return Math.abs(this.calc(this.config.getBraking(), element));
+		return 0.0D;
 	}
 
 	@Override
 	public double getTurbulence(E element) {
-		return this.calc(this.config.getTurbulence().getRandom(this.random), element);
+		return 0.0D;
+	}
+
+	@Override
+	public void modify(SpeedController<E> controller, E element) {
+		double speed = this.calc(this.angleSpeedController.getSpeed(), element);
+		controller.setSpeed(controller.getSpeed() - this.appliedSpeed + speed);
+		this.appliedSpeed = speed;
 	}
 
 	public double calc(double multiplier, E element) {

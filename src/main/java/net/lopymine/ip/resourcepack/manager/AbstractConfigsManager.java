@@ -1,11 +1,10 @@
 package net.lopymine.ip.resourcepack.manager;
 
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import com.mojang.serialization.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.mossylib.logger.MossyLogger;
 import net.minecraft.client.Minecraft;
@@ -13,6 +12,9 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.*;
 
 public abstract class AbstractConfigsManager<C> {
+
+	public static final String CONFIG_EXTENSION = ".json";
+	public static final String LEGACY_CONFIG_EXTENSION = ".json5";
 
 	private final Map<Identifier, String> sourcePacks = new HashMap<>();
 
@@ -43,44 +45,83 @@ public abstract class AbstractConfigsManager<C> {
 		ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
 
 		this.sourcePacks.clear();
-		Map<Identifier, Resource> configs = new LinkedHashMap<>();
-		Set<String> legacyPacks = new LinkedHashSet<>();
+		Map<Identifier, Resource> resources = new LinkedHashMap<>();
+		Set<String> legacyLayoutPacks = new LinkedHashSet<>();
+		Set<String> legacyExtensionPacks = new LinkedHashSet<>();
 
-		resourceManager.listResources(this.getLegacyFolderName(), (id) -> isConfigPath(id) && id.getNamespace().equals(this.getModId()))
-				.forEach((id, resource) -> {
-					configs.put(this.normalizeLegacyId(id), resource);
-					legacyPacks.add(resource.sourcePackId());
-				});
+		resourceManager.listResources(this.getLegacyFolderName(), (id) -> isConfig(id) && id.getNamespace().equals(this.getModId())).forEach((id, resource) -> {
+			resources.put(this.normalizeLegacyId(id), resource);
+			legacyLayoutPacks.add(resource.sourcePackId());
+		});
 
-		resourceManager.listResources(this.getFolderPath(), AbstractConfigsManager::isConfigPath)
-				.forEach((id, resource) -> configs.put(normalizeId(id), resource));
+		resourceManager.listResources(this.getFolderPath(), AbstractConfigsManager::isConfig)
+				.forEach((id, resource) -> resources.put(normalizeId(id), resource));
 
-		if (!legacyPacks.isEmpty()) {
-			this.getLogger().warn(
-					"Found {} in the legacy assets layout (\"{}\"), it will be removed in the next major version. Move them to \"{}\". Packs: {}",
-					this.getConfigName(), this.getLegacyFolderName(), this.getFolderPath(), String.join(", ", legacyPacks)
-			);
-		}
+		resourceManager.listResources(this.getLegacyFolderName(), (id) -> isLegacyExtensionConfig(id) && id.getNamespace().equals(this.getModId()))
+				.forEach((id, resource) -> legacyExtensionPacks.add(resource.sourcePackId()));
 
-		AtomicInteger foundConfigs = new AtomicInteger();
-		AtomicInteger registeredConfigs = new AtomicInteger();
+		resourceManager.listResources(this.getFolderPath(), AbstractConfigsManager::isLegacyExtensionConfig)
+				.forEach((id, resource) -> legacyExtensionPacks.add(resource.sourcePackId()));
 
-		configs.forEach((id, resource) -> {
-			foundConfigs.getAndIncrement();
+		this.warnAboutLegacyLayout(legacyLayoutPacks);
+		this.warnAboutLegacyExtension(legacyExtensionPacks);
 
+		List<LoadedConfig<C>> configs = new ArrayList<>();
+
+		resources.forEach((id, resource) -> {
 			try (InputStream inputStream = resource.open();
 			     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
-				C config = this.getCodec().decode(JsonOps.INSTANCE, JsonParser.parseReader(reader))/*? if >=1.20.5 {*/.getOrThrow()/*?} else {*//*.getOrThrow(false, this.getLogger()::error)*//*?}*/.getFirst();
-				this.registerConfig(config, id);
-				this.sourcePacks.put(id, resource.sourcePackId());
-				this.getLogger().debug("Registered {} at \"{}\"", this.getConfigName(), id);
-				registeredConfigs.getAndIncrement();
+				JsonElement json = JsonParser.parseReader(reader);
+				C config = this.getCodec().decode(JsonOps.INSTANCE, json)/*? if >=1.20.5 {*/.getOrThrow()/*?} else {*//*.getOrThrow(false, this.getLogger()::error)*//*?}*/.getFirst();
+				configs.add(new LoadedConfig<>(id, config, getKeys(json), resource.sourcePackId()));
 			} catch (Exception e) {
 				this.getLogger().error("Failed to parse {} from \"{}\"! Reason:", this.getConfigName(), id, e);
 			}
 		});
 
-		this.getLogger().info("Registration finished, found: {}, registered: {}", foundConfigs.get(), registeredConfigs.get());
+		int registeredConfigs = this.registerConfigs(configs);
+		this.getLogger().info("Registration finished, found: {}, registered: {}", configs.size(), registeredConfigs);
+	}
+
+	protected int registerConfigs(List<LoadedConfig<C>> configs) {
+		int registeredConfigs = 0;
+		for (LoadedConfig<C> config : configs) {
+			this.register(config);
+			registeredConfigs++;
+		}
+		return registeredConfigs;
+	}
+
+	protected void register(LoadedConfig<C> config) {
+		this.registerConfig(config.config(), config.id());
+		this.sourcePacks.put(config.id(), config.sourcePackId());
+		this.getLogger().debug("Registered {} at \"{}\"", this.getConfigName(), config.id());
+	}
+
+	private void warnAboutLegacyLayout(Set<String> packs) {
+		if (packs.isEmpty()) {
+			return;
+		}
+		this.getLogger().warn(
+				"Found {} in the legacy assets layout (\"{}\"), it will be removed in the next major version. Move them to \"{}\". Packs: {}",
+				this.getConfigName(),
+				this.getLegacyFolderName(),
+				this.getFolderPath(),
+				String.join(", ", packs)
+		);
+	}
+
+	private void warnAboutLegacyExtension(Set<String> packs) {
+		if (packs.isEmpty()) {
+			return;
+		}
+		this.getLogger().warn(
+				"Found {} with the \"{}\" extension, this format is not supported anymore, these files are ignored. Rename them to \"{}\". Packs: {}",
+				this.getConfigName(),
+				LEGACY_CONFIG_EXTENSION,
+				CONFIG_EXTENSION,
+				String.join(", ", packs)
+		);
 	}
 
 	private Identifier normalizeLegacyId(Identifier id) {
@@ -97,8 +138,18 @@ public abstract class AbstractConfigsManager<C> {
 		return index == -1 ? path : path.substring(0, index);
 	}
 
-	private static boolean isConfigPath(Identifier id) {
-		return id.getPath().endsWith(".json5") || id.getPath().endsWith(".json");
+	private static Set<String> getKeys(JsonElement json) {
+		return json instanceof JsonObject object ? new HashSet<>(object.keySet()) : Set.of();
 	}
+
+	private static boolean isConfig(Identifier id) {
+		return id.getPath().endsWith(CONFIG_EXTENSION);
+	}
+
+	private static boolean isLegacyExtensionConfig(Identifier id) {
+		return id.getPath().endsWith(LEGACY_CONFIG_EXTENSION);
+	}
+
+	public record LoadedConfig<C>(Identifier id, C config, Set<String> keys, String sourcePackId) { }
 }
 

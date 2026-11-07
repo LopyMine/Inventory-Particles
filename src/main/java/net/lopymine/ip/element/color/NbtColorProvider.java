@@ -10,7 +10,7 @@ import net.minecraft.world.item.ItemStack;
 public class NbtColorProvider implements IColorProvider {
 
 	public static final int NO_COLOR = -1;
-	private int color;
+	private transient int color;
 
 	@Override
 	public int tick(RandomSource random) {

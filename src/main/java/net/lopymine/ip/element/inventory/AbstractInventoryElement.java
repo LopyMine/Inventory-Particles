@@ -38,6 +38,7 @@ public abstract class AbstractInventoryElement<E extends AbstractInventoryElemen
 	@Nullable
 	private ColorController<E> colorController;
 	private DynamicSizeController<E> dynamicSizeController;
+	private AngleSpeedController<E> angleSpeedController;
 	private SpeedController<E> xSpeedController;
 	private SpeedController<E> ySpeedController;
 	private RotationSpeedController<E> movementRotationSpeedController;
@@ -108,6 +109,7 @@ public abstract class AbstractInventoryElement<E extends AbstractInventoryElemen
 			this.textureAngle = (this.textureAngle + this.textureRotationSpeedController.getSpeed()) % 360F;
 		}
 
+		this.angleSpeedController.tick(this.getElement());
 		this.xSpeedController.tick(this.getElement());
 		this.ySpeedController.tick(this.getElement());
 

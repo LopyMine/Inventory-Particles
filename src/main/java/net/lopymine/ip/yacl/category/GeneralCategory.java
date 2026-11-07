@@ -9,6 +9,7 @@ import net.lopymine.ip.config.sub.InventoryParticlesCacheConfig.CacheInvalidateM
 import net.lopymine.ip.config.sub.InventoryParticlesFamilyGenerationConfig.Mode;
 import net.lopymine.ip.editor.screen.ParticlesResourcePackEditorScreen;
 import net.lopymine.ip.family.cache.FamilyParticlesCacheManager;
+import net.lopymine.mossylib.utils.ScreenUtils;
 import net.lopymine.mossylib.yacl.api.*;
 import net.lopymine.mossylib.yacl.extension.SimpleOptionExtension;
 import net.minecraft.client.Minecraft;
@@ -58,12 +59,17 @@ public class GeneralCategory {
 				SimpleOption.<Boolean>startBuilder("nbt_debug_mode_enabled")
 						.withBinding(defConfig.isNbtDebugModeEnabled(), config::isNbtDebugModeEnabled, config::setNbtDebugModeEnabled, false)
 						.withController()
-						.withDescription(SimpleContent.NONE)
-				//? if >=26.3 {
-				,SimpleOption.startButtonBuilder("open_editor", (screen, option) -> {
-					Minecraft.getInstance().gui.setScreen(new ParticlesResourcePackEditorScreen(screen));
+						.withDescription(SimpleContent.NONE),
+				SimpleOption.startButtonBuilder("open_editor", (screen, option) -> {
+					ScreenUtils.set(new ParticlesResourcePackEditorScreen(screen));
+				}).custom((builder) -> {
+					//? if >=1.21.11 {
+					if (Minecraft.getInstance().level != null) {
+						return;
+					}
+					builder.available(false).text(InventoryParticles.text("editor.only_in_world"));
+					//?}
 				})
-				//?}
 		);
 	}
 

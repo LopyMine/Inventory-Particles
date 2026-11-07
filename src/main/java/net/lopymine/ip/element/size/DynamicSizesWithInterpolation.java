@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import lombok.*;
 import net.lopymine.ip.config.i2o.Integer2DynamicParticleSize;
 import net.lopymine.ip.debug.IDebugRenderable;
+import org.jetbrains.annotations.Nullable;
 import static com.mojang.serialization.codecs.RecordCodecBuilder.create;
 import static net.lopymine.mossylib.utils.CodecUtils.option;
 
@@ -20,7 +21,26 @@ public class DynamicSizesWithInterpolation implements IDebugRenderable {
 	private DynamicSizeInterpolation interpolation;
 
 	public static DynamicSizesWithInterpolation fromStatic(StaticSize size) {
-		return new DynamicSizesWithInterpolation(List.of(Integer2DynamicParticleSize.fromStatic(size)), DynamicSizeInterpolation.LINEAR_INTERPOLATION);
+		return new DynamicSizesWithInterpolation(new ArrayList<>(List.of(Integer2DynamicParticleSize.fromStatic(size))), DynamicSizeInterpolation.LINEAR_INTERPOLATION);
+	}
+
+	@Nullable
+	public StaticSize toStatic() {
+		if (this.sizes.size() != 1) {
+			return null;
+		}
+
+		Integer2DynamicParticleSize size = this.sizes.get(0);
+		if (size.getIndex() != Integer2DynamicParticleSize.STATIC_INDEX) {
+			return null;
+		}
+
+		DynamicSize object = size.getObject();
+		if (object.getInterpolation() != DynamicSizeInterpolation.NO_INTERPOLATION) {
+			return null;
+		}
+
+		return new StaticSize(object.getWidth(), object.getHeight());
 	}
 
 	public static final Codec<List<Integer2DynamicParticleSize>> SIZES_CODEC = Codec.unboundedMap(Codec.STRING, DynamicSize.CODEC).xmap((map) -> {

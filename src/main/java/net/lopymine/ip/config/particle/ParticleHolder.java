@@ -84,6 +84,20 @@ public class ParticleHolder {
 	private IColorProvider color;
 	private double speedCoefficient;
 
+	public ParticleHolder copy() {
+		return new ParticleHolder(
+				this.name,
+				this.itemOrTag,
+				this.match,
+				new HashSet<>(this.nbtCondition),
+				new ParticleSpawnAreaId(this.spawnArea.getId()),
+				new IntegerRange(this.spawnCount.getMin(), this.spawnCount.getMax()),
+				new IntegerRange(this.spawnFrequency.getMin(), this.spawnFrequency.getMax()),
+				this.color.copy(),
+				this.speedCoefficient
+		);
+	}
+
 	public ParticleSpawner createSpawner(Function<ParticleSpawnContext, InventoryParticle> function) {
 		return new ParticleSpawner(
 				this.spawnArea,

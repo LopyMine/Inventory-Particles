@@ -2,3 +2,17 @@ plugins {
 	id "dev.kikugie.stonecutter"
 	id "net.lopymine.mossy-plugin-stonecutter" version "$mossy_plugin_version"
 }
+
+tasks.register("runClients") {
+	group = "bruh"
+	dependsOn subprojects.collect { "${it.path}:runClient" }
+}
+
+["fabric", "forge", "neoforge"].each { loader ->
+	tasks.register("run${loader.capitalize()}Clients") {
+		group = "bruh"
+		dependsOn subprojects
+				.findAll { it.name.startsWith("${loader}-") }
+				.collect { "${it.path}:runClient" }
+	}
+}

@@ -83,6 +83,10 @@ public class ParticleSpawner extends TickElement implements IParticleSpawner {
 		return this.createParticles(this.random.nextIntBetweenInclusive(this.countRange.getMin(), this.countRange.getMax()), context, (particle) -> {});
 	}
 
+	public List<InventoryParticle> spawnOne(ParticleSpawnContext context) {
+		return this.createParticles(1, context, (particle) -> {});
+	}
+
 	private List<InventoryParticle> createParticles(int spawnCount, InventoryCursor cursor, Consumer<InventoryParticle> consumer) {
 		return this.createParticles(spawnCount, ParticleSpawnContext.cursor(cursor), consumer);
 	}

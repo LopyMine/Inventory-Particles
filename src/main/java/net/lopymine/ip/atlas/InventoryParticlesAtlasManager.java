@@ -2,6 +2,7 @@ package net.lopymine.ip.atlas;
 
 import java.util.Set;
 import java.util.concurrent.*;
+import lombok.Setter;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.family.atlas.manager.*;
 import net.minecraft.client.Minecraft;
@@ -18,6 +19,9 @@ public class InventoryParticlesAtlasManager {
 	public static final Identifier LEGACY_ATLAS_ID = InventoryParticles.id("textures/atlas/iparticles");
 	public static final Identifier FOLDER_ID = InventoryParticles.id("particles");
 	private static InventoryParticlesAtlasManager INSTANCE;
+	@Setter
+	@Nullable
+	private static SpriteOverride SPRITE_OVERRIDE;
 	private final TextureAtlas atlas;
 
 	public InventoryParticlesAtlasManager() {
@@ -57,7 +61,8 @@ public class InventoryParticlesAtlasManager {
 				return this.getMissingSprite();
 			}
 			if (atlasId == null || ATLAS_ID.equals(atlasId) || LEGACY_ATLAS_ID.equals(atlasId)) {
-				return this.atlas.getSprite(id);
+				TextureAtlasSprite overridden = SPRITE_OVERRIDE == null ? null : SPRITE_OVERRIDE.getSprite(id);
+				return overridden == null ? this.atlas.getSprite(id) : overridden;
 			}
 			FamilyParticlesAtlasManager familyManager = FamilyParticlesAtlasManager.get(atlasId.getPath());
 			if (familyManager != null) {
@@ -87,5 +92,11 @@ public class InventoryParticlesAtlasManager {
 
 	public TextureAtlasSprite getMissingSprite() {
 		return /*? if >=1.21 {*/ this.atlas.missingSprite /*?} else {*/ /*this.atlas.getSprite(MissingTextureAtlasSprite.getLocation()) *//*?}*/;
+	}
+
+	public interface SpriteOverride {
+
+		@Nullable
+		TextureAtlasSprite getSprite(Identifier id);
 	}
 }

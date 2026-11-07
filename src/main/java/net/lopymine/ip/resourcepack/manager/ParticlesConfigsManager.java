@@ -61,6 +61,10 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 		return INSTANCE;
 	}
 
+	public static int getVersion() {
+		return VERSION.get();
+	}
+
 	public static void updateCombinedMap() {
 		boolean debug = Boolean.getBoolean("inventory_particles.debug_generate");
 		int currentVersion = VERSION.incrementAndGet();
@@ -391,7 +395,77 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 
 	public static Identifier getParticleConfigId(Identifier particleId) {
 		String namespace = particleId.getNamespace().equals("minecraft") ? InventoryParticles.MOD_ID : particleId.getNamespace();
-		return InventoryParticles.id(namespace, "%s/%s".formatted(getInstance().getFolderPath(), particleId.getPath()));
+		String folderPath = getInstance().getFolderPath();
+		if (particleId.getPath().startsWith(folderPath + "/")) {
+			return InventoryParticles.id(namespace, particleId.getPath());
+		}
+		return InventoryParticles.id(namespace, "%s/%s".formatted(folderPath, particleId.getPath()));
+	}
+
+	@Override
+	protected int registerConfigs(List<LoadedConfig<ParticleConfig>> configs) {
+		Map<Identifier, LoadedConfig<ParticleConfig>> configsById = new HashMap<>();
+		for (LoadedConfig<ParticleConfig> config : configs) {
+			configsById.put(config.id(), config);
+		}
+
+		Set<Identifier> resolvedConfigs = new HashSet<>();
+		Set<Identifier> failedConfigs = new HashSet<>();
+
+		int registeredConfigs = 0;
+		for (LoadedConfig<ParticleConfig> config : configs) {
+			if (this.resolveVisualInheritance(config, configsById, resolvedConfigs, failedConfigs, new LinkedHashSet<>())) {
+				this.register(config);
+				registeredConfigs++;
+			}
+		}
+
+		return registeredConfigs;
+	}
+
+	private boolean resolveVisualInheritance(LoadedConfig<ParticleConfig> config, Map<Identifier, LoadedConfig<ParticleConfig>> configsById, Set<Identifier> resolvedConfigs, Set<Identifier> failedConfigs, Set<Identifier> chain) {
+		Identifier id = config.id();
+		if (failedConfigs.contains(id)) {
+			return false;
+		}
+		if (resolvedConfigs.contains(id)) {
+			return true;
+		}
+
+		Identifier reference = config.config().getCopyVisualFrom();
+		if (reference == null) {
+			resolvedConfigs.add(id);
+			return true;
+		}
+
+		if (!chain.add(id)) {
+			this.getLogger().error("Found a \"copy_visual_from\" cycle at \"{}\", this config will not be loaded! Chain: {}", id, chain);
+			failedConfigs.add(id);
+			return false;
+		}
+
+		Identifier parentId = getParticleConfigId(reference);
+		LoadedConfig<ParticleConfig> parent = configsById.get(parentId);
+
+		if (parent == null) {
+			this.getLogger().error("Config \"{}\" copies visuals from \"{}\", but there is no such config, so it will not be loaded!", id, parentId);
+			failedConfigs.add(id);
+			chain.remove(id);
+			return false;
+		}
+
+		if (!this.resolveVisualInheritance(parent, configsById, resolvedConfigs, failedConfigs, chain)) {
+			this.getLogger().error("Config \"{}\" copies visuals from \"{}\", which failed to load, so it will not be loaded!", id, parentId);
+			failedConfigs.add(id);
+			chain.remove(id);
+			return false;
+		}
+
+		config.config().copyVisualFrom(parent.config(), config.keys());
+		chain.remove(id);
+		resolvedConfigs.add(id);
+
+		return true;
 	}
 
 	@Nullable

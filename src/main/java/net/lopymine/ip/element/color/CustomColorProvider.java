@@ -9,8 +9,8 @@ import net.minecraft.util.RandomSource;
 @Setter
 public class CustomColorProvider implements IColorProvider {
 
-	private final String original;
-	private int color = -1;
+	private String original;
+	private transient int color = -1;
 
 	public CustomColorProvider(String original) {
 		this.original = original;
@@ -42,7 +42,7 @@ public class CustomColorProvider implements IColorProvider {
 
 	@Override
 	public String asString() {
-		return "custom";
+		return this.original;
 	}
 
 	@Override

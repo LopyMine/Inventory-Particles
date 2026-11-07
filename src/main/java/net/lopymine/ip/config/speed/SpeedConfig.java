@@ -15,7 +15,9 @@ import static net.lopymine.mossylib.utils.CodecUtils.option;
 public class SpeedConfig {
 
 	public static final Codec<DoubleRange> MAX_CODEC = Codec.either(DoubleRange.CODEC, Codec.DOUBLE)
-			.xmap((either) -> either.map((r) -> r, (f) -> new DoubleRange(-f, f)), Either::left);
+			.xmap((either) -> either.map((r) -> r, (f) -> new DoubleRange(-f, f)), (range) -> {
+				return range.getMin() == -range.getMax() ? Either.right(range.getMax()) : Either.left(range);
+			});
 
 	public static final Codec<SpeedConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			option("impulse", new DoubleRange(), DoubleRange.CODEC, SpeedConfig::getImpulse),

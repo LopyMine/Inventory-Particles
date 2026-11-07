@@ -41,13 +41,16 @@ public class InventoryParticle extends AbstractInventoryElement<InventoryParticl
 		double standardTextureAngle = rotation.getTextureRotationConfig().getSpawnAngle().getRandom(random);
 		particle.setStandardTextureAngle(standardTextureAngle);
 
+		AngleSpeedController<InventoryParticle> angleSpeedController = new AngleSpeedController<>(base.getAngleSpeed(), random);
+		particle.setAngleSpeedController(angleSpeedController);
+
 		SpeedController<InventoryParticle> xSpeedController = new SpeedController<>(base.getXSpeed(), random, context.getImpulseX());
 		particle.setXSpeedController(xSpeedController);
-		xSpeedController.registerModifier(new SpeedInAngleDirectionControllerModifier<>(base.getAngleSpeed(), random, true), true, particle);
+		xSpeedController.registerModifier(new SpeedInAngleDirectionControllerModifier<>(angleSpeedController, true));
 
 		SpeedController<InventoryParticle> ySpeedController = new SpeedController<>(base.getYSpeed(), random, context.getImpulseY());
 		particle.setYSpeedController(ySpeedController);
-		ySpeedController.registerModifier(new SpeedInAngleDirectionControllerModifier<>(base.getAngleSpeed(), random, false), true, particle);
+		ySpeedController.registerModifier(new SpeedInAngleDirectionControllerModifier<>(angleSpeedController, false));
 
 		RotationSpeedController<InventoryParticle> particleRotationSpeedController = new RotationSpeedController<>(rotation.getParticleRotationConfig(), random);
 		particle.setMovementRotationSpeedController(particleRotationSpeedController);
