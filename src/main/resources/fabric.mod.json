@@ -34,7 +34,7 @@
     },
 	"breaks": {
 		"particle_effects": "<1.5.0",
-		"inventory_interactions": "<2.1.0"
+		"inventory_interactions": "<2.3.0"
 	},
 	"accessWidener": "${fabric_trick_accesswidener_id}",
 	"mixins": [

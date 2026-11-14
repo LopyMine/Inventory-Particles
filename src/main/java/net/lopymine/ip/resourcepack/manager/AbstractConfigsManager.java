@@ -5,7 +5,6 @@ import com.mojang.serialization.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import net.lopymine.ip.InventoryParticles;
 import net.lopymine.mossylib.logger.MossyLogger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
@@ -126,7 +125,7 @@ public abstract class AbstractConfigsManager<C> {
 
 	private Identifier normalizeLegacyId(Identifier id) {
 		String path = id.getPath().substring(this.getLegacyFolderName().length() + 1);
-		return InventoryParticles.id("%s/%s".formatted(this.getFolderPath(), removeExtension(path)));
+		return id.withPath("%s/%s".formatted(this.getFolderPath(), removeExtension(path)));
 	}
 
 	private static Identifier normalizeId(Identifier id) {
