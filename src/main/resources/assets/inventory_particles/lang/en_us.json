@@ -58,11 +58,13 @@
 	"${mod_id}.modmenu.option.whitelist_mode.whitelist": "Whitelist",
 	"${mod_id}.modmenu.option.whitelist_mode.blacklist": "Blacklist",
 
-	"${mod_id}.modmenu.option.whitelist_mode.name": "Whitelist Mode",
-	"${mod_id}.modmenu.option.whitelist_mode.description": "Controls how the whitelist will be applied. Whitelist — only items in the whitelist will spawn particles; Blacklist — items in the whitelist won't spawn particles.",
+	"${mod_id}.modmenu.option.whitelist_mode.name": "[Items] List Mode",
+	"${mod_id}.modmenu.option.whitelist_mode.description": "How the items list is applied. Whitelist — only items in the list will spawn particles; Blacklist — items in the list won't spawn particles.",
 
-	"${mod_id}.modmenu.option.whitelist_items.name": "Whitelist Items",
+	"${mod_id}.modmenu.option.whitelist_items.name": "[Items] List",
 	"${mod_id}.modmenu.option.whitelist_items.description": "Write item ids here. You can take it from item's tooltip (with F3 + H enabled). Use space to separate ids.",
+	"${mod_id}.modmenu.option.whitelist_select_items.name": "[Items] Select",
+	"${mod_id}.modmenu.option.whitelist_select_items.description": "Opens a screen where you can select items for the list. Selected items will be added to the list above, deselected ones will be removed from it. Only available while you are in a world.",
 
 	"${mod_id}.modmenu.group.visual.name": "Visual",
 	"${mod_id}.modmenu.group.visual.description": "Settings for particles appearance.",
@@ -99,6 +101,8 @@
 
 	"${mod_id}.modmenu.option.family_generation_items.name": "[Items] List",
 	"${mod_id}.modmenu.option.family_generation_items.description": "Item ids to filter, separated by spaces. E.g. \"minecraft:diamond create:wrench\". You can copy an id from the item's tooltip (with F3 + H enabled). Leave empty for no filtering (with Blacklist mode).",
+	"${mod_id}.modmenu.option.family_generation_select_items.name": "[Items] Select",
+	"${mod_id}.modmenu.option.family_generation_select_items.description": "Opens a screen where you can select items for the list. Selected items will be added to the list above, deselected ones will be removed from it. Only available while you are in a world.",
 
 	"${mod_id}.modmenu.group.cache.name": "Modded Items Cache",
 	"${mod_id}.modmenu.group.cache.description": "Settings controlling cached assets used for modded items.",
@@ -112,7 +116,25 @@
 	"${mod_id}.modmenu.option.invalidate_mode.manual_invalidate": "Manual (button below)",
 
 	"${mod_id}.modmenu.option.invalidate_now.name": "Invalidate Cache Now",
-	"${mod_id}.modmenu.option.invalidate_now.description": "Immediately invalidates cached assets for modded items.",
+	"${mod_id}.modmenu.option.invalidate_now.description": "Deletes cached particle textures for modded items. All data from the cache folder §e\"config/inventory-particles/cache/\"§r will be deleted.\nThe new cache starts generating the next time you join a world/server. If you are already in a world, the generation can be started right away, or you can reload resources with §eF3 + T§r.\n\n§lWhen to use:§r\n1) It may help to update outdated particle textures of modded items.\n2) It may help to fix purple-black particles. But keep in mind! This problem appears in two cases: mod incompatibility or a heavily outdated cache. If the textures are still broken after the generation, open an issue on GitHub describing your problem.\n\nIn extreme cases you can delete this folder yourself, if for some reason the mod could not do it. After deleting it, a full restart of your client is recommended.",
+
+	"${mod_id}.items_selection.title": "Select Items",
+	"${mod_id}.cache_invalidation.title": "Cache Invalidation",
+	"${mod_id}.cache_invalidation.in_world": "You are already in a world. Do you want to delete the old cache and start a new generation right away?",
+	"${mod_id}.cache_invalidation.not_in_world": "You are not in a world. So the old cache will be deleted, and the new one will start generating right after you join any world.",
+	"${mod_id}.cache_invalidation.delete_and_regenerate": "Delete And Start Now",
+	"${mod_id}.cache_invalidation.delete_only": "Only Delete Cache",
+	"${mod_id}.cache_invalidation.delete": "Delete Cache",
+	"${mod_id}.cache_invalidation.back": "Go Back",
+
+	"${mod_id}.toast.cache.deleting.title": "Deleting Cache",
+	"${mod_id}.toast.cache.deleting.message": "Deleting the particles cache of modded items...",
+	"${mod_id}.toast.cache.deleted.title": "Cache Deleted",
+	"${mod_id}.toast.cache.deleted.message": "Successfully deleted the particles cache of modded items",
+	"${mod_id}.toast.cache.failed.title": "Failed To Delete Cache",
+	"${mod_id}.toast.cache.failed.message": "Could not delete the particles cache. See the game log for details",
+	"${mod_id}.toast.cache.regenerate_on_join.title": "Cache Regeneration",
+	"${mod_id}.toast.cache.regenerate_on_join.message": "The cache will be regenerated the next time you join a world, or after reloading resources (F3 + T) while already in a world",
 
 	"${mod_id}.modmenu.option.open_editor.name": "§b§lOpen Particles Editor",
 	"${mod_id}.modmenu.option.open_editor.description": "Opens the in-game editor for particle resource packs. Only available while you are in a world, the editor needs loaded items and resources.",
@@ -172,6 +194,8 @@
 	"${mod_id}.editor.items.source.all": "All",
 	"${mod_id}.editor.items.source.inventory": "Inventory",
 	"${mod_id}.editor.items.filter.off": "With particles: off",
+	"${mod_id}.editor.items.apply": "Apply (%s)",
+	"${mod_id}.editor.items.render_failed": "Failed to render the item, see the game logs.",
 
 	"${mod_id}.editor.pack.create_config": "Create Particle",
 	"${mod_id}.editor.pack.edit_config": "Edit Particle",
@@ -305,6 +329,10 @@
 	"${mod_id}.particles_linking.average_time": "Average Time: %ss",
 	"${mod_id}.particles_linking.remaining_time": "Remaining Time: ~%sm",
 	"${mod_id}.particles_linking.preparing": "Preparing before start... Please wait",
+
+	"${mod_id}.announcement.cache_regeneration": "[!] Particles generation for modded items was improved in this update.\n\n[!] We recommend regenerating the particles cache for modded items, so the improvements apply to them too.",
+	"${mod_id}.announcement.cache_regeneration.option": "Regenerate on next world join",
+	"${mod_id}.announcement.particles_editor": "[+] The mod now has an §ein-game particles editor§r! Create and edit particle resource packs right in the game.\n\n[*] To try it, join a world and open the mod settings: §eGeneral → Open Particles Editor§r.",
 
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.true": "Enabled",
 	"${mod_id}.modmenu.formatter.enabled_or_disabled.false": "Disabled",

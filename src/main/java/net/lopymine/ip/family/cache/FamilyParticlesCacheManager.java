@@ -8,23 +8,65 @@ import java.util.stream.Stream;
 import lombok.experimental.ExtensionMethod;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.client.InventoryParticlesClient;
+import net.lopymine.ip.element.texture.provider.ITextureProvider;
 import net.lopymine.ip.extension.NativeImageExtension;
 import net.lopymine.mossylib.loader.MossyLoader;
+import net.minecraft.util.Util;
 
 @ExtensionMethod(NativeImageExtension.class)
 public class FamilyParticlesCacheManager {
 
 	public static boolean test = false;
 
+	private static boolean clearLoadedOnNextLinking;
+
 	public static final Path FOLDER = MossyLoader.getConfigDir()
 			.resolve(InventoryParticles.MOD_ID.replace("_", "-"))
 			.resolve("cache");
+
+	public static boolean hasModdedItemsCache() {
+		if (!Files.isDirectory(FOLDER)) {
+			return false;
+		}
+		try (Stream<Path> stream = Files.list(FOLDER)) {
+			return stream.filter(Files::isDirectory)
+					.filter((path) -> !path.getFileName().toString().equals("minecraft"))
+					.anyMatch((path) -> Files.isRegularFile(path.resolve("regions.txt")));
+		} catch (IOException e) {
+			InventoryParticlesClient.LOGGER.error("Failed to check cache folder:", e);
+			return false;
+		}
+	}
 
 	public static void deleteSilence() {
 		try {
 			delete();
 		} catch (IOException e) {
 			InventoryParticlesClient.LOGGER.error("Failed to delete cache folder:", e);
+		}
+	}
+
+	public static CompletableFuture<Boolean> deleteAsync() {
+		return CompletableFuture.supplyAsync(() -> {
+			deleteSilence();
+			return !Files.exists(FOLDER);
+		}, Util.ioPool());
+	}
+
+	public static void clearLoaded() {
+		ITextureProvider.clear();
+		FamilyParticlesAtlasCacheManager.clear();
+		FamilyParticlesSpawnAreasCacheManager.clear();
+	}
+
+	public static void clearLoadedOnNextLinking() {
+		clearLoadedOnNextLinking = true;
+	}
+
+	public static void clearLoadedIfRequested() {
+		if (clearLoadedOnNextLinking) {
+			clearLoadedOnNextLinking = false;
+			clearLoaded();
 		}
 	}
 

@@ -58,11 +58,13 @@
 	"${mod_id}.modmenu.option.whitelist_mode.whitelist": "Белый список",
 	"${mod_id}.modmenu.option.whitelist_mode.blacklist": "Чёрный список",
 
-	"${mod_id}.modmenu.option.whitelist_mode.name": "Режим белого списка",
-	"${mod_id}.modmenu.option.whitelist_mode.description": "Определяет, как будет применён белый список. Белый список — только предметы из списка будут создавать частицы; Чёрный список — предметы из списка не будут создавать частицы.",
+	"${mod_id}.modmenu.option.whitelist_mode.name": "[Предметы] Режим списка",
+	"${mod_id}.modmenu.option.whitelist_mode.description": "Как применяется список предметов. Белый список — только предметы из списка будут создавать частицы; Чёрный список — предметы из списка не будут создавать частицы.",
 
-	"${mod_id}.modmenu.option.whitelist_items.name": "Предметы белого списка",
+	"${mod_id}.modmenu.option.whitelist_items.name": "[Предметы] Список",
 	"${mod_id}.modmenu.option.whitelist_items.description": "Указывайте здесь айди предметов через пробел. Их можно взять из подсказки предмета (F3 + H).",
+	"${mod_id}.modmenu.option.whitelist_select_items.name": "[Предметы] Выбрать",
+	"${mod_id}.modmenu.option.whitelist_select_items.description": "Открывает экран, где можно выбрать предметы для списка. Выбранные предметы будут добавлены в список выше, а снятые с выбора — удалены из него. Доступно только в мире.",
 
 	"${mod_id}.modmenu.group.visual.name": "Визуальное",
 	"${mod_id}.modmenu.group.visual.description": "Настройки внешнего вида частиц.",
@@ -99,6 +101,8 @@
 
 	"${mod_id}.modmenu.option.family_generation_items.name": "[Предметы] Список",
 	"${mod_id}.modmenu.option.family_generation_items.description": "Айди предметов для фильтрации, через пробел. Например: \"minecraft:diamond create:wrench\". Айди можно скопировать из подсказки предмета (F3 + H). Оставьте пустым, чтобы отключить фильтрацию (в режиме чёрного списка). ",
+	"${mod_id}.modmenu.option.family_generation_select_items.name": "[Предметы] Выбрать",
+	"${mod_id}.modmenu.option.family_generation_select_items.description": "Открывает экран, где можно выбрать предметы для списка. Выбранные предметы будут добавлены в список выше, а снятые с выбора — удалены из него. Доступно только в мире.",
 
 	"${mod_id}.modmenu.group.cache.name": "Кэш текстур частиц",
 	"${mod_id}.modmenu.group.cache.description": "Настройки кэширования текстур частиц для предметов из модов.",
@@ -112,7 +116,25 @@
 	"${mod_id}.modmenu.option.invalidate_mode.manual_invalidate": "Ручной сброс (кнопка снизу)",
 
 	"${mod_id}.modmenu.option.invalidate_now.name": "Сбросить кэш сейчас",
-	"${mod_id}.modmenu.option.invalidate_now.description": "Инвалидирует/удаляет кэшированные текстуры частиц для предметов из модов.",
+	"${mod_id}.modmenu.option.invalidate_now.description": "Удаляет кэшированные текстуры частиц для предметов из модов. Будут удалены все данные из папки кэша по пути §e\"config/inventory-particles/cache/\"§r.\nГенерация нового кэша начнётся при следующем входе в мир/на сервер. Если вы уже находитесь в мире, генерацию можно начать сразу или перезагрузить ресурсы через §eF3 + T§r.\n\n§lКогда использовать:§r\n1) Может помочь обновить устаревшие текстуры частиц для предметов из модов.\n2) Может помочь исправить фиолетово-чёрные частицы. Но учитывайте! Эта проблема может появляться в двух случаях: несовместимость модов или сильно устаревший кэш. Если после генерации текстуры всё ещё сломаны, откройте issue на GitHub с описанием вашей проблемы.\n\nВ крайних случаях вы можете удалить эту папку самостоятельно, если по какой-то причине мод не смог этого сделать. После удаления рекомендуется полностью перезапустить клиент.",
+
+	"${mod_id}.items_selection.title": "Выбор предметов",
+	"${mod_id}.cache_invalidation.title": "Сброс кэша",
+	"${mod_id}.cache_invalidation.in_world": "Вы уже находитесь в мире. Хотите удалить старый кэш и начать новую генерацию сразу?",
+	"${mod_id}.cache_invalidation.not_in_world": "Вы не находитесь в мире. Поэтому старый кэш будет удалён, а генерация нового начнётся сразу после захода в любой мир.",
+	"${mod_id}.cache_invalidation.delete_and_regenerate": "Удалить кэш и начать сразу",
+	"${mod_id}.cache_invalidation.delete_only": "Только удалить кэш",
+	"${mod_id}.cache_invalidation.delete": "Удалить кэш",
+	"${mod_id}.cache_invalidation.back": "Вернуться",
+
+	"${mod_id}.toast.cache.deleting.title": "Удаление кэша",
+	"${mod_id}.toast.cache.deleting.message": "Удаляется кэш частиц для предметов из модов...",
+	"${mod_id}.toast.cache.deleted.title": "Кэш удалён",
+	"${mod_id}.toast.cache.deleted.message": "Успешно удалён кэш частиц для предметов из модов",
+	"${mod_id}.toast.cache.failed.title": "Не удалось удалить кэш",
+	"${mod_id}.toast.cache.failed.message": "Не получилось удалить кэш частиц. Подробности смотрите в логах игры",
+	"${mod_id}.toast.cache.regenerate_on_join.title": "Перегенерация кэша",
+	"${mod_id}.toast.cache.regenerate_on_join.message": "Кэш будет перегенерирован при следующем заходе в мир или при перезагрузке ресурсов (F3 + T) уже в мире",
 
 	"${mod_id}.modmenu.option.open_editor.name": "Открыть редактор частиц",
 	"${mod_id}.modmenu.option.open_editor.description": "Открывает внутриигровой редактор ресурспаков с частицами. Доступен только в мире, редактору нужны загруженные предметы и ресурсы.",
@@ -172,6 +194,8 @@
 	"${mod_id}.editor.items.source.all": "Все",
 	"${mod_id}.editor.items.source.inventory": "Инвентарь",
 	"${mod_id}.editor.items.filter.off": "Есть частицы: выкл",
+	"${mod_id}.editor.items.apply": "Применить (%s)",
+	"${mod_id}.editor.items.render_failed": "Не удалось отобразить предмет, смотрите логи игры.",
 
 	"${mod_id}.editor.pack.create_config": "Создать частицу",
 	"${mod_id}.editor.pack.edit_config": "Изменить частицу",
@@ -305,6 +329,10 @@
 	"${mod_id}.particles_linking.average_time": "Среднее время: %sс",
 	"${mod_id}.particles_linking.remaining_time": "Осталось ждать: ~%sм",
 	"${mod_id}.particles_linking.preparing": "Подготовка перед началом... Пожалуйста подождите",
+
+	"${mod_id}.announcement.cache_regeneration": "[!] В этом обновлении улучшилась генерация частиц для предметов из модов.\n\n[!] Мы рекомендуем перегенерировать кэш частиц для предметов из модов, чтобы улучшения применились и к ним.",
+	"${mod_id}.announcement.cache_regeneration.option": "Перегенерировать при следующем входе в мир",
+	"${mod_id}.announcement.particles_editor": "[+] В моде появился §eвнутриигровой редактор частиц§r! Создавайте и изменяйте ресурспаки с частицами прямо в игре.\n\n[*] Чтобы попробовать, зайдите в мир и откройте настройки мода: §eОсновное → Открыть редактор частиц§r.",
 
 	"${mod_id}.notice_message_2_1_0": "§a[${mod_name}]§e Привет, %s§e! Небольшое, но важное сообщение:§r\n\n§rInventory Particles теперь поддерживает предметы из других модов!\n\nКак это работает: мод генерирует текстуры частиц для предметов из модов. Это может занять некоторое время в зависимости от количества модовых предметов в игре §e(сейчас их %s§e!).§r\n\nЧтобы следить за прогрессом, откройте инвентарь и наведите курсор в правый верхний угол.\n\nНа ооооочень слабых компьютерах во время генерации вы можете заметить небольшое падение кадров. Это нормально и происходит только один раз.\n\nПосле завершения генерации всё будет кэшировано/сохранено и загружаться очень быстро.\n\nЧтобы очистить кэш или изменить его поведение, откройте меню настроек мода.\n\n§eСпасибо за внимание! Это сообщение больше не будет показываться.",
 

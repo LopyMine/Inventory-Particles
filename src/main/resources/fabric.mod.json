@@ -33,7 +33,7 @@
         "${fabric_api_id}": "*"
     },
 	"breaks": {
-		"particle_effects": "<1.5.0",
+		"particle_effects": "<1.7.0",
 		"inventory_interactions": "<2.3.0"
 	},
 	"accessWidener": "${fabric_trick_accesswidener_id}",

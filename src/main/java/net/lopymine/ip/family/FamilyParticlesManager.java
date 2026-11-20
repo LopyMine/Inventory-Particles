@@ -1,6 +1,7 @@
 package net.lopymine.ip.family;
 
 import java.util.*;
+import java.util.regex.Pattern;
 import net.lopymine.ip.client.command.tags.TagsCommand;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -37,13 +38,9 @@ public class FamilyParticlesManager {
 				continue;
 			}
 
-			if (matchKeywords(itemData, config.getKeywords().getWhitelist())) {
-				configs.add(config);
-			}
-			if (matchTags(itemData, config.getTags().getWhitelist())) {
-				configs.add(config);
-			}
-			if (matchNamespaces(itemData, config.getNamespaces().getWhitelist())) {
+			if (matchKeywords(itemData, config.getKeywords().getWhitelist())
+					|| matchTags(itemData, config.getTags().getWhitelist())
+					|| matchNamespaces(itemData, config.getNamespaces().getWhitelist())) {
 				configs.add(config);
 			}
 		}
@@ -79,9 +76,15 @@ public class FamilyParticlesManager {
 			}
 		}
 
-		for (String tag : tags) {
-			if (tag.startsWith("@") && itemData.path().contains(tag.substring(1))) {
-				return true;
+		for (String entry : list) {
+			if (!entry.startsWith("@")) {
+				continue;
+			}
+			String part = entry.substring(1);
+			for (String tag : tags) {
+				if (tag.contains(part)) {
+					return true;
+				}
 			}
 		}
 
@@ -104,11 +107,23 @@ public class FamilyParticlesManager {
 		return false;
 	}
 
-	private record ItemMatchData(String path, String namespace, String[] keys, @Nullable List<String> tags) {
+	private record ItemMatchData(String path, String namespace, Set<String> keys, @Nullable List<String> tags) {
+
+		private static final Pattern KEYS_SEPARATOR = Pattern.compile("[/_]+");
 
 		static ItemMatchData of(Identifier itemId) {
 			String path = itemId.getPath();
-			return new ItemMatchData(path, itemId.getNamespace(), path.split("_"), TagsCommand.getTags(itemId));
+			return new ItemMatchData(path, itemId.getNamespace(), getKeys(path), TagsCommand.getTags(itemId));
+		}
+
+		private static Set<String> getKeys(String path) {
+			Set<String> keys = new HashSet<>();
+			for (String key : KEYS_SEPARATOR.split(path)) {
+				if (!key.isEmpty()) {
+					keys.add(key);
+				}
+			}
+			return keys;
 		}
 	}
 

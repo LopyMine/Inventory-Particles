@@ -2,7 +2,7 @@ package net.lopymine.ip.atlas;
 
 import java.util.Set;
 import java.util.concurrent.*;
-import lombok.Setter;
+import lombok.*;
 import net.lopymine.ip.InventoryParticles;
 import net.lopymine.ip.family.atlas.manager.*;
 import net.minecraft.client.Minecraft;
@@ -22,6 +22,7 @@ public class InventoryParticlesAtlasManager {
 	@Setter
 	@Nullable
 	private static SpriteOverride SPRITE_OVERRIDE;
+	@Getter
 	private final TextureAtlas atlas;
 
 	public InventoryParticlesAtlasManager() {

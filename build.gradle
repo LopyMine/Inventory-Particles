@@ -24,10 +24,23 @@ mossyDependencies {
 // 		if (stonecutter.current.version.startsWith("26.1")) {
 //			disable("mossylib")
 //		}
+		//disable("mossylib")
 	}
 }
 
+mossyResources {
+	customProperty("mossylib_version", mossylibVersion())
+}
+
+//dependencies {
+//	mossyImplementation("net.lopymine:mossylib:${mossylibVersion()}-${stonecutter.current.project}")
+//}
+
 repositories {
+	exclusiveContent {
+		forRepository { mavenLocal() }
+		filter { includeModule("net.lopymine", "mossylib") }
+	}
 	mavenLocal()
 	maven {
 		name "Mossy Projects"
@@ -126,8 +139,6 @@ configurations.forEach {
 	}
 }
 
-// All versions share "runs/client", so they can not be launched at the same time.
-// Aggregated run tasks from the root project (and the "parallel_runs" property) give every version its own game directory.
 if (project.hasProperty("parallel_runs") || gradle.startParameter.taskNames.any { it.endsWith("runClients") }) {
 	File gameDirectory = rootProject.file("runs/clients/${project.name}")
 
@@ -153,4 +164,8 @@ if (project.hasProperty("parallel_runs") || gradle.startParameter.taskNames.any 
 
 String prop(String key) {
 	return findProperty(key).toString()
+}
+
+String mossylibVersion() {
+	return prop("dep.mossylib").tokenize("+")[0]
 }

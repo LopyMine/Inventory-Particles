@@ -26,6 +26,12 @@ public class EditorItemsIndex {
 	}
 
 	public static EditorItemsIndex create(PackEditSession session) {
+		EditorItemsIndex index = create();
+		index.collectItemsWithParticles(session);
+		return index;
+	}
+
+	public static EditorItemsIndex create() {
 		List<Item> items = new ArrayList<>();
 		BuiltInRegistries.ITEM.forEach((item) -> {
 			if (item != Items.AIR) {
@@ -36,8 +42,6 @@ public class EditorItemsIndex {
 		EditorItemsIndex index = new EditorItemsIndex(items);
 		BuiltInRegistries.ITEM.entrySet().forEach((entry) -> index.itemIds.put(entry.getValue(), entry.getKey().identifier()));
 		items.sort(Comparator.comparing((item) -> index.getId(item).toString()));
-
-		index.collectItemsWithParticles(session);
 		return index;
 	}
 

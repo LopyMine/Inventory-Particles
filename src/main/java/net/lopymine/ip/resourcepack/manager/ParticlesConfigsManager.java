@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.*;
 import java.util.stream.*;
 import lombok.*;
 import net.lopymine.ip.InventoryParticles;
-import net.lopymine.ip.atlas.InventoryParticlesAtlasManager;
+import net.lopymine.ip.atlas.*;
 import net.lopymine.ip.client.InventoryParticlesClient;
 import net.lopymine.ip.config.InventoryParticlesConfig;
 import net.lopymine.ip.config.misc.CachedItem;
@@ -66,6 +66,8 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 	}
 
 	public static void updateCombinedMap() {
+		FamilyParticlesCacheManager.clearLoadedIfRequested();
+		MissingSpritesReporter.reset();
 		boolean debug = Boolean.getBoolean("inventory_particles.debug_generate");
 		int currentVersion = VERSION.incrementAndGet();
 
@@ -143,6 +145,7 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 						return;
 					}
 					COMBINED_MAP = combinedMap2;
+					MissingSpritesReporter.activate();
 				});
 			});
 		}).exceptionally(throwable -> {
@@ -629,6 +632,7 @@ public class ParticlesConfigsManager extends AbstractConfigsManager<ParticleConf
 	public void reload() {
 		VERSION.incrementAndGet();
 		COMBINED_MAP = new IdentityHashMap<>();
+		MissingSpritesReporter.reset();
 
 		REGISTERED_CONFIGS.clear();
 		PER_ITEM_PARTICLE_SPAWNERS.clear();

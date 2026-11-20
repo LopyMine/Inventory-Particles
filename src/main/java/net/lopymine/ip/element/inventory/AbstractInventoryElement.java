@@ -11,7 +11,8 @@ import net.lopymine.ip.element.controller.size.DynamicSizeController;
 import net.lopymine.ip.debug.HideInDebugRender;
 import net.lopymine.ip.element.mod.InventoryCursor;
 import net.lopymine.ip.element.base.*;
-import net.lopymine.ip.element.texture.ITexture;
+import net.lopymine.ip.atlas.MissingSpritesReporter;
+import net.lopymine.ip.element.texture.*;
 import net.lopymine.ip.element.texture.provider.ITextureProvider;
 import net.lopymine.ip.utils.ArgbUtils2;
 import net.lopymine.mossylib.extension.DrawContextExtension;
@@ -64,6 +65,10 @@ public abstract class AbstractInventoryElement<E extends AbstractInventoryElemen
 	private boolean dead;
 	private boolean selected;
 	private boolean hovered;
+	@HideInDebugRender
+	private boolean missingTextureReported;
+	@HideInDebugRender
+	private boolean textureReported;
 
 	public AbstractInventoryElement() {
 	}
@@ -180,7 +185,16 @@ public abstract class AbstractInventoryElement<E extends AbstractInventoryElemen
 	}
 
 	protected void renderElementTexture(GuiGraphicsExtractor context, float width, float height) {
-		this.getElementTexture().render(context, 0, 0, width, height, this.getRenderColor());
+		ITexture texture = this.getElementTexture();
+		if (!this.missingTextureReported && texture instanceof AtlasTexture atlasTexture && atlasTexture.isMissingSprite()) {
+			this.missingTextureReported = true;
+			this.textureReported        = true;
+			MissingSpritesReporter.reportMissing(atlasTexture);
+		} else if (!this.textureReported && MissingSpritesReporter.isDebug()) {
+			this.textureReported = true;
+			MissingSpritesReporter.reportTexture(texture);
+		}
+		texture.render(context, 0, 0, width, height, this.getRenderColor());
 	}
 
 	@SuppressWarnings("unused")

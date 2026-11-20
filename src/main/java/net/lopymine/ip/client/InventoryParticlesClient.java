@@ -22,7 +22,7 @@ public class InventoryParticlesClient {
 
 	public static void onInitializeClient() {
 		LOGGER.info("{} Client Initialized", InventoryParticles.MOD_NAME);
-
+		InventoryParticlesAnnouncements.register();
 	}
 
 	public static void sendNoticeMessage(int size) {

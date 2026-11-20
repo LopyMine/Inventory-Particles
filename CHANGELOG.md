@@ -1,3 +1,9 @@
-- Ported to 26.3 & fixes. 
-
-New particles & configs will be in the next update!
+- Added INGAME PARTICLES EDITOR, noooo waaay??
+- Moved assets to the mod id prefixed layout
+- Fixed family particles not matching keywords of modded items with `/` in their id
+- Fixed `@` prefixed tags in families not matching anything
+- Fixed cached particles of modded items with `/` in their id being linked to the wrong item
+- Added one-time screens after the update: an offer to regenerate the cache for modded items and an introduction of the particles editor
+- Improved the "Invalidate Cache Now" button
+- Added new config buttons for easier configuration
+- Better log system for weird rendering cases

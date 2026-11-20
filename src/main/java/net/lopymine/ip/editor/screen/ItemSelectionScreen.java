@@ -39,7 +39,12 @@ public class ItemSelectionScreen extends EditorScreen {
 	private final EditorItemsIndex index;
 	private final boolean onlyWithParticles;
 	private final boolean highlightExisting;
+	@Nullable
 	private final Consumer<Item> onPick;
+	@Nullable
+	private final Set<Item> selectedItems;
+	@Nullable
+	private final Consumer<Set<Item>> onConfirm;
 
 	private EditBox searchWidget;
 	@Nullable
@@ -62,6 +67,19 @@ public class ItemSelectionScreen extends EditorScreen {
 		this.onlyWithParticles = onlyWithParticles;
 		this.highlightExisting = highlightExisting;
 		this.onPick = onPick;
+		this.selectedItems = null;
+		this.onConfirm = null;
+	}
+
+	public ItemSelectionScreen(@Nullable Screen parent, Component title, EditorItemsIndex index, Set<Item> selectedItems, Consumer<Set<Item>> onConfirm) {
+		super(title);
+		this.parent = parent;
+		this.index = index;
+		this.onlyWithParticles = false;
+		this.highlightExisting = false;
+		this.onPick = null;
+		this.selectedItems = selectedItems;
+		this.onConfirm = onConfirm;
 	}
 
 	@Override
@@ -101,15 +119,18 @@ public class ItemSelectionScreen extends EditorScreen {
 				gridHeight,
 				(item) -> this.highlightExisting && this.index.hasParticles(item),
 				this::getItemTooltip,
-				(item) -> this.confirmButton.active = item != null
+				(item) -> this.updateConfirmButton()
 		);
+		if (this.selectedItems != null) {
+			this.gridWidget.setMultiSelection(this.selectedItems);
+		}
 		this.addRenderableWidget(this.gridWidget);
 
 		int y = gridBottom + OFFSET;
 		this.confirmButton = this.addRenderableWidget(Button.builder(InventoryParticles.text("editor.continue"), (button) -> this.confirm())
 				.bounds(this.width / 2 - BUTTON_WIDTH - 2, y, BUTTON_WIDTH, BUTTON_HEIGHT)
 				.build());
-		this.confirmButton.active = false;
+		this.updateConfirmButton();
 
 		this.addRenderableWidget(Button.builder(CommonComponents.GUI_BACK, (button) -> this.onClose())
 				.bounds(this.width / 2 + 2, y, BUTTON_WIDTH, BUTTON_HEIGHT)
@@ -257,9 +278,22 @@ public class ItemSelectionScreen extends EditorScreen {
 		this.gridWidget.setItems(items);
 	}
 
+	private void updateConfirmButton() {
+		if (this.selectedItems != null) {
+			this.confirmButton.active = true;
+			this.confirmButton.setMessage(InventoryParticles.text("editor.items.apply", this.selectedItems.size()));
+			return;
+		}
+		this.confirmButton.active = this.gridWidget.getSelectedItem() != null;
+	}
+
 	private void confirm() {
+		if (this.selectedItems != null && this.onConfirm != null) {
+			this.onConfirm.accept(this.selectedItems);
+			return;
+		}
 		Item item = this.gridWidget.getSelectedItem();
-		if (item == null) {
+		if (item == null || this.onPick == null) {
 			return;
 		}
 		this.onPick.accept(item);

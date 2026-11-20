@@ -354,16 +354,6 @@ public class FamilyParticlesAtlasCacheManager {
 				continue;
 			}
 
-			//? if >=1.21.4 {
-			if (BuiltInRegistries.ITEM.get(parsedItemId).isEmpty()) {
-				continue;
-			}
-			//?} else {
-			/*if (BuiltInRegistries.ITEM.get(parsedItemId) == Items.AIR) {
-				continue;
-			}
-			*///?}
-
 			Identifier particleId = entry.getKey();
 			ITEM_TEXTURES.computeIfAbsent(parsedItemId, (ignored) -> new ArrayList<>()).add(particleId);
 			NAMESPACE_TEXTURES.computeIfAbsent(namespace, (ignored) -> new HashMap<>())
@@ -378,15 +368,13 @@ public class FamilyParticlesAtlasCacheManager {
 	private static Identifier parseItemId(Entry<Identifier, NativeImage> entry, String atlasId) {
 		Identifier id = entry.getKey();
 		String path = id.getPath();
-		if (path.isEmpty()) {
-			return null;
+		for (int i = path.lastIndexOf("/"); i > 0; i = path.lastIndexOf("/", i - 1)) {
+			Identifier itemId = InventoryParticles.id(atlasId, path.substring(0, i));
+			if (BuiltInRegistries.ITEM.containsKey(itemId)) {
+				return itemId;
+			}
 		}
-		int i = path.indexOf("/");
-		if (i == -1) {
-			return null;
-		}
-		String substring = path.substring(0, i);
-		return InventoryParticles.parseId(atlasId + ":" + substring);
+		return null;
 	}
 
 	public record TempPair(Map<Identifier, Map<Identifier, NativeImage>> first, Map<Identifier, NativeImage> second) { }
